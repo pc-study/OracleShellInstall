@@ -39,7 +39,7 @@
 .hero-term-body .t-cmt{color:var(--text-muted);font-style:italic;opacity:.6}
 .hero-term-body .t-w{color:#fff}.hero-term-body .t-sl{color:var(--text-muted);opacity:.5}
 .hero-terminal{background:var(--term-bg);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;
-  box-shadow:0 20px 60px rgba(0,0,0,.4)}
+  box-shadow:0 20px 60px rgba(0,0,0,.4),var(--glow-md)}
 .hero-term-body .cursor{display:inline-block;width:8px;height:16px;background:var(--red);
   vertical-align:text-bottom;margin-left:2px;animation:blink-cursor .8s step-end infinite}
 @keyframes blink-cursor{0%,100%{opacity:1}50%{opacity:0}}
@@ -50,7 +50,7 @@
 .stats{padding:30px 0 60px}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center;transition:all .3s}
-.stat-card:hover{border-color:var(--border-red);transform:translateY(-2px)}
+.stat-card:hover{border-color:var(--border-red);transform:translateY(-2px);box-shadow:var(--glow-sm)}
 .stat-num{font-family:var(--display);font-size:2rem;font-weight:900;color:var(--red);margin-bottom:4px}
 .stat-label{font-size:.8rem;color:var(--text-muted);font-weight:400}
 
@@ -100,7 +100,7 @@
 /* CTA */
 .cta-section{text-align:center;padding:80px 0}
 .cta-box{background:linear-gradient(135deg,rgba(199,70,52,.08),rgba(199,70,52,.02));
-  border:1px solid var(--border-red);border-radius:var(--r-xl);padding:60px 40px;position:relative;overflow:hidden}
+  border:1px solid var(--border-red);border-radius:var(--r-xl);padding:60px 40px;position:relative;overflow:hidden;box-shadow:var(--glow-md)}
 .cta-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
   background:radial-gradient(ellipse at center,rgba(199,70,52,.04),transparent 50%);pointer-events:none}
 .cta-box h2{font-size:1.8rem;font-weight:900;color:var(--text);margin-bottom:12px;position:relative}
@@ -119,6 +119,7 @@
 </style>
 </head>
 <body>
+<div class="noise-overlay"></div>
 <!-- NAV -->
 <div id="nav"></div>
 
@@ -128,7 +129,7 @@
     <div class="hero-inner">
       <div class="hero-left">
         <div class="hero-badge anim-up"><span class="dot"></span> <span data-i18n="heroBadge">一键安装 &middot; 生产就绪</span></div>
-        <h1 class="anim-up anim-d1"><span data-i18n="heroTitle">Oracle 数据库<br><span>一键自动化</span>安装</span></h1>
+        <h1 class="anim-up anim-d1 grad-text"><span data-i18n="heroTitle">Oracle 数据库<br><span>一键自动化</span>安装</span></h1>
         <p class="hero-desc anim-up anim-d2" data-i18n="heroDesc">从操作系统配置到数据库创建，全流程自动化。支持单机、ASM、RAC 三种部署架构，覆盖 Oracle 11g 至 26ai 全版本，兼容 20+ 主流 Linux 发行版。</p>
         <div class="hero-btns anim-up anim-d3">
           <a href="generator.html" class="btn btn-primary" data-i18n="btnGen">命令生成器 &rarr;</a>
@@ -157,6 +158,7 @@
   </div>
 </section>
 
+<hr class="section-divider">
 <!-- STEPS -->
 <section class="section-sm">
   <div class="container">
@@ -184,11 +186,12 @@
   </div>
 </section>
 
+<hr class="section-divider">
 <!-- FEATURES -->
 <section class="section bg-glow-top">
   <div class="container">
     <div class="section-eyebrow reveal" data-i18n="featEye">核心特性</div>
-    <div class="section-title reveal" data-i18n="featTitle">为什么选择 OracleShellInstall</div>
+    <div class="section-title reveal grad-text" data-i18n="featTitle">为什么选择 OracleShellInstall</div>
     <p class="section-desc reveal" data-i18n="featSub">经过数百次生产环境验证，专为 DBA 打造的自动化安装方案</p>
     <div class="feat-grid">
       <div class="card feat-card reveal"><div class="feat-icon">&#9889;</div><div><h4 data-i18n="feat1t">全自动化安装</h4><p data-i18n="feat1d">一条命令完成 OS 参数配置、依赖安装、用户创建、软件安装、数据库创建全流程</p></div></div>
@@ -203,6 +206,7 @@
   </div>
 </section>
 
+<hr class="section-divider">
 <!-- MODES -->
 <section class="section-sm">
   <div class="container">
@@ -234,6 +238,7 @@
   </div>
 </section>
 
+<hr class="section-divider">
 <!-- VERSIONS & OS -->
 <section class="section">
   <div class="container">
