@@ -48,6 +48,22 @@
 .doc-content .note{background:rgba(199,70,52,.05);border:1px solid var(--border-red);border-radius:var(--r);
   padding:16px 20px;margin:16px 0;font-size:.85rem;color:var(--text-dim);line-height:1.7}
 .doc-content .note strong{color:var(--red-glow)}
+.doc-content .tip{background:rgba(58,186,106,.05);border:1px solid rgba(58,186,106,.2);border-radius:var(--r);
+  padding:16px 20px;margin:16px 0;font-size:.85rem;color:var(--text-dim);line-height:1.7}
+.doc-content .tip strong{color:var(--green)}
+.doc-content .warn{background:rgba(232,147,74,.05);border:1px solid rgba(232,147,74,.2);border-radius:var(--r);
+  padding:16px 20px;margin:16px 0;font-size:.85rem;color:var(--text-dim);line-height:1.7}
+.doc-content .warn strong{color:var(--accent2)}
+.doc-content .info{background:rgba(74,143,232,.05);border:1px solid rgba(74,143,232,.2);border-radius:var(--r);
+  padding:16px 20px;margin:16px 0;font-size:.85rem;color:var(--text-dim);line-height:1.7}
+.doc-content .info strong{color:var(--blue)}
+.doc-content h4{font-size:.92rem;font-weight:600;color:var(--text);margin:20px 0 8px}
+.doc-content .media-table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:.82rem}
+.doc-content .media-table th{text-align:left;padding:10px 14px;background:var(--card);border:1px solid var(--border);
+  color:var(--text-dim);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:1px}
+.doc-content .media-table td{padding:10px 14px;border:1px solid var(--border);color:var(--text-dim);vertical-align:top;font-size:.82rem}
+.doc-content .media-table td code{font-size:.78rem}
+.doc-content .media-table tr:hover td{background:rgba(199,70,52,.02)}
 
 .doc-zh{display:block}.doc-en{display:none}
 
@@ -69,14 +85,20 @@
   <div class="sb-title" data-i18n="sbQuick">快速入门</div>
   <a href="#quickstart" class="active" data-i18n="sbQuickstart">快速开始</a>
   <a href="#prepare" data-i18n="sbPrepare">环境准备</a>
+  <a href="#media" data-i18n="sbMedia">安装介质</a>
+  <a href="#howworks" data-i18n="sbHowworks">工作原理</a>
+  <div class="sb-title" data-i18n="sbInstall">安装指南</div>
   <a href="#single" data-i18n="sbSingle">单机安装</a>
   <a href="#standalone" data-i18n="sbStandalone">单机 ASM 安装</a>
   <a href="#rac" data-i18n="sbRac">RAC 集群安装</a>
+  <a href="#advanced" data-i18n="sbAdvanced">高级用法</a>
+  <a href="#verify" data-i18n="sbVerify">安装验证</a>
   <div class="sb-title" data-i18n="sbParams">参数参考</div>
   <a href="#params-common" data-i18n="sbCommon">通用参数</a>
   <a href="#params-asm" data-i18n="sbAsm">ASM 参数</a>
   <a href="#params-rac" data-i18n="sbRacP">RAC 参数</a>
   <div class="sb-title" data-i18n="sbOther">其他</div>
+  <a href="#troubleshoot" data-i18n="sbTrouble">故障排查</a>
   <a href="#faq" data-i18n="sbFaq">常见问题</a>
   <a href="#changelog" data-i18n="sbChangelog">更新日志</a>
 </nav>
@@ -112,7 +134,52 @@
   <li>Bash 版本 >= 4</li>
   <li>建议内存 >= 2GB（生产环境建议 >= 8GB）</li>
   <li>磁盘空间：Oracle 软件至少 15GB，数据文件根据业务需求规划</li>
+  <li>网络：确保 yum/dnf/apt 软件源可用，或使用本地源 (<code>-lrp Y</code>)</li>
+  <li>SELinux：脚本会自动关闭 SELinux，无需手动处理</li>
+  <li>防火墙：脚本会自动关闭防火墙，如需保留请安装后自行配置</li>
 </ul>
+
+<h2 id="media">安装介质</h2>
+<p>不同 Oracle 版本需要的安装介质文件不同，请根据目标版本准备对应的安装包。脚本会自动识别 <code>/soft</code> 目录下的 ZIP 文件。</p>
+
+<table class="media-table">
+<tr><th>Oracle 版本</th><th>数据库安装介质</th><th>Grid 安装介质 (ASM/RAC)</th></tr>
+<tr><td>11gR2</td><td><code>p13390677_112040_Linux-x86-64_1of7.zip</code><br><code>p13390677_112040_Linux-x86-64_2of7.zip</code></td><td><code>p13390677_112040_Linux-x86-64_3of7.zip</code></td></tr>
+<tr><td>12cR2</td><td><code>linuxx64_12201_database.zip</code></td><td><code>linuxx64_12201_grid_home.zip</code></td></tr>
+<tr><td>19c</td><td><code>LINUX.X64_193000_db_home.zip</code></td><td><code>LINUX.X64_193000_grid_home.zip</code></td></tr>
+<tr><td>21c</td><td><code>LINUX.X64_213000_db_home.zip</code></td><td><code>LINUX.X64_213000_grid_home.zip</code></td></tr>
+<tr><td>26ai</td><td><code>LINUX.X64_260000_db_home.zip</code></td><td><code>LINUX.X64_260000_grid_home.zip</code></td></tr>
+</table>
+
+<div class="tip"><strong>提示：</strong>19c 及以上版本安装包只需一个 ZIP 文件。11gR2 需要多个分卷文件。补丁文件（PSU/RU/OJVM）和 OPatch 工具放置在同一目录即可，脚本会自动识别。</div>
+
+<h2 id="howworks">工作原理</h2>
+<p>OracleShellInstall 脚本按照以下流程自动完成整个安装过程：</p>
+
+<h3>执行流程</h3>
+<ol>
+  <li><strong>参数校验</strong> - 验证所有输入参数的合法性，检查必填项，校验密码格式</li>
+  <li><strong>环境检测</strong> - 识别操作系统类型和版本，检测 CPU 架构，检查磁盘空间</li>
+  <li><strong>OS 配置</strong> - 配置主机名、hosts、内核参数、资源限制、关闭 SELinux/防火墙、配置 NTP 时间同步</li>
+  <li><strong>依赖安装</strong> - 根据 OS 类型自动配置软件源，安装 Oracle 所需的依赖包</li>
+  <li><strong>用户创建</strong> - 创建 oracle/grid 用户及 oinstall、dba、asmadmin 等用户组，配置环境变量</li>
+  <li><strong>目录准备</strong> - 创建 ORACLE_BASE、ORACLE_HOME 等目录结构并设置权限</li>
+  <li><strong>磁盘配置</strong> (ASM/RAC) - 通过 UDEV 规则或 multipath 配置 ASM 磁盘</li>
+  <li><strong>Grid 安装</strong> (ASM/RAC) - 解压并安装 Grid Infrastructure，创建 ASM 磁盘组</li>
+  <li><strong>SSH 互信</strong> (RAC) - 在所有节点间建立 root、oracle、grid 用户的 SSH 无密码登录</li>
+  <li><strong>数据库软件安装</strong> - 解压 Oracle 安装介质，静默安装数据库软件</li>
+  <li><strong>补丁应用</strong> (可选) - 应用 PSU/RU、OJVM 补丁</li>
+  <li><strong>数据库创建</strong> - 使用 DBCA 静默创建数据库实例，创建 PDB（如指定）</li>
+  <li><strong>安装后配置</strong> - 配置自动启动、优化参数（如指定）、配置大页内存（如指定）</li>
+</ol>
+
+<h3>日志文件</h3>
+<p>安装过程中会生成两个日志文件：</p>
+<ul>
+  <li><code>print_shell_install_*.log</code> - 安装摘要日志，记录关键步骤的执行结果</li>
+  <li><code>shell_install_output_*.log</code> - 详细输出日志，记录所有命令的标准输出和错误输出</li>
+</ul>
+<div class="info"><strong>日志位置：</strong>日志文件生成在脚本执行的当前目录（通常为 <code>/soft</code>），文件名包含时间戳，便于区分多次安装。</div>
 
 <h2 id="single">单机安装</h2>
 <p>单机模式基于文件系统存储，适用于开发测试及中小型业务场景。</p>
@@ -144,9 +211,33 @@
 
 <div class="note"><strong>提示：</strong>如果不使用 multipath，可设置 <code>-mp N</code>，脚本将使用 UDEV 直接绑盘。如果已自行配置好 ASM 磁盘，可设置 <code>-adc N</code> 并传入已配置好的磁盘路径。</div>
 
+<h3>自定义 ASM 安装</h3>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">standalone</span> <span class="pc">`# 单机 ASM 模式`</span>\
+<span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# 公网网卡名称`</span>\
+<span class="pf">-o</span> <span class="pv">prod</span> <span class="pc">`# 数据库名称`</span>\
+<span class="pf">-dp</span> <span class="pv">'Passw0rd#'</span> <span class="pc">`# 数据库密码`</span>\
+<span class="pf">-mp</span> <span class="pv">N</span> <span class="pc">`# 不使用 multipath`</span>\
+<span class="pf">-dd</span> <span class="pv">/dev/sdb,/dev/sdc,/dev/sdd</span> <span class="pc">`# 3 块 DATA 磁盘`</span>\
+<span class="pf">-dn</span> <span class="pv">DATADG</span> <span class="pc">`# 自定义磁盘组名`</span>\
+<span class="pf">-dr</span> <span class="pv">NORMAL</span> <span class="pc">`# NORMAL 冗余`</span>\
+<span class="pf">-gpa</span> <span class="pv">35940989</span> <span class="pc">`# Grid 补丁`</span>\
+<span class="pf">-opa</span> <span class="pv">35940989</span> <span class="pc">`# Oracle 补丁`</span></pre>
+
+<div class="warn"><strong>注意：</strong>NORMAL 冗余至少需要 3 块磁盘，HIGH 冗余至少需要 5 块磁盘。EXTERNAL 冗余为外部冗余（不做镜像），仅需 1 块磁盘。</div>
+
 <h2 id="rac">RAC 集群安装</h2>
 <p>RAC 模式需要在第一个节点上执行脚本，脚本会自动配置所有节点的 SSH 互信、Grid 安装、ASM 磁盘及数据库创建。</p>
 
+<div class="warn"><strong>RAC 前置条件：</strong>
+<ul style="margin:8px 0 0 20px">
+  <li>所有节点的 root 密码必须一致</li>
+  <li>所有节点需配置公网和心跳网络，且网络互通</li>
+  <li>共享磁盘需在所有节点上可见（SAN/iSCSI/共享 VMDK 等）</li>
+  <li>脚本仅需在第一个节点执行，会自动同步到其他节点</li>
+</ul></div>
+
+<h3>基础 2 节点 RAC</h3>
 <pre><span class="pw">sh OracleShellInstall.sh</span> \
 <span class="pf">-install_mode</span> <span class="pv">rac</span> <span class="pc">`# RAC 集群模式`</span>\
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# 公网网卡`</span>\
@@ -159,6 +250,125 @@
 <span class="pf">-rp</span> <span class="pv">'rootPasswd'</span> <span class="pc">`# root 密码`</span>\
 <span class="pf">-od</span> <span class="pv">/dev/sdb</span> <span class="pc">`# OCR 磁盘`</span>\
 <span class="pf">-dd</span> <span class="pv">/dev/sdc</span> <span class="pc">`# DATA 磁盘`</span></pre>
+
+<h3>生产环境 RAC（含 ARCH 磁盘组和补丁）</h3>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">rac</span> <span class="pc">`# RAC 集群模式`</span>\
+<span class="pf">-lf</span> <span class="pv">ens192</span> <span class="pc">`# 公网网卡`</span>\
+<span class="pf">-pf</span> <span class="pv">ens224,ens256</span> <span class="pc">`# 双心跳网卡`</span>\
+<span class="pf">-n</span> <span class="pv">dbprod</span> <span class="pc">`# 主机名前缀`</span>\
+<span class="pf">-hn</span> <span class="pv">dbprod01,dbprod02</span> <span class="pc">`# 节点主机名`</span>\
+<span class="pf">-ri</span> <span class="pv">192.168.1.101,192.168.1.102</span> <span class="pc">`# 公网 IP`</span>\
+<span class="pf">-vi</span> <span class="pv">192.168.1.103,192.168.1.104</span> <span class="pc">`# 虚拟 IP`</span>\
+<span class="pf">-si</span> <span class="pv">192.168.1.105</span> <span class="pc">`# Scan IP`</span>\
+<span class="pf">-rp</span> <span class="pv">'R00t#2024'</span> <span class="pc">`# root 密码`</span>\
+<span class="pf">-o</span> <span class="pv">proddb</span> <span class="pc">`# 数据库名称`</span>\
+<span class="pf">-dp</span> <span class="pv">'Oracle#2024'</span> <span class="pc">`# 数据库密码`</span>\
+<span class="pf">-ds</span> <span class="pv">ZHS16GBK</span> <span class="pc">`# 中文字符集`</span>\
+<span class="pf">-od</span> <span class="pv">/dev/sdb,/dev/sdc,/dev/sdd</span> <span class="pc">`# OCR 磁盘`</span>\
+<span class="pf">-or</span> <span class="pv">NORMAL</span> <span class="pc">`# OCR NORMAL 冗余`</span>\
+<span class="pf">-dd</span> <span class="pv">/dev/sde,/dev/sdf,/dev/sdg</span> <span class="pc">`# DATA 磁盘`</span>\
+<span class="pf">-dr</span> <span class="pv">NORMAL</span> <span class="pc">`# DATA NORMAL 冗余`</span>\
+<span class="pf">-ad</span> <span class="pv">/dev/sdh,/dev/sdi</span> <span class="pc">`# ARCH 归档磁盘`</span>\
+<span class="pf">-ar</span> <span class="pv">EXTERNAL</span> <span class="pc">`# ARCH 冗余`</span>\
+<span class="pf">-gpa</span> <span class="pv">35940989</span> <span class="pc">`# Grid 补丁`</span>\
+<span class="pf">-opa</span> <span class="pv">35940989</span> <span class="pc">`# Oracle 补丁`</span>\
+<span class="pf">-jpa</span> <span class="pv">35926646</span> <span class="pc">`# OJVM 补丁`</span>\
+<span class="pf">-opd</span> <span class="pv">Y</span> <span class="pc">`# 优化数据库参数`</span>\
+<span class="pf">-hf</span> <span class="pv">Y</span> <span class="pc">`# 配置大页内存`</span></pre>
+
+<div class="tip"><strong>提示：</strong>生产环境建议 OCR 磁盘组使用 NORMAL 冗余（至少 3 块磁盘），并配置独立的 ARCH 磁盘组用于归档日志。</div>
+
+<h2 id="advanced">高级用法</h2>
+
+<h3>分步安装</h3>
+<p>在某些场景下，可能需要将安装过程拆分为多个步骤独立执行：</p>
+
+<h4>仅配置操作系统</h4>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">single</span> \
+<span class="pf">-lf</span> <span class="pv">eth0</span> \
+<span class="pf">-m</span> <span class="pv">Y</span> <span class="pc">`# 仅完成 OS 配置，不安装 Oracle`</span></pre>
+<p>适用于需要先检查 OS 配置是否正确，或需要在 OS 配置后做额外手动调整的场景。</p>
+
+<h4>安装到 DB 软件结束</h4>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">single</span> \
+<span class="pf">-lf</span> <span class="pv">eth0</span> \
+<span class="pf">-ud</span> <span class="pv">Y</span> <span class="pc">`# 安装到 DB 软件结束，不创建数据库`</span></pre>
+<p>适用于需要手动创建数据库（如使用自定义模板或特殊配置）的场景。</p>
+
+<h4>RAC 安装到 Grid 结束</h4>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">rac</span> \
+<span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pf">-pf</span> <span class="pv">eth1</span> \
+<span class="pf">-hn</span> <span class="pv">orcl01,orcl02</span> <span class="pf">-ri</span> <span class="pv">10.0.0.101,10.0.0.102</span> \
+<span class="pf">-vi</span> <span class="pv">10.0.0.103,10.0.0.104</span> <span class="pf">-si</span> <span class="pv">10.0.0.105</span> \
+<span class="pf">-rp</span> <span class="pv">'rootPasswd'</span> <span class="pf">-od</span> <span class="pv">/dev/sdb</span> <span class="pf">-dd</span> <span class="pv">/dev/sdc</span> \
+<span class="pf">-ug</span> <span class="pv">Y</span> <span class="pc">`# 安装到 Grid 结束，不继续安装 DB`</span></pre>
+
+<h3>一键打补丁</h3>
+<p>将补丁文件和 OPatch 工具放入 <code>/soft</code> 目录，通过参数指定补丁编号即可自动应用：</p>
+<pre>/soft/
+  OracleShellInstall.sh
+  LINUX.X64_193000_db_home.zip     <span class="pc"># Oracle 安装介质</span>
+  p35940989_190000_Linux-x86-64.zip <span class="pc"># PSU/RU 补丁</span>
+  p35926646_190000_Linux-x86-64.zip <span class="pc"># OJVM 补丁</span>
+  p6880880_190000_Linux-x86-64.zip  <span class="pc"># OPatch 最新版</span></pre>
+<div class="info"><strong>说明：</strong>OPatch 工具 (<code>p6880880</code>) 是应用补丁的前置条件。脚本会自动替换 ORACLE_HOME 下的旧版 OPatch。如果仅安装不打补丁，则无需 OPatch 文件。</div>
+
+<h3>多实例安装</h3>
+<p>通过 <code>-o</code> 参数传入多个数据库名（逗号分隔），可在同一主机上创建多个数据库实例：</p>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">single</span> \
+<span class="pf">-lf</span> <span class="pv">eth0</span> \
+<span class="pf">-o</span> <span class="pv">proddb,testdb</span> <span class="pc">`# 创建两个数据库实例`</span></pre>
+
+<h3>VirtualBox 环境</h3>
+<p>在 VirtualBox 虚拟机中安装 ASM/RAC 时，需要添加 <code>-vbox Y</code> 参数来修复 VirtualBox 的 SCSI 磁盘识别问题：</p>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">standalone</span> \
+<span class="pf">-lf</span> <span class="pv">eth0</span> \
+<span class="pf">-dd</span> <span class="pv">/dev/sdb</span> \
+<span class="pf">-vbox</span> <span class="pv">Y</span> <span class="pc">`# VirtualBox 环境修复`</span></pre>
+
+<h2 id="verify">安装验证</h2>
+<p>安装完成后，可通过以下方式验证安装是否成功：</p>
+
+<h3>单机/Standalone 验证</h3>
+<h4>检查监听状态</h4>
+<pre><span class="pw">su - oracle</span>
+<span class="pw">lsnrctl status</span></pre>
+<p>应看到监听器处于 READY 状态，服务已注册。</p>
+
+<h4>检查数据库状态</h4>
+<pre><span class="pw">sqlplus / as sysdba</span>
+<span class="pv">SELECT instance_name, status FROM v$instance;</span>
+<span class="pv">SELECT name, open_mode FROM v$database;</span>
+<span class="pv">SELECT name, open_mode FROM v$pdbs;</span> <span class="pc">-- 如有 PDB</span></pre>
+<p>数据库状态应为 <code>OPEN</code>，PDB 状态应为 <code>READ WRITE</code>。</p>
+
+<h4>检查 ASM（Standalone/RAC）</h4>
+<pre><span class="pw">su - grid</span>
+<span class="pw">asmcmd lsdg</span></pre>
+<p>应显示所有磁盘组的状态为 MOUNTED，可用空间正常。</p>
+
+<h3>RAC 集群验证</h3>
+<h4>检查集群状态</h4>
+<pre><span class="pw">su - grid</span>
+<span class="pw">crsctl stat res -t</span></pre>
+<p>所有资源应为 ONLINE 状态。</p>
+
+<h4>检查集群节点</h4>
+<pre><span class="pw">olsnodes -n</span>
+<span class="pw">crsctl check cluster -all</span></pre>
+
+<h4>检查 Scan VIP</h4>
+<pre><span class="pw">srvctl status scan</span>
+<span class="pw">srvctl status scan_listener</span>
+<span class="pw">srvctl status database -d proddb</span></pre>
+
+<div class="tip"><strong>提示：</strong>如果安装中使用了 <code>-opd Y</code> 优化参数，可通过 <code>SHOW PARAMETER</code> 确认 SGA/PGA 等参数已按预期配置。</div>
 
 <h2 id="params-common">通用参数</h2>
 <table class="param-table">
@@ -225,6 +435,60 @@
 <tr><td>-ug</td><td>安装到 Grid 软件结束（Y/N）</td><td>N</td></tr>
 </table>
 
+<h2 id="troubleshoot">故障排查</h2>
+
+<h3>安装失败的通用排查步骤</h3>
+<ol>
+  <li>查看安装摘要日志：<code>cat /soft/print_shell_install_*.log</code></li>
+  <li>查看详细输出日志：<code>cat /soft/shell_install_output_*.log</code></li>
+  <li>定位失败的具体步骤和错误信息</li>
+  <li>修复问题后，使用 <code>-m Y</code> 跳过 OS 配置重新执行</li>
+</ol>
+
+<h3>常见错误及解决方案</h3>
+
+<h4>依赖包安装失败</h4>
+<p><strong>错误表现：</strong>提示 yum/dnf 无法安装某些 RPM 包。</p>
+<p><strong>解决方案：</strong></p>
+<ul>
+  <li>检查是否配置了正确的软件源，或使用 <code>-lrp Y</code> 配置本地源</li>
+  <li>如需网络源，设置 <code>-nrp Y</code>，确保服务器可访问外网</li>
+  <li>对于国产系统（麒麟、统信），确保系统自带软件源完整</li>
+</ul>
+
+<h4>ASM 磁盘无法发现</h4>
+<p><strong>错误表现：</strong>Grid 安装完成后 ASM 无法发现磁盘设备。</p>
+<p><strong>解决方案：</strong></p>
+<ul>
+  <li>检查磁盘设备是否存在：<code>ls -l /dev/sd*</code></li>
+  <li>确认磁盘未被分区或挂载：<code>lsblk</code></li>
+  <li>检查 UDEV 规则是否生效：<code>ls -l /dev/oracleasm/</code></li>
+  <li>如使用 multipath，检查多路径配置：<code>multipath -ll</code></li>
+  <li>VirtualBox 环境必须添加 <code>-vbox Y</code> 参数</li>
+</ul>
+
+<h4>RAC SSH 互信失败</h4>
+<p><strong>错误表现：</strong>节点间无法建立 SSH 连接，提示 Permission denied。</p>
+<p><strong>解决方案：</strong></p>
+<ul>
+  <li>确认所有节点 root 密码一致</li>
+  <li>检查 <code>/etc/ssh/sshd_config</code> 是否允许 root 登录和密码认证</li>
+  <li>确认所有节点间网络互通：<code>ping</code> 测试公网和心跳 IP</li>
+</ul>
+
+<h4>内存不足导致 DBCA 失败</h4>
+<p><strong>错误表现：</strong>创建数据库时提示内存不足或 ORA-00845 错误。</p>
+<p><strong>解决方案：</strong></p>
+<ul>
+  <li>确保可用内存 >= 2GB</li>
+  <li>如启用了大页内存 (<code>-hf Y</code>)，确保 HugePages 配置正确</li>
+  <li>检查 <code>/dev/shm</code> 是否挂载且大小足够</li>
+</ul>
+
+<h4>OPatch 版本过低</h4>
+<p><strong>错误表现：</strong>打补丁时提示 OPatch 版本不兼容。</p>
+<p><strong>解决方案：</strong>下载最新的 OPatch 工具 (<code>p6880880</code>) 放入 <code>/soft</code> 目录，脚本会自动替换旧版本。</p>
+
 <h2 id="faq">常见问题</h2>
 
 <h3>Q: 脚本支持哪些 Oracle 安装介质格式？</h3>
@@ -242,6 +506,30 @@
 <h3>Q: 如何过滤多路径磁盘？</h3>
 <p>使用 <code>-fd</code> 参数可以过滤多路径磁盘，去除重复路径获取唯一盘符。例如：<code>-fd /dev/sda</code> 排除系统盘。</p>
 
+<h3>Q: 是否支持离线安装？</h3>
+<p>支持。使用 <code>-lrp Y</code> 参数配置本地软件源（需要系统安装 ISO），脚本会自动挂载 ISO 并配置本地 yum/dnf 源，无需外网连接。</p>
+
+<h3>Q: 如何在已有 Oracle 环境上安装第二个数据库？</h3>
+<p>使用 <code>-o</code> 参数指定新的数据库名即可。脚本会检测现有环境，跳过已完成的配置步骤。也可以使用 <code>-m Y</code> 跳过 OS 配置只创建数据库。</p>
+
+<h3>Q: 脚本是否修改了操作系统的哪些配置？</h3>
+<p>脚本会修改以下系统配置：</p>
+<ul>
+  <li>主机名和 <code>/etc/hosts</code></li>
+  <li>内核参数 (<code>/etc/sysctl.conf</code>)</li>
+  <li>资源限制 (<code>/etc/security/limits.conf</code>)</li>
+  <li>关闭 SELinux 和防火墙</li>
+  <li>创建 oracle/grid 用户及用户组</li>
+  <li>配置 NTP/Chrony 时间同步</li>
+  <li>配置用户环境变量 (<code>.bash_profile</code>)</li>
+</ul>
+
+<h3>Q: 支持 ARM 架构服务器吗？</h3>
+<p>支持。脚本会自动检测 CPU 架构（x86_64/aarch64），并使用对应的安装介质和依赖包。需要确保使用对应架构的 Oracle 安装介质。</p>
+
+<h3>Q: 如何卸载由脚本安装的 Oracle？</h3>
+<p>脚本不提供卸载功能。手动卸载步骤：停止数据库和监听器 → 删除 Oracle 目录 → 删除用户和用户组 → 清理系统配置 → 清理 <code>/etc/oraInst.loc</code> 和 <code>/etc/oratab</code>。</p>
+
 <h2 id="changelog">更新日志</h2>
 <h3>v5.0.0 (2024-08-22)</h3>
 <ul>
@@ -251,6 +539,40 @@
   <li>新增更多国产操作系统支持：华为 openEuler、中科方德 NFS、中标麒麟 NeoKylin 等</li>
   <li>优化安装日志输出和进度展示</li>
   <li>增强参数校验逻辑</li>
+</ul>
+
+<h3>v4.2.0 (2024-03-15)</h3>
+<ul>
+  <li>支持 Oracle 21c 安装</li>
+  <li>新增 Rocky Linux 9、AlmaLinux 9 支持</li>
+  <li>新增 <code>-hf</code> 参数支持大页内存自动配置</li>
+  <li>优化 ARM (aarch64) 架构兼容性</li>
+  <li>修复 Ubuntu 22.04 下依赖包安装问题</li>
+</ul>
+
+<h3>v4.0.0 (2023-09-10)</h3>
+<ul>
+  <li>重构脚本架构，模块化设计</li>
+  <li>新增 Debian/Ubuntu 系列支持</li>
+  <li>新增 <code>-opd</code> 参数支持数据库参数优化</li>
+  <li>新增多实例安装支持（<code>-o orcl1,orcl2</code>）</li>
+  <li>优化 multipath 和 UDEV 磁盘绑定逻辑</li>
+</ul>
+
+<h3>v3.5.0 (2023-04-20)</h3>
+<ul>
+  <li>新增统信 UOS、麒麟 Kylin V10 支持</li>
+  <li>新增 <code>-nrp</code> 参数支持网络软件源配置</li>
+  <li>优化 RAC 安装的 SSH 互信逻辑</li>
+  <li>修复 CentOS 8 Stream 兼容性问题</li>
+</ul>
+
+<h3>v3.0.0 (2022-11-01)</h3>
+<ul>
+  <li>支持 Oracle 19c RAC 安装</li>
+  <li>新增 ASM 磁盘自动配置功能 (<code>-adc</code>)</li>
+  <li>新增 VirtualBox 环境兼容参数 (<code>-vbox</code>)</li>
+  <li>完善安装日志输出机制</li>
 </ul>
 
 </div>
@@ -285,7 +607,52 @@
   <li>Bash version >= 4</li>
   <li>Recommended memory >= 2GB (production >= 8GB)</li>
   <li>Disk space: at least 15GB for Oracle software, data files as per business requirements</li>
+  <li>Network: ensure yum/dnf/apt package sources are available, or use local repo (<code>-lrp Y</code>)</li>
+  <li>SELinux: the script automatically disables SELinux, no manual action needed</li>
+  <li>Firewall: the script automatically disables the firewall; re-configure after installation if needed</li>
 </ul>
+
+<h2 id="en-media">Installation Media</h2>
+<p>Different Oracle versions require different installation media files. Prepare the corresponding packages for your target version. The script automatically identifies ZIP files in the <code>/soft</code> directory.</p>
+
+<table class="media-table">
+<tr><th>Oracle Version</th><th>Database Media</th><th>Grid Media (ASM/RAC)</th></tr>
+<tr><td>11gR2</td><td><code>p13390677_112040_Linux-x86-64_1of7.zip</code><br><code>p13390677_112040_Linux-x86-64_2of7.zip</code></td><td><code>p13390677_112040_Linux-x86-64_3of7.zip</code></td></tr>
+<tr><td>12cR2</td><td><code>linuxx64_12201_database.zip</code></td><td><code>linuxx64_12201_grid_home.zip</code></td></tr>
+<tr><td>19c</td><td><code>LINUX.X64_193000_db_home.zip</code></td><td><code>LINUX.X64_193000_grid_home.zip</code></td></tr>
+<tr><td>21c</td><td><code>LINUX.X64_213000_db_home.zip</code></td><td><code>LINUX.X64_213000_grid_home.zip</code></td></tr>
+<tr><td>26ai</td><td><code>LINUX.X64_260000_db_home.zip</code></td><td><code>LINUX.X64_260000_grid_home.zip</code></td></tr>
+</table>
+
+<div class="tip"><strong>Tip:</strong> Oracle 19c and above only require a single ZIP file. 11gR2 requires multiple volume files. Patch files (PSU/RU/OJVM) and the OPatch tool should be placed in the same directory; the script identifies them automatically.</div>
+
+<h2 id="en-howworks">How It Works</h2>
+<p>The OracleShellInstall script follows this automated workflow:</p>
+
+<h3>Execution Flow</h3>
+<ol>
+  <li><strong>Parameter Validation</strong> - Validates all input parameters, checks required fields, verifies password format</li>
+  <li><strong>Environment Detection</strong> - Identifies OS type and version, detects CPU architecture, checks disk space</li>
+  <li><strong>OS Configuration</strong> - Configures hostname, hosts, kernel parameters, resource limits, disables SELinux/firewall, configures NTP</li>
+  <li><strong>Dependency Installation</strong> - Automatically configures package sources and installs Oracle-required dependencies</li>
+  <li><strong>User Creation</strong> - Creates oracle/grid users and groups (oinstall, dba, asmadmin, etc.), sets environment variables</li>
+  <li><strong>Directory Setup</strong> - Creates ORACLE_BASE, ORACLE_HOME directory structure with proper permissions</li>
+  <li><strong>Disk Configuration</strong> (ASM/RAC) - Configures ASM disks via UDEV rules or multipath</li>
+  <li><strong>Grid Installation</strong> (ASM/RAC) - Extracts and installs Grid Infrastructure, creates ASM disk groups</li>
+  <li><strong>SSH Trust</strong> (RAC) - Establishes passwordless SSH between all nodes for root, oracle, and grid users</li>
+  <li><strong>Database Software Install</strong> - Extracts Oracle media and runs silent installation</li>
+  <li><strong>Patch Application</strong> (optional) - Applies PSU/RU and OJVM patches</li>
+  <li><strong>Database Creation</strong> - Creates database instance via DBCA silent mode, creates PDBs if specified</li>
+  <li><strong>Post-Install Config</strong> - Configures auto-start, optimizes parameters (if specified), configures HugePages (if specified)</li>
+</ol>
+
+<h3>Log Files</h3>
+<p>Two log files are generated during installation:</p>
+<ul>
+  <li><code>print_shell_install_*.log</code> - Installation summary log with key step results</li>
+  <li><code>shell_install_output_*.log</code> - Detailed output log with all command stdout and stderr</li>
+</ul>
+<div class="info"><strong>Log location:</strong> Log files are created in the script's working directory (typically <code>/soft</code>), with timestamps in the filename for easy identification.</div>
 
 <h2 id="en-single">Single Instance Install</h2>
 <p>Single instance mode uses file system storage, suitable for development, testing, and small-medium business scenarios.</p>
@@ -317,9 +684,33 @@
 
 <div class="note"><strong>Tip:</strong> To skip multipath, set <code>-mp N</code> and the script will use UDEV binding directly. If you've already configured ASM disks, set <code>-adc N</code> and provide the configured disk paths.</div>
 
+<h3>Custom ASM Install</h3>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">standalone</span> <span class="pc">`# Standalone ASM`</span>\
+<span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# Public NIC`</span>\
+<span class="pf">-o</span> <span class="pv">prod</span> <span class="pc">`# Database name`</span>\
+<span class="pf">-dp</span> <span class="pv">'Passw0rd#'</span> <span class="pc">`# DB password`</span>\
+<span class="pf">-mp</span> <span class="pv">N</span> <span class="pc">`# Skip multipath`</span>\
+<span class="pf">-dd</span> <span class="pv">/dev/sdb,/dev/sdc,/dev/sdd</span> <span class="pc">`# 3 DATA disks`</span>\
+<span class="pf">-dn</span> <span class="pv">DATADG</span> <span class="pc">`# Custom diskgroup name`</span>\
+<span class="pf">-dr</span> <span class="pv">NORMAL</span> <span class="pc">`# NORMAL redundancy`</span>\
+<span class="pf">-gpa</span> <span class="pv">35940989</span> <span class="pc">`# Grid patch`</span>\
+<span class="pf">-opa</span> <span class="pv">35940989</span> <span class="pc">`# Oracle patch`</span></pre>
+
+<div class="warn"><strong>Note:</strong> NORMAL redundancy requires at least 3 disks, HIGH redundancy requires at least 5 disks. EXTERNAL redundancy (no mirroring) requires only 1 disk.</div>
+
 <h2 id="en-rac">RAC Cluster Install</h2>
 <p>RAC mode runs on the first node. The script automatically configures SSH trust on all nodes, installs Grid, sets up ASM disks, and creates the database.</p>
 
+<div class="warn"><strong>RAC Prerequisites:</strong>
+<ul style="margin:8px 0 0 20px">
+  <li>All nodes must have the same root password</li>
+  <li>All nodes must have public and heartbeat networks configured and reachable</li>
+  <li>Shared disks must be visible on all nodes (SAN/iSCSI/shared VMDK, etc.)</li>
+  <li>Only run the script on the first node; it syncs to other nodes automatically</li>
+</ul></div>
+
+<h3>Basic 2-Node RAC</h3>
 <pre><span class="pw">sh OracleShellInstall.sh</span> \
 <span class="pf">-install_mode</span> <span class="pv">rac</span> <span class="pc">`# RAC cluster`</span>\
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# Public NIC`</span>\
@@ -332,6 +723,34 @@
 <span class="pf">-rp</span> <span class="pv">'rootPasswd'</span> <span class="pc">`# root password`</span>\
 <span class="pf">-od</span> <span class="pv">/dev/sdb</span> <span class="pc">`# OCR disks`</span>\
 <span class="pf">-dd</span> <span class="pv">/dev/sdc</span> <span class="pc">`# DATA disks`</span></pre>
+
+<h3>Production RAC (with ARCH Diskgroup and Patches)</h3>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">rac</span> <span class="pc">`# RAC cluster`</span>\
+<span class="pf">-lf</span> <span class="pv">ens192</span> <span class="pc">`# Public NIC`</span>\
+<span class="pf">-pf</span> <span class="pv">ens224,ens256</span> <span class="pc">`# Dual heartbeat NICs`</span>\
+<span class="pf">-n</span> <span class="pv">dbprod</span> <span class="pc">`# Hostname prefix`</span>\
+<span class="pf">-hn</span> <span class="pv">dbprod01,dbprod02</span> <span class="pc">`# Node hostnames`</span>\
+<span class="pf">-ri</span> <span class="pv">192.168.1.101,192.168.1.102</span> <span class="pc">`# Public IPs`</span>\
+<span class="pf">-vi</span> <span class="pv">192.168.1.103,192.168.1.104</span> <span class="pc">`# Virtual IPs`</span>\
+<span class="pf">-si</span> <span class="pv">192.168.1.105</span> <span class="pc">`# Scan IP`</span>\
+<span class="pf">-rp</span> <span class="pv">'R00t#2024'</span> <span class="pc">`# root password`</span>\
+<span class="pf">-o</span> <span class="pv">proddb</span> <span class="pc">`# Database name`</span>\
+<span class="pf">-dp</span> <span class="pv">'Oracle#2024'</span> <span class="pc">`# DB password`</span>\
+<span class="pf">-ds</span> <span class="pv">ZHS16GBK</span> <span class="pc">`# Character set`</span>\
+<span class="pf">-od</span> <span class="pv">/dev/sdb,/dev/sdc,/dev/sdd</span> <span class="pc">`# OCR disks`</span>\
+<span class="pf">-or</span> <span class="pv">NORMAL</span> <span class="pc">`# OCR NORMAL redundancy`</span>\
+<span class="pf">-dd</span> <span class="pv">/dev/sde,/dev/sdf,/dev/sdg</span> <span class="pc">`# DATA disks`</span>\
+<span class="pf">-dr</span> <span class="pv">NORMAL</span> <span class="pc">`# DATA NORMAL redundancy`</span>\
+<span class="pf">-ad</span> <span class="pv">/dev/sdh,/dev/sdi</span> <span class="pc">`# ARCH archive disks`</span>\
+<span class="pf">-ar</span> <span class="pv">EXTERNAL</span> <span class="pc">`# ARCH redundancy`</span>\
+<span class="pf">-gpa</span> <span class="pv">35940989</span> <span class="pc">`# Grid patch`</span>\
+<span class="pf">-opa</span> <span class="pv">35940989</span> <span class="pc">`# Oracle patch`</span>\
+<span class="pf">-jpa</span> <span class="pv">35926646</span> <span class="pc">`# OJVM patch`</span>\
+<span class="pf">-opd</span> <span class="pv">Y</span> <span class="pc">`# Optimize DB params`</span>\
+<span class="pf">-hf</span> <span class="pv">Y</span> <span class="pc">`# Configure HugePages`</span></pre>
+
+<div class="tip"><strong>Tip:</strong> For production environments, use NORMAL redundancy for the OCR diskgroup (at least 3 disks) and configure a separate ARCH diskgroup for archive logs.</div>
 
 <h2 id="en-params-common">Common Parameters</h2>
 <table class="param-table">
@@ -398,10 +817,155 @@
 <tr><td>-ug</td><td>Install to Grid software only (Y/N)</td><td>N</td></tr>
 </table>
 
+<h2 id="en-advanced">Advanced Usage</h2>
+
+<h3>Step-by-Step Installation</h3>
+<p>In some scenarios, you may need to split the installation into separate stages:</p>
+
+<h4>OS Configuration Only</h4>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">single</span> \
+<span class="pf">-lf</span> <span class="pv">eth0</span> \
+<span class="pf">-m</span> <span class="pv">Y</span> <span class="pc">`# Only configure OS, do not install Oracle`</span></pre>
+<p>Useful when you need to verify OS configuration first or make additional manual adjustments.</p>
+
+<h4>Install to DB Software Only</h4>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">single</span> \
+<span class="pf">-lf</span> <span class="pv">eth0</span> \
+<span class="pf">-ud</span> <span class="pv">Y</span> <span class="pc">`# Install to DB software only, no database creation`</span></pre>
+<p>Useful when you need to create the database manually (custom templates or special configuration).</p>
+
+<h4>RAC Install to Grid Only</h4>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">rac</span> \
+<span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pf">-pf</span> <span class="pv">eth1</span> \
+<span class="pf">-hn</span> <span class="pv">orcl01,orcl02</span> <span class="pf">-ri</span> <span class="pv">10.0.0.101,10.0.0.102</span> \
+<span class="pf">-vi</span> <span class="pv">10.0.0.103,10.0.0.104</span> <span class="pf">-si</span> <span class="pv">10.0.0.105</span> \
+<span class="pf">-rp</span> <span class="pv">'rootPasswd'</span> <span class="pf">-od</span> <span class="pv">/dev/sdb</span> <span class="pf">-dd</span> <span class="pv">/dev/sdc</span> \
+<span class="pf">-ug</span> <span class="pv">Y</span> <span class="pc">`# Install to Grid only, no DB installation`</span></pre>
+
+<h3>One-Click Patching</h3>
+<p>Place patch files and OPatch tool in the <code>/soft</code> directory and specify patch IDs via parameters:</p>
+<pre>/soft/
+  OracleShellInstall.sh
+  LINUX.X64_193000_db_home.zip     <span class="pc"># Oracle media</span>
+  p35940989_190000_Linux-x86-64.zip <span class="pc"># PSU/RU patch</span>
+  p35926646_190000_Linux-x86-64.zip <span class="pc"># OJVM patch</span>
+  p6880880_190000_Linux-x86-64.zip  <span class="pc"># Latest OPatch</span></pre>
+<div class="info"><strong>Note:</strong> OPatch tool (<code>p6880880</code>) is a prerequisite for applying patches. The script automatically replaces the old OPatch in ORACLE_HOME. If installing without patches, OPatch is not needed.</div>
+
+<h3>Multi-Instance Installation</h3>
+<p>Pass multiple database names (comma-separated) via the <code>-o</code> parameter to create multiple instances on the same host:</p>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">single</span> \
+<span class="pf">-lf</span> <span class="pv">eth0</span> \
+<span class="pf">-o</span> <span class="pv">proddb,testdb</span> <span class="pc">`# Create two database instances`</span></pre>
+
+<h3>VirtualBox Environment</h3>
+<p>When installing ASM/RAC in VirtualBox VMs, add the <code>-vbox Y</code> parameter to fix VirtualBox SCSI disk detection issues:</p>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">standalone</span> \
+<span class="pf">-lf</span> <span class="pv">eth0</span> \
+<span class="pf">-dd</span> <span class="pv">/dev/sdb</span> \
+<span class="pf">-vbox</span> <span class="pv">Y</span> <span class="pc">`# VirtualBox fix`</span></pre>
+
+<h2 id="en-verify">Post-Install Verification</h2>
+<p>After installation, verify success with the following checks:</p>
+
+<h3>Single/Standalone Verification</h3>
+<h4>Check Listener Status</h4>
+<pre><span class="pw">su - oracle</span>
+<span class="pw">lsnrctl status</span></pre>
+<p>The listener should be in READY state with services registered.</p>
+
+<h4>Check Database Status</h4>
+<pre><span class="pw">sqlplus / as sysdba</span>
+<span class="pv">SELECT instance_name, status FROM v$instance;</span>
+<span class="pv">SELECT name, open_mode FROM v$database;</span>
+<span class="pv">SELECT name, open_mode FROM v$pdbs;</span> <span class="pc">-- if PDBs exist</span></pre>
+<p>Database status should be <code>OPEN</code>, PDB status should be <code>READ WRITE</code>.</p>
+
+<h4>Check ASM (Standalone/RAC)</h4>
+<pre><span class="pw">su - grid</span>
+<span class="pw">asmcmd lsdg</span></pre>
+<p>All disk groups should show MOUNTED status with expected free space.</p>
+
+<h3>RAC Cluster Verification</h3>
+<h4>Check Cluster Status</h4>
+<pre><span class="pw">su - grid</span>
+<span class="pw">crsctl stat res -t</span></pre>
+<p>All resources should be ONLINE.</p>
+
+<h4>Check Cluster Nodes</h4>
+<pre><span class="pw">olsnodes -n</span>
+<span class="pw">crsctl check cluster -all</span></pre>
+
+<h4>Check Scan VIP</h4>
+<pre><span class="pw">srvctl status scan</span>
+<span class="pw">srvctl status scan_listener</span>
+<span class="pw">srvctl status database -d proddb</span></pre>
+
+<div class="tip"><strong>Tip:</strong> If you used <code>-opd Y</code> for parameter optimization, use <code>SHOW PARAMETER</code> to confirm SGA/PGA and other parameters are configured as expected.</div>
+
+<h2 id="en-troubleshoot">Troubleshooting</h2>
+
+<h3>General Troubleshooting Steps</h3>
+<ol>
+  <li>Check the summary log: <code>cat /soft/print_shell_install_*.log</code></li>
+  <li>Check the detailed log: <code>cat /soft/shell_install_output_*.log</code></li>
+  <li>Identify the specific failed step and error message</li>
+  <li>After fixing the issue, re-run with <code>-m Y</code> to skip OS configuration</li>
+</ol>
+
+<h3>Common Errors and Solutions</h3>
+
+<h4>Dependency Package Installation Failure</h4>
+<p><strong>Symptom:</strong> yum/dnf fails to install certain RPM packages.</p>
+<p><strong>Solution:</strong></p>
+<ul>
+  <li>Check that correct package sources are configured, or use <code>-lrp Y</code> for local repo</li>
+  <li>For network repo, set <code>-nrp Y</code> and ensure internet access</li>
+  <li>For domestic OS (Kylin, UOS), ensure built-in package sources are complete</li>
+</ul>
+
+<h4>ASM Disk Discovery Failure</h4>
+<p><strong>Symptom:</strong> ASM cannot discover disk devices after Grid installation.</p>
+<p><strong>Solution:</strong></p>
+<ul>
+  <li>Verify disk devices exist: <code>ls -l /dev/sd*</code></li>
+  <li>Confirm disks are not partitioned or mounted: <code>lsblk</code></li>
+  <li>Check if UDEV rules are applied: <code>ls -l /dev/oracleasm/</code></li>
+  <li>For multipath, check configuration: <code>multipath -ll</code></li>
+  <li>VirtualBox environments must use <code>-vbox Y</code></li>
+</ul>
+
+<h4>RAC SSH Trust Failure</h4>
+<p><strong>Symptom:</strong> Cannot establish SSH connection between nodes, "Permission denied" error.</p>
+<p><strong>Solution:</strong></p>
+<ul>
+  <li>Verify all nodes have the same root password</li>
+  <li>Check <code>/etc/ssh/sshd_config</code> allows root login and password authentication</li>
+  <li>Confirm network connectivity between all nodes: <code>ping</code> test public and heartbeat IPs</li>
+</ul>
+
+<h4>Insufficient Memory for DBCA</h4>
+<p><strong>Symptom:</strong> Database creation fails with insufficient memory or ORA-00845 error.</p>
+<p><strong>Solution:</strong></p>
+<ul>
+  <li>Ensure available memory >= 2GB</li>
+  <li>If HugePages enabled (<code>-hf Y</code>), verify HugePages configuration is correct</li>
+  <li>Check that <code>/dev/shm</code> is mounted and adequately sized</li>
+</ul>
+
+<h4>OPatch Version Too Old</h4>
+<p><strong>Symptom:</strong> Patching fails with OPatch version incompatibility error.</p>
+<p><strong>Solution:</strong> Download the latest OPatch tool (<code>p6880880</code>) and place it in the <code>/soft</code> directory. The script automatically replaces the old version.</p>
+
 <h2 id="en-faq">FAQ</h2>
 
 <h3>Q: What Oracle installation media formats are supported?</h3>
-<p>The script automatically recognizes Oracle installation media in ZIP format. Simply place the ZIP file in the /soft directory — no manual extraction needed.</p>
+<p>The script automatically recognizes Oracle installation media in ZIP format. Simply place the ZIP file in the /soft directory &mdash; no manual extraction needed.</p>
 
 <h3>Q: What if the installation is interrupted?</h3>
 <p>Check the log files <code>print_shell_install_*.log</code> and <code>shell_install_output_*.log</code> to identify the failure. After fixing the issue, use <code>-m Y</code> to skip completed OS configuration steps.</p>
@@ -415,6 +979,30 @@
 <h3>Q: How to filter multipath disks?</h3>
 <p>Use the <code>-fd</code> parameter to filter multipath disks and get unique device names. For example: <code>-fd /dev/sda</code> excludes the system disk.</p>
 
+<h3>Q: Does it support offline installation?</h3>
+<p>Yes. Use <code>-lrp Y</code> to configure a local package source (requires the OS installation ISO). The script automatically mounts the ISO and configures local yum/dnf repos without internet access.</p>
+
+<h3>Q: How to install a second database on an existing Oracle environment?</h3>
+<p>Use the <code>-o</code> parameter to specify the new database name. The script detects the existing environment and skips completed configuration steps. You can also use <code>-m Y</code> to skip OS configuration entirely.</p>
+
+<h3>Q: What OS configurations does the script modify?</h3>
+<p>The script modifies the following system configurations:</p>
+<ul>
+  <li>Hostname and <code>/etc/hosts</code></li>
+  <li>Kernel parameters (<code>/etc/sysctl.conf</code>)</li>
+  <li>Resource limits (<code>/etc/security/limits.conf</code>)</li>
+  <li>Disables SELinux and firewall</li>
+  <li>Creates oracle/grid users and groups</li>
+  <li>Configures NTP/Chrony time synchronization</li>
+  <li>Sets user environment variables (<code>.bash_profile</code>)</li>
+</ul>
+
+<h3>Q: Does it support ARM architecture servers?</h3>
+<p>Yes. The script automatically detects CPU architecture (x86_64/aarch64) and uses the corresponding installation media and dependencies. Make sure to use the ARM version of Oracle media.</p>
+
+<h3>Q: How to uninstall Oracle installed by the script?</h3>
+<p>The script does not provide an uninstall function. Manual steps: Stop database and listener &rarr; Remove Oracle directories &rarr; Delete users and groups &rarr; Clean up system configurations &rarr; Remove <code>/etc/oraInst.loc</code> and <code>/etc/oratab</code>.</p>
+
 <h2 id="en-changelog">Changelog</h2>
 <h3>v5.0.0 (2024-08-22)</h3>
 <ul>
@@ -424,6 +1012,40 @@
   <li>Added more domestic OS support: Huawei openEuler, CMCC NFS, NeoKylin, etc.</li>
   <li>Improved installation log output and progress display</li>
   <li>Enhanced parameter validation logic</li>
+</ul>
+
+<h3>v4.2.0 (2024-03-15)</h3>
+<ul>
+  <li>Added Oracle 21c installation support</li>
+  <li>Added Rocky Linux 9, AlmaLinux 9 support</li>
+  <li>Added <code>-hf</code> parameter for automatic HugePages configuration</li>
+  <li>Improved ARM (aarch64) architecture compatibility</li>
+  <li>Fixed dependency installation issues on Ubuntu 22.04</li>
+</ul>
+
+<h3>v4.0.0 (2023-09-10)</h3>
+<ul>
+  <li>Major script architecture refactoring with modular design</li>
+  <li>Added Debian/Ubuntu series support</li>
+  <li>Added <code>-opd</code> parameter for database parameter optimization</li>
+  <li>Added multi-instance installation support (<code>-o orcl1,orcl2</code>)</li>
+  <li>Improved multipath and UDEV disk binding logic</li>
+</ul>
+
+<h3>v3.5.0 (2023-04-20)</h3>
+<ul>
+  <li>Added UOS and Kylin V10 support</li>
+  <li>Added <code>-nrp</code> parameter for network repository configuration</li>
+  <li>Improved RAC SSH trust establishment logic</li>
+  <li>Fixed CentOS 8 Stream compatibility issues</li>
+</ul>
+
+<h3>v3.0.0 (2022-11-01)</h3>
+<ul>
+  <li>Added Oracle 19c RAC installation support</li>
+  <li>Added automatic ASM disk configuration feature (<code>-adc</code>)</li>
+  <li>Added VirtualBox compatibility parameter (<code>-vbox</code>)</li>
+  <li>Improved installation log output mechanism</li>
 </ul>
 
 </div>
@@ -437,15 +1059,19 @@ document.getElementById('footer').innerHTML = footerHTML();
 
 Object.assign(i18n.zh, {
   sbQuick:'快速入门', sbQuickstart:'快速开始', sbPrepare:'环境准备',
-  sbSingle:'单机安装', sbStandalone:'单机 ASM 安装', sbRac:'RAC 集群安装',
+  sbMedia:'安装介质', sbHowworks:'工作原理',
+  sbInstall:'安装指南', sbSingle:'单机安装', sbStandalone:'单机 ASM 安装', sbRac:'RAC 集群安装',
+  sbAdvanced:'高级用法', sbVerify:'安装验证',
   sbParams:'参数参考', sbCommon:'通用参数', sbAsm:'ASM 参数', sbRacP:'RAC 参数',
-  sbOther:'其他', sbFaq:'常见问题', sbChangelog:'更新日志'
+  sbOther:'其他', sbTrouble:'故障排查', sbFaq:'常见问题', sbChangelog:'更新日志'
 });
 Object.assign(i18n.en, {
   sbQuick:'Quick Start', sbQuickstart:'Quick Start', sbPrepare:'Prerequisites',
-  sbSingle:'Single Install', sbStandalone:'Standalone ASM', sbRac:'RAC Cluster',
+  sbMedia:'Install Media', sbHowworks:'How It Works',
+  sbInstall:'Install Guide', sbSingle:'Single Install', sbStandalone:'Standalone ASM', sbRac:'RAC Cluster',
+  sbAdvanced:'Advanced Usage', sbVerify:'Verification',
   sbParams:'Parameters', sbCommon:'Common Params', sbAsm:'ASM Params', sbRacP:'RAC Params',
-  sbOther:'Other', sbFaq:'FAQ', sbChangelog:'Changelog'
+  sbOther:'Other', sbTrouble:'Troubleshooting', sbFaq:'FAQ', sbChangelog:'Changelog'
 });
 
 document.addEventListener('langchange', (e) => {
