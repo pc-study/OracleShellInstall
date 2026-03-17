@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>使用文档 - OracleShellInstall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.doc-layout{display:grid;grid-template-columns:220px 1fr;gap:40px;padding:50px 0 80px;align-items:start}
+.doc-sidebar{position:sticky;top:calc(var(--nav-h) + 24px)}
+.doc-sidebar a{display:block;padding:8px 14px;font-size:.82rem;color:var(--text-dim);border-left:2px solid var(--border);
+  transition:all .2s;text-decoration:none}
+.doc-sidebar a:hover{color:#fff;border-color:var(--border-light)}
+.doc-sidebar a.active{color:var(--red-glow);border-color:var(--red);background:rgba(199,70,52,.04)}
+.doc-sidebar .sb-title{font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-muted);
+  font-weight:600;padding:0 14px;margin-bottom:8px;margin-top:16px}
+.doc-sidebar .sb-title:first-child{margin-top:0}
+
+.doc-content h2{font-size:1.4rem;font-weight:900;color:#fff;margin:48px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.doc-content h2:first-child{margin-top:0}
+.doc-content h3{font-size:1.05rem;font-weight:700;color:#fff;margin:28px 0 12px}
+.doc-content p{font-size:.9rem;color:var(--text-dim);line-height:1.8;margin-bottom:14px}
+.doc-content ul,.doc-content ol{margin:0 0 16px 20px;color:var(--text-dim);font-size:.88rem;line-height:1.9}
+.doc-content li{margin-bottom:4px}
+.doc-content code{font-family:var(--mono);font-size:.82rem;background:var(--bg3);border:1px solid var(--border);
+  border-radius:4px;padding:2px 7px;color:var(--accent2)}
+.doc-content pre{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  padding:18px 20px;font-family:var(--mono);font-size:.82rem;line-height:1.8;color:var(--green);
+  overflow-x:auto;margin-bottom:18px}
+.doc-content pre .pf{color:var(--accent2)}
+.doc-content pre .pv{color:var(--blue)}
+.doc-content pre .pc{color:var(--text-muted);font-style:italic;opacity:.55}
+.doc-content pre .pw{color:#fff}
+
+.doc-content .param-table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:.82rem}
+.doc-content .param-table th{text-align:left;padding:10px 14px;background:var(--card);border:1px solid var(--border);
+  color:var(--text-dim);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:1px}
+.doc-content .param-table td{padding:10px 14px;border:1px solid var(--border);color:var(--text-dim);vertical-align:top}
+.doc-content .param-table td:first-child{font-family:var(--mono);color:var(--accent2);white-space:nowrap;font-size:.8rem}
+.doc-content .param-table tr:hover td{background:rgba(199,70,52,.02)}
+.doc-content .note{background:rgba(199,70,52,.05);border:1px solid var(--border-red);border-radius:var(--r);
+  padding:16px 20px;margin:16px 0;font-size:.85rem;color:var(--text-dim);line-height:1.7}
+.doc-content .note strong{color:var(--red-glow)}
+
+@media(max-width:768px){
+  .doc-layout{grid-template-columns:1fr;gap:20px}
+  .doc-sidebar{position:static;display:flex;flex-wrap:wrap;gap:4px}
+  .doc-sidebar a{border-left:none;border-bottom:2px solid var(--border);padding:6px 12px}
+  .doc-sidebar .sb-title{display:none}
+}
+</style>
+</head>
+<body>
+<div id="nav"></div>
+<div class="container">
+<div class="doc-layout">
+
+<!-- SIDEBAR -->
+<nav class="doc-sidebar">
+  <div class="sb-title">快速入门</div>
+  <a href="#quickstart" class="active">快速开始</a>
+  <a href="#prepare">环境准备</a>
+  <a href="#single">单机安装</a>
+  <a href="#standalone">单机 ASM 安装</a>
+  <a href="#rac">RAC 集群安装</a>
+  <div class="sb-title">参数参考</div>
+  <a href="#params-common">通用参数</a>
+  <a href="#params-asm">ASM 参数</a>
+  <a href="#params-rac">RAC 参数</a>
+  <div class="sb-title">其他</div>
+  <a href="#faq">常见问题</a>
+  <a href="#changelog">更新日志</a>
+</nav>
+
+<!-- CONTENT -->
+<div class="doc-content">
+
+<h2 id="quickstart">快速开始</h2>
+<p>OracleShellInstall 是一款 Oracle 数据库一键自动化安装脚本，支持 Oracle 11gR2 至 26ai 全版本，覆盖 20+ Linux 发行版。脚本会自动完成操作系统参数配置、依赖包安装、用户创建、Oracle 软件安装及数据库创建全流程。</p>
+
+<h3>三步安装</h3>
+<ol>
+  <li><strong>上传软件包</strong> - 将 <code>OracleShellInstall.sh</code> 脚本和 Oracle 安装介质上传至服务器 <code>/soft</code> 目录</li>
+  <li><strong>配置参数</strong> - 使用 <a href="generator.html">命令生成器</a> 或手动拼接安装参数</li>
+  <li><strong>执行安装</strong> - 在 <code>/soft</code> 目录下以 <code>root</code> 用户执行生成的命令</li>
+</ol>
+
+<div class="note"><strong>注意：</strong>脚本必须以 root 用户执行，且需要在软件包所在目录下运行。Bash 版本需 >= 4。</div>
+
+<h2 id="prepare">环境准备</h2>
+<h3>目录结构</h3>
+<p>将以下文件放置在 <code>/soft</code> 目录下：</p>
+<pre>/soft/
+  OracleShellInstall.sh          <span class="pc"># 安装脚本</span>
+  LINUX.X64_193000_db_home.zip   <span class="pc"># Oracle 安装介质 (以19c为例)</span>
+  p35940989_190000.zip           <span class="pc"># PSU/RU 补丁 (可选)</span>
+  p35926646_190000.zip           <span class="pc"># OJVM 补丁 (可选)</span>
+  p6880880_190000.zip            <span class="pc"># OPatch (可选，补丁需要)</span></pre>
+
+<h3>系统要求</h3>
+<ul>
+  <li>支持的操作系统：CentOS 7/8、RHEL 7/8/9、OracleLinux、Rocky Linux、Anolis OS、openEuler、麒麟 Kylin、统信 UOS、Ubuntu、Debian 等</li>
+  <li>Bash 版本 >= 4</li>
+  <li>建议内存 >= 2GB（生产环境建议 >= 8GB）</li>
+  <li>磁盘空间：Oracle 软件至少 15GB，数据文件根据业务需求规划</li>
+</ul>
+
+<h2 id="single">单机安装</h2>
+<p>单机模式基于文件系统存储，适用于开发测试及中小型业务场景。</p>
+
+<h3>最简安装</h3>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">single</span> <span class="pc">`# 单机模式`</span>\
+<span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# 公网网卡名称`</span></pre>
+<p>以上命令使用全部默认值安装：数据库名 orcl，字符集 AL32UTF8，安装目录 /u01，数据目录 /oradata。</p>
+
+<h3>自定义安装</h3>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">single</span> <span class="pc">`# 单机模式`</span>\
+<span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# 公网网卡名称`</span>\
+<span class="pf">-n</span> <span class="pv">oracledb</span> <span class="pc">`# 主机名`</span>\
+<span class="pf">-o</span> <span class="pv">prod</span> <span class="pc">`# 数据库名称`</span>\
+<span class="pf">-dp</span> <span class="pv">'Passw0rd#'</span> <span class="pc">`# 数据库密码`</span>\
+<span class="pf">-ds</span> <span class="pv">ZHS16GBK</span> <span class="pc">`# 字符集`</span>\
+<span class="pf">-pdb</span> <span class="pv">pdb01,pdb02</span> <span class="pc">`# 创建多个 PDB`</span>\
+<span class="pf">-opd</span> <span class="pv">Y</span> <span class="pc">`# 优化数据库参数`</span></pre>
+
+<h2 id="standalone">单机 ASM 安装</h2>
+<p>单机 ASM 模式需要 Grid Infrastructure 和 ASM 磁盘。脚本会自动配置 UDEV 绑盘或 multipath。</p>
+
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">standalone</span> <span class="pc">`# 单机 ASM 模式`</span>\
+<span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# 公网网卡名称`</span>\
+<span class="pf">-dd</span> <span class="pv">/dev/sdb,/dev/sdc</span> <span class="pc">`# DATA 磁盘`</span></pre>
+
+<div class="note"><strong>提示：</strong>如果不使用 multipath，可设置 <code>-mp N</code>，脚本将使用 UDEV 直接绑盘。如果已自行配置好 ASM 磁盘，可设置 <code>-adc N</code> 并传入已配置好的磁盘路径。</div>
+
+<h2 id="rac">RAC 集群安装</h2>
+<p>RAC 模式需要在第一个节点上执行脚本，脚本会自动配置所有节点的 SSH 互信、Grid 安装、ASM 磁盘及数据库创建。</p>
+
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">rac</span> <span class="pc">`# RAC 集群模式`</span>\
+<span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# 公网网卡`</span>\
+<span class="pf">-pf</span> <span class="pv">eth1,eth2</span> <span class="pc">`# 心跳网卡`</span>\
+<span class="pf">-n</span> <span class="pv">orcl</span> <span class="pc">`# 主机名前缀`</span>\
+<span class="pf">-hn</span> <span class="pv">orcl01,orcl02</span> <span class="pc">`# 所有节点主机名`</span>\
+<span class="pf">-ri</span> <span class="pv">10.0.0.101,10.0.0.102</span> <span class="pc">`# 公网 IP`</span>\
+<span class="pf">-vi</span> <span class="pv">10.0.0.103,10.0.0.104</span> <span class="pc">`# 虚拟 IP`</span>\
+<span class="pf">-si</span> <span class="pv">10.0.0.105</span> <span class="pc">`# Scan IP`</span>\
+<span class="pf">-rp</span> <span class="pv">'rootPasswd'</span> <span class="pc">`# root 密码`</span>\
+<span class="pf">-od</span> <span class="pv">/dev/sdb</span> <span class="pc">`# OCR 磁盘`</span>\
+<span class="pf">-dd</span> <span class="pv">/dev/sdc</span> <span class="pc">`# DATA 磁盘`</span></pre>
+
+<h2 id="params-common">通用参数</h2>
+<table class="param-table">
+<tr><th>参数</th><th>说明</th><th>默认值</th></tr>
+<tr><td>-lf</td><td>公网 IP 的网卡名称（必填）</td><td>-</td></tr>
+<tr><td>-n</td><td>主机名（单机为主机名，RAC 为主机名前缀）</td><td>orcl</td></tr>
+<tr><td>-o</td><td>数据库名称，支持多实例：orcl,oradb</td><td>orcl</td></tr>
+<tr><td>-d</td><td>Oracle 软件安装根目录</td><td>/u01</td></tr>
+<tr><td>-ou</td><td>系统 oracle 用户名称</td><td>oracle</td></tr>
+<tr><td>-op</td><td>系统 oracle 用户密码，特殊字符需单引号包裹</td><td>oracle</td></tr>
+<tr><td>-dp</td><td>数据库 sys/system 密码，需字母开头，可含 _#$</td><td>oracle</td></tr>
+<tr><td>-ds</td><td>数据库字符集</td><td>AL32UTF8</td></tr>
+<tr><td>-ns</td><td>数据库国家字符集</td><td>AL16UTF16</td></tr>
+<tr><td>-dbs</td><td>数据库块大小：2048/4096/8192/16384/32768</td><td>8192</td></tr>
+<tr><td>-redo</td><td>Redo 日志文件大小（MB）</td><td>1024</td></tr>
+<tr><td>-er</td><td>启用归档模式：true/false</td><td>true</td></tr>
+<tr><td>-pdb</td><td>PDB 名称（设置后自动启用 CDB 架构），多个逗号分隔</td><td>pdb01</td></tr>
+<tr><td>-ord</td><td>数据文件目录（单机模式）</td><td>/oradata</td></tr>
+<tr><td>-ard</td><td>归档文件目录（单机模式）</td><td>/oradata/archivelog</td></tr>
+<tr><td>-lrp</td><td>配置本地软件源（Y/N）</td><td>Y</td></tr>
+<tr><td>-nrp</td><td>配置网络软件源（Y/N）</td><td>N</td></tr>
+<tr><td>-gui</td><td>安装系统图形界面（Y/N）</td><td>N</td></tr>
+<tr><td>-opd</td><td>优化数据库参数（Y/N）</td><td>N</td></tr>
+<tr><td>-hf</td><td>配置大页内存（Y/N）</td><td>N</td></tr>
+<tr><td>-m</td><td>仅配置操作系统（Y/N）</td><td>N</td></tr>
+<tr><td>-ud</td><td>安装到 DB 软件结束（Y/N）</td><td>N</td></tr>
+<tr><td>-opa</td><td>Oracle PSU/RU 补丁编号</td><td>-</td></tr>
+<tr><td>-jpa</td><td>OJVM PSU/RU 补丁编号</td><td>-</td></tr>
+</table>
+
+<h2 id="params-asm">ASM 相关参数</h2>
+<table class="param-table">
+<tr><th>参数</th><th>说明</th><th>默认值</th></tr>
+<tr><td>-gu</td><td>系统 grid 用户名称</td><td>grid</td></tr>
+<tr><td>-gp</td><td>系统 grid 用户密码</td><td>oracle</td></tr>
+<tr><td>-adc</td><td>是否由脚本配置 ASM 磁盘（Y/N）</td><td>Y</td></tr>
+<tr><td>-mp</td><td>配置 multipath 多路径（Y/N）</td><td>Y</td></tr>
+<tr><td>-dd</td><td>DATA 磁盘组的磁盘列表（必填）</td><td>-</td></tr>
+<tr><td>-dn</td><td>DATA 磁盘组名称</td><td>DATA</td></tr>
+<tr><td>-dr</td><td>DATA 磁盘组冗余度：EXTERNAL/NORMAL/HIGH</td><td>EXTERNAL</td></tr>
+<tr><td>-gpa</td><td>Grid PSU/RU 补丁编号</td><td>-</td></tr>
+<tr><td>-vbox</td><td>VirtualBox 环境修复（Y/N）</td><td>N</td></tr>
+</table>
+
+<h2 id="params-rac">RAC 专属参数</h2>
+<table class="param-table">
+<tr><th>参数</th><th>说明</th><th>默认值</th></tr>
+<tr><td>-pf</td><td>心跳网卡名称，多组逗号分隔（必填）</td><td>-</td></tr>
+<tr><td>-hn</td><td>所有节点主机名，按顺序逗号分隔（必填）</td><td>-</td></tr>
+<tr><td>-ri</td><td>所有节点公网 IP（必填）</td><td>-</td></tr>
+<tr><td>-vi</td><td>所有节点虚拟 IP（必填）</td><td>-</td></tr>
+<tr><td>-si</td><td>Scan IP 地址（必填）</td><td>-</td></tr>
+<tr><td>-rp</td><td>root 用户密码，所有节点需一致（必填）</td><td>-</td></tr>
+<tr><td>-cn</td><td>集群名称（不超过15位）</td><td>主机名前缀-cluster</td></tr>
+<tr><td>-sn</td><td>Scan 名称</td><td>主机名前缀-scan</td></tr>
+<tr><td>-od</td><td>OCR 磁盘组的磁盘列表（必填）</td><td>-</td></tr>
+<tr><td>-ad</td><td>ARCH 磁盘组的磁盘列表</td><td>-</td></tr>
+<tr><td>-on/-or</td><td>OCR 磁盘组名称/冗余度</td><td>OCR / EXTERNAL</td></tr>
+<tr><td>-an/-ar</td><td>ARCH 磁盘组名称/冗余度</td><td>ARCH / EXTERNAL</td></tr>
+<tr><td>-tsi</td><td>CTSS 时间服务器 IP</td><td>-</td></tr>
+<tr><td>-dns</td><td>是否配置 DNS（多个 Scan IP 时需要）</td><td>N</td></tr>
+<tr><td>-dnsn</td><td>DNS 服务器名称</td><td>-</td></tr>
+<tr><td>-dnsi</td><td>DNS 服务器 IP</td><td>-</td></tr>
+<tr><td>-ug</td><td>安装到 Grid 软件结束（Y/N）</td><td>N</td></tr>
+</table>
+
+<h2 id="faq">常见问题</h2>
+
+<h3>Q: 脚本支持哪些 Oracle 安装介质格式？</h3>
+<p>脚本自动识别 Oracle 安装介质的 ZIP 包。将 ZIP 文件放置在 /soft 目录下即可，无需手动解压。</p>
+
+<h3>Q: 安装过程中断了怎么办？</h3>
+<p>查看安装日志文件 <code>print_shell_install_*.log</code> 和 <code>shell_install_output_*.log</code>，定位失败原因。修复后可使用 <code>-m Y</code> 参数跳过已完成的 OS 配置步骤。</p>
+
+<h3>Q: RAC 安装时节点间需要什么网络条件？</h3>
+<p>需要公网和心跳网络互通，所有节点 root 密码需一致。脚本会自动建立 SSH 互信。</p>
+
+<h3>Q: 数据库密码有什么要求？</h3>
+<p>数据库密码（<code>-dp</code>）必须以字母开头，只能包含字母、数字及 <code>_</code> <code>#</code> <code>$</code> 三种特殊字符。包含特殊字符时需用单引号包裹。</p>
+
+<h3>Q: 如何过滤多路径磁盘？</h3>
+<p>使用 <code>-fd</code> 参数可以过滤多路径磁盘，去除重复路径获取唯一盘符。例如：<code>-fd /dev/sda</code> 排除系统盘。</p>
+
+<h2 id="changelog">更新日志</h2>
+<h3>v5.0.0 (2024-08-22)</h3>
+<ul>
+  <li>支持 Oracle 26ai 版本安装</li>
+  <li>新增 AFD (ASM Filter Driver) 配置支持</li>
+  <li>新增 GIMR 配置支持</li>
+  <li>新增更多国产操作系统支持：华为 openEuler、中科方德 NFS、中标麒麟 NeoKylin 等</li>
+  <li>优化安装日志输出和进度展示</li>
+  <li>增强参数校验逻辑</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div id="footer"></div>
+<script src="js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('docs');
+document.getElementById('footer').innerHTML = footerHTML();
+</script>
+</body>
+</html>
