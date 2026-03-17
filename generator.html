@@ -50,10 +50,11 @@
 
 .cmd-section{padding:10px 0 50px}
 .cmd-box{background:var(--term-bg,var(--bg2));border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
-.cmd-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;
-  border-bottom:1px solid var(--border);background:var(--card)}
-.cmd-header .cmd-title{font-size:.82rem;font-weight:600;color:var(--text-dim);display:flex;align-items:center;gap:8px}
-.cmd-header .cmd-title .sd{width:9px;height:9px;border-radius:50%;display:inline-block}
+.cmd-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;
+  border-bottom:1px solid var(--border);background:#2a2a34;position:relative}
+.cmd-header .cmd-dots{display:flex;gap:8px}
+.cmd-header .cmd-dots .sd{width:12px;height:12px;border-radius:50%;display:inline-block}
+.cmd-header .cmd-title{position:absolute;left:0;right:0;text-align:center;font-size:.75rem;font-weight:500;color:var(--text-muted);font-family:var(--mono);pointer-events:none}
 .sd-r{background:#ff5f57}.sd-y{background:#febc2e}.sd-g{background:#28c840}
 .cmd-btns{display:flex;gap:8px}
 .cmd-btn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:7px 16px;
@@ -113,7 +114,8 @@
   <div class="mode-label" data-i18n="genOutput">生成的安装命令</div>
   <div class="cmd-box">
     <div class="cmd-header">
-      <span class="cmd-title"><span class="sd sd-r"></span><span class="sd sd-y"></span><span class="sd sd-g"></span>&nbsp;&nbsp;Terminal</span>
+      <div class="cmd-dots"><span class="sd sd-r"></span><span class="sd sd-y"></span><span class="sd sd-g"></span></div>
+      <span class="cmd-title">Terminal</span>
       <div class="cmd-btns">
         <button class="cmd-btn" onclick="resetForm()" data-i18n="resetBtn">重置参数</button>
         <button class="cmd-btn copy-btn" id="copyBtn" onclick="copyCmd()" data-i18n="copyBtn">复制命令</button>

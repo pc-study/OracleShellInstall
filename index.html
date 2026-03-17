@@ -28,10 +28,12 @@
 .hero-desc{font-size:1.05rem;color:var(--text-dim);line-height:1.7;margin-bottom:32px;max-width:500px;font-weight:300}
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
 .hero-right{position:relative;z-index:1}
-.hero-term-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:var(--card);border-bottom:1px solid var(--border)}
-.hero-term-bar .td{width:10px;height:10px;border-radius:50%}
+.hero-term-bar{display:flex;align-items:center;padding:10px 14px;background:#2a2a34;border-bottom:1px solid var(--border);position:relative}
+.hero-term-dots{display:flex;gap:8px;z-index:1}
+.hero-term-dots .td{width:12px;height:12px;border-radius:50%;position:relative}
 .td-r{background:#ff5f57}.td-y{background:#febc2e}.td-g{background:#28c840}
-.hero-term-bar span{margin-left:auto;font-size:.72rem;color:var(--text-muted);font-family:var(--mono)}
+.td-r:hover{background:#e04a42}.td-y:hover{background:#e5a91f}.td-g:hover{background:#1fb835}
+.hero-term-title{position:absolute;left:0;right:0;text-align:center;font-size:.72rem;color:var(--text-muted);font-family:var(--mono);pointer-events:none}
 .hero-term-body{padding:20px;font-family:var(--mono);font-size:.8rem;line-height:2;color:var(--green)}
 .hero-term-body .t-flag{color:var(--accent2)}.hero-term-body .t-val{color:var(--blue)}
 .hero-term-body .t-cmt{color:var(--text-muted);font-style:italic;opacity:.6}
@@ -135,7 +137,7 @@
       </div>
       <div class="hero-right anim-up anim-d2">
         <div class="hero-terminal">
-          <div class="hero-term-bar"><span class="td td-r"></span><span class="td td-y"></span><span class="td td-g"></span><span>root@oracle:/soft</span></div>
+          <div class="hero-term-bar"><div class="hero-term-dots"><span class="td td-r"></span><span class="td td-y"></span><span class="td td-g"></span></div><span class="hero-term-title">root@oracle:/soft</span></div>
           <div class="hero-term-body" id="termBody"></div>
         </div>
       </div>

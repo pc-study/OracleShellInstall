@@ -30,7 +30,7 @@
 [data-theme="light"] .cmd-code,
 [data-theme="light"] .hero-term-body{color:#3aba6a}
 [data-theme="light"] .cmd-box{background:#1a1a24;border-color:#2a2a38}
-[data-theme="light"] .cmd-header{background:#14141d;border-color:#2a2a38}
+[data-theme="light"] .cmd-header{background:#2a2a34;border-color:#2a2a38}
 [data-theme="light"] .cmd-code .cm-flag,[data-theme="light"] .hero-term-body .t-flag{color:#e8934a}
 [data-theme="light"] .cmd-code .cm-val,[data-theme="light"] .hero-term-body .t-val{color:#4a8fe8}
 [data-theme="light"] .cmd-code .cm-w,[data-theme="light"] .hero-term-body .t-w{color:#e8e6e3}
@@ -40,8 +40,8 @@
 [data-theme="light"] .cmd-btn.copy-btn{color:#e05a48}
 [data-theme="light"] .cmd-header .cmd-title{color:#9a9aaa}
 [data-theme="light"] .hero-terminal{background:#1a1a24;border-color:#2a2a38}
-[data-theme="light"] .hero-term-bar{background:#14141d;border-color:#2a2a38}
-[data-theme="light"] .hero-term-bar span{color:#5a5a6e}
+[data-theme="light"] .hero-term-bar{background:#2a2a34;border-color:#2a2a38}
+[data-theme="light"] .hero-term-title{color:#5a5a6e}
 [data-theme="light"] .nav{background:rgba(244,244,247,.88);border-bottom-color:var(--border)}
 [data-theme="light"] .nav-links a:hover{color:var(--text)}
 [data-theme="light"] .nav-cta{color:#fff!important}
