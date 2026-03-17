@@ -9,6 +9,7 @@
 <meta property="og:description" content="一键自动化安装 Oracle 数据库，支持单机/ASM/RAC 三种模式，覆盖 20+ Linux 发行版。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pc-study.github.io/OracleShellInstall/">
+<link rel="canonical" href="https://pc-study.github.io/OracleShellInstall/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
@@ -385,26 +386,22 @@ function runTermAnimation() {
   if (!body) return;
   body.innerHTML = '<span class="cursor"></span>';
   let lineIdx = 0;
+  let timerId = null;
   function showLine() {
-    if (lineIdx >= termLines.length) {
-      // Keep cursor blinking at end
-      return;
-    }
+    if (lineIdx >= termLines.length) return;
     const line = termLines[lineIdx];
-    // Remove cursor, add line, re-add cursor
     const cursor = body.querySelector('.cursor');
     const div = document.createElement('div');
     div.className = 'term-line';
     div.innerHTML = line.html;
     body.insertBefore(div, cursor);
-    // Trigger reflow for animation
     requestAnimationFrame(() => {
       div.classList.add('visible');
     });
     lineIdx++;
-    setTimeout(showLine, 350);
+    timerId = setTimeout(showLine, 350);
   }
-  setTimeout(showLine, 600);
+  timerId = setTimeout(showLine, 600);
 }
 runTermAnimation();
 </script>

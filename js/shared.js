@@ -102,7 +102,7 @@ function footerHTML() {
     <div class="footer-col"><h4 data-i18n="contact">${t('contact')}</h4>
       <a href="mailto:pc1107750981@163.com">\u2709 pc1107750981@163.com</a>
       <a>\uD83D\uDCF1 WeChat: Lucifer-0622</a>
-      <a href="https://github.com/pc-study/OracleShellInstall" target="_blank" rel="noopener">\u2B50 GitHub</a>
+      <a href="https://github.com/pc-study/OracleShellInstall" target="_blank" rel="noopener noreferrer">\u2B50 GitHub</a>
     </div>
   </div>
   <div class="footer-bottom">

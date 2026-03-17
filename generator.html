@@ -8,6 +8,8 @@
 <meta property="og:title" content="命令生成器 - OracleShellInstall">
 <meta property="og:description" content="可视化配置参数，一键生成 Oracle 数据库安装命令，支持单机/ASM/RAC 三种模式。">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://pc-study.github.io/OracleShellInstall/generator.html">
+<link rel="canonical" href="https://pc-study.github.io/OracleShellInstall/generator.html">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
@@ -38,6 +40,9 @@
 .field{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;transition:all .25s}
 .field:hover{border-color:var(--border-light)}
 .field:focus-within{border-color:var(--red);box-shadow:0 0 0 2px rgba(199,70,52,.08)}
+.field-error{border-color:rgba(199,70,52,.5);background:rgba(199,70,52,.03)}
+.field-error label .fl{background:rgba(199,70,52,.25);color:var(--red-glow);animation:pulse-error 1.5s ease infinite}
+@keyframes pulse-error{0%,100%{opacity:1}50%{opacity:.5}}
 .field label{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-dim);margin-bottom:8px;font-weight:500}
 .field label .fl{font-size:.62rem;padding:1px 6px;border-radius:3px;font-weight:700}
 .field label .fl-r{background:rgba(199,70,52,.18);color:var(--red-glow)}
@@ -98,15 +103,15 @@
 <section class="mode-section">
   <div class="mode-label" data-i18n="selectMode">选择安装模式</div>
   <div class="mode-cards">
-    <div class="mode-card active" data-mode="single" onclick="switchMode('single')">
+    <div class="mode-card active" data-mode="single" onclick="switchMode('single')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchMode('single')}">
       <span class="mi">&#9881;</span><div class="mt" data-i18n="modeSingle">单机模式</div>
       <div class="md" data-i18n="modeSingleDesc">Single Instance &middot; 文件系统存储<br>适用于开发测试及中小型业务</div>
     </div>
-    <div class="mode-card" data-mode="standalone" onclick="switchMode('standalone')">
+    <div class="mode-card" data-mode="standalone" onclick="switchMode('standalone')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchMode('standalone')}">
       <span class="mi">&#9880;</span><div class="mt" data-i18n="modeStandalone">单机 ASM 模式</div>
       <div class="md" data-i18n="modeStandaloneDesc">Standalone + ASM &middot; Grid Infra<br>适用于 ASM 存储管理的单节点</div>
     </div>
-    <div class="mode-card" data-mode="rac" onclick="switchMode('rac')">
+    <div class="mode-card" data-mode="rac" onclick="switchMode('rac')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchMode('rac')}">
       <span class="mi">&#9733;</span><div class="mt" data-i18n="modeRac">RAC 集群模式</div>
       <div class="md" data-i18n="modeRacDesc">Real Application Clusters<br>适用于高可用生产环境</div>
     </div>
@@ -279,10 +284,19 @@ function renderForm(m){
 function genCmd(){
   const gs=[...P.common,...(P[curMode]||[])];
   let parts=[];
+  let missingReq=false;
   gs.forEach(g=>g.f.forEach(f=>{
     const el=document.getElementById('f'+f.fl.replace(/-/g,'_'));
     if(!el)return;
     const v=el.value.trim();
+    const field=el.closest('.field');
+    // Validate required fields
+    if(f.req && !v){
+      if(field) field.classList.add('field-error');
+      missingReq=true;
+      return;
+    }
+    if(field) field.classList.remove('field-error');
     if(!v)return;
     if(f.def!==undefined&&v===String(f.def))return;
     parts.push({fl:f.fl,v,lb:f.lb,lbe:f.lbe||f.lb});
@@ -296,6 +310,10 @@ function genCmd(){
     const sl=i===parts.length-1?'':'<span class="cm-sl">\\</span>';
     lines.push(`<span class="cm-flag">${p.fl}</span> <span class="cm-val">${ev}</span> <span class="cm-cmt">\`# ${currentLang==='en'?p.lbe:p.lb}\`</span>${sl}`);
   });
+  if(missingReq){
+    const warn=currentLang==='en'?'# ⚠ Please fill in all required fields':'# ⚠ 请填写所有必填参数';
+    lines.push(`\n<span class="cm-cmt">${warn}</span>`);
+  }
   document.getElementById('cmdOutput').innerHTML=lines.join('\n');
 }
 
@@ -312,6 +330,13 @@ function copyCmd(){
     const isEn = currentLang === 'en';
     b.textContent=isEn?'Copied':'已复制';b.classList.add('copied');
     setTimeout(()=>{b.textContent=isEn?'Copy Command':'复制命令';b.classList.remove('copied');},2000);
+  }).catch(()=>{
+    // Fallback: select text in cmd output for manual copy
+    const range = document.createRange();
+    range.selectNodeContents(document.getElementById('cmdOutput'));
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
   });
 }
 // i18n for generator
