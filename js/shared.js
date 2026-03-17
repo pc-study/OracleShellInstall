@@ -100,6 +100,7 @@ function footerHTML() {
     <div class="footer-col"><h4 data-i18n="contact">${t('contact')}</h4>
       <a href="mailto:pc1107750981@163.com">\u2709 pc1107750981@163.com</a>
       <a>\uD83D\uDCF1 WeChat: Lucifer-0622</a>
+      <a href="https://github.com/pc-study/OracleShellInstall" target="_blank" rel="noopener">\u2B50 GitHub</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -135,4 +136,37 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('anim-up'); obs.unobserve(e.target); }});
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Back to top button
+  const btt = document.createElement('button');
+  btt.className = 'back-to-top';
+  btt.innerHTML = '\u2191';
+  btt.title = 'Back to top';
+  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  document.body.appendChild(btt);
+  window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 400));
+
+  // Docs scroll spy
+  const sidebar = document.querySelector('.doc-sidebar');
+  if (sidebar) {
+    const sideLinks = sidebar.querySelectorAll('a[href^="#"]');
+    const sections = [];
+    sideLinks.forEach(a => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) sections.push({ el, link: a });
+    });
+    if (sections.length) {
+      const spyObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            sideLinks.forEach(l => l.classList.remove('active'));
+            const match = sections.find(s => s.el === e.target);
+            if (match) match.link.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+      sections.forEach(s => spyObs.observe(s.el));
+    }
+  }
 });

@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OracleShellInstall - Oracle 数据库一键自动化安装</title>
 <meta name="description" content="Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC，覆盖20+Linux发行版，Oracle 11g~26ai全版本。">
+<meta property="og:title" content="OracleShellInstall - Oracle 数据库一键自动化安装">
+<meta property="og:description" content="一键自动化安装 Oracle 数据库，支持单机/ASM/RAC 三种模式，覆盖 20+ Linux 发行版。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pc-study.github.io/OracleShellInstall/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
@@ -18,7 +23,7 @@
   border:1px solid rgba(199,70,52,.25);border-radius:20px;padding:6px 16px;
   font-size:.72rem;color:var(--red-glow);letter-spacing:.5px;font-weight:500;margin-bottom:20px}
 .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2s infinite}
-.hero h1{font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;color:#fff;line-height:1.15;margin-bottom:16px}
+.hero h1{font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;color:var(--text);line-height:1.15;margin-bottom:16px}
 .hero h1 span{color:var(--red)}
 .hero-desc{font-size:1.05rem;color:var(--text-dim);line-height:1.7;margin-bottom:32px;max-width:500px;font-weight:300}
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
@@ -47,13 +52,27 @@
 .stat-num{font-family:var(--display);font-size:2rem;font-weight:900;color:var(--red);margin-bottom:4px}
 .stat-label{font-size:.8rem;color:var(--text-muted);font-weight:400}
 
+/* STEPS */
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px}
+.step-card{text-align:center;position:relative}
+.step-num{width:48px;height:48px;border-radius:50%;background:rgba(199,70,52,.1);border:2px solid var(--red);
+  display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.2rem;
+  font-weight:900;color:var(--red);margin:0 auto 16px}
+.step-card h4{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.step-card p{font-size:.8rem;color:var(--text-muted);line-height:1.6}
+.step-connector{display:none}
+@media(min-width:901px){
+  .step-card:not(:last-child)::after{content:'';position:absolute;top:24px;right:-12px;width:24px;height:2px;
+    background:linear-gradient(90deg,var(--red),transparent);opacity:.3}
+}
+
 /* FEATURES */
 .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:36px}
 .feat-card{display:flex;gap:18px;align-items:flex-start}
 .feat-card .feat-icon{width:44px;height:44px;min-width:44px;background:rgba(199,70,52,.08);
   border:1px solid rgba(199,70,52,.15);border-radius:10px;display:flex;align-items:center;
   justify-content:center;font-size:1.2rem}
-.feat-card h4{font-size:.92rem;font-weight:700;color:#fff;margin-bottom:4px}
+.feat-card h4{font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:4px}
 .feat-card p{font-size:.8rem;color:var(--text-muted);line-height:1.5}
 
 /* MODES */
@@ -63,7 +82,7 @@
   transform:scaleX(0);transition:transform .3s}
 .mode-card:hover::before{transform:scaleX(1)}
 .mode-card .m-icon{font-size:2.2rem;margin-bottom:12px;display:block}
-.mode-card h4{font-size:1rem;font-weight:700;color:#fff;margin-bottom:6px}
+.mode-card h4{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px}
 .mode-card p{font-size:.78rem;color:var(--text-muted);line-height:1.6}
 .mode-card .m-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px}
 .mode-card .m-tag{font-size:.68rem;padding:3px 10px;background:var(--bg3);border:1px solid var(--border);
@@ -72,7 +91,7 @@
 /* COMPAT */
 .compat-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:36px}
 .compat-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px}
-.compat-panel h3{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.compat-panel h3{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .compat-panel h3 .dot{width:8px;height:8px;border-radius:50%;background:var(--red)}
 .compat-panel .tag-list{display:flex;flex-wrap:wrap;gap:8px}
 
@@ -82,7 +101,7 @@
   border:1px solid var(--border-red);border-radius:var(--r-xl);padding:60px 40px;position:relative;overflow:hidden}
 .cta-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
   background:radial-gradient(ellipse at center,rgba(199,70,52,.04),transparent 50%);pointer-events:none}
-.cta-box h2{font-size:1.8rem;font-weight:900;color:#fff;margin-bottom:12px;position:relative}
+.cta-box h2{font-size:1.8rem;font-weight:900;color:var(--text);margin-bottom:12px;position:relative}
 .cta-box p{color:var(--text-dim);margin-bottom:28px;font-size:1rem;position:relative}
 .cta-box .cta-btns{position:relative;display:flex;gap:12px;justify-content:center}
 
@@ -93,6 +112,7 @@
   .feat-grid{grid-template-columns:1fr}
   .modes-grid{grid-template-columns:1fr}
   .compat-grid{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:1fr;gap:16px}
 }
 </style>
 </head>
@@ -131,6 +151,33 @@
       <div class="stat-card reveal"><div class="stat-num">20+</div><div class="stat-label" data-i18n="statO">Linux 发行版</div></div>
       <div class="stat-card reveal"><div class="stat-num">3</div><div class="stat-label" data-i18n="statM">部署架构模式</div></div>
       <div class="stat-card reveal"><div class="stat-num">100%</div><div class="stat-label" data-i18n="statA">全自动化安装</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="section-sm">
+  <div class="container">
+    <div class="section-center">
+      <div class="section-eyebrow reveal" data-i18n="stepsEye">快速上手</div>
+      <div class="section-title reveal" data-i18n="stepsTitle">三步完成安装</div>
+    </div>
+    <div class="steps-grid">
+      <div class="card step-card reveal">
+        <div class="step-num">1</div>
+        <h4 data-i18n="step1t">上传软件包</h4>
+        <p data-i18n="step1d">将脚本和 Oracle 安装介质上传至服务器 /soft 目录</p>
+      </div>
+      <div class="card step-card reveal">
+        <div class="step-num">2</div>
+        <h4 data-i18n="step2t">配置参数</h4>
+        <p data-i18n="step2d">使用在线命令生成器选择模式并配置安装参数</p>
+      </div>
+      <div class="card step-card reveal">
+        <div class="step-num">3</div>
+        <h4 data-i18n="step3t">执行命令</h4>
+        <p data-i18n="step3d">复制生成的命令，以 root 用户在服务器上执行即可</p>
+      </div>
     </div>
   </div>
 </section>
@@ -253,6 +300,10 @@ const pageI18n = {
     modeEye: '部署模式', modeTitle: '三种架构，灵活适配', modeSub: '根据业务场景选择最合适的部署模式',
     compEye: '兼容性', compTitle: '广泛的版本与系统支持',
     compVer: '支持的 Oracle 版本', compOs: '支持的操作系统',
+    stepsEye: '快速上手', stepsTitle: '三步完成安装',
+    step1t: '上传软件包', step1d: '将脚本和 Oracle 安装介质上传至服务器 /soft 目录',
+    step2t: '配置参数', step2d: '使用在线命令生成器选择模式并配置安装参数',
+    step3t: '执行命令', step3d: '复制生成的命令，以 root 用户在服务器上执行即可',
     ctaTitle: '开始使用 OracleShellInstall', ctaDesc: '通过在线命令生成器配置参数，一键生成可执行的安装命令',
     ctaBtn1: '打开命令生成器 \u2192', ctaBtn2: '阅读使用文档',
   },
@@ -267,6 +318,10 @@ const pageI18n = {
     modeEye: 'DEPLOY MODES', modeTitle: 'Three Architectures, Flexible Fit', modeSub: 'Choose the best deployment mode for your scenario',
     compEye: 'COMPATIBILITY', compTitle: 'Broad Version & OS Support',
     compVer: 'Supported Oracle Versions', compOs: 'Supported Operating Systems',
+    stepsEye: 'GET STARTED', stepsTitle: 'Install in 3 Steps',
+    step1t: 'Upload Package', step1d: 'Upload the script and Oracle installation media to /soft on your server',
+    step2t: 'Configure', step2d: 'Use the online generator to select mode and configure parameters',
+    step3t: 'Execute', step3d: 'Copy the generated command and run it as root on the server',
     ctaTitle: 'Start Using OracleShellInstall', ctaDesc: 'Configure parameters with the online generator and create executable install commands',
     ctaBtn1: 'Open Generator \u2192', ctaBtn2: 'Read Documentation',
   }
