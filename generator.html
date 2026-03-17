@@ -88,19 +88,19 @@
 <div class="container">
 <!-- MODE -->
 <section class="mode-section">
-  <div class="mode-label">选择安装模式</div>
+  <div class="mode-label" data-i18n="selectMode">选择安装模式</div>
   <div class="mode-cards">
     <div class="mode-card active" data-mode="single" onclick="switchMode('single')">
-      <span class="mi">&#9881;</span><div class="mt">单机模式</div>
-      <div class="md">Single Instance &middot; 文件系统存储<br>适用于开发测试及中小型业务</div>
+      <span class="mi">&#9881;</span><div class="mt" data-i18n="modeSingle">单机模式</div>
+      <div class="md" data-i18n="modeSingleDesc">Single Instance &middot; 文件系统存储<br>适用于开发测试及中小型业务</div>
     </div>
     <div class="mode-card" data-mode="standalone" onclick="switchMode('standalone')">
-      <span class="mi">&#9880;</span><div class="mt">单机 ASM 模式</div>
-      <div class="md">Standalone + ASM &middot; Grid Infra<br>适用于 ASM 存储管理的单节点</div>
+      <span class="mi">&#9880;</span><div class="mt" data-i18n="modeStandalone">单机 ASM 模式</div>
+      <div class="md" data-i18n="modeStandaloneDesc">Standalone + ASM &middot; Grid Infra<br>适用于 ASM 存储管理的单节点</div>
     </div>
     <div class="mode-card" data-mode="rac" onclick="switchMode('rac')">
-      <span class="mi">&#9733;</span><div class="mt">RAC 集群模式</div>
-      <div class="md">Real Application Clusters<br>适用于高可用生产环境</div>
+      <span class="mi">&#9733;</span><div class="mt" data-i18n="modeRac">RAC 集群模式</div>
+      <div class="md" data-i18n="modeRacDesc">Real Application Clusters<br>适用于高可用生产环境</div>
     </div>
   </div>
 </section>
@@ -110,13 +110,13 @@
 
 <!-- CMD -->
 <section class="cmd-section">
-  <div class="mode-label">生成的安装命令</div>
+  <div class="mode-label" data-i18n="genOutput">生成的安装命令</div>
   <div class="cmd-box">
     <div class="cmd-header">
       <span class="cmd-title"><span class="sd sd-r"></span><span class="sd sd-y"></span><span class="sd sd-g"></span>&nbsp;&nbsp;Terminal</span>
       <div class="cmd-btns">
-        <button class="cmd-btn" onclick="resetForm()">重置参数</button>
-        <button class="cmd-btn copy-btn" id="copyBtn" onclick="copyCmd()">复制命令</button>
+        <button class="cmd-btn" onclick="resetForm()" data-i18n="resetBtn">重置参数</button>
+        <button class="cmd-btn copy-btn" id="copyBtn" onclick="copyCmd()" data-i18n="copyBtn">复制命令</button>
       </div>
     </div>
     <div class="cmd-code" id="cmdOutput"></div>
@@ -132,106 +132,106 @@ document.getElementById('footer').innerHTML = footerHTML();
 <script>
 const P={
   common:[
-    {g:'基础配置',ico:'&#9670;',f:[
-      {fl:'-lf',lb:'公网网卡名称',t:'text',ph:'eth0',req:1},
-      {fl:'-n',lb:'主机名',t:'text',def:'orcl'},
-      {fl:'-o',lb:'数据库名称',t:'text',def:'orcl'},
-      {fl:'-d',lb:'软件安装根目录',t:'text',def:'/u01'},
+    {g:'基础配置',ge:'Basic Config',ico:'&#9670;',f:[
+      {fl:'-lf',lb:'公网网卡名称',lbe:'Public NIC Name',t:'text',ph:'eth0',req:1},
+      {fl:'-n',lb:'主机名',lbe:'Hostname',t:'text',def:'orcl'},
+      {fl:'-o',lb:'数据库名称',lbe:'Database Name',t:'text',def:'orcl'},
+      {fl:'-d',lb:'软件安装根目录',lbe:'Software Install Root',t:'text',def:'/u01'},
     ]},
-    {g:'用户与密码',ico:'&#128274;',f:[
-      {fl:'-ou',lb:'Oracle 用户名',t:'text',def:'oracle'},
-      {fl:'-op',lb:'Oracle 用户密码',t:'password',def:'oracle'},
-      {fl:'-dp',lb:'数据库 sys/system 密码',t:'password',def:'oracle'},
+    {g:'用户与密码',ge:'Users & Passwords',ico:'&#128274;',f:[
+      {fl:'-ou',lb:'Oracle 用户名',lbe:'Oracle Username',t:'text',def:'oracle'},
+      {fl:'-op',lb:'Oracle 用户密码',lbe:'Oracle User Password',t:'password',def:'oracle'},
+      {fl:'-dp',lb:'数据库 sys/system 密码',lbe:'DB sys/system Password',t:'password',def:'oracle'},
     ]},
-    {g:'数据库参数',ico:'&#128451;',f:[
-      {fl:'-ds',lb:'数据库字符集',t:'select',opts:['AL32UTF8','ZHS16GBK','ZHS32GB18030','UTF8','US7ASCII','WE8ISO8859P1','WE8MSWIN1252','JA16SJIS','KO16MSWIN949'],def:'AL32UTF8'},
-      {fl:'-ns',lb:'国家字符集',t:'select',opts:['AL16UTF16','UTF8'],def:'AL16UTF16'},
-      {fl:'-dbs',lb:'数据库块大小',t:'select',opts:['2048','4096','8192','16384','32768'],def:'8192'},
-      {fl:'-redo',lb:'Redo 日志大小 (MB)',t:'number',def:'1024'},
-      {fl:'-er',lb:'启用归档模式',t:'select',opts:['true','false'],def:'true'},
-      {fl:'-pdb',lb:'PDB 名称 (CDB架构)',t:'text',ph:'pdb01,pdb02'},
+    {g:'数据库参数',ge:'Database Params',ico:'&#128451;',f:[
+      {fl:'-ds',lb:'数据库字符集',lbe:'DB Character Set',t:'select',opts:['AL32UTF8','ZHS16GBK','ZHS32GB18030','UTF8','US7ASCII','WE8ISO8859P1','WE8MSWIN1252','JA16SJIS','KO16MSWIN949'],def:'AL32UTF8'},
+      {fl:'-ns',lb:'国家字符集',lbe:'National Character Set',t:'select',opts:['AL16UTF16','UTF8'],def:'AL16UTF16'},
+      {fl:'-dbs',lb:'数据库块大小',lbe:'DB Block Size',t:'select',opts:['2048','4096','8192','16384','32768'],def:'8192'},
+      {fl:'-redo',lb:'Redo 日志大小 (MB)',lbe:'Redo Log Size (MB)',t:'number',def:'1024'},
+      {fl:'-er',lb:'启用归档模式',lbe:'Enable Archive Mode',t:'select',opts:['true','false'],def:'true'},
+      {fl:'-pdb',lb:'PDB 名称 (CDB架构)',lbe:'PDB Name (CDB Mode)',t:'text',ph:'pdb01,pdb02'},
     ]},
-    {g:'系统选项',ico:'&#9881;',f:[
-      {fl:'-lrp',lb:'配置本地软件源',t:'select',opts:['Y','N'],def:'Y'},
-      {fl:'-nrp',lb:'配置网络软件源',t:'select',opts:['Y','N'],def:'N'},
-      {fl:'-gui',lb:'安装图形界面',t:'select',opts:['Y','N'],def:'N'},
-      {fl:'-opd',lb:'优化数据库参数',t:'select',opts:['Y','N'],def:'N'},
-      {fl:'-hf',lb:'配置大页内存',t:'select',opts:['Y','N'],def:'N'},
+    {g:'系统选项',ge:'System Options',ico:'&#9881;',f:[
+      {fl:'-lrp',lb:'配置本地软件源',lbe:'Config Local Repo',t:'select',opts:['Y','N'],def:'Y'},
+      {fl:'-nrp',lb:'配置网络软件源',lbe:'Config Network Repo',t:'select',opts:['Y','N'],def:'N'},
+      {fl:'-gui',lb:'安装图形界面',lbe:'Install GUI',t:'select',opts:['Y','N'],def:'N'},
+      {fl:'-opd',lb:'优化数据库参数',lbe:'Optimize DB Params',t:'select',opts:['Y','N'],def:'N'},
+      {fl:'-hf',lb:'配置大页内存',lbe:'Config HugePages',t:'select',opts:['Y','N'],def:'N'},
     ]},
   ],
   single:[
-    {g:'单机存储与补丁',ico:'&#128190;',f:[
-      {fl:'-ord',lb:'数据文件目录',t:'text',def:'/oradata'},
-      {fl:'-ard',lb:'归档文件目录',t:'text',def:'/oradata/archivelog'},
-      {fl:'-opa',lb:'Oracle PSU/RU 补丁编号',t:'text',ph:'如 35940989'},
-      {fl:'-jpa',lb:'OJVM PSU/RU 补丁编号',t:'text',ph:'如 35926646'},
-      {fl:'-m',lb:'仅配置操作系统',t:'select',opts:['Y','N'],def:'N'},
-      {fl:'-ud',lb:'安装到 DB 软件结束',t:'select',opts:['Y','N'],def:'N'},
+    {g:'单机存储与补丁',ge:'Storage & Patches',ico:'&#128190;',f:[
+      {fl:'-ord',lb:'数据文件目录',lbe:'Data File Directory',t:'text',def:'/oradata'},
+      {fl:'-ard',lb:'归档文件目录',lbe:'Archive Directory',t:'text',def:'/oradata/archivelog'},
+      {fl:'-opa',lb:'Oracle PSU/RU 补丁编号',lbe:'Oracle PSU/RU Patch ID',t:'text',ph:'如 35940989',phe:'e.g. 35940989'},
+      {fl:'-jpa',lb:'OJVM PSU/RU 补丁编号',lbe:'OJVM PSU/RU Patch ID',t:'text',ph:'如 35926646',phe:'e.g. 35926646'},
+      {fl:'-m',lb:'仅配置操作系统',lbe:'OS Config Only',t:'select',opts:['Y','N'],def:'N'},
+      {fl:'-ud',lb:'安装到 DB 软件结束',lbe:'Install to DB Software Only',t:'select',opts:['Y','N'],def:'N'},
     ]},
   ],
   standalone:[
-    {g:'Grid 用户',ico:'&#128100;',f:[
-      {fl:'-gu',lb:'Grid 用户名',t:'text',def:'grid'},
-      {fl:'-gp',lb:'Grid 用户密码',t:'password',def:'oracle'},
+    {g:'Grid 用户',ge:'Grid User',ico:'&#128100;',f:[
+      {fl:'-gu',lb:'Grid 用户名',lbe:'Grid Username',t:'text',def:'grid'},
+      {fl:'-gp',lb:'Grid 用户密码',lbe:'Grid User Password',t:'password',def:'oracle'},
     ]},
-    {g:'ASM 磁盘配置',ico:'&#128190;',f:[
-      {fl:'-adc',lb:'脚本配置 ASM 磁盘',t:'select',opts:['Y','N'],def:'Y'},
-      {fl:'-mp',lb:'配置 multipath 多路径',t:'select',opts:['Y','N'],def:'Y'},
-      {fl:'-dd',lb:'DATA 磁盘列表',t:'text',ph:'/dev/sdb,/dev/sdc',req:1},
-      {fl:'-dn',lb:'DATA 磁盘组名称',t:'text',def:'DATA'},
-      {fl:'-dr',lb:'DATA 磁盘组冗余度',t:'select',opts:['EXTERNAL','NORMAL','HIGH'],def:'EXTERNAL'},
+    {g:'ASM 磁盘配置',ge:'ASM Disk Config',ico:'&#128190;',f:[
+      {fl:'-adc',lb:'脚本配置 ASM 磁盘',lbe:'Script Config ASM Disks',t:'select',opts:['Y','N'],def:'Y'},
+      {fl:'-mp',lb:'配置 multipath 多路径',lbe:'Config Multipath',t:'select',opts:['Y','N'],def:'Y'},
+      {fl:'-dd',lb:'DATA 磁盘列表',lbe:'DATA Disk List',t:'text',ph:'/dev/sdb,/dev/sdc',req:1},
+      {fl:'-dn',lb:'DATA 磁盘组名称',lbe:'DATA Diskgroup Name',t:'text',def:'DATA'},
+      {fl:'-dr',lb:'DATA 磁盘组冗余度',lbe:'DATA Diskgroup Redundancy',t:'select',opts:['EXTERNAL','NORMAL','HIGH'],def:'EXTERNAL'},
     ]},
-    {g:'补丁与选项',ico:'&#128296;',f:[
-      {fl:'-gpa',lb:'Grid PSU/RU 补丁编号',t:'text',ph:'如 35940989'},
-      {fl:'-opa',lb:'Oracle PSU/RU 补丁编号',t:'text',ph:'如 35940989'},
-      {fl:'-jpa',lb:'OJVM PSU/RU 补丁编号',t:'text',ph:'如 35926646'},
-      {fl:'-m',lb:'仅配置操作系统',t:'select',opts:['Y','N'],def:'N'},
-      {fl:'-ud',lb:'安装到 DB 软件结束',t:'select',opts:['Y','N'],def:'N'},
-      {fl:'-vbox',lb:'VirtualBox 环境修复',t:'select',opts:['Y','N'],def:'N'},
+    {g:'补丁与选项',ge:'Patches & Options',ico:'&#128296;',f:[
+      {fl:'-gpa',lb:'Grid PSU/RU 补丁编号',lbe:'Grid PSU/RU Patch ID',t:'text',ph:'如 35940989',phe:'e.g. 35940989'},
+      {fl:'-opa',lb:'Oracle PSU/RU 补丁编号',lbe:'Oracle PSU/RU Patch ID',t:'text',ph:'如 35940989',phe:'e.g. 35940989'},
+      {fl:'-jpa',lb:'OJVM PSU/RU 补丁编号',lbe:'OJVM PSU/RU Patch ID',t:'text',ph:'如 35926646',phe:'e.g. 35926646'},
+      {fl:'-m',lb:'仅配置操作系统',lbe:'OS Config Only',t:'select',opts:['Y','N'],def:'N'},
+      {fl:'-ud',lb:'安装到 DB 软件结束',lbe:'Install to DB Software Only',t:'select',opts:['Y','N'],def:'N'},
+      {fl:'-vbox',lb:'VirtualBox 环境修复',lbe:'VirtualBox Fix',t:'select',opts:['Y','N'],def:'N'},
     ]},
   ],
   rac:[
-    {g:'RAC 节点配置',ico:'&#128279;',f:[
-      {fl:'-pf',lb:'心跳网卡名称',t:'text',ph:'eth3,eth4',req:1},
-      {fl:'-hn',lb:'所有节点主机名',t:'text',ph:'orcl01,orcl02',req:1},
-      {fl:'-ri',lb:'所有节点公网 IP',t:'text',ph:'10.211.55.100,10.211.55.101',req:1},
-      {fl:'-vi',lb:'所有节点虚拟 IP',t:'text',ph:'10.211.55.102,10.211.55.103',req:1},
-      {fl:'-si',lb:'Scan IP 地址',t:'text',ph:'10.211.55.105',req:1},
-      {fl:'-rp',lb:'root 用户密码',t:'password',ph:'所有节点需一致',req:1},
-      {fl:'-cn',lb:'集群名称',t:'text',ph:'orcl-cluster'},
-      {fl:'-sn',lb:'Scan 名称',t:'text',ph:'orcl-scan'},
+    {g:'RAC 节点配置',ge:'RAC Node Config',ico:'&#128279;',f:[
+      {fl:'-pf',lb:'心跳网卡名称',lbe:'Heartbeat NIC Name',t:'text',ph:'eth3,eth4',req:1},
+      {fl:'-hn',lb:'所有节点主机名',lbe:'All Node Hostnames',t:'text',ph:'orcl01,orcl02',req:1},
+      {fl:'-ri',lb:'所有节点公网 IP',lbe:'All Node Public IPs',t:'text',ph:'10.211.55.100,10.211.55.101',req:1},
+      {fl:'-vi',lb:'所有节点虚拟 IP',lbe:'All Node Virtual IPs',t:'text',ph:'10.211.55.102,10.211.55.103',req:1},
+      {fl:'-si',lb:'Scan IP 地址',lbe:'Scan IP Address',t:'text',ph:'10.211.55.105',req:1},
+      {fl:'-rp',lb:'root 用户密码',lbe:'root Password',t:'password',ph:'所有节点需一致',phe:'Must be same on all nodes',req:1},
+      {fl:'-cn',lb:'集群名称',lbe:'Cluster Name',t:'text',ph:'orcl-cluster'},
+      {fl:'-sn',lb:'Scan 名称',lbe:'Scan Name',t:'text',ph:'orcl-scan'},
     ]},
-    {g:'Grid 用户',ico:'&#128100;',f:[
-      {fl:'-gu',lb:'Grid 用户名',t:'text',def:'grid'},
-      {fl:'-gp',lb:'Grid 用户密码',t:'password',def:'oracle'},
+    {g:'Grid 用户',ge:'Grid User',ico:'&#128100;',f:[
+      {fl:'-gu',lb:'Grid 用户名',lbe:'Grid Username',t:'text',def:'grid'},
+      {fl:'-gp',lb:'Grid 用户密码',lbe:'Grid User Password',t:'password',def:'oracle'},
     ]},
-    {g:'ASM 磁盘配置',ico:'&#128190;',f:[
-      {fl:'-adc',lb:'脚本配置 ASM 磁盘',t:'select',opts:['Y','N'],def:'Y'},
-      {fl:'-mp',lb:'配置 multipath 多路径',t:'select',opts:['Y','N'],def:'Y'},
-      {fl:'-od',lb:'OCR 磁盘列表',t:'text',ph:'/dev/sdb',req:1},
-      {fl:'-dd',lb:'DATA 磁盘列表',t:'text',ph:'/dev/sdc',req:1},
-      {fl:'-ad',lb:'ARCH 磁盘列表',t:'text',ph:'/dev/sdd'},
-      {fl:'-on',lb:'OCR 磁盘组名称',t:'text',def:'OCR'},
-      {fl:'-dn',lb:'DATA 磁盘组名称',t:'text',def:'DATA'},
-      {fl:'-an',lb:'ARCH 磁盘组名称',t:'text',def:'ARCH'},
-      {fl:'-or',lb:'OCR 磁盘组冗余度',t:'select',opts:['EXTERNAL','NORMAL','HIGH'],def:'EXTERNAL'},
-      {fl:'-dr',lb:'DATA 磁盘组冗余度',t:'select',opts:['EXTERNAL','NORMAL','HIGH'],def:'EXTERNAL'},
-      {fl:'-ar',lb:'ARCH 磁盘组冗余度',t:'select',opts:['EXTERNAL','NORMAL','HIGH'],def:'EXTERNAL'},
+    {g:'ASM 磁盘配置',ge:'ASM Disk Config',ico:'&#128190;',f:[
+      {fl:'-adc',lb:'脚本配置 ASM 磁盘',lbe:'Script Config ASM Disks',t:'select',opts:['Y','N'],def:'Y'},
+      {fl:'-mp',lb:'配置 multipath 多路径',lbe:'Config Multipath',t:'select',opts:['Y','N'],def:'Y'},
+      {fl:'-od',lb:'OCR 磁盘列表',lbe:'OCR Disk List',t:'text',ph:'/dev/sdb',req:1},
+      {fl:'-dd',lb:'DATA 磁盘列表',lbe:'DATA Disk List',t:'text',ph:'/dev/sdc',req:1},
+      {fl:'-ad',lb:'ARCH 磁盘列表',lbe:'ARCH Disk List',t:'text',ph:'/dev/sdd'},
+      {fl:'-on',lb:'OCR 磁盘组名称',lbe:'OCR Diskgroup Name',t:'text',def:'OCR'},
+      {fl:'-dn',lb:'DATA 磁盘组名称',lbe:'DATA Diskgroup Name',t:'text',def:'DATA'},
+      {fl:'-an',lb:'ARCH 磁盘组名称',lbe:'ARCH Diskgroup Name',t:'text',def:'ARCH'},
+      {fl:'-or',lb:'OCR 磁盘组冗余度',lbe:'OCR Diskgroup Redundancy',t:'select',opts:['EXTERNAL','NORMAL','HIGH'],def:'EXTERNAL'},
+      {fl:'-dr',lb:'DATA 磁盘组冗余度',lbe:'DATA Diskgroup Redundancy',t:'select',opts:['EXTERNAL','NORMAL','HIGH'],def:'EXTERNAL'},
+      {fl:'-ar',lb:'ARCH 磁盘组冗余度',lbe:'ARCH Diskgroup Redundancy',t:'select',opts:['EXTERNAL','NORMAL','HIGH'],def:'EXTERNAL'},
     ]},
-    {g:'网络与时间',ico:'&#127760;',f:[
-      {fl:'-tsi',lb:'时间服务器 IP',t:'text',ph:'如 10.211.55.1'},
-      {fl:'-dns',lb:'配置 DNS',t:'select',opts:['Y','N'],def:'N'},
-      {fl:'-dnsn',lb:'DNS 服务器名称',t:'text',ph:'如 orcl-dns'},
-      {fl:'-dnsi',lb:'DNS 服务器 IP',t:'text',ph:'如 10.211.55.200'},
+    {g:'网络与时间',ge:'Network & Time',ico:'&#127760;',f:[
+      {fl:'-tsi',lb:'时间服务器 IP',lbe:'Time Server IP',t:'text',ph:'如 10.211.55.1',phe:'e.g. 10.211.55.1'},
+      {fl:'-dns',lb:'配置 DNS',lbe:'Config DNS',t:'select',opts:['Y','N'],def:'N'},
+      {fl:'-dnsn',lb:'DNS 服务器名称',lbe:'DNS Server Name',t:'text',ph:'如 orcl-dns',phe:'e.g. orcl-dns'},
+      {fl:'-dnsi',lb:'DNS 服务器 IP',lbe:'DNS Server IP',t:'text',ph:'如 10.211.55.200',phe:'e.g. 10.211.55.200'},
     ]},
-    {g:'补丁与选项',ico:'&#128296;',f:[
-      {fl:'-gpa',lb:'Grid PSU/RU 补丁编号',t:'text',ph:'如 35940989'},
-      {fl:'-opa',lb:'Oracle PSU/RU 补丁编号',t:'text',ph:'如 35940989'},
-      {fl:'-jpa',lb:'OJVM PSU/RU 补丁编号',t:'text',ph:'如 35926646'},
-      {fl:'-m',lb:'仅配置操作系统',t:'select',opts:['Y','N'],def:'N'},
-      {fl:'-ug',lb:'安装到 Grid 软件结束',t:'select',opts:['Y','N'],def:'N'},
-      {fl:'-ud',lb:'安装到 DB 软件结束',t:'select',opts:['Y','N'],def:'N'},
-      {fl:'-vbox',lb:'VirtualBox 环境修复',t:'select',opts:['Y','N'],def:'N'},
+    {g:'补丁与选项',ge:'Patches & Options',ico:'&#128296;',f:[
+      {fl:'-gpa',lb:'Grid PSU/RU 补丁编号',lbe:'Grid PSU/RU Patch ID',t:'text',ph:'如 35940989',phe:'e.g. 35940989'},
+      {fl:'-opa',lb:'Oracle PSU/RU 补丁编号',lbe:'Oracle PSU/RU Patch ID',t:'text',ph:'如 35940989',phe:'e.g. 35940989'},
+      {fl:'-jpa',lb:'OJVM PSU/RU 补丁编号',lbe:'OJVM PSU/RU Patch ID',t:'text',ph:'如 35926646',phe:'e.g. 35926646'},
+      {fl:'-m',lb:'仅配置操作系统',lbe:'OS Config Only',t:'select',opts:['Y','N'],def:'N'},
+      {fl:'-ug',lb:'安装到 Grid 软件结束',lbe:'Install to Grid Software Only',t:'select',opts:['Y','N'],def:'N'},
+      {fl:'-ud',lb:'安装到 DB 软件结束',lbe:'Install to DB Software Only',t:'select',opts:['Y','N'],def:'N'},
+      {fl:'-vbox',lb:'VirtualBox 环境修复',lbe:'VirtualBox Fix',t:'select',opts:['Y','N'],def:'N'},
     ]},
   ],
 };
@@ -241,20 +241,23 @@ let curMode='single';
 function renderForm(m){
   const a=document.getElementById('formArea');
   const gs=[...P.common,...(P[m]||[])];
+  const isEn = currentLang === 'en';
   let h='';
   gs.forEach(g=>{
-    h+=`<div class="fg-title"><span class="ico">${g.ico}</span> ${g.g}</div><div class="fg-grid">`;
+    h+=`<div class="fg-title"><span class="ico">${g.ico}</span> ${isEn ? g.ge : g.g}</div><div class="fg-grid">`;
     g.f.forEach(f=>{
       const id='f'+f.fl.replace(/-/g,'_');
-      const rb=f.req?'<span class="fl fl-r">必填</span>':'<span class="fl fl-o">选填</span>';
-      h+=`<div class="field"><label>${rb} <span class="fp">${f.fl}</span> ${f.lb}</label>`;
+      const rb=f.req?`<span class="fl fl-r">${isEn?'Required':'必填'}</span>`:`<span class="fl fl-o">${isEn?'Optional':'选填'}</span>`;
+      const label = isEn ? (f.lbe || f.lb) : f.lb;
+      const placeholder = isEn ? (f.phe || f.ph || '') : (f.ph || '');
+      h+=`<div class="field"><label>${rb} <span class="fp">${f.fl}</span> ${label}</label>`;
       if(f.t==='select'){
         h+=`<select id="${id}" onchange="genCmd()">`;
         f.opts.forEach(o=>{h+=`<option value="${o}"${o===f.def?' selected':''}>${o}</option>`;});
         h+='</select>';
       }else{
         const tp=f.t==='password'?'password':'text';
-        h+=`<input type="${tp}" id="${id}" value="${f.def||''}" placeholder="${f.ph||''}" oninput="genCmd()">`;
+        h+=`<input type="${tp}" id="${id}" value="${f.def||''}" placeholder="${placeholder}" oninput="genCmd()">`;
       }
       h+='</div>';
     });
@@ -273,16 +276,16 @@ function genCmd(){
     const v=el.value.trim();
     if(!v)return;
     if(f.def!==undefined&&v===String(f.def))return;
-    parts.push({fl:f.fl,v,lb:f.lb});
+    parts.push({fl:f.fl,v,lb:f.lb,lbe:f.lbe||f.lb});
   }));
-  const ml={single:'单机模式',standalone:'单机 ASM 模式',rac:'RAC 集群模式'};
+  const ml={single:currentLang==='en'?'Single Instance':'单机模式',standalone:currentLang==='en'?'Standalone ASM':'单机 ASM 模式',rac:currentLang==='en'?'RAC Cluster':'RAC 集群模式'};
   let lines=[];
   lines.push(`<span class="cm-w">sh OracleShellInstall.sh</span> <span class="cm-sl">\\</span>`);
   lines.push(`<span class="cm-flag">-install_mode</span> <span class="cm-val">${curMode}</span> <span class="cm-cmt">\`# ${ml[curMode]}\`</span><span class="cm-sl">\\</span>`);
   parts.forEach((p,i)=>{
     const ev=p.v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     const sl=i===parts.length-1?'':'<span class="cm-sl">\\</span>';
-    lines.push(`<span class="cm-flag">${p.fl}</span> <span class="cm-val">${ev}</span> <span class="cm-cmt">\`# ${p.lb}\`</span>${sl}`);
+    lines.push(`<span class="cm-flag">${p.fl}</span> <span class="cm-val">${ev}</span> <span class="cm-cmt">\`# ${currentLang==='en'?p.lbe:p.lb}\`</span>${sl}`);
   });
   document.getElementById('cmdOutput').innerHTML=lines.join('\n');
 }
@@ -297,13 +300,43 @@ function copyCmd(){
   const t=document.getElementById('cmdOutput').textContent;
   navigator.clipboard.writeText(t).then(()=>{
     const b=document.getElementById('copyBtn');
-    b.textContent='已复制';b.classList.add('copied');
-    setTimeout(()=>{b.textContent='复制命令';b.classList.remove('copied');},2000);
+    const isEn = currentLang === 'en';
+    b.textContent=isEn?'Copied':'已复制';b.classList.add('copied');
+    setTimeout(()=>{b.textContent=isEn?'Copy Command':'复制命令';b.classList.remove('copied');},2000);
   });
 }
 // i18n for generator
-Object.assign(i18n.zh, { genTitle:'安装命令生成器', genDesc:'选择安装模式，配置参数，实时生成可执行的 Shell 安装命令' });
-Object.assign(i18n.en, { genTitle:'Install Command Generator', genDesc:'Select install mode, configure parameters, and generate executable shell commands in real time' });
+Object.assign(i18n.zh, {
+  genTitle:'安装命令生成器',
+  genDesc:'选择安装模式，配置参数，实时生成可执行的 Shell 安装命令',
+  selectMode:'选择安装模式',
+  modeSingle:'单机模式',
+  modeSingleDesc:'Single Instance · 文件系统存储<br>适用于开发测试及中小型业务',
+  modeStandalone:'单机 ASM 模式',
+  modeStandaloneDesc:'Standalone + ASM · Grid Infra<br>适用于 ASM 存储管理的单节点',
+  modeRac:'RAC 集群模式',
+  modeRacDesc:'Real Application Clusters<br>适用于高可用生产环境',
+  genOutput:'生成的安装命令',
+  resetBtn:'重置参数',
+  copyBtn:'复制命令'
+});
+Object.assign(i18n.en, {
+  genTitle:'Install Command Generator',
+  genDesc:'Select install mode, configure parameters, and generate executable shell commands in real time',
+  selectMode:'Select Install Mode',
+  modeSingle:'Single Instance',
+  modeSingleDesc:'Single Instance · File System Storage<br>For development, testing, and small-medium workloads',
+  modeStandalone:'Standalone ASM',
+  modeStandaloneDesc:'Standalone + ASM · Grid Infra<br>For single-node with advanced storage management',
+  modeRac:'RAC Cluster',
+  modeRacDesc:'Real Application Clusters<br>For high-availability production environments',
+  genOutput:'Generated Install Command',
+  resetBtn:'Reset',
+  copyBtn:'Copy Command'
+});
+document.addEventListener('langchange', () => {
+  renderForm(curMode);
+});
 renderForm('single');
 </script>
 </body>

@@ -30,12 +30,12 @@ function setLang(lang) {
   // Update toggle button text
   const btn = document.getElementById('langToggle');
   if (btn) btn.textContent = lang === 'zh' ? 'EN' : '中';
-  // Fire custom event for page-specific i18n
-  document.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
-  // Update nav links text
+  // Update all i18n elements (use innerHTML to preserve HTML tags in translations)
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    el.textContent = t(el.dataset.i18n);
+    el.innerHTML = t(el.dataset.i18n);
   });
+  // Fire custom event for page-specific i18n (after shared updates)
+  document.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
 }
 
 function toggleLang() {

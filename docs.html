@@ -45,6 +45,8 @@
   padding:16px 20px;margin:16px 0;font-size:.85rem;color:var(--text-dim);line-height:1.7}
 .doc-content .note strong{color:var(--red-glow)}
 
+.doc-zh{display:block}.doc-en{display:none}
+
 @media(max-width:768px){
   .doc-layout{grid-template-columns:1fr;gap:20px}
   .doc-sidebar{position:static;display:flex;flex-wrap:wrap;gap:4px}
@@ -60,23 +62,23 @@
 
 <!-- SIDEBAR -->
 <nav class="doc-sidebar">
-  <div class="sb-title">快速入门</div>
-  <a href="#quickstart" class="active">快速开始</a>
-  <a href="#prepare">环境准备</a>
-  <a href="#single">单机安装</a>
-  <a href="#standalone">单机 ASM 安装</a>
-  <a href="#rac">RAC 集群安装</a>
-  <div class="sb-title">参数参考</div>
-  <a href="#params-common">通用参数</a>
-  <a href="#params-asm">ASM 参数</a>
-  <a href="#params-rac">RAC 参数</a>
-  <div class="sb-title">其他</div>
-  <a href="#faq">常见问题</a>
-  <a href="#changelog">更新日志</a>
+  <div class="sb-title" data-i18n="sbQuick">快速入门</div>
+  <a href="#quickstart" class="active" data-i18n="sbQuickstart">快速开始</a>
+  <a href="#prepare" data-i18n="sbPrepare">环境准备</a>
+  <a href="#single" data-i18n="sbSingle">单机安装</a>
+  <a href="#standalone" data-i18n="sbStandalone">单机 ASM 安装</a>
+  <a href="#rac" data-i18n="sbRac">RAC 集群安装</a>
+  <div class="sb-title" data-i18n="sbParams">参数参考</div>
+  <a href="#params-common" data-i18n="sbCommon">通用参数</a>
+  <a href="#params-asm" data-i18n="sbAsm">ASM 参数</a>
+  <a href="#params-rac" data-i18n="sbRacP">RAC 参数</a>
+  <div class="sb-title" data-i18n="sbOther">其他</div>
+  <a href="#faq" data-i18n="sbFaq">常见问题</a>
+  <a href="#changelog" data-i18n="sbChangelog">更新日志</a>
 </nav>
 
 <!-- CONTENT -->
-<div class="doc-content">
+<div class="doc-content doc-zh">
 
 <h2 id="quickstart">快速开始</h2>
 <p>OracleShellInstall 是一款 Oracle 数据库一键自动化安装脚本，支持 Oracle 11gR2 至 26ai 全版本，覆盖 20+ Linux 发行版。脚本会自动完成操作系统参数配置、依赖包安装、用户创建、Oracle 软件安装及数据库创建全流程。</p>
@@ -248,6 +250,179 @@
 </ul>
 
 </div>
+
+<div class="doc-content doc-en" style="display:none">
+
+<h2 id="quickstart">Quick Start</h2>
+<p>OracleShellInstall is a one-click automated Oracle Database installation script supporting Oracle 11gR2 through 26ai across 20+ Linux distributions. The script automatically handles OS parameter configuration, dependency installation, user creation, Oracle software installation, and database creation.</p>
+
+<h3>3-Step Install</h3>
+<ol>
+  <li><strong>Upload packages</strong> - Upload <code>OracleShellInstall.sh</code> and Oracle installation media to the <code>/soft</code> directory on your server</li>
+  <li><strong>Configure parameters</strong> - Use the <a href="generator.html">Command Generator</a> or manually compose install parameters</li>
+  <li><strong>Execute</strong> - Run the generated command as <code>root</code> in the <code>/soft</code> directory</li>
+</ol>
+
+<div class="note"><strong>Note:</strong> The script must be run as root user in the directory containing the installation media. Bash version >= 4 is required.</div>
+
+<h2 id="prepare">Prerequisites</h2>
+<h3>Directory Structure</h3>
+<p>Place the following files in the <code>/soft</code> directory:</p>
+<pre>/soft/
+  OracleShellInstall.sh          <span class="pc"># Install script</span>
+  LINUX.X64_193000_db_home.zip   <span class="pc"># Oracle media (19c example)</span>
+  p35940989_190000.zip           <span class="pc"># PSU/RU patch (optional)</span>
+  p35926646_190000.zip           <span class="pc"># OJVM patch (optional)</span>
+  p6880880_190000.zip            <span class="pc"># OPatch (optional, needed for patches)</span></pre>
+
+<h3>System Requirements</h3>
+<ul>
+  <li>Supported OS: CentOS 7/8, RHEL 7/8/9, OracleLinux, Rocky Linux, Anolis OS, openEuler, Kylin, UOS, Ubuntu, Debian, etc.</li>
+  <li>Bash version >= 4</li>
+  <li>Recommended memory >= 2GB (production >= 8GB)</li>
+  <li>Disk space: at least 15GB for Oracle software, data files as per business requirements</li>
+</ul>
+
+<h2 id="single">Single Instance Install</h2>
+<p>Single instance mode uses file system storage, suitable for development, testing, and small-medium business scenarios.</p>
+
+<h3>Minimal Install</h3>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">single</span> <span class="pc">`# Single instance`</span>\
+<span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# Public NIC name`</span></pre>
+<p>This command uses all defaults: database name orcl, character set AL32UTF8, install directory /u01, data directory /oradata.</p>
+
+<h3>Custom Install</h3>
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">single</span> <span class="pc">`# Single instance`</span>\
+<span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# Public NIC name`</span>\
+<span class="pf">-n</span> <span class="pv">oracledb</span> <span class="pc">`# Hostname`</span>\
+<span class="pf">-o</span> <span class="pv">prod</span> <span class="pc">`# Database name`</span>\
+<span class="pf">-dp</span> <span class="pv">'Passw0rd#'</span> <span class="pc">`# DB password`</span>\
+<span class="pf">-ds</span> <span class="pv">ZHS16GBK</span> <span class="pc">`# Character set`</span>\
+<span class="pf">-pdb</span> <span class="pv">pdb01,pdb02</span> <span class="pc">`# Create multiple PDBs`</span>\
+<span class="pf">-opd</span> <span class="pv">Y</span> <span class="pc">`# Optimize DB params`</span></pre>
+
+<h2 id="standalone">Standalone ASM Install</h2>
+<p>Standalone ASM mode requires Grid Infrastructure and ASM disks. The script automatically configures UDEV disk binding or multipath.</p>
+
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">standalone</span> <span class="pc">`# Standalone ASM`</span>\
+<span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# Public NIC name`</span>\
+<span class="pf">-dd</span> <span class="pv">/dev/sdb,/dev/sdc</span> <span class="pc">`# DATA disks`</span></pre>
+
+<div class="note"><strong>Tip:</strong> To skip multipath, set <code>-mp N</code> and the script will use UDEV binding directly. If you've already configured ASM disks, set <code>-adc N</code> and provide the configured disk paths.</div>
+
+<h2 id="rac">RAC Cluster Install</h2>
+<p>RAC mode runs on the first node. The script automatically configures SSH trust on all nodes, installs Grid, sets up ASM disks, and creates the database.</p>
+
+<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<span class="pf">-install_mode</span> <span class="pv">rac</span> <span class="pc">`# RAC cluster`</span>\
+<span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# Public NIC`</span>\
+<span class="pf">-pf</span> <span class="pv">eth1,eth2</span> <span class="pc">`# Heartbeat NICs`</span>\
+<span class="pf">-n</span> <span class="pv">orcl</span> <span class="pc">`# Hostname prefix`</span>\
+<span class="pf">-hn</span> <span class="pv">orcl01,orcl02</span> <span class="pc">`# All node hostnames`</span>\
+<span class="pf">-ri</span> <span class="pv">10.0.0.101,10.0.0.102</span> <span class="pc">`# Public IPs`</span>\
+<span class="pf">-vi</span> <span class="pv">10.0.0.103,10.0.0.104</span> <span class="pc">`# Virtual IPs`</span>\
+<span class="pf">-si</span> <span class="pv">10.0.0.105</span> <span class="pc">`# Scan IP`</span>\
+<span class="pf">-rp</span> <span class="pv">'rootPasswd'</span> <span class="pc">`# root password`</span>\
+<span class="pf">-od</span> <span class="pv">/dev/sdb</span> <span class="pc">`# OCR disks`</span>\
+<span class="pf">-dd</span> <span class="pv">/dev/sdc</span> <span class="pc">`# DATA disks`</span></pre>
+
+<h2 id="params-common">Common Parameters</h2>
+<table class="param-table">
+<tr><th>Param</th><th>Description</th><th>Default</th></tr>
+<tr><td>-lf</td><td>Public IP network interface name (required)</td><td>-</td></tr>
+<tr><td>-n</td><td>Hostname (single) or hostname prefix (RAC)</td><td>orcl</td></tr>
+<tr><td>-o</td><td>Database name, supports multiple: orcl,oradb</td><td>orcl</td></tr>
+<tr><td>-d</td><td>Oracle software installation root directory</td><td>/u01</td></tr>
+<tr><td>-ou</td><td>System oracle username</td><td>oracle</td></tr>
+<tr><td>-op</td><td>System oracle user password, wrap special chars in single quotes</td><td>oracle</td></tr>
+<tr><td>-dp</td><td>Database sys/system password, must start with letter, may contain _#$</td><td>oracle</td></tr>
+<tr><td>-ds</td><td>Database character set</td><td>AL32UTF8</td></tr>
+<tr><td>-ns</td><td>National character set</td><td>AL16UTF16</td></tr>
+<tr><td>-dbs</td><td>Database block size: 2048/4096/8192/16384/32768</td><td>8192</td></tr>
+<tr><td>-redo</td><td>Redo log file size (MB)</td><td>1024</td></tr>
+<tr><td>-er</td><td>Enable archive mode: true/false</td><td>true</td></tr>
+<tr><td>-pdb</td><td>PDB name (enables CDB architecture), comma-separated for multiple</td><td>pdb01</td></tr>
+<tr><td>-ord</td><td>Data file directory (single instance mode)</td><td>/oradata</td></tr>
+<tr><td>-ard</td><td>Archive file directory (single instance mode)</td><td>/oradata/archivelog</td></tr>
+<tr><td>-lrp</td><td>Configure local software repository (Y/N)</td><td>Y</td></tr>
+<tr><td>-nrp</td><td>Configure network software repository (Y/N)</td><td>N</td></tr>
+<tr><td>-gui</td><td>Install system GUI (Y/N)</td><td>N</td></tr>
+<tr><td>-opd</td><td>Optimize database parameters (Y/N)</td><td>N</td></tr>
+<tr><td>-hf</td><td>Configure HugePages (Y/N)</td><td>N</td></tr>
+<tr><td>-m</td><td>OS configuration only (Y/N)</td><td>N</td></tr>
+<tr><td>-ud</td><td>Install to DB software only (Y/N)</td><td>N</td></tr>
+<tr><td>-opa</td><td>Oracle PSU/RU patch ID</td><td>-</td></tr>
+<tr><td>-jpa</td><td>OJVM PSU/RU patch ID</td><td>-</td></tr>
+</table>
+
+<h2 id="params-asm">ASM Parameters</h2>
+<table class="param-table">
+<tr><th>Param</th><th>Description</th><th>Default</th></tr>
+<tr><td>-gu</td><td>System grid username</td><td>grid</td></tr>
+<tr><td>-gp</td><td>System grid user password</td><td>oracle</td></tr>
+<tr><td>-adc</td><td>Script configures ASM disks (Y/N)</td><td>Y</td></tr>
+<tr><td>-mp</td><td>Configure multipath (Y/N)</td><td>Y</td></tr>
+<tr><td>-dd</td><td>DATA diskgroup disk list (required)</td><td>-</td></tr>
+<tr><td>-dn</td><td>DATA diskgroup name</td><td>DATA</td></tr>
+<tr><td>-dr</td><td>DATA diskgroup redundancy: EXTERNAL/NORMAL/HIGH</td><td>EXTERNAL</td></tr>
+<tr><td>-gpa</td><td>Grid PSU/RU patch ID</td><td>-</td></tr>
+<tr><td>-vbox</td><td>VirtualBox environment fix (Y/N)</td><td>N</td></tr>
+</table>
+
+<h2 id="params-rac">RAC Parameters</h2>
+<table class="param-table">
+<tr><th>Param</th><th>Description</th><th>Default</th></tr>
+<tr><td>-pf</td><td>Heartbeat NIC names, comma-separated (required)</td><td>-</td></tr>
+<tr><td>-hn</td><td>All node hostnames, comma-separated in order (required)</td><td>-</td></tr>
+<tr><td>-ri</td><td>All node public IPs (required)</td><td>-</td></tr>
+<tr><td>-vi</td><td>All node virtual IPs (required)</td><td>-</td></tr>
+<tr><td>-si</td><td>Scan IP address (required)</td><td>-</td></tr>
+<tr><td>-rp</td><td>root password, must be same on all nodes (required)</td><td>-</td></tr>
+<tr><td>-cn</td><td>Cluster name (max 15 characters)</td><td>hostname-prefix-cluster</td></tr>
+<tr><td>-sn</td><td>Scan name</td><td>hostname-prefix-scan</td></tr>
+<tr><td>-od</td><td>OCR diskgroup disk list (required)</td><td>-</td></tr>
+<tr><td>-ad</td><td>ARCH diskgroup disk list</td><td>-</td></tr>
+<tr><td>-on/-or</td><td>OCR diskgroup name/redundancy</td><td>OCR / EXTERNAL</td></tr>
+<tr><td>-an/-ar</td><td>ARCH diskgroup name/redundancy</td><td>ARCH / EXTERNAL</td></tr>
+<tr><td>-tsi</td><td>CTSS time server IP</td><td>-</td></tr>
+<tr><td>-dns</td><td>Configure DNS (needed for multiple Scan IPs)</td><td>N</td></tr>
+<tr><td>-dnsn</td><td>DNS server name</td><td>-</td></tr>
+<tr><td>-dnsi</td><td>DNS server IP</td><td>-</td></tr>
+<tr><td>-ug</td><td>Install to Grid software only (Y/N)</td><td>N</td></tr>
+</table>
+
+<h2 id="faq">FAQ</h2>
+
+<h3>Q: What Oracle installation media formats are supported?</h3>
+<p>The script automatically recognizes Oracle installation media in ZIP format. Simply place the ZIP file in the /soft directory — no manual extraction needed.</p>
+
+<h3>Q: What if the installation is interrupted?</h3>
+<p>Check the log files <code>print_shell_install_*.log</code> and <code>shell_install_output_*.log</code> to identify the failure. After fixing the issue, use <code>-m Y</code> to skip completed OS configuration steps.</p>
+
+<h3>Q: What network requirements exist for RAC installation?</h3>
+<p>Public and heartbeat networks must be reachable between all nodes. The root password must be the same on all nodes. The script automatically establishes SSH trust.</p>
+
+<h3>Q: What are the database password requirements?</h3>
+<p>The database password (<code>-dp</code>) must start with a letter and can only contain letters, numbers, and the special characters <code>_</code> <code>#</code> <code>$</code>. Wrap passwords containing special characters in single quotes.</p>
+
+<h3>Q: How to filter multipath disks?</h3>
+<p>Use the <code>-fd</code> parameter to filter multipath disks and get unique device names. For example: <code>-fd /dev/sda</code> excludes the system disk.</p>
+
+<h2 id="changelog">Changelog</h2>
+<h3>v5.0.0 (2024-08-22)</h3>
+<ul>
+  <li>Added Oracle 26ai version support</li>
+  <li>Added AFD (ASM Filter Driver) configuration support</li>
+  <li>Added GIMR configuration support</li>
+  <li>Added more domestic OS support: Huawei openEuler, CMCC NFS, NeoKylin, etc.</li>
+  <li>Improved installation log output and progress display</li>
+  <li>Enhanced parameter validation logic</li>
+</ul>
+
+</div>
 </div>
 </div>
 <div id="footer"></div>
@@ -255,6 +430,36 @@
 <script>
 document.getElementById('nav').innerHTML = navHTML('docs');
 document.getElementById('footer').innerHTML = footerHTML();
+
+Object.assign(i18n.zh, {
+  sbQuick:'快速入门', sbQuickstart:'快速开始', sbPrepare:'环境准备',
+  sbSingle:'单机安装', sbStandalone:'单机 ASM 安装', sbRac:'RAC 集群安装',
+  sbParams:'参数参考', sbCommon:'通用参数', sbAsm:'ASM 参数', sbRacP:'RAC 参数',
+  sbOther:'其他', sbFaq:'常见问题', sbChangelog:'更新日志'
+});
+Object.assign(i18n.en, {
+  sbQuick:'Quick Start', sbQuickstart:'Quick Start', sbPrepare:'Prerequisites',
+  sbSingle:'Single Install', sbStandalone:'Standalone ASM', sbRac:'RAC Cluster',
+  sbParams:'Parameters', sbCommon:'Common Params', sbAsm:'ASM Params', sbRacP:'RAC Params',
+  sbOther:'Other', sbFaq:'FAQ', sbChangelog:'Changelog'
+});
+
+document.addEventListener('langchange', (e) => {
+  const lang = e.detail.lang;
+  document.querySelector('.doc-zh').style.display = lang === 'zh' ? 'block' : 'none';
+  document.querySelector('.doc-en').style.display = lang === 'en' ? 'block' : 'none';
+  document.querySelectorAll('.doc-sidebar [data-i18n]').forEach(el => {
+    el.innerHTML = (i18n[lang] || i18n.zh)[el.dataset.i18n] || el.innerHTML;
+  });
+});
+
+if (currentLang === 'en') {
+  document.querySelector('.doc-zh').style.display = 'none';
+  document.querySelector('.doc-en').style.display = 'block';
+  document.querySelectorAll('.doc-sidebar [data-i18n]').forEach(el => {
+    el.innerHTML = (i18n.en)[el.dataset.i18n] || el.innerHTML;
+  });
+}
 </script>
 </body>
 </html>
