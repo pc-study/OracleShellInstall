@@ -338,6 +338,8 @@ document.addEventListener('langchange', () => {
   renderForm(curMode);
 });
 renderForm('single');
+// Apply saved language on page load (after page-specific keys are registered)
+if (currentLang !== 'zh') setLang(currentLang);
 </script>
 </body>
 </html>

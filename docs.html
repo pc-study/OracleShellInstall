@@ -453,13 +453,8 @@ document.addEventListener('langchange', (e) => {
   });
 });
 
-if (currentLang === 'en') {
-  document.querySelector('.doc-zh').style.display = 'none';
-  document.querySelector('.doc-en').style.display = 'block';
-  document.querySelectorAll('.doc-sidebar [data-i18n]').forEach(el => {
-    el.innerHTML = (i18n.en)[el.dataset.i18n] || el.innerHTML;
-  });
-}
+// Apply saved language on page load (after page-specific keys are registered)
+if (currentLang !== 'zh') setLang(currentLang);
 </script>
 </body>
 </html>

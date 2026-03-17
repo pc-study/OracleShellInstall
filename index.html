@@ -360,6 +360,9 @@ function pt(k) { return (pageI18n[currentLang]||pageI18n.zh)[k]||k; }
 Object.assign(i18n.zh, pageI18n.zh);
 Object.assign(i18n.en, pageI18n.en);
 
+// Apply saved language on page load (after page-specific keys are registered)
+if (currentLang !== 'zh') setLang(currentLang);
+
 // ---- Terminal typing animation ----
 const termLines = [
   { html: '<span class="t-w">sh OracleShellInstall.sh</span> <span class="t-sl">\\</span>', text: 'sh OracleShellInstall.sh \\' },
