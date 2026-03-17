@@ -27,6 +27,8 @@ function t(key) { return (i18n[currentLang] || i18n.zh)[key] || key; }
 function setLang(lang) {
   currentLang = lang;
   localStorage.setItem('lang', lang);
+  // Update html lang attribute
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
   // Update toggle button text
   const btn = document.getElementById('langToggle');
   if (btn) btn.textContent = lang === 'zh' ? 'EN' : '中';
@@ -72,9 +74,9 @@ function navHTML(active) {
       `<a href="${p.href}" class="${active===p.id?'active':''}" data-i18n="${p.key}">${t(p.key)}</a>`
     ).join('')}<a href="generator.html" class="nav-cta" data-i18n="start">${t('start')}</a></div>
     <div class="nav-actions">
-      <button class="nav-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">${themeIcon}</button>
-      <button class="nav-toggle" id="langToggle" onclick="toggleLang()" title="Language">${langLabel}</button>
-      <button class="nav-hamburger">\u2630</button>
+      <button class="nav-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">${themeIcon}</button>
+      <button class="nav-toggle" id="langToggle" onclick="toggleLang()" title="Language" aria-label="Toggle language">${langLabel}</button>
+      <button class="nav-hamburger" aria-label="Open menu">\u2630</button>
     </div>
   </div></nav>`;
 }
@@ -92,9 +94,9 @@ function footerHTML() {
       <a href="docs.html" data-i18n="docs">${t('docs')}</a>
     </div>
     <div class="footer-col"><h4 data-i18n="versions">${t('versions')}</h4>
-      <a href="docs.html">Oracle 19c</a>
       <a href="docs.html">Oracle 26ai</a>
       <a href="docs.html">Oracle 21c</a>
+      <a href="docs.html">Oracle 19c</a>
       <a href="docs.html">Oracle 12cR2</a>
     </div>
     <div class="footer-col"><h4 data-i18n="contact">${t('contact')}</h4>
@@ -114,9 +116,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Apply saved theme
   setTheme(currentTheme);
 
-  // Scroll shadow
+  // Scroll shadow + back to top (combined listener)
   const nav = document.querySelector('.nav');
-  if (nav) window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 10));
+  const btt = document.createElement('button');
+  btt.className = 'back-to-top';
+  btt.innerHTML = '\u2191';
+  btt.title = 'Back to top';
+  btt.setAttribute('aria-label', 'Back to top');
+  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  document.body.appendChild(btt);
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (nav) nav.classList.toggle('scrolled', y > 10);
+    btt.classList.toggle('visible', y > 400);
+  }, { passive: true });
 
   // Mobile hamburger
   const ham = document.querySelector('.nav-hamburger');
@@ -137,36 +150,36 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  // Back to top button
-  const btt = document.createElement('button');
-  btt.className = 'back-to-top';
-  btt.innerHTML = '\u2191';
-  btt.title = 'Back to top';
-  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-  document.body.appendChild(btt);
-  window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 400));
-
   // Docs scroll spy
   const sidebar = document.querySelector('.doc-sidebar');
   if (sidebar) {
     const sideLinks = sidebar.querySelectorAll('a[href^="#"]');
-    const sections = [];
-    sideLinks.forEach(a => {
-      const id = a.getAttribute('href').slice(1);
-      const el = document.getElementById(id);
-      if (el) sections.push({ el, link: a });
-    });
-    if (sections.length) {
-      const spyObs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            sideLinks.forEach(l => l.classList.remove('active'));
-            const match = sections.find(s => s.el === e.target);
-            if (match) match.link.classList.add('active');
-          }
-        });
-      }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
-      sections.forEach(s => spyObs.observe(s.el));
+    let spyObs;
+    function setupScrollSpy() {
+      if (spyObs) spyObs.disconnect();
+      const lang = currentLang;
+      const sections = [];
+      sideLinks.forEach(a => {
+        const baseId = a.getAttribute('href').slice(1);
+        // Try en- prefixed id first when in English, fallback to base id
+        const el = (lang === 'en' ? document.getElementById('en-' + baseId) : null)
+                   || document.getElementById(baseId);
+        if (el) sections.push({ el, link: a });
+      });
+      if (sections.length) {
+        spyObs = new IntersectionObserver(entries => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              sideLinks.forEach(l => l.classList.remove('active'));
+              const match = sections.find(s => s.el === e.target);
+              if (match) match.link.classList.add('active');
+            }
+          });
+        }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+        sections.forEach(s => spyObs.observe(s.el));
+      }
     }
+    setupScrollSpy();
+    document.addEventListener('langchange', setupScrollSpy);
   }
 });

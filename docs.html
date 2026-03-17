@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>使用文档 - OracleShellInstall</title>
+<meta name="description" content="OracleShellInstall 使用文档，包含快速入门、环境准备、单机/ASM/RAC 安装教程及完整参数参考。">
+<meta property="og:title" content="使用文档 - OracleShellInstall">
+<meta property="og:description" content="完整的 OracleShellInstall 使用文档，涵盖单机、ASM、RAC 安装教程及参数参考。">
+<meta property="og:type" content="website">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
@@ -253,7 +257,7 @@
 
 <div class="doc-content doc-en" style="display:none">
 
-<h2 id="quickstart">Quick Start</h2>
+<h2 id="en-quickstart">Quick Start</h2>
 <p>OracleShellInstall is a one-click automated Oracle Database installation script supporting Oracle 11gR2 through 26ai across 20+ Linux distributions. The script automatically handles OS parameter configuration, dependency installation, user creation, Oracle software installation, and database creation.</p>
 
 <h3>3-Step Install</h3>
@@ -265,7 +269,7 @@
 
 <div class="note"><strong>Note:</strong> The script must be run as root user in the directory containing the installation media. Bash version >= 4 is required.</div>
 
-<h2 id="prepare">Prerequisites</h2>
+<h2 id="en-prepare">Prerequisites</h2>
 <h3>Directory Structure</h3>
 <p>Place the following files in the <code>/soft</code> directory:</p>
 <pre>/soft/
@@ -283,7 +287,7 @@
   <li>Disk space: at least 15GB for Oracle software, data files as per business requirements</li>
 </ul>
 
-<h2 id="single">Single Instance Install</h2>
+<h2 id="en-single">Single Instance Install</h2>
 <p>Single instance mode uses file system storage, suitable for development, testing, and small-medium business scenarios.</p>
 
 <h3>Minimal Install</h3>
@@ -303,7 +307,7 @@
 <span class="pf">-pdb</span> <span class="pv">pdb01,pdb02</span> <span class="pc">`# Create multiple PDBs`</span>\
 <span class="pf">-opd</span> <span class="pv">Y</span> <span class="pc">`# Optimize DB params`</span></pre>
 
-<h2 id="standalone">Standalone ASM Install</h2>
+<h2 id="en-standalone">Standalone ASM Install</h2>
 <p>Standalone ASM mode requires Grid Infrastructure and ASM disks. The script automatically configures UDEV disk binding or multipath.</p>
 
 <pre><span class="pw">sh OracleShellInstall.sh</span> \
@@ -313,7 +317,7 @@
 
 <div class="note"><strong>Tip:</strong> To skip multipath, set <code>-mp N</code> and the script will use UDEV binding directly. If you've already configured ASM disks, set <code>-adc N</code> and provide the configured disk paths.</div>
 
-<h2 id="rac">RAC Cluster Install</h2>
+<h2 id="en-rac">RAC Cluster Install</h2>
 <p>RAC mode runs on the first node. The script automatically configures SSH trust on all nodes, installs Grid, sets up ASM disks, and creates the database.</p>
 
 <pre><span class="pw">sh OracleShellInstall.sh</span> \
@@ -329,7 +333,7 @@
 <span class="pf">-od</span> <span class="pv">/dev/sdb</span> <span class="pc">`# OCR disks`</span>\
 <span class="pf">-dd</span> <span class="pv">/dev/sdc</span> <span class="pc">`# DATA disks`</span></pre>
 
-<h2 id="params-common">Common Parameters</h2>
+<h2 id="en-params-common">Common Parameters</h2>
 <table class="param-table">
 <tr><th>Param</th><th>Description</th><th>Default</th></tr>
 <tr><td>-lf</td><td>Public IP network interface name (required)</td><td>-</td></tr>
@@ -358,7 +362,7 @@
 <tr><td>-jpa</td><td>OJVM PSU/RU patch ID</td><td>-</td></tr>
 </table>
 
-<h2 id="params-asm">ASM Parameters</h2>
+<h2 id="en-params-asm">ASM Parameters</h2>
 <table class="param-table">
 <tr><th>Param</th><th>Description</th><th>Default</th></tr>
 <tr><td>-gu</td><td>System grid username</td><td>grid</td></tr>
@@ -372,7 +376,7 @@
 <tr><td>-vbox</td><td>VirtualBox environment fix (Y/N)</td><td>N</td></tr>
 </table>
 
-<h2 id="params-rac">RAC Parameters</h2>
+<h2 id="en-params-rac">RAC Parameters</h2>
 <table class="param-table">
 <tr><th>Param</th><th>Description</th><th>Default</th></tr>
 <tr><td>-pf</td><td>Heartbeat NIC names, comma-separated (required)</td><td>-</td></tr>
@@ -394,7 +398,7 @@
 <tr><td>-ug</td><td>Install to Grid software only (Y/N)</td><td>N</td></tr>
 </table>
 
-<h2 id="faq">FAQ</h2>
+<h2 id="en-faq">FAQ</h2>
 
 <h3>Q: What Oracle installation media formats are supported?</h3>
 <p>The script automatically recognizes Oracle installation media in ZIP format. Simply place the ZIP file in the /soft directory — no manual extraction needed.</p>
@@ -411,7 +415,7 @@
 <h3>Q: How to filter multipath disks?</h3>
 <p>Use the <code>-fd</code> parameter to filter multipath disks and get unique device names. For example: <code>-fd /dev/sda</code> excludes the system disk.</p>
 
-<h2 id="changelog">Changelog</h2>
+<h2 id="en-changelog">Changelog</h2>
 <h3>v5.0.0 (2024-08-22)</h3>
 <ul>
   <li>Added Oracle 26ai version support</li>
@@ -450,6 +454,16 @@ document.addEventListener('langchange', (e) => {
   document.querySelector('.doc-en').style.display = lang === 'en' ? 'block' : 'none';
   document.querySelectorAll('.doc-sidebar [data-i18n]').forEach(el => {
     el.innerHTML = (i18n[lang] || i18n.zh)[el.dataset.i18n] || el.innerHTML;
+  });
+});
+
+// Sidebar click: scroll to correct section based on language
+document.querySelectorAll('.doc-sidebar a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const baseId = a.getAttribute('href').slice(1);
+    const targetId = (currentLang === 'en') ? ('en-' + baseId) : baseId;
+    const el = document.getElementById(targetId) || document.getElementById(baseId);
+    if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); }
   });
 });
 

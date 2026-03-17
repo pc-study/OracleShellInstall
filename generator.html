@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>命令生成器 - OracleShellInstall</title>
+<meta name="description" content="OracleShellInstall 在线命令生成器，可视化配置参数，一键生成 Oracle 数据库安装命令。">
+<meta property="og:title" content="命令生成器 - OracleShellInstall">
+<meta property="og:description" content="可视化配置参数，一键生成 Oracle 数据库安装命令，支持单机/ASM/RAC 三种模式。">
+<meta property="og:type" content="website">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
@@ -56,7 +60,7 @@
 .cmd-header .cmd-dots .sd{width:12px;height:12px;border-radius:50%;display:inline-block}
 .cmd-header .cmd-title{position:absolute;left:0;right:0;text-align:center;font-size:.75rem;font-weight:500;color:var(--text-muted);font-family:var(--mono);pointer-events:none}
 .sd-r{background:#ff5f57}.sd-y{background:#febc2e}.sd-g{background:#28c840}
-.cmd-btns{display:flex;gap:8px}
+.cmd-btns{display:flex;gap:8px;position:relative;z-index:1}
 .cmd-btn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:7px 16px;
   font-size:.78rem;color:var(--text-dim);cursor:pointer;transition:all .2s;font-family:var(--font);font-weight:500}
 .cmd-btn:hover{border-color:var(--red);color:var(--text)}
@@ -74,7 +78,9 @@
 @media(max-width:768px){
   .mode-cards{grid-template-columns:1fr}
   .fg-grid{grid-template-columns:1fr}
-  .cmd-header{flex-direction:column;gap:10px;align-items:flex-start}
+  .cmd-header{flex-wrap:wrap;gap:10px}
+  .cmd-header .cmd-title{position:static;text-align:left;order:-1;width:100%}
+  .cmd-header .cmd-dots{order:-2}
 }
 </style>
 </head>
