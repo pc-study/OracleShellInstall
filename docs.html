@@ -79,11 +79,25 @@
 
 .doc-zh{display:block}.doc-en{display:none}
 
+/* Responsive table wrapper */
+.doc-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0 24px;
+  border:1px solid var(--border);border-radius:var(--r);position:relative}
+.doc-table-wrap::after{content:'← 左右滑动查看 →';display:none;position:absolute;top:-22px;right:0;
+  font-size:.7rem;color:var(--text-muted);pointer-events:none}
+.doc-table-wrap table{margin:0;border:none}
+.doc-table-wrap th:first-child,.doc-table-wrap td:first-child{position:sticky;left:0;
+  background:var(--card);z-index:1}
+
 @media(max-width:768px){
   .doc-layout{grid-template-columns:1fr;gap:20px}
   .doc-sidebar{position:static;display:flex;flex-wrap:wrap;gap:4px}
   .doc-sidebar a{border-left:none;border-bottom:2px solid var(--border);padding:6px 12px}
   .doc-sidebar .sb-title{display:none}
+  .doc-table-wrap::after{display:block}
+  .doc-content .param-table,.doc-content .media-table{font-size:.78rem}
+  .doc-content .param-table th,.doc-content .param-table td,
+  .doc-content .media-table th,.doc-content .media-table td{padding:7px 10px}
+  .doc-content .param-table td:first-child{white-space:normal;word-break:break-all}
 }
 </style>
 <script type="application/ld+json">

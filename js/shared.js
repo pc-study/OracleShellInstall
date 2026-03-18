@@ -220,6 +220,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Auto-wrap tables in scrollable containers (guides + docs)
+  document.querySelectorAll('.guide-body table, .doc-content .param-table, .doc-content .media-table').forEach(table => {
+    if (table.closest('.guide-table-wrap') || table.closest('.doc-table-wrap') || table.closest('.cmp-wrap')) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = table.closest('.guide-body') ? 'guide-table-wrap' : 'doc-table-wrap';
+    table.parentNode.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
+  });
+
   // Docs scroll spy
   const sidebar = document.querySelector('.doc-sidebar');
   if (sidebar) {
