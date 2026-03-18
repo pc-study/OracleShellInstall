@@ -32,8 +32,29 @@
 .guide-body li{margin:4px 0}
 .guide-body hr{border:none;border-top:1px solid var(--border);margin:24px 0}
 
+/* CTA banner */
+.guide-cta{transition:all .3s}
+.guide-cta:hover{border-color:var(--red,#C74634)!important;box-shadow:0 4px 20px rgba(199,70,52,.1)}
+.guide-cta a:first-of-type:hover{background:var(--red-glow,#e05040)!important;transform:translateY(-1px)}
+.guide-cta a:last-of-type:hover{border-color:var(--red,#C74634)!important;color:var(--red,#C74634)!important}
+
+/* Collapsible long code blocks */
+.mac-term.collapsible .mac-term-bar{cursor:pointer}
+.mac-term.collapsible pre{max-height:300px;overflow:hidden;position:relative;transition:max-height .4s ease}
+.mac-term.collapsible pre::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;
+  background:linear-gradient(transparent,var(--term-bg,#1a1a2e));pointer-events:none}
+.mac-term.collapsible.expanded pre{max-height:none;overflow-x:auto}
+.mac-term.collapsible.expanded pre::after{display:none}
+.mac-term-expand{display:block;text-align:center;padding:6px;font-family:var(--mono);font-size:.75rem;
+  color:var(--text-muted);cursor:pointer;border-top:1px solid var(--border);background:rgba(255,255,255,.02);
+  transition:color .2s}
+.mac-term-expand:hover{color:var(--red)}
+
 @media(max-width:768px){
   .guide-article{padding:70px 0 40px}
   .guide-body{font-size:.86rem}
   .guide-body pre{font-size:.78rem;padding:12px}
+  .guide-cta{padding:20px 16px!important}
+  .guide-cta div:last-child{flex-direction:column}
+  .guide-cta a{justify-content:center}
 }

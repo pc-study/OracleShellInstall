@@ -205,6 +205,19 @@ document.addEventListener('DOMContentLoaded', () => {
     pre.parentNode.insertBefore(wrapper, pre);
     wrapper.appendChild(bar);
     wrapper.appendChild(pre);
+    // Auto-collapse long code blocks (>15 lines)
+    const lines = pre.textContent.split('\n').length;
+    if (lines > 15) {
+      wrapper.classList.add('collapsible');
+      const btn = document.createElement('div');
+      btn.className = 'mac-term-expand';
+      btn.textContent = '▼ 展开全部 (' + lines + ' 行)';
+      wrapper.appendChild(btn);
+      btn.addEventListener('click', () => {
+        const expanded = wrapper.classList.toggle('expanded');
+        btn.textContent = expanded ? '▲ 收起' : '▼ 展开全部 (' + lines + ' 行)';
+      });
+    }
   });
 
   // Docs scroll spy
