@@ -247,6 +247,8 @@ img{max-width:100%;display:block}
   .footer-inner{grid-template-columns:1fr 1fr;gap:30px}
 }
 @media(max-width:768px){
+  /* Solid nav background on mobile to prevent floating feel */
+  .nav{background:var(--bg);backdrop-filter:none;-webkit-backdrop-filter:none}
   /* Hide desktop nav links + hamburger */
   .nav-links{display:none!important}
   .nav-hamburger{display:none!important}
