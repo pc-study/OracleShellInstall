@@ -27,6 +27,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
@@ -44,7 +45,8 @@
 .hero h1{font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;color:var(--text);line-height:1.15;margin-bottom:16px}
 .hero h1 span{color:var(--red)}
 .hero-desc{font-size:1.05rem;color:var(--text-dim);line-height:1.7;margin-bottom:32px;max-width:500px;font-weight:300}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.github-stars:hover{border-color:var(--red);color:var(--text);box-shadow:var(--glow-sm)}
 .hero-right{position:relative;z-index:1}
 .hero-term-bar{display:flex;align-items:center;padding:10px 14px;background:#2a2a34;border-bottom:1px solid var(--border);position:relative}
 .hero-term-dots{display:flex;gap:8px;z-index:1}
@@ -170,6 +172,14 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GNDHG1PZLG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GNDHG1PZLG');
+</script>
 </head>
 <body>
 <div class="noise-overlay"></div>
@@ -187,6 +197,10 @@ var _hmt = _hmt || [];
         <div class="hero-btns anim-up anim-d3">
           <a href="generator.html" class="btn btn-primary" data-i18n="btnGen">命令生成器 &rarr;</a>
           <a href="docs.html" class="btn btn-ghost" data-i18n="btnDoc">查看文档</a>
+          <a href="https://github.com/pc-study/OracleShellInstall" target="_blank" rel="noopener noreferrer" class="github-stars" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;color:var(--text-dim);font-size:.85rem;text-decoration:none;transition:all .2s;font-weight:500">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
+<span id="starCount">Star</span>
+</a>
         </div>
       </div>
       <div class="hero-right anim-up anim-d2">
@@ -457,5 +471,13 @@ function runTermAnimation() {
 }
 runTermAnimation();
 </script>
+<script>
+fetch('https://api.github.com/repos/pc-study/OracleShellInstall')
+  .then(r=>r.json())
+  .then(d=>{if(d.stargazers_count){document.getElementById('starCount').textContent=d.stargazers_count+' Stars'}})
+  .catch(()=>{});
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
+<script src="js/search.js"></script>
 </body>
 </html>

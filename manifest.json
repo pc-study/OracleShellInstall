@@ -1,0 +1,13 @@
+{
+  "name": "OracleShellInstall - Oracle 数据库一键自动化安装",
+  "short_name": "OracleShellInstall",
+  "description": "Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0e",
+  "theme_color": "#C74634",
+  "icons": [
+    { "src": "favicon-32x32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

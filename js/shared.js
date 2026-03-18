@@ -84,6 +84,7 @@ function navHTML(active) {
       `<a href="${prefix}${p.href}" class="${active===p.id?'active':''}" data-i18n="${p.key}"><span class="nav-icon">${p.icon}</span>${t(p.key)}</a>`
     ).join('')}<a href="${prefix}pricing.html" class="nav-cta" data-i18n="start">${t('start')}</a></div>
     <div class="nav-actions">
+      <button class="nav-search-btn" onclick="openSearch()" title="Search" aria-label="Search"><svg viewBox="0 0 24 24" width="16" height="16"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><kbd>⌘K</kbd></button>
       <button class="nav-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">${themeIcon}</button>
       <button class="nav-toggle" id="langToggle" onclick="toggleLang()" title="Language" aria-label="Toggle language">${langLabel}</button>
     </div>
