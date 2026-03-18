@@ -3,13 +3,14 @@
    ============================ */
 
 // ---- i18n ----
-let currentLang = localStorage.getItem('lang') || 'zh';
+let currentLang; try { currentLang = localStorage.getItem('lang'); } catch(e) {} currentLang = currentLang || 'zh';
 
 const i18n = {
   zh: {
     home: '首页', generator: '命令生成器', docs: '使用文档', compat: '安装合集', pricing: '脚本订阅', download: '下载中心', start: '开始使用',
     nav: '快速导航', versions: '支持版本', contact: '联系方式',
     wechat: '微信', email: '邮箱',
+    expandAll: '展开全部', collapse: '收起', lines: '行',
     consultTitle: '扫码咨询适配需求', consultHint: '如需新的 OS / Oracle 版本适配，欢迎扫码添加微信咨询',
     footerDesc: 'Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC 三种部署模式，覆盖 20+ Linux 发行版。',
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
@@ -18,6 +19,7 @@ const i18n = {
     home: 'Home', generator: 'Generator', docs: 'Docs', compat: 'Guides', pricing: 'Subscribe', download: 'Download', start: 'Get Started',
     nav: 'Navigation', versions: 'Versions', contact: 'Contact',
     wechat: 'WeChat', email: 'Email',
+    expandAll: 'Expand All', collapse: 'Collapse', lines: 'lines',
     consultTitle: 'Scan to Consult', consultHint: 'Need a new OS / Oracle version adaptation? Scan to add WeChat for consultation',
     footerDesc: 'One-click automated Oracle Database installation script. Supports Single/ASM/RAC modes across 20+ Linux distributions.',
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
@@ -47,7 +49,7 @@ function toggleLang() {
 }
 
 // ---- Theme ----
-let currentTheme = localStorage.getItem('theme') || 'dark';
+let currentTheme; try { currentTheme = localStorage.getItem('theme'); } catch(e) {} currentTheme = currentTheme || 'dark';
 
 function setTheme(theme) {
   currentTheme = theme;
@@ -95,24 +97,26 @@ function navHTML(active) {
 
 // ---- Footer HTML ----
 function footerHTML() {
+  const isGuide = location.pathname.includes('/guides/');
+  const p = isGuide ? '../' : '';
   return `<footer class="footer"><div class="container"><div class="footer-inner">
     <div class="footer-brand">
       <div class="footer-logo">Oracle<span>Shell</span>Install</div>
       <p data-i18n="footerDesc">${t('footerDesc')}</p>
     </div>
     <div class="footer-col"><h4 data-i18n="nav">${t('nav')}</h4>
-      <a href="index.html" data-i18n="home">${t('home')}</a>
-      <a href="generator.html" data-i18n="generator">${t('generator')}</a>
-      <a href="docs.html" data-i18n="docs">${t('docs')}</a>
-      <a href="compat.html" data-i18n="compat">${t('compat')}</a>
-      <a href="pricing.html" data-i18n="pricing">${t('pricing')}</a>
-      <a href="download.html" data-i18n="download">${t('download')}</a>
+      <a href="${p}index.html" data-i18n="home">${t('home')}</a>
+      <a href="${p}generator.html" data-i18n="generator">${t('generator')}</a>
+      <a href="${p}docs.html" data-i18n="docs">${t('docs')}</a>
+      <a href="${p}compat.html" data-i18n="compat">${t('compat')}</a>
+      <a href="${p}pricing.html" data-i18n="pricing">${t('pricing')}</a>
+      <a href="${p}download.html" data-i18n="download">${t('download')}</a>
     </div>
     <div class="footer-col"><h4 data-i18n="versions">${t('versions')}</h4>
-      <a href="docs.html">Oracle 26ai</a>
-      <a href="docs.html">Oracle 21c</a>
-      <a href="docs.html">Oracle 19c</a>
-      <a href="docs.html">Oracle 12cR2</a>
+      <a href="${p}docs.html">Oracle 26ai</a>
+      <a href="${p}docs.html">Oracle 21c</a>
+      <a href="${p}docs.html">Oracle 19c</a>
+      <a href="${p}docs.html">Oracle 12cR2</a>
     </div>
     <div class="footer-col"><h4 data-i18n="contact">${t('contact')}</h4>
       <a href="mailto:pc1107750981@163.com">\u2709 pc1107750981@163.com</a>
@@ -205,11 +209,11 @@ document.addEventListener('DOMContentLoaded', () => {
       wrapper.classList.add('collapsible');
       const btn = document.createElement('div');
       btn.className = 'mac-term-expand';
-      btn.textContent = '▼ 展开全部 (' + lines + ' 行)';
+      btn.textContent = '\u25BC ' + t('expandAll') + ' (' + lines + ' ' + t('lines') + ')';
       wrapper.appendChild(btn);
       btn.addEventListener('click', () => {
         const expanded = wrapper.classList.toggle('expanded');
-        btn.textContent = expanded ? '▲ 收起' : '▼ 展开全部 (' + lines + ' 行)';
+        btn.textContent = expanded ? '\u25B2 ' + t('collapse') : '\u25BC ' + t('expandAll') + ' (' + lines + ' ' + t('lines') + ')';
       });
     }
   });
