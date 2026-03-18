@@ -30,7 +30,7 @@ function t(key) { return (i18n[currentLang] || i18n.zh)[key] || key; }
 
 function setLang(lang) {
   currentLang = lang;
-  localStorage.setItem('lang', lang);
+  try { localStorage.setItem('lang', lang); } catch(e) {}
   // Update html lang attribute
   document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
   // Update toggle button text
@@ -54,7 +54,7 @@ let currentTheme; try { currentTheme = localStorage.getItem('theme'); } catch(e)
 function setTheme(theme) {
   currentTheme = theme;
   document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
+  try { localStorage.setItem('theme', theme); } catch(e) {}
   const btn = document.getElementById('themeToggle');
   if (btn) btn.textContent = theme === 'dark' ? '\u2600' : '\u263E';
 }
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const popup = document.createElement('div');
   popup.className = 'wechat-popup';
-  popup.innerHTML = `<button class="wechat-popup-close">&times;</button>
+  popup.innerHTML = `<button class="wechat-popup-close" aria-label="Close">&times;</button>
     <div class="wechat-popup-title" data-i18n="consultTitle">${t('consultTitle')}</div>
     <img class="wechat-popup-qr" src="${qrPath}" alt="WeChat QR">
     <div class="wechat-popup-id">WeChat: Lucifer-0622</div>
@@ -180,10 +180,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  let scrollTick = false;
   window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    if (nav) nav.classList.toggle('scrolled', y > 10);
-    btt.classList.toggle('visible', y > 400);
+    if (!scrollTick) {
+      scrollTick = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (nav) nav.classList.toggle('scrolled', y > 10);
+        btt.classList.toggle('visible', y > 400);
+        scrollTick = false;
+      });
+    }
   }, { passive: true });
 
   // Scroll reveal

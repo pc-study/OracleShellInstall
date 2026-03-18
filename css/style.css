@@ -48,9 +48,9 @@
 [data-theme="light"] .hero-term-title{color:#5a5a6e}
 [data-theme="light"] .nav{background:rgba(244,244,247,.82);border-bottom-color:var(--border)}
 [data-theme="light"] .nav-links a:hover{color:var(--text)}
-[data-theme="light"] .nav-cta{color:#fff!important}
+[data-theme="light"] .nav-cta{color:#fff}
 [data-theme="light"] .noise-overlay{opacity:.03}
-html{scroll-behavior:smooth;font-size:15px;scroll-padding-top:74px}
+html{scroll-behavior:smooth;font-size:15px;scroll-padding-top:calc(var(--nav-h) + 10px)}
 body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;
   overflow-x:hidden;min-height:100vh;padding-top:var(--nav-h)}
 a{color:var(--red);text-decoration:none;transition:color .2s}
@@ -260,6 +260,8 @@ img{max-width:100%;display:block}
   .mobile-tabbar a.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
     width:24px;height:2px;background:var(--red);border-radius:0 0 2px 2px}
 
+  .mobile-tabbar a:focus-visible{color:var(--red);outline:2px solid var(--red);outline-offset:-2px;border-radius:4px}
+
   /* Adjust page bottom padding for tab bar */
   body{padding-bottom:60px}
   .footer{padding-bottom:80px}
@@ -298,3 +300,13 @@ img{max-width:100%;display:block}
 .mac-term pre .cmt{color:#5c6370;font-style:italic}.mac-term pre .num{color:#d19a66}
 .mac-term pre .fn{color:#61afef}.mac-term pre .flag{color:var(--accent2,#e8934a)}
 .mac-term pre .val{color:var(--blue,#4a8fe8)}
+
+/* === REDUCED MOTION === */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .anim-up{animation:none;opacity:1;transform:none}
+}
+
+/* === PERFORMANCE HINTS === */
+.card:hover,.back-to-top,.wechat-fab,.wechat-popup{will-change:transform}
