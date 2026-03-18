@@ -252,7 +252,7 @@ img{max-width:100%;display:block}
   .nav-hamburger{display:none!important}
 
   /* Bottom tab bar */
-  .mobile-tabbar{display:flex;position:fixed;bottom:0;left:0;right:0;height:60px;
+  .mobile-tabbar{display:flex!important;position:fixed;bottom:0;left:0;right:0;height:60px;
     background:var(--bg);border-top:1px solid var(--border);z-index:1000;
     padding:0 4px;padding-bottom:env(safe-area-inset-bottom)}
   [data-theme="light"] .mobile-tabbar{background:var(--bg)}
@@ -277,7 +277,7 @@ img{max-width:100%;display:block}
   .nav-toggle{padding:5px 8px;font-size:.72rem}
   .section-eyebrow::before{width:16px}
 }
-/* Hide tabbar on desktop */
+/* Hide tabbar on desktop, show in mobile media query above */
 .mobile-tabbar{display:none}
 
 /* === macOS Terminal Code Blocks === */
