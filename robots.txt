@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow:
 
-Sitemap: https://pc-study.github.io/OracleShellInstall/sitemap.xml
+Sitemap: https://www.oracleshellinstall.com/sitemap.xml

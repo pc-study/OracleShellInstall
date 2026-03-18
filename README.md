@@ -2,7 +2,7 @@
 
 Oracle 数据库一键自动化安装脚本，支持 **单机 / ASM / RAC** 三种部署模式，覆盖 Oracle 11gR2 至 26ai 全版本，兼容 20+ 主流 Linux 发行版。
 
-**在线工具：** [https://pc-study.github.io/OracleShellInstall/](https://pc-study.github.io/OracleShellInstall/)
+**在线工具：** [https://www.oracleshellinstall.com/](https://www.oracleshellinstall.com/)
 
 ---
 
@@ -64,7 +64,7 @@ sh OracleShellInstall.sh \
   -dd /dev/sdc                 # DATA 磁盘
 ```
 
-> 更多参数配置请使用 [在线命令生成器](https://pc-study.github.io/OracleShellInstall/generator.html) 或查阅 [使用文档](https://pc-study.github.io/OracleShellInstall/docs.html)。
+> 更多参数配置请使用 [在线命令生成器](https://www.oracleshellinstall.com/generator.html) 或查阅 [使用文档](https://www.oracleshellinstall.com/docs.html)。
 
 ## 支持的环境
 
@@ -89,7 +89,7 @@ sh OracleShellInstall.sh \
 | `-er` | 启用归档模式 | true |
 | `-opd` | 优化数据库参数 | N |
 
-完整参数列表请参阅 [在线文档](https://pc-study.github.io/OracleShellInstall/docs.html#params-common)。
+完整参数列表请参阅 [在线文档](https://www.oracleshellinstall.com/docs.html#params-common)。
 
 ## 网站
 
