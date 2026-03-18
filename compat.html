@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<script>try{var l=localStorage.getItem("lang");if(l)document.documentElement.lang=l==="en"?"en":"zh-CN"}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>安装合集 - OracleShellInstall</title>
 <meta name="description" content="OracleShellInstall 脚本支持的操作系统与 Oracle 版本兼容列表，以及详细实操教程合集。">
@@ -21,6 +22,8 @@
 <link rel="alternate" hreflang="x-default" href="https://www.oracleshellinstall.com/compat.html">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
@@ -59,6 +62,14 @@
 .gd-filter-btn{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:6px 16px;
   font-size:.78rem;color:var(--text-dim);cursor:pointer;transition:all .25s;font-family:var(--font)}
 .gd-filter-btn:hover,.gd-filter-btn.active{border-color:var(--red);color:var(--red);background:rgba(199,70,52,.06)}
+
+/* GUIDE SEARCH */
+.gd-search-wrap{text-align:center;margin:28px 0 0}
+.gd-search{width:100%;max-width:420px;padding:10px 16px;font-size:.88rem;font-family:var(--font);
+  background:var(--card);border:1px solid var(--border);border-radius:20px;color:var(--text);
+  outline:none;transition:border-color .25s}
+.gd-search::placeholder{color:var(--text-dim)}
+.gd-search:focus{border-color:var(--red)}
 
 /* GUIDE GROUPS */
 .gd-group{margin-bottom:16px;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s}
@@ -198,6 +209,10 @@
   </div>
   <p style="text-align:center;color:var(--text-muted);font-size:.85rem;margin-top:12px" data-i18n="gdSubtitle">以下实操文档均由作者亲自测试验证可行，未列出的并非脚本不支持，只是还未测试兼容性，等待测试后会持续更新</p>
 
+  <div class="gd-search-wrap">
+    <input type="text" class="gd-search" id="gdSearch" placeholder="搜索教程..." data-i18n-ph="gdSearchPh">
+  </div>
+
   <div class="gd-filter" id="gdFilter">
     <button class="gd-filter-btn active" data-filter="all" data-i18n="fAll">全部</button>
     <button class="gd-filter-btn" data-filter="arm">ARM</button>
@@ -247,6 +262,7 @@ Object.assign(i18n.zh, {
   mxNote:'\u2139 以上为已验证的兼容组合，\u2713 表示支持，\u2717 表示不支持或未验证',
   gdEye:'实操教程', gdTitle:'逐步验证的安装指南',
   gdSubtitle:'以下实操文档均由作者亲自测试验证可行，未列出的并非脚本不支持，只是还未测试兼容性，等待测试后会持续更新',
+  gdSearchPh:'搜索教程...',
   fAll:'全部', fDomestic:'国产化',
   cpBottom:'<strong>以上内容并非脚本可支持的所有组合</strong>，仅是目前已经实操验证过的合集。更多组合期待大家去发掘！如有新的兼容性反馈，欢迎联系作者更新。',
 });
@@ -272,11 +288,20 @@ Object.assign(i18n.en, {
   mxNote:'\u2139 The above are verified compatible combinations. \u2713 = supported, \u2717 = unsupported or not yet verified.',
   gdEye:'TUTORIALS', gdTitle:'Step-by-Step Installation Guides',
   gdSubtitle:'All tutorials below have been personally tested by the author. Unlisted combinations are not necessarily unsupported — they simply haven\'t been tested yet. Updates are ongoing.',
+  gdSearchPh:'Search guides...',
   fAll:'All', fDomestic:'Domestic OS',
   cpBottom:'<strong>The above is not an exhaustive list of all supported combinations</strong> — it only covers those that have been tested and verified so far. We encourage you to explore more combinations! Feel free to contact the author with compatibility feedback.',
 });
 
 if (currentLang !== 'zh') setLang(currentLang);
+
+// Update search placeholder on language change
+function updateSearchPlaceholder() {
+  const el = document.getElementById('gdSearch');
+  if (el) el.placeholder = t('gdSearchPh');
+}
+document.addEventListener('langchange', updateSearchPlaceholder);
+updateSearchPlaceholder();
 
 // ---- Guide Data & Rendering ----
 const guides = [
@@ -536,13 +561,14 @@ function matchFilter(g, lk, filter) {
   return true;
 }
 
-function renderGuides(filter) {
+function renderGuides(filter, search) {
+  const searchLower = (search || '').toLowerCase();
   const container = document.getElementById('gdList');
   let html = '';
   guides.forEach((g, gi) => {
-    const filtered = g.links.filter(lk => matchFilter(g, lk, filter));
+    const filtered = g.links.filter(lk => matchFilter(g, lk, filter) && (!searchLower || lk.t.toLowerCase().includes(searchLower)));
     if (filtered.length === 0) return;
-    const isOpen = filter !== 'all' ? ' open' : '';
+    const isOpen = (filter !== 'all' || searchLower) ? ' open' : '';
     html += `<div class="gd-group${isOpen} reveal">
       <div class="gd-group-hd" role="button" tabindex="0">
         <span>${g.group}</span>
@@ -559,8 +585,22 @@ function renderGuides(filter) {
   container.innerHTML = html;
 }
 
+// Helper to get current filter and search values
+function getActiveFilter() {
+  const btn = document.querySelector('.gd-filter-btn.active');
+  return btn ? btn.dataset.filter : 'all';
+}
+function getSearchText() {
+  return document.getElementById('gdSearch').value;
+}
+
 // Initial render
 renderGuides('all');
+
+// Search input
+document.getElementById('gdSearch').addEventListener('input', () => {
+  renderGuides(getActiveFilter(), getSearchText());
+});
 
 // Filter buttons
 document.getElementById('gdFilter').addEventListener('click', e => {
@@ -568,7 +608,7 @@ document.getElementById('gdFilter').addEventListener('click', e => {
   if (!btn) return;
   document.querySelectorAll('.gd-filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  renderGuides(btn.dataset.filter);
+  renderGuides(btn.dataset.filter, getSearchText());
 });
 
 // Guide group accordion - event delegation with keyboard support
