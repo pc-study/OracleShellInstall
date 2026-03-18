@@ -320,10 +320,16 @@ document.getElementById('footer').innerHTML = footerHTML();
 
 // FAQ accordion
 document.querySelectorAll('.dl-faq-q').forEach(q => {
-  q.addEventListener('click', () => {
+  q.setAttribute('role', 'button');
+  q.setAttribute('tabindex', '0');
+  q.setAttribute('aria-expanded', q.parentElement.classList.contains('open'));
+  function toggle() {
     const item = q.parentElement;
     item.classList.toggle('open');
-  });
+    q.setAttribute('aria-expanded', item.classList.contains('open'));
+  }
+  q.addEventListener('click', toggle);
+  q.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }});
 });
 
 // Page i18n

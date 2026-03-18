@@ -109,6 +109,19 @@
   .pr-cta-box{padding:36px 24px}
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "OracleShellInstall Script Subscription",
+  "description": "Oracle database automated installation script with support for 20+ Linux distributions and Oracle 11gR2-26ai.",
+  "brand": {
+    "@type": "Brand",
+    "name": "OracleShellInstall"
+  },
+  "url": "https://pc-study.github.io/OracleShellInstall/pricing.html"
+}
+</script>
 </head>
 <body>
 <div class="noise-overlay"></div>
@@ -236,31 +249,31 @@
   </div>
   <div class="faq-list">
     <div class="faq-item reveal">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+      <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
         <span data-i18n="fq1">开源版和付费版的核心区别是什么？</span><span class="faq-arrow">&#9660;</span>
       </div>
       <div class="faq-a"><p data-i18n="fa1">开源版支持单机和单机 ASM 模式，适用于 X86 架构和红帽系列系统，满足基础安装需求。付费版在此基础上增加了 RAC 集群（不限节点数）、ARM 架构、20+ 国产化操作系统、非官方认证组合安装、一键安装补丁、安装介质提供以及专属技术支持。</p></div>
     </div>
     <div class="faq-item reveal">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+      <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
         <span data-i18n="fq2">付费版如何获取和付款？</span><span class="faq-arrow">&#9660;</span>
       </div>
       <div class="faq-a"><p data-i18n="fa2">请添加作者微信 Lucifer-0622 咨询订阅详情，包括定价、授权方式和付款流程等。</p></div>
     </div>
     <div class="faq-item reveal">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+      <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
         <span data-i18n="fq3">付费版包含哪些技术支持？</span><span class="faq-arrow">&#9660;</span>
       </div>
       <div class="faq-a"><p data-i18n="fa3">付费版包含专属微信群支持，群直播答疑，安装日志排错指导等。遇到安装问题可以直接在群内获得作者的技术支持。</p></div>
     </div>
     <div class="faq-item reveal">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+      <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
         <span data-i18n="fq4">安装介质包含哪些内容？</span><span class="faq-arrow">&#9660;</span>
       </div>
       <div class="faq-a"><p data-i18n="fa4">付费版提供系统镜像 ISO 文件、Oracle 各版本安装包以及 Grid/DB/OJVM 补丁文件等完整安装介质，免去自行下载的麻烦。</p></div>
     </div>
     <div class="faq-item reveal">
-      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+      <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
         <span data-i18n="fq5">开源版可以免费用于生产环境吗？</span><span class="faq-arrow">&#9660;</span>
       </div>
       <div class="faq-a"><p data-i18n="fa5">开源版可免费使用，但仅支持单机/单机 ASM、X86 架构和红帽系列系统。如果生产环境需要 RAC 集群、ARM 架构或国产化系统支持，建议使用付费版。</p></div>
@@ -369,6 +382,17 @@ Object.assign(i18n.en, {
   prCtaTitle:'Get Full Paid Edition Features',
   prCtaDesc:'Contact via WeChat for subscription details. Unlock RAC clusters, domestic OS support, one-click patching, and all advanced features.',
   qrLabel:'Scan to add author on WeChat',
+});
+
+// FAQ accordion - click and keyboard support
+document.querySelectorAll('.faq-q').forEach(q => {
+  function toggle() {
+    const item = q.parentElement;
+    item.classList.toggle('open');
+    q.setAttribute('aria-expanded', item.classList.contains('open'));
+  }
+  q.addEventListener('click', toggle);
+  q.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }});
 });
 
 // Apply saved language

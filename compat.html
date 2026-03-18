@@ -516,7 +516,7 @@ function renderGuides(filter) {
     if (filtered.length === 0) return;
     const isOpen = filter !== 'all' ? ' open' : '';
     html += `<div class="gd-group${isOpen} reveal">
-      <div class="gd-group-hd" onclick="this.parentElement.classList.toggle('open')">
+      <div class="gd-group-hd" role="button" tabindex="0">
         <span>${g.group}</span>
         <span class="gd-count">${filtered.length}</span>
         <span class="gd-arrow">&#9660;</span>
@@ -541,6 +541,16 @@ document.getElementById('gdFilter').addEventListener('click', e => {
   document.querySelectorAll('.gd-filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderGuides(btn.dataset.filter);
+});
+
+// Guide group accordion - event delegation with keyboard support
+document.getElementById('gdContainer').addEventListener('click', e => {
+  const hd = e.target.closest('.gd-group-hd');
+  if (hd) hd.parentElement.classList.toggle('open');
+});
+document.getElementById('gdContainer').addEventListener('keydown', e => {
+  const hd = e.target.closest('.gd-group-hd');
+  if (hd && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); hd.parentElement.classList.toggle('open'); }
 });
 </script>
 </body>
