@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>版本订阅 - OracleShellInstall</title>
+<meta name="description" content="OracleShellInstall 开源版与付费版功能对比，选择适合您的版本。">
+<meta property="og:title" content="版本订阅 - OracleShellInstall">
+<meta property="og:description" content="开源版与付费版功能对比，RAC集群、ARM架构、国产化系统、一键补丁等付费专属功能。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pc-study.github.io/OracleShellInstall/pricing.html">
+<link rel="canonical" href="https://pc-study.github.io/OracleShellInstall/pricing.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* HERO */
+.pr-hero{padding:80px 0 20px;text-align:center}
+.pr-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:12px}
+.pr-hero p{color:var(--text-dim);font-size:1rem;max-width:560px;margin:0 auto;line-height:1.7;font-weight:300}
+
+/* PLAN CARDS */
+.pr-plans{padding:40px 0 30px}
+.plans-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:820px;margin:0 auto}
+.plan{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r-xl);padding:36px 32px;
+  position:relative;overflow:hidden;transition:all .35s cubic-bezier(.4,0,.2,1)}
+.plan:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.15)}
+.plan-pop{border-color:var(--red);box-shadow:var(--glow-md)}
+.plan-pop::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--accent2))}
+.plan-badge{display:inline-block;background:linear-gradient(135deg,var(--red),var(--accent2));color:#fff;
+  font-size:.68rem;font-weight:700;padding:3px 12px;border-radius:20px;margin-bottom:16px;letter-spacing:.5px}
+.plan-name{font-size:1.4rem;font-weight:900;color:var(--text);margin-bottom:6px}
+.plan-desc{font-size:.85rem;color:var(--text-dim);margin-bottom:20px;line-height:1.6}
+.plan-price{font-size:2.4rem;font-weight:900;color:var(--text);margin-bottom:4px;font-family:var(--display)}
+.plan-price-sub{font-size:.78rem;color:var(--text-muted);margin-bottom:24px}
+.plan-divider{height:1px;background:var(--border);margin:0 0 20px}
+.plan-features{list-style:none;padding:0;margin:0 0 28px}
+.plan-features li{padding:8px 0;font-size:.85rem;color:var(--text-dim);display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+.plan-features .ck{color:var(--green);font-size:1rem;flex-shrink:0;margin-top:1px}
+.plan-features .xk{color:var(--text-muted);font-size:1rem;flex-shrink:0;margin-top:1px;opacity:.4}
+.plan-btn{display:block;text-align:center;padding:12px;border-radius:10px;font-size:.9rem;font-weight:600;
+  text-decoration:none;transition:all .3s;font-family:var(--font)}
+.plan-btn-outline{background:transparent;border:1.5px solid var(--border-light);color:var(--text)}
+.plan-btn-outline:hover{border-color:var(--red);color:var(--text);transform:translateY(-1px)}
+.plan-btn-fill{background:var(--red);border:1.5px solid var(--red);color:#fff;box-shadow:0 4px 20px rgba(199,70,52,.25)}
+.plan-btn-fill:hover{background:var(--red-glow);color:#fff;transform:translateY(-1px);box-shadow:0 8px 30px rgba(199,70,52,.35)}
+
+/* COMPARISON TABLE */
+.pr-compare{padding:50px 0 40px}
+.cmp-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cmp-table{width:100%;border-collapse:separate;border-spacing:0;min-width:680px}
+.cmp-table th,.cmp-table td{padding:14px 18px;text-align:left;font-size:.85rem;border-bottom:1px solid var(--border)}
+.cmp-table thead th{background:var(--bg3);color:var(--text);font-weight:700;position:sticky;top:0;z-index:1}
+.cmp-table thead th:first-child{border-radius:var(--r) 0 0 0}
+.cmp-table thead th:nth-child(2){text-align:center}
+.cmp-table thead th:last-child{border-radius:0 var(--r) 0 0;text-align:center}
+.cmp-table tbody td{color:var(--text-dim)}
+.cmp-table tbody td:nth-child(2),.cmp-table tbody td:last-child{text-align:center;font-size:1rem}
+.cmp-table tbody tr:hover{background:rgba(199,70,52,.02)}
+.cmp-table .cmp-cat{background:var(--bg2);font-weight:700;color:var(--text);font-size:.78rem;
+  text-transform:uppercase;letter-spacing:1.5px}
+.cmp-table .cmp-cat td{border-bottom:2px solid var(--border)}
+.cmp-yes{color:var(--green)}.cmp-no{color:var(--text-muted);opacity:.35}
+
+/* FAQ */
+.pr-faq{padding:50px 0 40px}
+.faq-list{max-width:720px;margin:36px auto 0}
+.faq-item{border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden;
+  transition:border-color .2s}
+.faq-item:hover{border-color:var(--border-light)}
+.faq-q{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;
+  font-size:.9rem;font-weight:600;color:var(--text);background:var(--card);transition:background .2s;
+  user-select:none}
+.faq-q:hover{background:var(--card-hover)}
+.faq-q .faq-arrow{transition:transform .3s;color:var(--text-muted);font-size:.8rem}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
+.faq-item.open .faq-a{max-height:400px;padding:0 20px 16px}
+.faq-a p{font-size:.85rem;color:var(--text-dim);line-height:1.7;margin:0}
+
+/* CTA */
+.pr-cta{padding:40px 0 80px}
+.pr-cta-box{text-align:center;background:linear-gradient(135deg,rgba(199,70,52,.08),rgba(199,70,52,.02));
+  border:1px solid var(--border-red);border-radius:var(--r-xl);padding:50px 40px;position:relative;overflow:hidden;
+  box-shadow:var(--glow-md)}
+.pr-cta-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(ellipse at center,rgba(199,70,52,.04),transparent 50%);pointer-events:none}
+.pr-cta-box h2{font-size:1.6rem;font-weight:900;color:var(--text);margin-bottom:10px;position:relative}
+.pr-cta-box p{color:var(--text-dim);margin-bottom:24px;font-size:.95rem;position:relative}
+.pr-cta-box .wechat-id{display:inline-flex;align-items:center;gap:8px;background:var(--bg3);
+  border:1px solid var(--border);border-radius:var(--r);padding:12px 24px;font-family:var(--mono);
+  font-size:1.1rem;font-weight:700;color:var(--red-glow);position:relative;letter-spacing:.5px}
+
+@media(max-width:768px){
+  .plans-grid{grid-template-columns:1fr}
+  .cmp-table{min-width:540px}
+  .pr-cta-box{padding:36px 24px}
+}
+</style>
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+
+<!-- HERO -->
+<section class="pr-hero bg-grid"><div class="container">
+  <div class="section-eyebrow reveal" style="justify-content:center" data-i18n="prEye">版本对比</div>
+  <h1 class="anim-up grad-text" data-i18n="prTitle">选择适合您的版本</h1>
+  <p class="anim-up anim-d1" data-i18n="prDesc">开源版满足基础安装需求，付费版解锁 RAC 集群、ARM 架构、国产化系统、一键补丁等全部高级功能</p>
+</div></section>
+
+<!-- PLAN CARDS -->
+<section class="pr-plans"><div class="container">
+  <div class="plans-grid">
+    <!-- FREE -->
+    <div class="plan reveal">
+      <div class="plan-name" data-i18n="planFreeName">开源版</div>
+      <div class="plan-desc" data-i18n="planFreeDesc">适用于开发测试环境，覆盖常规 Oracle 安装场景</div>
+      <div class="plan-price" data-i18n="planFreePrice">免费</div>
+      <div class="plan-price-sub" data-i18n="planFreeSub">永久免费 · GitHub 开源</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li><span class="ck">&#10003;</span> <span data-i18n="pf1">单机 / 单机 ASM 安装</span></li>
+        <li><span class="ck">&#10003;</span> <span data-i18n="pf2">NON-CDB / CDB (PDB) 架构</span></li>
+        <li><span class="ck">&#10003;</span> <span data-i18n="pf3">X86 架构支持</span></li>
+        <li><span class="ck">&#10003;</span> <span data-i18n="pf4">RHEL / OracleLinux / CentOS</span></li>
+        <li><span class="ck">&#10003;</span> <span data-i18n="pf5">Oracle 官方认证组合</span></li>
+        <li><span class="ck">&#10003;</span> <span data-i18n="pf6">全自动化安装 · 无需人工干预</span></li>
+        <li><span class="xk">&#10005;</span> <span data-i18n="pf7">RAC 集群部署</span></li>
+        <li><span class="xk">&#10005;</span> <span data-i18n="pf8">ARM 架构 · 国产化系统</span></li>
+        <li><span class="xk">&#10005;</span> <span data-i18n="pf9">一键安装补丁</span></li>
+      </ul>
+      <a href="https://github.com/pc-study/OracleShellInstall" target="_blank" rel="noopener noreferrer" class="plan-btn plan-btn-outline" data-i18n="planFreeBtn">前往 GitHub 下载</a>
+    </div>
+    <!-- PAID -->
+    <div class="plan plan-pop reveal">
+      <div class="plan-badge" data-i18n="planPaidBadge">推荐</div>
+      <div class="plan-name" data-i18n="planPaidName">付费版</div>
+      <div class="plan-desc" data-i18n="planPaidDesc">面向生产环境，解锁全部高级功能与专属技术支持</div>
+      <div class="plan-price" data-i18n="planPaidPrice">订阅制</div>
+      <div class="plan-price-sub" data-i18n="planPaidSub">添加作者微信获取详情</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li><span class="ck">&#10003;</span> <span data-i18n="pp1">包含开源版全部功能</span></li>
+        <li><span class="ck">&#10003;</span> <span data-i18n="pp2">RAC 集群部署（不限节点数）</span></li>
+        <li><span class="ck">&#10003;</span> <span data-i18n="pp3">ARM 架构全面支持</span></li>
+        <li><span class="ck">&#10003;</span> <span data-i18n="pp4">国产化系统（麒麟、欧拉、统信等 20+）</span></li>
+        <li><span class="ck">&#10003;</span> <span data-i18n="pp5">非官方认证组合安装</span></li>
+        <li><span class="ck">&#10003;</span> <span data-i18n="pp6">Grid/DB/OJVM 一键安装补丁</span></li>
+        <li><span class="ck">&#10003;</span> <span data-i18n="pp7">安装介质提供（ISO、安装包、补丁）</span></li>
+        <li><span class="ck">&#10003;</span> <span data-i18n="pp8">专属付费群 · 直播答疑 · 日志排错</span></li>
+      </ul>
+      <a href="#contact" class="plan-btn plan-btn-fill" data-i18n="planPaidBtn">联系获取 &#8595;</a>
+    </div>
+  </div>
+</div></section>
+
+<!-- COMPARISON TABLE -->
+<section class="pr-compare"><div class="container">
+  <div class="section-center">
+    <div class="section-eyebrow reveal" data-i18n="cmpEye">详细对比</div>
+    <div class="section-title reveal" data-i18n="cmpTitle">功能点完整对比</div>
+  </div>
+  <div class="cmp-wrap" style="margin-top:32px">
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th data-i18n="cmpCol1">功能描述</th>
+          <th data-i18n="cmpCol2">开源版</th>
+          <th data-i18n="cmpCol3">付费版</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 功能 -->
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catFunc">功能</td></tr>
+        <tr><td data-i18n="r1">脚本帮助 help</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td data-i18n="r2">脚本安装日志</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td data-i18n="r3">脚本参数配置</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td data-i18n="r4">脚本参数检查</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td data-i18n="r5">创建多个实例</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td data-i18n="r6">配置多路径、UDEV、ASM 绑盘</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td data-i18n="r7">可重复执行</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td data-i18n="r8">全程无需人工干预</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td data-i18n="r9">安装后优化数据库</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <!-- 架构 -->
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catArch">架构</td></tr>
+        <tr><td data-i18n="r10">单机 / 单机 ASM</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td data-i18n="r11">NON-CDB / CDB (PDB)</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td data-i18n="r12">RAC（不限节点数）</td><td class="cmp-no">&#10005;</td><td class="cmp-yes">&#10003;</td></tr>
+        <!-- CPU -->
+        <tr class="cmp-cat"><td colspan="3">CPU</td></tr>
+        <tr><td>X86</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td>ARM</td><td class="cmp-no">&#10005;</td><td class="cmp-yes">&#10003;</td></tr>
+        <!-- 系统 -->
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catOs">操作系统</td></tr>
+        <tr><td data-i18n="r16">红帽 RHEL / Oracle Linux / CentOS</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td data-i18n="r17">国产化系统（麒麟、欧拉、统信、龙蜥等 20+）</td><td class="cmp-no">&#10005;</td><td class="cmp-yes">&#10003;</td></tr>
+        <!-- Oracle 版本 -->
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catVer">Oracle 版本</td></tr>
+        <tr><td>11gR2 / 12cR2 / 19c / 21c / 23ai</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <!-- 兼容性 -->
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catCompat">兼容性</td></tr>
+        <tr><td data-i18n="r19">Oracle 官方认证组合安装</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr><td data-i18n="r20">非 Oracle 官方认证组合安装</td><td class="cmp-no">&#10005;</td><td class="cmp-yes">&#10003;</td></tr>
+        <!-- 补丁 -->
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catPatch">安装补丁</td></tr>
+        <tr><td data-i18n="r21">Grid/DB/OJVM 一键安装打补丁</td><td class="cmp-no">&#10005;</td><td class="cmp-yes">&#10003;</td></tr>
+        <!-- 介质 -->
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catMedia">安装介质</td></tr>
+        <tr><td data-i18n="r22">提供系统镜像 ISO、Oracle 安装包/补丁等</td><td class="cmp-no">&#10005;</td><td class="cmp-yes">&#10003;</td></tr>
+        <!-- 答疑 -->
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catSupport">技术支持</td></tr>
+        <tr><td data-i18n="r23">安装日志排错、专属付费群、群直播答疑等</td><td class="cmp-no">&#10005;</td><td class="cmp-yes">&#10003;</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<!-- FAQ -->
+<section class="pr-faq"><div class="container">
+  <div class="section-center">
+    <div class="section-eyebrow reveal" data-i18n="faqEye">常见问题</div>
+    <div class="section-title reveal" data-i18n="faqTitle">版本订阅 FAQ</div>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span data-i18n="fq1">开源版和付费版的核心区别是什么？</span><span class="faq-arrow">&#9660;</span>
+      </div>
+      <div class="faq-a"><p data-i18n="fa1">开源版支持单机和单机 ASM 模式，适用于 X86 架构和红帽系列系统，满足基础安装需求。付费版在此基础上增加了 RAC 集群（不限节点数）、ARM 架构、20+ 国产化操作系统、非官方认证组合安装、一键安装补丁、安装介质提供以及专属技术支持。</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span data-i18n="fq2">付费版如何获取和付款？</span><span class="faq-arrow">&#9660;</span>
+      </div>
+      <div class="faq-a"><p data-i18n="fa2">请添加作者微信 Lucifer-0622 咨询订阅详情，包括定价、授权方式和付款流程等。</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span data-i18n="fq3">付费版包含哪些技术支持？</span><span class="faq-arrow">&#9660;</span>
+      </div>
+      <div class="faq-a"><p data-i18n="fa3">付费版包含专属微信群支持，群直播答疑，安装日志排错指导等。遇到安装问题可以直接在群内获得作者的技术支持。</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span data-i18n="fq4">安装介质包含哪些内容？</span><span class="faq-arrow">&#9660;</span>
+      </div>
+      <div class="faq-a"><p data-i18n="fa4">付费版提供系统镜像 ISO 文件、Oracle 各版本安装包以及 Grid/DB/OJVM 补丁文件等完整安装介质，免去自行下载的麻烦。</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <span data-i18n="fq5">开源版可以免费用于生产环境吗？</span><span class="faq-arrow">&#9660;</span>
+      </div>
+      <div class="faq-a"><p data-i18n="fa5">开源版可免费使用，但仅支持单机/单机 ASM、X86 架构和红帽系列系统。如果生产环境需要 RAC 集群、ARM 架构或国产化系统支持，建议使用付费版。</p></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- CTA -->
+<section class="pr-cta" id="contact"><div class="container">
+  <div class="pr-cta-box reveal">
+    <h2 data-i18n="prCtaTitle">获取付费版完整功能</h2>
+    <p data-i18n="prCtaDesc">添加作者微信咨询订阅详情，解锁 RAC 集群、国产化系统、一键补丁等全部高级功能</p>
+    <div class="wechat-id">&#128241; Lucifer-0622</div>
+  </div>
+</div></section>
+
+<div id="footer"></div>
+<script src="js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('pricing');
+document.getElementById('footer').innerHTML = footerHTML();
+
+// ---- i18n for pricing page ----
+Object.assign(i18n.zh, {
+  prEye:'版本对比', prTitle:'选择适合您的版本',
+  prDesc:'开源版满足基础安装需求，付费版解锁 RAC 集群、ARM 架构、国产化系统、一键补丁等全部高级功能',
+  planFreeName:'开源版', planFreeDesc:'适用于开发测试环境，覆盖常规 Oracle 安装场景',
+  planFreePrice:'免费', planFreeSub:'永久免费 · GitHub 开源', planFreeBtn:'前往 GitHub 下载',
+  planPaidBadge:'推荐', planPaidName:'付费版', planPaidDesc:'面向生产环境，解锁全部高级功能与专属技术支持',
+  planPaidPrice:'订阅制', planPaidSub:'添加作者微信获取详情', planPaidBtn:'联系获取 \u2193',
+  pf1:'单机 / 单机 ASM 安装', pf2:'NON-CDB / CDB (PDB) 架构', pf3:'X86 架构支持',
+  pf4:'RHEL / OracleLinux / CentOS', pf5:'Oracle 官方认证组合', pf6:'全自动化安装 · 无需人工干预',
+  pf7:'RAC 集群部署', pf8:'ARM 架构 · 国产化系统', pf9:'一键安装补丁',
+  pp1:'包含开源版全部功能', pp2:'RAC 集群部署（不限节点数）', pp3:'ARM 架构全面支持',
+  pp4:'国产化系统（麒麟、欧拉、统信等 20+）', pp5:'非官方认证组合安装',
+  pp6:'Grid/DB/OJVM 一键安装补丁', pp7:'安装介质提供（ISO、安装包、补丁）',
+  pp8:'专属付费群 · 直播答疑 · 日志排错',
+  cmpEye:'详细对比', cmpTitle:'功能点完整对比',
+  cmpCol1:'功能描述', cmpCol2:'开源版', cmpCol3:'付费版',
+  catFunc:'功能', catArch:'架构', catOs:'操作系统', catVer:'Oracle 版本',
+  catCompat:'兼容性', catPatch:'安装补丁', catMedia:'安装介质', catSupport:'技术支持',
+  r1:'脚本帮助 help', r2:'脚本安装日志', r3:'脚本参数配置', r4:'脚本参数检查',
+  r5:'创建多个实例', r6:'配置多路径、UDEV、ASM 绑盘', r7:'可重复执行', r8:'全程无需人工干预',
+  r9:'安装后优化数据库', r10:'单机 / 单机 ASM', r11:'NON-CDB / CDB (PDB)',
+  r12:'RAC（不限节点数）', r16:'红帽 RHEL / Oracle Linux / CentOS',
+  r17:'国产化系统（麒麟、欧拉、统信、龙蜥等 20+）',
+  r19:'Oracle 官方认证组合安装', r20:'非 Oracle 官方认证组合安装',
+  r21:'Grid/DB/OJVM 一键安装打补丁', r22:'提供系统镜像 ISO、Oracle 安装包/补丁等',
+  r23:'安装日志排错、专属付费群、群直播答疑等',
+  faqEye:'常见问题', faqTitle:'版本订阅 FAQ',
+  fq1:'开源版和付费版的核心区别是什么？',
+  fa1:'开源版支持单机和单机 ASM 模式，适用于 X86 架构和红帽系列系统，满足基础安装需求。付费版在此基础上增加了 RAC 集群（不限节点数）、ARM 架构、20+ 国产化操作系统、非官方认证组合安装、一键安装补丁、安装介质提供以及专属技术支持。',
+  fq2:'付费版如何获取和付款？',
+  fa2:'请添加作者微信 Lucifer-0622 咨询订阅详情，包括定价、授权方式和付款流程等。',
+  fq3:'付费版包含哪些技术支持？',
+  fa3:'付费版包含专属微信群支持，群直播答疑，安装日志排错指导等。遇到安装问题可以直接在群内获得作者的技术支持。',
+  fq4:'安装介质包含哪些内容？',
+  fa4:'付费版提供系统镜像 ISO 文件、Oracle 各版本安装包以及 Grid/DB/OJVM 补丁文件等完整安装介质，免去自行下载的麻烦。',
+  fq5:'开源版可以免费用于生产环境吗？',
+  fa5:'开源版可免费使用，但仅支持单机/单机 ASM、X86 架构和红帽系列系统。如果生产环境需要 RAC 集群、ARM 架构或国产化系统支持，建议使用付费版。',
+  prCtaTitle:'获取付费版完整功能',
+  prCtaDesc:'添加作者微信咨询订阅详情，解锁 RAC 集群、国产化系统、一键补丁等全部高级功能',
+});
+Object.assign(i18n.en, {
+  prEye:'COMPARE PLANS', prTitle:'Choose Your Plan',
+  prDesc:'The open-source edition covers basic installation needs. The paid edition unlocks RAC clusters, ARM architecture, domestic OS support, one-click patching, and more.',
+  planFreeName:'Open Source', planFreeDesc:'For development and testing environments, covering standard Oracle installation scenarios',
+  planFreePrice:'Free', planFreeSub:'Forever free \u00b7 Open source on GitHub', planFreeBtn:'Download on GitHub',
+  planPaidBadge:'Recommended', planPaidName:'Paid Edition', planPaidDesc:'For production environments, unlocking all advanced features and dedicated support',
+  planPaidPrice:'Subscription', planPaidSub:'Contact via WeChat for details', planPaidBtn:'Get in Touch \u2193',
+  pf1:'Single Instance / Standalone ASM', pf2:'NON-CDB / CDB (PDB) architecture', pf3:'X86 architecture support',
+  pf4:'RHEL / OracleLinux / CentOS', pf5:'Oracle certified combinations', pf6:'Fully automated \u00b7 No manual intervention',
+  pf7:'RAC cluster deployment', pf8:'ARM architecture \u00b7 Domestic OS', pf9:'One-click patching',
+  pp1:'All open-source features included', pp2:'RAC cluster (unlimited nodes)', pp3:'Full ARM architecture support',
+  pp4:'Domestic OS (Kylin, openEuler, UOS, etc. 20+)', pp5:'Non-certified combination installs',
+  pp6:'Grid/DB/OJVM one-click patching', pp7:'Installation media provided (ISO, packages, patches)',
+  pp8:'Dedicated support group \u00b7 Live Q&A \u00b7 Log troubleshooting',
+  cmpEye:'DETAILED COMPARISON', cmpTitle:'Full Feature Comparison',
+  cmpCol1:'Feature', cmpCol2:'Open Source', cmpCol3:'Paid',
+  catFunc:'FEATURES', catArch:'ARCHITECTURE', catOs:'OPERATING SYSTEM', catVer:'ORACLE VERSION',
+  catCompat:'COMPATIBILITY', catPatch:'PATCHING', catMedia:'INSTALL MEDIA', catSupport:'SUPPORT',
+  r1:'Script help command', r2:'Installation log output', r3:'Parameter configuration', r4:'Parameter validation',
+  r5:'Create multiple instances', r6:'Multipath, UDEV, ASM disk binding', r7:'Re-runnable execution', r8:'Fully unattended',
+  r9:'Post-install DB optimization', r10:'Single Instance / Standalone ASM', r11:'NON-CDB / CDB (PDB)',
+  r12:'RAC (unlimited nodes)', r16:'RHEL / Oracle Linux / CentOS',
+  r17:'Domestic OS (Kylin, openEuler, UOS, Anolis, etc. 20+)',
+  r19:'Oracle certified combination installs', r20:'Non-certified combination installs',
+  r21:'Grid/DB/OJVM one-click patching', r22:'System ISO, Oracle packages & patches provided',
+  r23:'Log troubleshooting, dedicated group, live Q&A',
+  faqEye:'FAQ', faqTitle:'Pricing FAQ',
+  fq1:'What are the key differences between open-source and paid editions?',
+  fa1:'The open-source edition supports Single Instance and Standalone ASM on X86 with RHEL-family systems. The paid edition adds RAC clusters (unlimited nodes), ARM architecture, 20+ domestic operating systems, non-certified combination support, one-click patching, installation media, and dedicated technical support.',
+  fq2:'How do I get the paid edition?',
+  fa2:'Add the author on WeChat (Lucifer-0622) to inquire about subscription details, including pricing, licensing, and payment.',
+  fq3:'What technical support is included?',
+  fa3:'The paid edition includes a dedicated WeChat support group, live Q&A sessions, and installation log troubleshooting guidance with direct access to the author.',
+  fq4:'What installation media is provided?',
+  fa4:'The paid edition provides system ISO images, Oracle installation packages for all supported versions, and Grid/DB/OJVM patch files.',
+  fq5:'Can the open-source edition be used in production?',
+  fa5:'Yes, but it only supports Single/Standalone ASM on X86 with RHEL-family systems. For production environments requiring RAC, ARM, or domestic OS support, the paid edition is recommended.',
+  prCtaTitle:'Get Full Paid Edition Features',
+  prCtaDesc:'Contact via WeChat for subscription details. Unlock RAC clusters, domestic OS support, one-click patching, and all advanced features.',
+});
+
+// Apply saved language
+if (currentLang !== 'zh') setLang(currentLang);
+</script>
+</body>
+</html>

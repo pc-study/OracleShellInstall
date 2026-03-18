@@ -7,14 +7,14 @@ let currentLang = localStorage.getItem('lang') || 'zh';
 
 const i18n = {
   zh: {
-    home: '首页', generator: '命令生成器', docs: '使用文档', start: '开始使用',
+    home: '首页', generator: '命令生成器', docs: '使用文档', pricing: '版本订阅', start: '开始使用',
     nav: '快速导航', versions: '支持版本', contact: '联系方式',
     wechat: '微信', email: '邮箱',
     footerDesc: 'Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC 三种部署模式，覆盖 20+ Linux 发行版。',
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
   },
   en: {
-    home: 'Home', generator: 'Generator', docs: 'Docs', start: 'Get Started',
+    home: 'Home', generator: 'Generator', docs: 'Docs', pricing: 'Pricing', start: 'Get Started',
     nav: 'Navigation', versions: 'Versions', contact: 'Contact',
     wechat: 'WeChat', email: 'Email',
     footerDesc: 'One-click automated Oracle Database installation script. Supports Single/ASM/RAC modes across 20+ Linux distributions.',
@@ -65,6 +65,7 @@ function navHTML(active) {
     { href: 'index.html', key: 'home', id: 'home' },
     { href: 'generator.html', key: 'generator', id: 'generator' },
     { href: 'docs.html', key: 'docs', id: 'docs' },
+    { href: 'pricing.html', key: 'pricing', id: 'pricing' },
   ];
   const themeIcon = currentTheme === 'dark' ? '\u2600' : '\u263E';
   const langLabel = currentLang === 'zh' ? 'EN' : '\u4E2D';
@@ -92,6 +93,7 @@ function footerHTML() {
       <a href="index.html" data-i18n="home">${t('home')}</a>
       <a href="generator.html" data-i18n="generator">${t('generator')}</a>
       <a href="docs.html" data-i18n="docs">${t('docs')}</a>
+      <a href="pricing.html" data-i18n="pricing">${t('pricing')}</a>
     </div>
     <div class="footer-col"><h4 data-i18n="versions">${t('versions')}</h4>
       <a href="docs.html">Oracle 26ai</a>
