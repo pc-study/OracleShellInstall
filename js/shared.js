@@ -64,19 +64,19 @@ function toggleTheme() {
 // ---- Nav HTML ----
 function navHTML(active) {
   const pages = [
-    { href: 'index.html', key: 'home', id: 'home' },
-    { href: 'generator.html', key: 'generator', id: 'generator' },
-    { href: 'docs.html', key: 'docs', id: 'docs' },
-    { href: 'compat.html', key: 'compat', id: 'compat' },
-    { href: 'pricing.html', key: 'pricing', id: 'pricing' },
-    { href: 'download.html', key: 'download', id: 'download' },
+    { href: 'index.html', key: 'home', id: 'home', icon: '&#9750;' },
+    { href: 'generator.html', key: 'generator', id: 'generator', icon: '&#9881;' },
+    { href: 'docs.html', key: 'docs', id: 'docs', icon: '&#9782;' },
+    { href: 'compat.html', key: 'compat', id: 'compat', icon: '&#9776;' },
+    { href: 'pricing.html', key: 'pricing', id: 'pricing', icon: '&#9733;' },
+    { href: 'download.html', key: 'download', id: 'download', icon: '&#8615;' },
   ];
   const themeIcon = currentTheme === 'dark' ? '\u2600' : '\u263E';
   const langLabel = currentLang === 'zh' ? 'EN' : '\u4E2D';
   return `<nav class="nav"><div class="nav-inner">
     <a href="index.html" class="nav-logo"><div class="logo-icon">OS</div>Oracle<span>Shell</span>Install</a>
     <div class="nav-links">${pages.map(p =>
-      `<a href="${p.href}" class="${active===p.id?'active':''}" data-i18n="${p.key}">${t(p.key)}</a>`
+      `<a href="${p.href}" class="${active===p.id?'active':''}" data-i18n="${p.key}"><span class="nav-icon">${p.icon}</span>${t(p.key)}</a>`
     ).join('')}<a href="pricing.html" class="nav-cta" data-i18n="start">${t('start')}</a></div>
     <div class="nav-actions">
       <button class="nav-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">${themeIcon}</button>
@@ -180,11 +180,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const links = document.querySelector('.nav-links');
   if (ham && links) {
     ham.addEventListener('click', () => {
-      links.classList.toggle('open');
-      ham.textContent = links.classList.contains('open') ? '\u2715' : '\u2630';
+      const isOpen = links.classList.toggle('open');
+      ham.textContent = isOpen ? '\u2715' : '\u2630';
+      ham.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
     links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      links.classList.remove('open'); ham.textContent = '\u2630';
+      links.classList.remove('open');
+      ham.textContent = '\u2630';
+      ham.setAttribute('aria-label', 'Open menu');
+      document.body.style.overflow = '';
     }));
   }
 
