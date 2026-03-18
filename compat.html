@@ -548,11 +548,11 @@ document.getElementById('gdFilter').addEventListener('click', e => {
 });
 
 // Guide group accordion - event delegation with keyboard support
-document.getElementById('gdContainer').addEventListener('click', e => {
+document.getElementById('gdList').addEventListener('click', e => {
   const hd = e.target.closest('.gd-group-hd');
   if (hd) hd.parentElement.classList.toggle('open');
 });
-document.getElementById('gdContainer').addEventListener('keydown', e => {
+document.getElementById('gdList').addEventListener('keydown', e => {
   const hd = e.target.closest('.gd-group-hd');
   if (hd && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); hd.parentElement.classList.toggle('open'); }
 });
