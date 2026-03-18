@@ -393,6 +393,16 @@ img{max-width:100%;display:block}
 .tg-contact-btn:hover{background:#2aabee;color:#fff;border-color:#2aabee;transform:translateY(-2px);box-shadow:0 4px 16px rgba(42,171,238,.3)}
 .tg-contact-btn svg{transition:transform .2s}
 .tg-contact-btn:hover svg{transform:scale(1.1)}
+.consult-discord-link{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:6px 14px;
+  background:rgba(88,101,242,.1);border:1px solid rgba(88,101,242,.25);border-radius:8px;
+  color:#5865f2;text-decoration:none;font-size:.85rem;font-weight:500;transition:all .2s}
+.consult-discord-link:hover{background:rgba(88,101,242,.18);border-color:#5865f2;transform:translateY(-1px)}
+.discord-contact-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;
+  background:rgba(88,101,242,.1);border:1px solid rgba(88,101,242,.25);border-radius:10px;
+  color:#5865f2;text-decoration:none;font-size:.95rem;font-weight:600;transition:all .25s}
+.discord-contact-btn:hover{background:#5865f2;color:#fff;border-color:#5865f2;transform:translateY(-2px);box-shadow:0 4px 16px rgba(88,101,242,.3)}
+.discord-contact-btn svg{transition:transform .2s}
+.discord-contact-btn:hover svg{transform:scale(1.1)}
 
 /* === SEARCH OVERLAY === */
 .search-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding-top:min(20vh,120px);opacity:0;pointer-events:none;transition:opacity .2s}
