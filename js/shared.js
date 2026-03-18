@@ -7,14 +7,14 @@ let currentLang = localStorage.getItem('lang') || 'zh';
 
 const i18n = {
   zh: {
-    home: '首页', generator: '命令生成器', docs: '使用文档', pricing: '版本订阅', start: '开始使用',
+    home: '首页', generator: '命令生成器', docs: '使用文档', pricing: '脚本订阅', start: '开始使用',
     nav: '快速导航', versions: '支持版本', contact: '联系方式',
     wechat: '微信', email: '邮箱',
     footerDesc: 'Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC 三种部署模式，覆盖 20+ Linux 发行版。',
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
   },
   en: {
-    home: 'Home', generator: 'Generator', docs: 'Docs', pricing: 'Pricing', start: 'Get Started',
+    home: 'Home', generator: 'Generator', docs: 'Docs', pricing: 'Subscribe', start: 'Get Started',
     nav: 'Navigation', versions: 'Versions', contact: 'Contact',
     wechat: 'WeChat', email: 'Email',
     footerDesc: 'One-click automated Oracle Database installation script. Supports Single/ASM/RAC modes across 20+ Linux distributions.',
