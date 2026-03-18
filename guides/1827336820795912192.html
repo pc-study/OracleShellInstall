@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ubuntu 22.04 一键安装 Oracle 11G RAC - OracleShellInstall</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+<article class="guide-article"><div class="container">
+  <div class="guide-header">
+    <a href="../compat.html" class="guide-back">&larr; 返回安装合集</a>
+    <h1>Ubuntu 22.04 一键安装 Oracle 11G RAC</h1>
+    <div class="guide-meta">
+      <span>原文来源：<a href="https://www.modb.pro/db/1827336820795912192" target="_blank" rel="noopener noreferrer">墨天轮</a></span>
+      <span>作者：Lucifer</span>
+    </div>
+  </div>
+  <div class="guide-body markdown-body">
+<blockquote>
+<p>大家好，这里是 <strong>Lucifer三思而后行</strong>，专注于提升数据库运维效率。</p>
+</blockquote>
+<p><h3>目录</h3><ul><li><a href="#_4">前言</a></li><li><a href="#_11">安装准备</a></li><li><a href="#_20">环境信息</a></li><li><a href="#_168">安装命令</a></li><li><a href="#_197">安装过程</a></li><li><a href="#_262">连接测试</a></li><li><a href="#_410">往期精彩文章</a></li></ul></p>
+<h1><a id="_4"></a>前言</h1>
+<p>Oracle 一键安装脚本，演示 Ubuntu 22.04 一键安装 Oracle 11G RAC 过程（全程无需人工干预）。</p>
+<blockquote>
+<p><strong>脚本下载：<a href="https://www.modb.pro/course/148" target="_blank">Oracle一键安装脚本</a></strong><br />
+<strong>作者微信</strong>：Lucifer-0622</p>
+</blockquote>
+<h1><a id="_11"></a>安装准备</h1>
+<ol>
+<li>系统组安装好操作系统（支持最小化安装）</li>
+<li>网络组配置好主机网络，通常只需要一个公网 IP 地址</li>
+<li>DBA 创建软件目录：<code>mkdir /soft</code></li>
+<li>DBA 上传 Oracle 安装介质（基础包，补丁包）到 /soft 目录下</li>
+<li>DBA 上传 Oracle 一键安装脚本到 /soft 目录下，授予脚本执行权限：<code>chmod +x OracleshellInstall</code></li>
+<li>使用网络源</li>
+<li>根据脚本安装脚本以及实际情况，配置好脚本的安装参数，在 /soft 目录下执行一键安装即可。</li>
+</ol>
+<h1><a id="_20"></a>环境信息</h1>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
+<span class="hljs-comment">## 节点一</span>
+[root@ubuntu01:/soft]<span class="hljs-comment"># cat /etc/os-release</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Ubuntu 22.04.4 LTS&quot;</span>
+NAME=<span class="hljs-string">&quot;Ubuntu&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;22.04&quot;</span>
+VERSION=<span class="hljs-string">&quot;22.04.4 LTS (Jammy Jellyfish)&quot;</span>
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL=<span class="hljs-string">&quot;https://www.ubuntu.com/&quot;</span>
+SUPPORT_URL=<span class="hljs-string">&quot;https://help.ubuntu.com/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bugs.launchpad.net/ubuntu/&quot;</span>
+PRIVACY_POLICY_URL=<span class="hljs-string">&quot;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&quot;</span>
+UBUNTU_CODENAME=jammy
+
+<span class="hljs-comment">## 节点二</span>
+[root@ubuntu02:/root]<span class="hljs-comment"># cat /etc/os-release</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Ubuntu 22.04.4 LTS&quot;</span>
+NAME=<span class="hljs-string">&quot;Ubuntu&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;22.04&quot;</span>
+VERSION=<span class="hljs-string">&quot;22.04.4 LTS (Jammy Jellyfish)&quot;</span>
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL=<span class="hljs-string">&quot;https://www.ubuntu.com/&quot;</span>
+SUPPORT_URL=<span class="hljs-string">&quot;https://help.ubuntu.com/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bugs.launchpad.net/ubuntu/&quot;</span>
+PRIVACY_POLICY_URL=<span class="hljs-string">&quot;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&quot;</span>
+UBUNTU_CODENAME=jammy
+
+<span class="hljs-comment"># 网络信息</span>
+<span class="hljs-comment">## 节点一</span>
+[root@ubuntu01:/soft]<span class="hljs-comment"># ip a</span>
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:38:1c:6e brd ff:ff:ff:ff:ff:ff
+    altname enp2s1
+    inet 192.168.88.100/24 brd 192.168.88.255 scope global noprefixroute ens33
+       valid_lft forever preferred_lft forever
+    inet6 fe80::8b28:ca2f:b450:f6a0/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+3: ens36: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:38:1c:78 brd ff:ff:ff:ff:ff:ff
+    altname enp2s4
+    inet 192.168.11.10/24 brd 192.168.11.255 scope global noprefixroute ens36
+       valid_lft forever preferred_lft forever
+    inet6 fe80::b625:5782:7e10:5a0e/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+
+
+<span class="hljs-comment">## 节点二</span>
+[root@ubuntu02:/root]<span class="hljs-comment"># ip a</span>
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:ae:f7:1c brd ff:ff:ff:ff:ff:ff
+    altname enp2s1
+    inet 192.168.88.101/24 brd 192.168.88.255 scope global noprefixroute ens33
+       valid_lft forever preferred_lft forever
+    inet6 fe80::4aa0:5ad5:75ae:fe0f/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+3: ens36: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:ae:f7:26 brd ff:ff:ff:ff:ff:ff
+    altname enp2s4
+    inet 192.168.11.11/24 brd 192.168.11.255 scope global noprefixroute ens36
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5ccc:d9b2:b93f:f71a/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+
+
+<span class="hljs-comment"># 使用网络源</span>
+
+<span class="hljs-comment"># starwind 共享磁盘挂载（有存储就不需要使用 starwind，直接存储上划盘挂载就可）</span>
+apt-get install -y open-iscsi
+systemctl start open-iscsi.service
+systemctl <span class="hljs-built_in">enable</span> open-iscsi.service
+iscsiadm -m discovery -t st -p 192.168.88.1
+<span class="hljs-comment">## 挂载 ASM 磁盘</span>
+iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:192.168.88.1-lucifer -p 192.168.88.1 -l
+<span class="hljs-comment">## 配置开机自动挂载</span>
+iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:192.168.88.1-lucifer -p 192.168.88.1 --op update -n node.startup -v automatic
+
+<span class="hljs-comment">## 节点一</span>
+[root@ubuntu01:/soft]<span class="hljs-comment"># lsblk</span>
+NAME                MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0                 7:0    0     4K  1 loop /snap/bare/5
+loop2                 7:2    0  74.2M  1 loop /snap/core22/1439
+loop3                 7:3    0 266.6M  1 loop /snap/firefox/3836
+loop4                 7:4    0 269.8M  1 loop /snap/firefox/4793
+loop5                 7:5    0   497M  1 loop /snap/gnome-42-2204/141
+loop6                 7:6    0  91.7M  1 loop /snap/gtk-common-themes/1535
+loop7                 7:7    0  12.3M  1 loop /snap/snap-store/959
+loop8                 7:8    0  40.4M  1 loop /snap/snapd/20671
+loop9                 7:9    0  38.8M  1 loop /snap/snapd/21759
+loop10                7:10   0   500K  1 loop /snap/snapd-desktop-integration/178
+loop11                7:11   0   452K  1 loop /snap/snapd-desktop-integration/83
+loop12                7:12   0  74.3M  1 loop /snap/core22/1564
+sda                   8:0    0   320G  0 disk
+├─sda1                8:1    0     1M  0 part
+├─sda2                8:2    0   513M  0 part /boot/efi
+└─sda3                8:3    0 319.5G  0 part
+  ├─vgubuntu-root   252:0    0 315.9G  0 lvm  /var/snap/firefox/common/host-hunspell
+  │                                           /
+  └─vgubuntu-swap_1 252:1    0   3.6G  0 lvm  [SWAP]
+sdb                   8:16   0    10G  0 disk
+sdc                   8:32   0    20G  0 disk
+sr0                  11:0    1   4.7G  0 rom
+
+<span class="hljs-comment">## 节点二</span>
+[root@ubuntu02:/root]<span class="hljs-comment"># lsblk</span>
+NAME                MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0                 7:0    0     4K  1 loop /snap/bare/5
+loop2                 7:2    0  74.2M  1 loop /snap/core22/1439
+loop3                 7:3    0 266.6M  1 loop /snap/firefox/3836
+loop4                 7:4    0   497M  1 loop /snap/gnome-42-2204/141
+loop5                 7:5    0  91.7M  1 loop /snap/gtk-common-themes/1535
+loop6                 7:6    0  12.3M  1 loop /snap/snap-store/959
+loop7                 7:7    0  40.4M  1 loop /snap/snapd/20671
+loop8                 7:8    0  38.8M  1 loop /snap/snapd/21759
+loop9                 7:9    0   452K  1 loop /snap/snapd-desktop-integration/83
+loop10                7:10   0  74.3M  1 loop /snap/core22/1564
+sda                   8:0    0   320G  0 disk
+├─sda1                8:1    0     1M  0 part
+├─sda2                8:2    0   513M  0 part /boot/efi
+└─sda3                8:3    0 319.5G  0 part
+  ├─vgubuntu-root   252:0    0 315.9G  0 lvm  /var/snap/firefox/common/host-hunspell
+  │                                           /
+  └─vgubuntu-swap_1 252:1    0   3.6G  0 lvm  [SWAP]
+sdb                   8:16   0    10G  0 disk
+sdc                   8:32   0    20G  0 disk
+sr0                  11:0    1   4.7G  0 rom
+
+<span class="hljs-comment"># 安装包存放在 /soft 目录下</span>
+[root@ubuntu01:/soft]<span class="hljs-comment"># ll</span>
+total 3835524
+drwxr-xr-x  6 grid oinstall       4096  8月 24 20:30 ./
+drwxr-xr-x 25 root root           4096  8月 24 20:24 ../
+-rwxr-xr-x  1 grid oinstall     241299  8月 24 20:22 OracleShellInstall*
+-rw-r--r--  1 grid oinstall 1395582860  8月 22 05:01 p13390677_112040_Linux-x86-64_1of7.zip
+-rw-r--r--  1 grid oinstall 1151304589  8月 22 05:01 p13390677_112040_Linux-x86-64_2of7.zip
+-rw-r--r--  1 grid oinstall 1205251894  8月 22 15:38 p13390677_112040_Linux-x86-64_3of7.zip
+-rw-r--r--  1 grid oinstall  174911877  8月 22 15:38 p18370031_112040_Linux-x86-64.zip
+
+</code></div></pre>
+<p>确保安装环境准备完成后，即可执行一键安装。</p>
+<h1><a id="_168"></a>安装命令</h1>
+<p>使用标准生产环境安装参数（安装过程若失败，脚本支持重复执行安装）：</p>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：</span>
+./OracleShellInstall -n ubuntu `<span class="hljs-comment"># hostname prefix`\</span>
+-hn ubuntu01,ubuntu02 `<span class="hljs-comment"># rac node hostname`\</span>
+-cn ubuntu-cls `<span class="hljs-comment"># cluster_name`\</span>
+-sn lucifer-scan     `<span class="hljs-comment"># scan_name`\</span>
+-rp aaa `<span class="hljs-comment"># root password`\</span>
+-gp oracle `<span class="hljs-comment"># grid password`\</span>
+-op oracle `<span class="hljs-comment"># oracle password`\</span>
+-lf ens33 `<span class="hljs-comment"># local ip ifname`\</span>
+-pf ens36 `<span class="hljs-comment"># rac private ip ifname`\</span>
+-ri 192.168.88.100,192.168.88.101 `<span class="hljs-comment"># rac node public ip`\</span>
+-vi 192.168.88.102,192.168.88.103 `<span class="hljs-comment"># rac virtual ip`\</span>
+-si 192.168.88.105 `<span class="hljs-comment"># rac scan ip`\</span>
+-od /dev/sdb `<span class="hljs-comment"># rac ocr asm disk`\</span>
+-dd /dev/sdc `<span class="hljs-comment"># rac data asm disk`\</span>
+-o lucifer `<span class="hljs-comment"># dbname`\</span>
+-ds AL32UTF8 `<span class="hljs-comment"># database character`\</span>
+-ns AL16UTF16 `<span class="hljs-comment"># national character`\</span>
+-redo 100 `<span class="hljs-comment"># redo size`\</span>
+-dp oracle `<span class="hljs-comment"># sys/system password`\</span>
+-opd Y `<span class="hljs-comment"># optimize db`\</span>
+-mp N
+</code></div></pre>
+<h1><a id="_197"></a>安装过程</h1>
+<pre><div class="hljs"><code class="lang-bash">   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
+  ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
+ ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
+░██      ░██░░██░░█ ░░░░░░██  ██░░░██ ░██ ██░░░██░█████████░██████  ██░░░██ ░██ ░██░██░░██░░░██ ██░░░░ ░░░██░  ░░░░░░██  ░██ ░██
+░██      ░██ ░██ ░   ███████ ░██  ░░  ░██░███████░░░░░░░░██░██░░░██░███████ ░██ ░██░██ ░██  ░██░░█████   ░██    ███████  ░██ ░██
+░░██     ██  ░██    ██░░░░██ ░██   ██ ░██░██░░░░        ░██░██  ░██░██░░░░  ░██ ░██░██ ░██  ░██ ░░░░░██  ░██   ██░░░░██  ░██ ░██
+ ░░███████  ░███   ░░████████░░█████  ███░░██████ ████████ ░██  ░██░░██████ ███ ███░██ ███  ░██ ██████   ░░██ ░░████████ ███ ███
+  ░░░░░░░   ░░░     ░░░░░░░░  ░░░░░  ░░░  ░░░░░░ ░░░░░░░░  ░░   ░░  ░░░░░░ ░░░ ░░░ ░░ ░░░   ░░ ░░░░░░     ░░   ░░░░░░░░ ░░░ ░░░ 
+
+注意：本脚本仅用于新服务器上实施部署数据库使用，严禁在已运行数据库的主机上执行，以免发生数据丢失或者损坏，造成不可挽回的损失！！！
+
+请选择安装模式 [单机(si)/单机ASM(sa)/集群(rac)] : rac
+
+数据库安装模式: rac
+
+请选择数据库版本 [11/12/19/21/23] : 11
+
+数据库版本:     11
+
+!!! 免责声明：当前操作系统版本是 [ Ubuntu 22.04.4 LTS ] 不在 Oracle 官方支持列表，本脚本只负责安装，请确认是否继续安装 (Y/N): [Y]
+
+OracleShellInstall 开始安装，详细安装过程可查看日志： tail -2000f /soft/print_shell_install_20240824202220.log
+
+正在进行安装前检查，请稍等......
+
+正在检测安装包 /soft/p13390677_112040_Linux-x86-64_3of7.zip 的 MD5 值是否正确，请稍等......
+正在检测安装包 /soft/p13390677_112040_Linux-x86-64_1of7.zip 的 MD5 值是否正确，请稍等......
+正在检测安装包 /soft/p13390677_112040_Linux-x86-64_2of7.zip 的 MD5 值是否正确，请稍等......
+
+正在配置网络软件源......已完成 (耗时: 13 秒)
+正在检测安装包 /soft/p18370031_112040_Linux-x86-64.zip 的 MD5 值是否正确，请稍等......
+配置 root 用户互信......已完成 (耗时: 2 秒)
+正在检查并更新 RAC 主机时间......已完成 (耗时: 1 秒)
+正在获取操作系统信息......已完成 (耗时: 1 秒)
+正在安装依赖包......已完成 (耗时: 53 秒)
+正在配置 Swap......已完成 (耗时: 10 秒)
+正在禁用防火墙......已完成 (耗时: 1 秒)
+正在配置主机名和 hosts 文件......已完成 (耗时: 1 秒)
+正在创建用户和组......已完成 (耗时: 1 秒)
+正在创建安装目录......已完成 (耗时: 1 秒)
+正在配置 Avahi-daemon 服务......已完成 (耗时: 1 秒)
+正在配置透明大页 &amp;&amp; NUMA &amp;&amp; 磁盘 IO 调度器......已完成 (耗时: 3 秒)
+正在配置操作系统参数 sysctl......已完成 (耗时: 1 秒)
+正在配置 RemoveIPC......已完成 (耗时: 1 秒)
+正在配置用户限制 <span class="hljs-built_in">limit</span>......已完成 (耗时: 1 秒)
+正在配置 shm 目录......已完成 (耗时: 1 秒)
+正在配置用户环境变量......已完成 (耗时: 1 秒)
+正在配置 RAC 其他节点信息......已完成 (耗时: 106 秒)
+正在配置 RAC 所有节点互信......已完成 (耗时: 10 秒)
+正在解压 Grid 安装包以及补丁......已完成 (耗时: 10 秒)
+正在解压 Oracle 软件以及补丁......已完成 (耗时: 16 秒)
+正在安装 Grid 软件以及补丁......已完成 (耗时: 871 秒)
+正在创建 ASM 磁盘组......已完成 (耗时: 15 秒)
+正在安装 Oracle 软件以及补丁......已完成 (耗时: 350 秒)
+正在创建数据库......已完成 (耗时: 208 秒)
+正在优化数据库......已完成 (耗时: 21 秒)
+
+恭喜！Oracle 一键安装执行完成 (耗时: 1733 秒)，现在是否重启主机：[Y/N]
+
+正在重启主机......   
+</code></div></pre>
+<h1><a id="_262"></a>连接测试</h1>
+<p>查看系统版本：</p>
+<pre><div class="hljs"><code class="lang-bash">[root@ubuntu01:/soft]<span class="hljs-comment"># cat /etc/os-release</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Ubuntu 22.04.4 LTS&quot;</span>
+NAME=<span class="hljs-string">&quot;Ubuntu&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;22.04&quot;</span>
+VERSION=<span class="hljs-string">&quot;22.04.4 LTS (Jammy Jellyfish)&quot;</span>
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL=<span class="hljs-string">&quot;https://www.ubuntu.com/&quot;</span>
+SUPPORT_URL=<span class="hljs-string">&quot;https://help.ubuntu.com/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bugs.launchpad.net/ubuntu/&quot;</span>
+PRIVACY_POLICY_URL=<span class="hljs-string">&quot;https://www.ubuntu.com/legal/terms-and-policies/privacy-policy&quot;</span>
+UBUNTU_CODENAME=jammy
+</code></div></pre>
+<p>查看 Grid 版本以及补丁：</p>
+<pre><div class="hljs"><code class="lang-bash">[root@ubuntu01:/soft]<span class="hljs-comment"># so</span>
+[oracle@ubuntu01:/home/oracle]$ <span class="hljs-built_in">exit</span>
+<span class="hljs-built_in">logout</span>
+[root@ubuntu01:/soft]<span class="hljs-comment"># sg</span>
+[grid@ubuntu01:/home/grid]$ sqlplus -v
+
+SQL*Plus: Release 11.2.0.4.0 Production
+
+[grid@ubuntu01:/home/grid]$ opatch lspatches
+18370031;Grid Infrastructure Patch Set Update : 11.2.0.4.x (gibugno)
+[grid@ubuntu01:/home/grid]$
+</code></div></pre>
+<p>查看集群：</p>
+<pre><div class="hljs"><code class="lang-bash">[grid@ubuntu01:/home/grid]$ crsctl <span class="hljs-built_in">stat</span> res -t
+--------------------------------------------------------------------------------
+NAME           TARGET  STATE        SERVER                   STATE_DETAILS
+--------------------------------------------------------------------------------
+Local Resources
+--------------------------------------------------------------------------------
+ora.DATA.dg
+               ONLINE  ONLINE       ubuntu01
+               ONLINE  ONLINE       ubuntu02
+ora.LISTENER.lsnr
+               ONLINE  ONLINE       ubuntu01
+               ONLINE  ONLINE       ubuntu02
+ora.OCR.dg
+               ONLINE  ONLINE       ubuntu01
+               ONLINE  ONLINE       ubuntu02
+ora.asm
+               ONLINE  ONLINE       ubuntu01                 Started
+               ONLINE  ONLINE       ubuntu02                 Started
+ora.gsd
+               OFFLINE OFFLINE      ubuntu01
+               OFFLINE OFFLINE      ubuntu02
+ora.net1.network
+               ONLINE  ONLINE       ubuntu01
+               ONLINE  ONLINE       ubuntu02
+ora.ons
+               ONLINE  ONLINE       ubuntu01
+               ONLINE  ONLINE       ubuntu02
+--------------------------------------------------------------------------------
+Cluster Resources
+--------------------------------------------------------------------------------
+ora.LISTENER_SCAN1.lsnr
+      1        ONLINE  ONLINE       ubuntu01
+ora.cvu
+      1        ONLINE  ONLINE       ubuntu01
+ora.lucifer.db
+      1        ONLINE  ONLINE       ubuntu01                 Open
+      2        ONLINE  ONLINE       ubuntu02                 Open
+ora.oc4j
+      1        ONLINE  ONLINE       ubuntu01
+ora.scan1.vip
+      1        ONLINE  ONLINE       ubuntu01
+ora.ubuntu01.vip
+      1        ONLINE  ONLINE       ubuntu01
+ora.ubuntu02.vip
+      1        ONLINE  ONLINE       ubuntu02
+</code></div></pre>
+<p>查看 Oracle 版本以及补丁：</p>
+<pre><div class="hljs"><code class="lang-bash">[root@ubuntu01:/soft]<span class="hljs-comment"># so</span>
+[oracle@ubuntu01:/home/oracle]$ sqlplus -v
+
+SQL*Plus: Release 11.2.0.4.0 Production
+
+[oracle@ubuntu01:/home/oracle]$ opatch lspatches
+There are no Interim patches installed <span class="hljs-keyword">in</span> this Oracle Home.
+</code></div></pre>
+<p>连接数据库：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@ubuntu01:/home/oracle]$ sas
+
+SQL*Plus: Release 11.2.0.4.0 Production on Sat Aug 24 20:58:41 2024
+
+Copyright (c) 1982, 2013, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 11g Enterprise Edition Release 11.2.0.4.0 - 64bit Production
+With the Partitioning, Real Application Clusters, Automatic Storage Management, OLAP,
+Data Mining and Real Application Testing options
+
+show parameter name
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+cell_offloadgroup_name		     string
+db_file_name_convert		     string
+db_name 			     string	 lucifer
+db_unique_name			     string	 lucifer
+global_names			     boolean	 FALSE
+instance_name			     string	 lucifer1
+lock_name_space 		     string
+log_file_name_convert		     string
+processor_group_name		     string
+service_names			     string	 lucifer
+
+sys@LUCIFER 2024-08-24 20:58:57&gt; select instance_name,status from gv<span class="hljs-variable">$instance</span>;
+
+select instance_name,status from gv<span class="hljs-variable">$instance</span>;
+
+INSTANCE_NAME	 STATUS
+---------------- ------------
+lucifer1	 OPEN
+lucifer2	 OPEN
+
+select instance_name,status from gv<span class="hljs-variable">$instance</span>;
+
+INSTANCE_NAME	 STATUS
+---------------- ------------
+lucifer1	 OPEN
+lucifer2	 OPEN
+
+</code></div></pre>
+<p>数据库连接正常。</p>
+<h1><a id="_410"></a>往期精彩文章</h1>
+<blockquote>
+<p><a href="https://mp.weixin.qq.com/s/0xFe5m1DQ0ucT2_266hsrA" target="_blank">Oracle 一键巡检自动生成 Word 报告</a><br />
+<a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5MzcwNzQ0MQ==&amp;action=getalbum&amp;album_id=3497774649285296131#wechat_redirect" target="_blank">Oracle 一键安装合集</a><br />
+<a href="https://mp.weixin.qq.com/s/gv6t97FFyMsd6e4GH1HAwQ" target="_blank">Oracle一键安装脚本的 21 个疑问与解答</a><br />
+<a href="https://mp.weixin.qq.com/s/4zI73auIUhwSRb7qL3UIfw" target="_blank">Oracle一键巡检脚本的 21 个疑问与解答</a><br />
+<a href="https://mp.weixin.qq.com/s/UL0BSMCAZrOQgCoWpDMGew" target="_blank">全网首发：Oracle 23ai 一键安装脚本（非 RPM）</a><br />
+<a href="https://mp.weixin.qq.com/s/T7GbpwhnMugzk7PB6hAoJQ" target="_blank">Oracle 19C 最新 RU 补丁 19.24 ，一键安装！</a><br />
+<a href="https://mp.weixin.qq.com/s/dT4tFMYVZ3mh49CI6V3YEA" target="_blank">Oracle Linux 7.9 一键安装 Oracle 19C</a><br />
+<a href="https://mp.weixin.qq.com/s/cQJ6gP1bM_7m0H5-Dha4TA" target="_blank">RedHat 9.4(aarch64) 一键安装 Oracle 19C</a><br />
+<a href="https://mp.weixin.qq.com/s/sx1E4GIvIeQXp2vGMmVr2A" target="_blank">openEuler 22.03 LTS SP4 一键安装 Oracle 19C RAC</a><br />
+<a href="https://mp.weixin.qq.com/s/mUHqU5hQ9GdH2bKuClPt5A" target="_blank">RHEL 7.9 一键安装 Oracle 19C 19.23 RAC</a><br />
+<a href="https://mp.weixin.qq.com/s/Trt7gYkQVoL5A803WlDL6Q" target="_blank">Oracle DataGuard GAP 修复手册</a><br />
+<a href="https://mp.weixin.qq.com/s/DysIcb-p11j56d3YtlqpcQ" target="_blank">优化 Oracle：最佳实践与开发规范</a><br />
+<a href="https://mp.weixin.qq.com/s/SmncWuYAubj0tnOw35aJGA" target="_blank">DBA 必备：Linux 软件源配置全攻略</a><br />
+<a href="https://mp.weixin.qq.com/s/yvth1vorP3JjUp3g3vPBAQ" target="_blank">Linux 一键配置时钟同步全攻略</a></p>
+</blockquote>
+<hr />
+<p>感谢您的阅读，这里是 <strong>Lucifer三思而后行</strong>，欢迎<strong>点赞+关注</strong>，我会持续分享数据库知识、运维技巧。</p>
+</div> <div class="tag-box mb20"><i class="cs-tag"></i> <a href="/tag/墨力计划?type=knowledge" target="_blank" class="ml4">墨力计划</a></div> <!----> <div class="praise-box vc font14 c6"><div>「喜欢这篇文章，您的关注和赞赏是给作者最好的鼓励」</div> <div class="flex center mt20 mb10"><div class="f-btn mr20">关注作者</div> <button type="button" class="el-button praise-btn el-button--danger el-button--small"><!----><!----><span>点赞</span></button></div> <div class="el-dialog__wrapper" style="display:none;"><div role="dialog" aria-modal="true" aria-label="dialog" class="el-dialog vertical-horizontal" style="margin-top:0;width:340px;"><div class="el-dialog__header"><span class="el-dialog__title"></span><button type="button" aria-label="Close" class="el-dialog__headerbtn"><i class="el-dialog__close el-icon el-icon-close"></i></button></div><!----><!---->  </div>
+</div></article>
+<div id="footer"></div>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('compat');
+document.getElementById('footer').innerHTML = footerHTML();
+</script>
+</body>
+</html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oracle Linux 8.9 一键安装 Oracle 12CR2 RAC - OracleShellInstall</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+<article class="guide-article"><div class="container">
+  <div class="guide-header">
+    <a href="../compat.html" class="guide-back">&larr; 返回安装合集</a>
+    <h1>Oracle Linux 8.9 一键安装 Oracle 12CR2 RAC</h1>
+    <div class="guide-meta">
+      <span>原文来源：<a href="https://www.modb.pro/db/1793936038271979520" target="_blank" rel="noopener noreferrer">墨天轮</a></span>
+      <span>作者：Lucifer</span>
+    </div>
+  </div>
+  <div class="guide-body markdown-body">
+<h1><a id="_0"></a>前言</h1>
+<p>Oracle 一键安装脚本，演示 Oracle Linux 8.9 一键安装 Oracle 12CR2 RAC（231017）过程（全程无需人工干预）。</p>
+<blockquote>
+<p><strong>⭐️ <font color='red'>脚本下载地址</font>：<a href="https://www.modb.pro/course/148" target="_blank">Shell脚本安装Oracle数据库</a></strong></p>
+</blockquote>
+<h1><a id="_6"></a>安装准备</h1>
+<ul>
+<li>1、安装好操作系统，建议安装图形化</li>
+<li>2、配置好网络</li>
+<li>3、挂载本地 ISO 镜像源</li>
+<li>4、上传软件安装包（安装基础包，补丁包）</li>
+<li>5、上传一键安装脚本：OracleShellInstall</li>
+</ul>
+<h1><a id="_14"></a>环境信息</h1>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
+<span class="hljs-comment">## 节点一</span>
+[root@oel01 soft]<span class="hljs-comment"># cat /etc/os-release</span>
+NAME=<span class="hljs-string">&quot;Oracle Linux Server&quot;</span>
+VERSION=<span class="hljs-string">&quot;8.9&quot;</span>
+ID=<span class="hljs-string">&quot;ol&quot;</span>
+ID_LIKE=<span class="hljs-string">&quot;fedora&quot;</span>
+VARIANT=<span class="hljs-string">&quot;Server&quot;</span>
+VARIANT_ID=<span class="hljs-string">&quot;server&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;8.9&quot;</span>
+PLATFORM_ID=<span class="hljs-string">&quot;platform:el8&quot;</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Oracle Linux Server 8.9&quot;</span>
+ANSI_COLOR=<span class="hljs-string">&quot;0;31&quot;</span>
+CPE_NAME=<span class="hljs-string">&quot;cpe:/o:oracle:linux:8:9:server&quot;</span>
+HOME_URL=<span class="hljs-string">&quot;https://linux.oracle.com/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bugzilla.oracle.com/&quot;</span>
+
+ORACLE_BUGZILLA_PRODUCT=<span class="hljs-string">&quot;Oracle Linux 8&quot;</span>
+ORACLE_BUGZILLA_PRODUCT_VERSION=8.9
+ORACLE_SUPPORT_PRODUCT=<span class="hljs-string">&quot;Oracle Linux&quot;</span>
+ORACLE_SUPPORT_PRODUCT_VERSION=8.9
+
+<span class="hljs-comment">## 节点二</span>
+[root@oel02 soft]<span class="hljs-comment"># cat /etc/os-release</span>
+NAME=<span class="hljs-string">&quot;Oracle Linux Server&quot;</span>
+VERSION=<span class="hljs-string">&quot;8.9&quot;</span>
+ID=<span class="hljs-string">&quot;ol&quot;</span>
+ID_LIKE=<span class="hljs-string">&quot;fedora&quot;</span>
+VARIANT=<span class="hljs-string">&quot;Server&quot;</span>
+VARIANT_ID=<span class="hljs-string">&quot;server&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;8.9&quot;</span>
+PLATFORM_ID=<span class="hljs-string">&quot;platform:el8&quot;</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Oracle Linux Server 8.9&quot;</span>
+ANSI_COLOR=<span class="hljs-string">&quot;0;31&quot;</span>
+CPE_NAME=<span class="hljs-string">&quot;cpe:/o:oracle:linux:8:9:server&quot;</span>
+HOME_URL=<span class="hljs-string">&quot;https://linux.oracle.com/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bugzilla.oracle.com/&quot;</span>
+
+ORACLE_BUGZILLA_PRODUCT=<span class="hljs-string">&quot;Oracle Linux 8&quot;</span>
+ORACLE_BUGZILLA_PRODUCT_VERSION=8.9
+ORACLE_SUPPORT_PRODUCT=<span class="hljs-string">&quot;Oracle Linux&quot;</span>
+ORACLE_SUPPORT_PRODUCT_VERSION=8.9
+
+<span class="hljs-comment"># 网络信息</span>
+<span class="hljs-comment">## 节点一</span>
+[root@oel01 soft]<span class="hljs-comment"># ip a</span>
+2: ens192: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 00:0c:29:31:1e:07 brd ff:ff:ff:ff:ff:ff
+    altname enp11s0
+    inet 192.168.6.180/24 brd 192.168.6.255 scope global noprefixroute ens192
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fe31:1e07/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+3: ens224: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 00:0c:29:31:1e:11 brd ff:ff:ff:ff:ff:ff
+    altname enp19s0
+    inet 2.2.2.1/24 brd 2.2.2.255 scope global noprefixroute ens224
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fe31:1e11/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+
+<span class="hljs-comment">## 节点二</span>
+[root@oel02 ~]<span class="hljs-comment"># ip a</span>
+2: ens192: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 00:0c:29:6f:8e:70 brd ff:ff:ff:ff:ff:ff
+    altname enp11s0
+    inet 192.168.6.181/24 brd 192.168.6.255 scope global noprefixroute ens192
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fe6f:8e70/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+3: ens224: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 00:0c:29:6f:8e:7a brd ff:ff:ff:ff:ff:ff
+    altname enp19s0
+    inet 2.2.2.2/24 brd 2.2.2.255 scope global noprefixroute ens224
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fe6f:8e7a/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+
+<span class="hljs-comment"># 挂载本地 ISO 镜像</span>
+<span class="hljs-comment">## 节点一</span>
+[root@oel01 soft]<span class="hljs-comment"># mount | grep iso9660 | grep -v &quot;/run/media&quot;</span>
+/dev/sr0 on /mnt <span class="hljs-built_in">type</span> iso9660 (ro,relatime,nojoliet,check=s,map=n,blocksize=2048,iocharset=utf8)
+[root@oel01 soft]<span class="hljs-comment"># df -h|grep /mnt</span>
+/dev/sr0              12G   12G     0 100% /mnt
+
+<span class="hljs-comment">## 节点二</span>
+[root@oel02 ~]<span class="hljs-comment"># mount | grep iso9660 | grep -v &quot;/run/media&quot;</span>
+/dev/sr0 on /mnt <span class="hljs-built_in">type</span> iso9660 (ro,relatime,nojoliet,check=s,map=n,blocksize=2048,iocharset=utf8)
+[root@oel02 ~]<span class="hljs-comment"># df -h|grep /mnt</span>
+/dev/sr0              12G   12G     0 100% /mnt
+
+<span class="hljs-comment"># starwind 共享磁盘挂载（有存储就不需要使用 starwind，直接存储上划盘挂载就可）</span>
+yum install -y iscsi-initiator-utils*
+systemctl start iscsid.service
+systemctl <span class="hljs-built_in">enable</span> iscsid.service
+iscsiadm -m discovery -t st -p 192.168.6.188
+<span class="hljs-comment">## 挂载 ASM 磁盘</span>
+iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:192.168.6.188-lucifer -p 192.168.6.188 -l
+<span class="hljs-comment">## 配置开机自动挂载</span>
+iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:192.168.6.188-lucifer -p 192.168.6.188 --op update -n node.startup -v automatic
+
+<span class="hljs-comment">## 节点一</span>
+[root@oel01 soft]<span class="hljs-comment"># lsblk</span>
+NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda           8:0    0  100G  0 disk
+├─sda1        8:1    0  600M  0 part /boot/efi
+├─sda2        8:2    0    1G  0 part /boot
+└─sda3        8:3    0   98G  0 part
+  ├─ol-root 252:0    0   90G  0 lvm  /
+  └─ol-swap 252:1    0    8G  0 lvm  [SWAP]
+sdb           8:16   0   10G  0 disk
+sdc           8:32   0   50G  0 disk
+sr0          11:0    1 11.6G  0 rom  /mnt
+
+<span class="hljs-comment">## 节点二</span>
+[root@oel02 ~]<span class="hljs-comment"># lsblk</span>
+NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda           8:0    0  100G  0 disk
+├─sda1        8:1    0  600M  0 part /boot/efi
+├─sda2        8:2    0    1G  0 part /boot
+└─sda3        8:3    0   98G  0 part
+  ├─ol-root 252:0    0   90G  0 lvm  /
+  └─ol-swap 252:1    0    8G  0 lvm  [SWAP]
+sdb           8:16   0   10G  0 disk
+sdc           8:32   0   50G  0 disk
+sr0          11:0    1 11.6G  0 rom  /mnt
+
+<span class="hljs-comment"># 安装包存放在 /soft 目录下</span>
+[root@oel01 soft]<span class="hljs-comment"># ll</span>
+-rwx------. 1 root root 3453696911 Apr 16 13:42 LINUX.X64_122010_db_home.zip
+-rwx------. 1 root root 2994687209 Apr 16 13:42 LINUX.X64_122010_grid_home.zip
+-rwxr-xr-x. 1 root root     195169 Apr 16 13:40 OracleShellInstall
+-rwx------. 1 root root 2526745297 Apr 16 13:51 p35745595_122010_Linux-x86-64.zip
+-rwx------. 1 root root  138325588 Apr 16 13:51 p35926712_122010_Linux-x86-64.zip
+-rwx------. 1 root root  127629034 Apr 16 13:51 p6880880_122010_Linux-x86-64.zip
+-rwx------. 1 root root     321590 Apr  3 16:20 rlwrap-0.44.tar.gz
+</code></div></pre>
+<p>确保安装环境准备完成后，即可执行一键安装。</p>
+<h1><a id="_157"></a>安装命令</h1>
+<p>使用标准生产环境安装参数（安装过程若失败，脚本支持重复执行安装）：</p>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：</span>
+./OracleShellInstall -n oel `<span class="hljs-comment"># hostname prefix`\</span>
+-hn oel01,oel02 `<span class="hljs-comment"># rac node hostname`\</span>
+-cn oel-cls `<span class="hljs-comment"># cluster_name`\</span>
+-rp oracle `<span class="hljs-comment"># root password`\</span>
+-gp oracle `<span class="hljs-comment"># grid password`\</span>
+-op oracle `<span class="hljs-comment"># oracle password`\</span>
+-lf ens192 `<span class="hljs-comment"># local ip ifname`\</span>
+-pf ens224 `<span class="hljs-comment"># rac private ip ifname`\</span>
+-ri 192.168.6.180,192.168.6.181 `<span class="hljs-comment"># rac node public ip`\</span>
+-vi 192.168.6.182,192.168.6.183 `<span class="hljs-comment"># rac virtual ip`\</span>
+-si 192.168.6.184 `<span class="hljs-comment"># rac scan ip`\</span>
+-od /dev/sdb `<span class="hljs-comment"># rac ocr asm disk`\</span>
+-dd /dev/sdc `<span class="hljs-comment"># rac data asm disk`\</span>
+-o lucifer `<span class="hljs-comment"># dbname`\</span>
+-ds AL32UTF8 `<span class="hljs-comment"># database character`\</span>
+-ns AL16UTF16 `<span class="hljs-comment"># national character`\</span>
+-redo 100 `<span class="hljs-comment"># redo size`\</span>
+-dp oracle `<span class="hljs-comment"># sys/system password`\</span>
+-gpa 35745595 `<span class="hljs-comment"># grid PSU/RU`\</span>
+-jpa 35926712 `<span class="hljs-comment"># OJVM PSU/RU`\</span>
+-opd Y `<span class="hljs-comment"># optimize db`</span>
+</code></div></pre>
+<h1><a id="_186"></a>安装过程</h1>
+<pre><div class="hljs"><code class="lang-bash">   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
+  ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
+ ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
+░██      ░██░░██░░█ ░░░░░░██  ██░░░██ ░██ ██░░░██░█████████░██████  ██░░░██ ░██ ░██░██░░██░░░██ ██░░░░ ░░░██░  ░░░░░░██  ░██ ░██
+░██      ░██ ░██ ░   ███████ ░██  ░░  ░██░███████░░░░░░░░██░██░░░██░███████ ░██ ░██░██ ░██  ░██░░█████   ░██    ███████  ░██ ░██
+░░██     ██  ░██    ██░░░░██ ░██   ██ ░██░██░░░░        ░██░██  ░██░██░░░░  ░██ ░██░██ ░██  ░██ ░░░░░██  ░██   ██░░░░██  ░██ ░██
+ ░░███████  ░███   ░░████████░░█████  ███░░██████ ████████ ░██  ░██░░██████ ███ ███░██ ███  ░██ ██████   ░░██ ░░████████ ███ ███
+  ░░░░░░░   ░░░     ░░░░░░░░  ░░░░░  ░░░  ░░░░░░ ░░░░░░░░  ░░   ░░  ░░░░░░ ░░░ ░░░ ░░ ░░░   ░░ ░░░░░░     ░░   ░░░░░░░░ ░░░ ░░░ 
+
+请选择安装模式 [单机(si)/单机ASM(sa)/集群(rac)] : rac
+
+数据库安装模式: rac                                                                              
+
+请选择数据库版本 [11/12/19/21] : 12
+
+数据库版本:     12                                                                               
+
+OracleShellInstall 开始安装(安装过程可查看日志：/soft/print_ora_install_20240416143731.log）                                                                                  
+
+正在检查操作系统是否符合安装条件......已完成 (耗时: 1 秒)
+正在去除密码复杂度配置......已完成 (耗时: 0 秒)
+正在配置 YUM 源......已完成 (耗时: 1 秒)
+配置 root 用户互信......已完成 (耗时: 1 秒)
+正在获取操作系统信息......已完成 (耗时: 1 秒)
+正在配置 Swap......已完成 (耗时: 0 秒)
+正在配置防火墙......已完成 (耗时: 2 秒)
+正在配置 selinux......已完成 (耗时: 1 秒)
+正在配置 nsyctl......已完成 (耗时: 0 秒)
+正在安装依赖包......已完成 (耗时: 19 秒)
+正在配置主机名和 /etc/hosts......已完成 (耗时: 0 秒)
+正在创建用户和组......已完成 (耗时: 1 秒)
+正在创建安装目录......已完成 (耗时: 4 秒)
+正在配置 Avahi-daemon 服务......已完成 (耗时: 2 秒)
+正在配置透明大页 &amp;&amp; NUMA &amp;&amp; 磁盘 IO 调度器......已完成 (耗时: 1 秒)
+正在配置操作系统参数 sysctl......已完成 (耗时: 1 秒)
+正在配置 RemoveIPC......已完成 (耗时: 0 秒)
+正在配置用户限制 <span class="hljs-built_in">limit</span>......已完成 (耗时: 1 秒)
+正在配置 shm 目录......已完成 (耗时: 1 秒)
+正在安装 rlwrap 插件......已完成 (耗时: 0 秒)
+正在配置用户环境变量......已完成 (耗时: 1 秒)
+正在配置 RAC 其他节点信息......已完成 (耗时: 41 秒)
+正在配置 RAC 所有节点互信......已完成 (耗时: 7 秒)
+正在解压 Grid 安装包以及补丁......已完成 (耗时: 295 秒)
+正在解压 Oracle 软件以及补丁......已完成 (耗时: 19 秒)
+正在安装 Grid 软件以及补丁......已完成 (耗时: 3564 秒)
+正在创建 ASM 磁盘组......已完成 (耗时: 23 秒)
+正在安装 Oracle 软件以及补丁......已完成 (耗时: 2853 秒)
+正在创建数据库......已完成 (耗时: 1346 秒)
+正在优化数据库......已完成 (耗时: 476 秒)
+
+恭喜！Oracle RAC 安装成功 (耗时: 8674 秒)，现在是否重启主机：[Y/N] Y
+
+正在重启主机......      
+</code></div></pre>
+<h1><a id="_244"></a>连接测试</h1>
+<p>查看系统版本：</p>
+<pre><div class="hljs"><code class="lang-bash">[root@oel01 soft]<span class="hljs-comment"># cat /etc/os-release</span>
+NAME=<span class="hljs-string">&quot;Oracle Linux Server&quot;</span>
+VERSION=<span class="hljs-string">&quot;8.9&quot;</span>
+ID=<span class="hljs-string">&quot;ol&quot;</span>
+ID_LIKE=<span class="hljs-string">&quot;fedora&quot;</span>
+VARIANT=<span class="hljs-string">&quot;Server&quot;</span>
+VARIANT_ID=<span class="hljs-string">&quot;server&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;8.9&quot;</span>
+PLATFORM_ID=<span class="hljs-string">&quot;platform:el8&quot;</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Oracle Linux Server 8.9&quot;</span>
+ANSI_COLOR=<span class="hljs-string">&quot;0;31&quot;</span>
+CPE_NAME=<span class="hljs-string">&quot;cpe:/o:oracle:linux:8:9:server&quot;</span>
+HOME_URL=<span class="hljs-string">&quot;https://linux.oracle.com/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bugzilla.oracle.com/&quot;</span>
+
+ORACLE_BUGZILLA_PRODUCT=<span class="hljs-string">&quot;Oracle Linux 8&quot;</span>
+ORACLE_BUGZILLA_PRODUCT_VERSION=8.9
+ORACLE_SUPPORT_PRODUCT=<span class="hljs-string">&quot;Oracle Linux&quot;</span>
+ORACLE_SUPPORT_PRODUCT_VERSION=8.9
+</code></div></pre>
+<p>查看 Grid 版本以及补丁：</p>
+<pre><div class="hljs"><code class="lang-bash">[grid@oel01:/home/grid]$ sqlplus -v
+
+SQL*Plus: Release 12.2.0.1.0 Production
+
+[grid@oel01:/home/grid]$ opatch lspatches
+35755935;OCW OCT 2023 RELEASE UPDATE 12.2.0.1.231017 (35755935)
+35746058;Database Oct 2023 Release Update : 12.2.0.1.231017 (35746058)
+33116894;ACFS JUL 2021 RELEASE UPDATE 12.2.0.1.210720 (33116894)
+35549460;TOMCAT RELEASE UPDATE 12.2.0.1.0(ID:230628) (35549460)
+26839277;DBWLM RELEASE UPDATE 12.2.0.1.0(ID:170913) (26839277)
+
+OPatch succeeded.
+</code></div></pre>
+<p>查看集群：</p>
+<pre><div class="hljs"><code class="lang-bash">[grid@oel01:/home/grid]$ crsctl <span class="hljs-built_in">stat</span> res -t
+--------------------------------------------------------------------------------
+Name           Target  State        Server                   State details       
+--------------------------------------------------------------------------------
+Local Resources
+--------------------------------------------------------------------------------
+ora.ASMNET1LSNR_ASM.lsnr
+               ONLINE  ONLINE       oel01                    STABLE
+               ONLINE  ONLINE       oel02                    STABLE
+ora.DATA.dg
+               ONLINE  ONLINE       oel01                    STABLE
+               ONLINE  ONLINE       oel02                    STABLE
+ora.LISTENER.lsnr
+               ONLINE  ONLINE       oel01                    STABLE
+               ONLINE  ONLINE       oel02                    STABLE
+ora.OCR.dg
+               ONLINE  ONLINE       oel01                    STABLE
+               ONLINE  ONLINE       oel02                    STABLE
+ora.net1.network
+               ONLINE  ONLINE       oel01                    STABLE
+               ONLINE  ONLINE       oel02                    STABLE
+ora.ons
+               ONLINE  ONLINE       oel01                    STABLE
+               ONLINE  ONLINE       oel02                    STABLE
+--------------------------------------------------------------------------------
+Cluster Resources
+--------------------------------------------------------------------------------
+ora.LISTENER_SCAN1.lsnr
+      1        ONLINE  ONLINE       oel01                    STABLE
+ora.MGMTLSNR
+      1        OFFLINE OFFLINE                               STABLE
+ora.asm
+      1        ONLINE  ONLINE       oel01                    Started,STABLE
+      2        ONLINE  ONLINE       oel02                    Started,STABLE
+      3        OFFLINE OFFLINE                               STABLE
+ora.cvu
+      1        ONLINE  ONLINE       oel01                    STABLE
+ora.lucifer.db
+      1        ONLINE  ONLINE       oel01                    Open,HOME=/u01/app/o
+                                                             racle/product/12.2.0
+                                                             /db,STABLE
+      2        ONLINE  ONLINE       oel02                    Open,HOME=/u01/app/o
+                                                             racle/product/12.2.0
+                                                             /db,STABLE
+ora.oel01.vip
+      1        ONLINE  ONLINE       oel01                    STABLE
+ora.oel02.vip
+      1        ONLINE  ONLINE       oel02                    STABLE
+ora.qosmserver
+      1        ONLINE  ONLINE       oel01                    STABLE
+ora.scan1.vip
+      1        ONLINE  ONLINE       oel01                    STABLE
+--------------------------------------------------------------------------------
+</code></div></pre>
+<p>查看 Oracle 版本以及补丁：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@oel01:/home/oracle]$ sqlplus -v
+
+SQL*Plus: Release 12.2.0.1.0 Production
+
+[oracle@oel01:/home/oracle]$ opatch lspatches
+35926712;OJVM RELEASE UPDATE 12.2.0.1.240116 (35926712)
+35755935;OCW OCT 2023 RELEASE UPDATE 12.2.0.1.231017 (35755935)
+35746058;Database Oct 2023 Release Update : 12.2.0.1.231017 (35746058)
+
+OPatch succeeded.
+</code></div></pre>
+<p>连接数据库：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@oel01:/home/oracle]$ sas
+
+SQL*Plus: Release 12.2.0.1.0 Production on Tue Apr 16 17:27:01 2024
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+
+sys@LUCIFER 2024-04-16 17:27:01&gt; show parameter name
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+cdb_cluster_name                     string      lucifer
+cell_offloadgroup_name               string
+db_file_name_convert                 string
+db_name                              string      lucifer
+db_unique_name                       string      lucifer
+global_names                         boolean     FALSE
+instance_name                        string      lucifer1
+lock_name_space                      string
+log_file_name_convert                string
+pdb_file_name_convert                string
+processor_group_name                 string
+service_names                        string      lucifer
+sys@LUCIFER 2024-04-16 17:27:05&gt; select instance_name,status from gv<span class="hljs-variable">$instance</span>;
+
+INSTANCE_NAME    STATUS
+---------------- ------------
+lucifer1         OPEN
+lucifer2         OPEN
+</code></div></pre>
+<p>数据库连接正常。</p>
+</div> <div class="tag-box mb20"><i class="cs-tag"></i> <a href="/tag/墨力计划?type=knowledge" target="_blank" class="ml4">墨力计划</a></div> <!----> <div class="praise-box vc font14 c6"><div>「喜欢这篇文章，您的关注和赞赏是给作者最好的鼓励」</div> <div class="flex center mt20 mb10"><div class="f-btn mr20">关注作者</div> <button type="button" class="el-button praise-btn el-button--danger el-button--small"><!----><!----><span>点赞</span></button></div> <div class="el-dialog__wrapper" style="display:none;"><div role="dialog" aria-modal="true" aria-label="dialog" class="el-dialog vertical-horizontal" style="margin-top:0;width:340px;"><div class="el-dialog__header"><span class="el-dialog__title"></span><button type="button" aria-label="Close" class="el-dialog__headerbtn"><i class="el-dialog__close el-icon el-icon-close"></i></button></div><!----><!---->  </div>
+</div></article>
+<div id="footer"></div>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('compat');
+document.getElementById('footer').innerHTML = footerHTML();
+</script>
+</body>
+</html>

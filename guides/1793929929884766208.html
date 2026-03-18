@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿里龙蜥 Anolis 8.8 一键安装 Oracle 21C 单机 - OracleShellInstall</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+<article class="guide-article"><div class="container">
+  <div class="guide-header">
+    <a href="../compat.html" class="guide-back">&larr; 返回安装合集</a>
+    <h1>阿里龙蜥 Anolis 8.8 一键安装 Oracle 21C 单机</h1>
+    <div class="guide-meta">
+      <span>原文来源：<a href="https://www.modb.pro/db/1793929929884766208" target="_blank" rel="noopener noreferrer">墨天轮</a></span>
+      <span>作者：Lucifer</span>
+    </div>
+  </div>
+  <div class="guide-body markdown-body">
+<h1><a id="_0"></a>前言</h1>
+<p>Oracle 一键安装脚本，演示 龙蜥 Anolis 8.8 一键安装 Oracle 21C 单机（全程无需人工干预）。</p>
+<blockquote>
+<p><strong>⭐️ <font color='red'>脚本下载地址</font>：<a href="https://www.modb.pro/course/148" target="_blank">Shell脚本安装Oracle数据库</a></strong></p>
+</blockquote>
+<h1><a id="_6"></a>前置准备</h1>
+<ul>
+<li>1、安装好操作系统，建议安装图形化</li>
+<li>2、配置好网络</li>
+<li>3、挂载本地 ISO 镜像源</li>
+<li>4、上传软件安装包（安装基础包，补丁包）</li>
+<li>5、上传一键安装脚本：OracleShellInstall</li>
+</ul>
+<h1><a id="_14"></a>环境信息</h1>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
+[root@anolis8 soft]<span class="hljs-comment"># cat /etc/os-release </span>
+NAME=<span class="hljs-string">&quot;Anolis OS&quot;</span>
+VERSION=<span class="hljs-string">&quot;8.8&quot;</span>
+ID=<span class="hljs-string">&quot;anolis&quot;</span>
+ID_LIKE=<span class="hljs-string">&quot;rhel fedora centos&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;8.8&quot;</span>
+PLATFORM_ID=<span class="hljs-string">&quot;platform:an8&quot;</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Anolis OS 8.8&quot;</span>
+ANSI_COLOR=<span class="hljs-string">&quot;0;31&quot;</span>
+HOME_URL=<span class="hljs-string">&quot;https://openanolis.cn/&quot;</span>
+
+<span class="hljs-comment"># 网络信息</span>
+[root@anolis8 soft]<span class="hljs-comment"># ip a</span>
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:c3:5e:e1 brd ff:ff:ff:ff:ff:ff
+    altname enp2s1
+    inet 192.168.6.137/24 brd 192.168.6.255 scope global noprefixroute ens33
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fec3:5ee1/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+
+<span class="hljs-comment"># 挂载本地 ISO 镜像</span>
+[root@anolis8 soft]<span class="hljs-comment"># mount | grep iso9660 | grep -v &quot;/run/media&quot;</span>
+/dev/sr0 on /mnt <span class="hljs-built_in">type</span> iso9660 (ro,relatime,nojoliet,check=s,map=n,blocksize=2048,iocharset=utf8)
+[root@anolis8 soft]<span class="hljs-comment"># df -h | grep /mnt</span>
+/dev/sr0              15G   15G     0 100% /mnt
+
+<span class="hljs-comment"># 安装包存放在 /soft 目录下</span>
+[root@anolis8 soft]<span class="hljs-comment"># ll</span>
+-rwx------ 1 root root 3109225519 Apr 23 14:44 LINUX.X64_213000_db_home.zip
+-rwxr-xr-x 1 root root     198025 Apr 23 14:43 OracleShellInstall
+-rwx------ 1 root root 1458473664 Apr 23 14:44 p36352352_210000_Linux-x86-64.zip
+-rwx------ 1 root root  127629034 Apr 23 14:43 p6880880_210000_Linux-x86-64.zip
+-rwx------ 1 root root     321590 Mar 25 11:15 rlwrap-0.44.tar.gz
+</code></div></pre>
+<p>确保安装环境准备完成后，即可执行一键安装。</p>
+<h1><a id="_56"></a>安装命令</h1>
+<p>使用标准生产环境安装参数：</p>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：</span>
+./OracleShellInstall -lf ens33 `<span class="hljs-comment"># local ip ifname`\</span>
+-n anolis8 `<span class="hljs-comment"># hostname`\</span>
+-op oracle `<span class="hljs-comment"># oracle password`\</span>
+-d /u01 `<span class="hljs-comment"># software base dir`\</span>
+-ord /oradata `<span class="hljs-comment"># data dir`\</span>
+-o lucifer,orcl `<span class="hljs-comment"># dbname`\</span>
+-pdb oliver `<span class="hljs-comment"># pdbname`\</span>
+-dp oracle `<span class="hljs-comment"># sys/system password`\</span>
+-ds AL32UTF8 `<span class="hljs-comment"># database character`\</span>
+-ns AL16UTF16 `<span class="hljs-comment"># national character`\</span>
+-redo 100 `<span class="hljs-comment"># redo size`\</span>
+-opa 36352352 `<span class="hljs-comment"># oracle PSU/RU`\</span>
+-opd Y `<span class="hljs-comment"># optimize db`</span>
+</code></div></pre>
+<h1><a id="_77"></a>安装过程</h1>
+<pre><div class="hljs"><code class="lang-bash">   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
+  ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
+ ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
+░██      ░██░░██░░█ ░░░░░░██  ██░░░██ ░██ ██░░░██░█████████░██████  ██░░░██ ░██ ░██░██░░██░░░██ ██░░░░ ░░░██░  ░░░░░░██  ░██ ░██
+░██      ░██ ░██ ░   ███████ ░██  ░░  ░██░███████░░░░░░░░██░██░░░██░███████ ░██ ░██░██ ░██  ░██░░█████   ░██    ███████  ░██ ░██
+░░██     ██  ░██    ██░░░░██ ░██   ██ ░██░██░░░░        ░██░██  ░██░██░░░░  ░██ ░██░██ ░██  ░██ ░░░░░██  ░██   ██░░░░██  ░██ ░██
+ ░░███████  ░███   ░░████████░░█████  ███░░██████ ████████ ░██  ░██░░██████ ███ ███░██ ███  ░██ ██████   ░░██ ░░████████ ███ ███
+  ░░░░░░░   ░░░     ░░░░░░░░  ░░░░░  ░░░  ░░░░░░ ░░░░░░░░  ░░   ░░  ░░░░░░ ░░░ ░░░ ░░ ░░░   ░░ ░░░░░░     ░░   ░░░░░░░░ ░░░ ░░░ 
+
+请选择安装模式 [单机(si)/单机ASM(sa)/集群(rac)] : si
+
+数据库安装模式: single                                                                           
+
+请选择数据库版本 [11/12/19/21] : 21
+
+数据库版本:     21                                                                               
+
+OracleShellInstall 开始安装，安装过程可查看日志： /soft/print_ora_install_20240424114502.log                                                                                  
+正在检查操作系统是否符合安装条件......已完成 (耗时: 0 秒)
+正在去除密码复杂度配置......已完成 (耗时: 1 秒)
+正在配置 YUM 源......已完成 (耗时: 1 秒)
+正在获取操作系统信息......已完成 (耗时: 1 秒)
+正在配置 Swap......已完成 (耗时: 0 秒)
+正在配置防火墙......已完成 (耗时: 3 秒)
+正在配置 selinux......已完成 (耗时: 1 秒)
+正在配置 nsyctl......已完成 (耗时: 1 秒)
+正在安装依赖包......已完成 (耗时: 134 秒)
+正在配置主机名和 /etc/hosts......已完成 (耗时: 0 秒)
+正在创建用户和组......已完成 (耗时: 16 秒)
+正在创建安装目录......已完成 (耗时: 1 秒)
+正在配置 Avahi-daemon 服务......已完成 (耗时: 3 秒)
+正在配置透明大页 &amp;&amp; NUMA &amp;&amp; 磁盘 IO 调度器......已完成 (耗时: 3 秒)
+正在配置操作系统参数 sysctl......已完成 (耗时: 1 秒)
+正在配置 RemoveIPC......已完成 (耗时: 1 秒)
+正在配置用户限制 <span class="hljs-built_in">limit</span>......已完成 (耗时: 1 秒)
+正在配置 shm 目录......已完成 (耗时: 1 秒)
+正在安装 rlwrap 插件......已完成 (耗时: 19 秒)
+正在配置用户环境变量......已完成 (耗时: 1 秒)
+正在解压 Oracle 安装包以及补丁......已完成 (耗时: 280 秒)
+正在安装 Oracle 软件以及补丁......已完成 (耗时: 1672 秒)
+正在创建监听......已完成 (耗时: 15 秒)
+正在创建数据库......已完成 (耗时: 3956 秒)
+正在优化数据库......已完成 (耗时: 49 秒)
+
+恭喜！Oracle 单机安装成功 (耗时: 6183 秒)，现在是否重启主机：[Y/N] Y
+
+正在重启主机......  
+</code></div></pre>
+<h1><a id="_129"></a>连接测试</h1>
+<p>查看系统版本：</p>
+<pre><div class="hljs"><code class="lang-bash">[root@anolis8 soft]<span class="hljs-comment"># cat /etc/os-release </span>
+NAME=<span class="hljs-string">&quot;Anolis OS&quot;</span>
+VERSION=<span class="hljs-string">&quot;8.8&quot;</span>
+ID=<span class="hljs-string">&quot;anolis&quot;</span>
+ID_LIKE=<span class="hljs-string">&quot;rhel fedora centos&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;8.8&quot;</span>
+PLATFORM_ID=<span class="hljs-string">&quot;platform:an8&quot;</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Anolis OS 8.8&quot;</span>
+ANSI_COLOR=<span class="hljs-string">&quot;0;31&quot;</span>
+HOME_URL=<span class="hljs-string">&quot;https://openanolis.cn/&quot;</span>
+</code></div></pre>
+<p>查看 Oracle 版本以及补丁：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@anolis8:/home/oracle]$ sqlplus -v
+
+SQL*Plus: Release 21.0.0.0.0 - Production
+Version 21.14.0.0.0
+
+[oracle@anolis8:/home/oracle]$ opatch lspatches
+36352352;Database Release Update : 21.14.0.0.240416 (36352352)
+
+OPatch succeeded.
+</code></div></pre>
+<p>查看监听：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@anolis8:/home/oracle]$ lsnrctl <span class="hljs-built_in">stat</span>
+
+LSNRCTL <span class="hljs-keyword">for</span> Linux: Version 21.0.0.0.0 - Production on 24-APR-2024 13:30:50
+
+Copyright (c) 1991, 2021, Oracle.  All rights reserved.
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=anolis8)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR <span class="hljs-keyword">for</span> Linux: Version 21.0.0.0.0 - Production
+Start Date                24-APR-2024 13:29:32
+Uptime                    0 days 0 hr. 1 min. 18 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /u01/app/oracle/product/21.3.0/db/network/admin/listener.ora
+Listener Log File         /u01/app/oracle/diag/tnslsnr/anolis8/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=anolis8)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+Services Summary...
+Service <span class="hljs-string">&quot;16d177f6f2cd50bbe0638906a8c0ea02&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;c8209f27c6b16005e053362ee80ae60e&quot;</span> has 2 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+  Instance <span class="hljs-string">&quot;orcl&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;lucifer&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;luciferXDB&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;oliver&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;orcl&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;orcl&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+The <span class="hljs-built_in">command</span> completed successfully
+</code></div></pre>
+<p>连接数据库：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@anolis8:/home/oracle]$ . .orcl
+[oracle@anolis8:/home/oracle]$ sas
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Wed Apr 24 13:32:00 2024
+Version 21.14.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+Connected to:
+Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production
+Version 21.14.0.0.0
+
+sys@ORCL 2024-04-24 13:32:00&gt; show parameter name
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+cdb_cluster_name                     string
+cell_offloadgroup_name               string
+db_file_name_convert                 string
+db_name                              string      orcl
+db_unique_name                       string      orcl
+global_names                         boolean     FALSE
+instance_name                        string      orcl
+lock_name_space                      string
+log_file_name_convert                string
+pdb_file_name_convert                string
+processor_group_name                 string
+service_names                        string      orcl
+sys@ORCL 2024-04-24 13:32:03&gt; show pdbs
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB<span class="hljs-variable">$SEED</span>                       READ ONLY  NO
+         3 OLIVER                         READ WRITE NO
+sys@ORCL 2024-04-24 13:32:05&gt; <span class="hljs-built_in">exit</span>
+Disconnected from Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production
+Version 21.14.0.0.0
+[oracle@anolis8:/home/oracle]$ . .lucifer 
+[oracle@anolis8:/home/oracle]$ sas
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Wed Apr 24 13:32:10 2024
+Version 21.14.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+Connected to:
+Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production
+Version 21.14.0.0.0
+
+sys@LUCIFER 2024-04-24 13:32:10&gt; show parameter name
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+cdb_cluster_name                     string
+cell_offloadgroup_name               string
+db_file_name_convert                 string
+db_name                              string      lucifer
+db_unique_name                       string      lucifer
+global_names                         boolean     FALSE
+instance_name                        string      lucifer
+lock_name_space                      string
+log_file_name_convert                string
+pdb_file_name_convert                string
+processor_group_name                 string
+service_names                        string      lucifer
+sys@LUCIFER 2024-04-24 13:32:13&gt; show pdbs
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB<span class="hljs-variable">$SEED</span>                       READ ONLY  NO
+         3 OLIVER                         READ WRITE NO
+</code></div></pre>
+<p>数据库连接正常。</p>
+</div> <div class="tag-box mb20"><i class="cs-tag"></i> <a href="/tag/墨力计划?type=knowledge" target="_blank" class="ml4">墨力计划</a></div> <!----> <div class="praise-box vc font14 c6"><div>「喜欢这篇文章，您的关注和赞赏是给作者最好的鼓励」</div> <div class="flex center mt20 mb10"><div class="f-btn mr20">关注作者</div> <button type="button" class="el-button praise-btn el-button--danger el-button--small"><!----><!----><span>点赞</span></button></div> <div class="el-dialog__wrapper" style="display:none;"><div role="dialog" aria-modal="true" aria-label="dialog" class="el-dialog vertical-horizontal" style="margin-top:0;width:340px;"><div class="el-dialog__header"><span class="el-dialog__title"></span><button type="button" aria-label="Close" class="el-dialog__headerbtn"><i class="el-dialog__close el-icon el-icon-close"></i></button></div><!----><!---->  </div>
+</div></article>
+<div id="footer"></div>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('compat');
+document.getElementById('footer').innerHTML = footerHTML();
+</script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>华为欧拉 openEuler 23.09 一键安装 Oracle 21C 单机 ASM - OracleShellInstall</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+<article class="guide-article"><div class="container">
+  <div class="guide-header">
+    <a href="../compat.html" class="guide-back">&larr; 返回安装合集</a>
+    <h1>华为欧拉 openEuler 23.09 一键安装 Oracle 21C 单机 ASM</h1>
+    <div class="guide-meta">
+      <span>原文来源：<a href="https://www.modb.pro/db/1797457412151660544" target="_blank" rel="noopener noreferrer">墨天轮</a></span>
+      <span>作者：Lucifer</span>
+    </div>
+  </div>
+  <div class="guide-body markdown-body">
+<h1><a id="_0"></a>前言</h1>
+<p>Oracle 一键安装脚本，演示 openEuler 23.09 一键安装 Oracle 21C 单机 ASM 过程（全程无需人工干预）。</p>
+<blockquote>
+<p><strong>⭐️ <font color='red'>脚本下载地址</font>：<a href="https://www.modb.pro/course/148" target="_blank">Shell脚本安装Oracle数据库</a></strong></p>
+</blockquote>
+<h1><a id="_5"></a>安装准备</h1>
+<ul>
+<li>1、安装好操作系统，建议安装图形化</li>
+<li>2、配置好网络</li>
+<li>3、挂载本地 ISO 镜像源</li>
+<li>4、上传软件安装包（安装基础包，补丁包）</li>
+<li>5、上传一键安装脚本：OracleShellInstall</li>
+</ul>
+<h1><a id="_12"></a>环境信息</h1>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
+[root@openEuler23 soft]<span class="hljs-comment"># cat /etc/os-release</span>
+NAME=<span class="hljs-string">&quot;openEuler&quot;</span>
+VERSION=<span class="hljs-string">&quot;23.09&quot;</span>
+ID=<span class="hljs-string">&quot;openEuler&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;23.09&quot;</span>
+PRETTY_NAME=<span class="hljs-string">&quot;openEuler 23.09&quot;</span>
+ANSI_COLOR=<span class="hljs-string">&quot;0;31&quot;</span>
+
+<span class="hljs-comment"># 网络信息</span>
+[root@openEuler23 soft]<span class="hljs-comment"># ip a</span>
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:a4:04:2b brd ff:ff:ff:ff:ff:ff
+    inet 192.168.6.197/24 brd 192.168.6.255 scope global noprefixroute ens33
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fea4:42b/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+
+<span class="hljs-comment"># 挂载本地 ISO 镜像</span>
+[root@openEuler23 soft]<span class="hljs-comment"># mount | grep iso9660 | grep -v &quot;/run/media&quot;</span>
+/dev/sr0 on /mnt <span class="hljs-built_in">type</span> iso9660 (ro,relatime,nojoliet,check=s,map=n,blocksize=2048,iocharset=utf8)
+[root@openEuler23 soft]<span class="hljs-comment"># df -h|grep /mnt</span>
+/dev/sr0                     20G   20G     0 100% /mnt
+
+<span class="hljs-comment"># starwind 共享磁盘挂载（有存储就不需要使用 starwind，直接存储上划盘挂载就可）</span>
+yum install -y iscsi-initiator-utils*
+systemctl start iscsid.service
+systemctl <span class="hljs-built_in">enable</span> iscsid.service
+iscsiadm -m discovery -t st -p 192.168.6.188
+<span class="hljs-comment">## 挂载 ASM 磁盘</span>
+iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:192.168.6.188-lucifer -p 192.168.6.188 -l
+<span class="hljs-comment">## 配置开机自动挂载</span>
+iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:192.168.6.188-lucifer -p 192.168.6.188 --op update -n node.startup -v automatic
+
+[root@openEuler23 ~]<span class="hljs-comment"># lsblk </span>
+NAME               MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sda                  8:0    0  100G  0 disk 
+├─sda1               8:1    0    1G  0 part /boot
+└─sda2               8:2    0   99G  0 part 
+  ├─openeuler-root 253:0    0   91G  0 lvm  /
+  └─openeuler-swap 253:1    0    8G  0 lvm  [SWAP]
+sdb                  8:16   0   10G  0 disk 
+sdc                  8:32   0   50G  0 disk 
+sr0                 11:0    1 19.3G  0 rom  /mnt
+
+<span class="hljs-comment"># 安装包存放在 /soft 目录下</span>
+[root@openEuler23 soft]<span class="hljs-comment"># ll</span>
+-rwx------. 1 root root 3109225519 May  8 14:06 LINUX.X64_213000_db_home.zip
+-rwx------. 1 root root 2422217613 May  8 14:20 LINUX.X64_213000_grid_home.zip
+-rwxr-xr-x. 1 root root     207257 May  8 14:22 OracleShellInstall
+-rwx------. 1 root root     321590 May  8 13:34 rlwrap-0.44.tar.gz
+</code></div></pre>
+<p>确保安装环境准备完成后，即可执行一键安装。</p>
+<h1><a id="_68"></a>安装命令</h1>
+<p>使用标准生产环境安装参数（安装过程若失败，脚本支持重复执行安装）：</p>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：</span>
+./OracleShellInstall -n openEuler23 `<span class="hljs-comment"># hostname prefix`\</span>
+-gp oracle `<span class="hljs-comment"># grid password`\</span>
+-op oracle `<span class="hljs-comment"># oracle password`\</span>
+-lf ens33 `<span class="hljs-comment"># local ip ifname`\</span>
+-dd /dev/sdc `<span class="hljs-comment"># rac data asm disk`\</span>
+-o lucifer `<span class="hljs-comment"># dbname`\</span>
+-ds AL32UTF8 `<span class="hljs-comment"># database character`\</span>
+-ns AL16UTF16 `<span class="hljs-comment"># national character`\</span>
+-redo 100 `<span class="hljs-comment"># redo size`\</span>
+-dp oracle `<span class="hljs-comment"># sys/system password`\</span>
+-opd Y `<span class="hljs-comment"># optimize db`</span>
+</code></div></pre>
+<h1><a id="_85"></a>安装过程</h1>
+<pre><div class="hljs"><code class="lang-bash">   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
+  ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
+ ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
+░██      ░██░░██░░█ ░░░░░░██  ██░░░██ ░██ ██░░░██░█████████░██████  ██░░░██ ░██ ░██░██░░██░░░██ ██░░░░ ░░░██░  ░░░░░░██  ░██ ░██
+░██      ░██ ░██ ░   ███████ ░██  ░░  ░██░███████░░░░░░░░██░██░░░██░███████ ░██ ░██░██ ░██  ░██░░█████   ░██    ███████  ░██ ░██
+░░██     ██  ░██    ██░░░░██ ░██   ██ ░██░██░░░░        ░██░██  ░██░██░░░░  ░██ ░██░██ ░██  ░██ ░░░░░██  ░██   ██░░░░██  ░██ ░██
+ ░░███████  ░███   ░░████████░░█████  ███░░██████ ████████ ░██  ░██░░██████ ███ ███░██ ███  ░██ ██████   ░░██ ░░████████ ███ ███
+  ░░░░░░░   ░░░     ░░░░░░░░  ░░░░░  ░░░  ░░░░░░ ░░░░░░░░  ░░   ░░  ░░░░░░ ░░░ ░░░ ░░ ░░░   ░░ ░░░░░░     ░░   ░░░░░░░░ ░░░ ░░░ 
+
+
+注意：本脚本仅用于新服务器上实施部署数据库使用，严禁在已运行数据库的主机上执行，以免发生数据丢失或者损坏，造成不可挽回的损失！！！                                                                                  
+
+请选择安装模式 [单机(si)/单机ASM(sa)/集群(rac)] : sa
+
+数据库安装模式: standalone                                                                       
+
+请选择数据库版本 [11/12/19/21] : 21
+
+数据库版本:     21                                                                               
+
+!!! 免责声明：当前操作系统版本是 [ openEuler 23.09 ] 不在 Oracle 官方支持列表，本脚本只负责安装，请确认是否继续安装 (Y/N): [Y] 
+
+OracleShellInstall 开始安装，详细安装过程可查看日志： tail -2000f /soft/print_shell_install_20240508142252.log                                                                                  
+
+正在去除密码复杂度配置......已完成 (耗时: 1 秒)
+正在配置 YUM 源......已完成 (耗时: 0 秒)
+正在获取操作系统信息......已完成 (耗时: 1 秒)
+正在配置 Swap......已完成 (耗时: 0 秒)
+正在配置防火墙......已完成 (耗时: 1 秒)
+正在配置 selinux......已完成 (耗时: 1 秒)
+正在配置 nsyctl......已完成 (耗时: 0 秒)
+正在安装依赖包......已完成 (耗时: 30 秒)
+正在配置主机名和 /etc/hosts......已完成 (耗时: 1 秒)
+正在创建用户和组......已完成 (耗时: 2 秒)
+正在创建安装目录......已完成 (耗时: 0 秒)
+正在配置 Avahi-daemon 服务......已完成 (耗时: 3 秒)
+正在配置透明大页 &amp;&amp; NUMA &amp;&amp; 磁盘 IO 调度器......已完成 (耗时: 1 秒)
+正在配置操作系统参数 sysctl......已完成 (耗时: 1 秒)
+正在配置 RemoveIPC......已完成 (耗时: 1 秒)
+正在配置用户限制 <span class="hljs-built_in">limit</span>......已完成 (耗时: 0 秒)
+正在配置 shm 目录......已完成 (耗时: 0 秒)
+正在安装 rlwrap 插件......已完成 (耗时: 17 秒)
+正在配置用户环境变量......已完成 (耗时: 1 秒)
+正在解压 Grid 安装包以及补丁......已完成 (耗时: 61 秒)
+正在解压 Oracle 安装包以及补丁......已完成 (耗时: 97 秒)
+正在安装 Grid 软件以及补丁......已完成 (耗时: 293 秒)
+正在安装 Oracle 软件以及补丁......已完成 (耗时: 158 秒)
+正在创建数据库......已完成 (耗时: 868 秒)
+正在优化数据库......已完成 (耗时: 84 秒)
+
+恭喜！Oracle 单机 ASM 安装成功 (耗时: 1628 秒)，现在是否重启主机：[Y/N] Y
+
+正在重启当前节点主机......    
+</code></div></pre>
+<h1><a id="_142"></a>连接测试</h1>
+<p>查看系统版本：</p>
+<pre><div class="hljs"><code class="lang-bash">[root@openEuler23 soft]<span class="hljs-comment"># cat /etc/os-release</span>
+NAME=<span class="hljs-string">&quot;openEuler&quot;</span>
+VERSION=<span class="hljs-string">&quot;23.09&quot;</span>
+ID=<span class="hljs-string">&quot;openEuler&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;23.09&quot;</span>
+PRETTY_NAME=<span class="hljs-string">&quot;openEuler 23.09&quot;</span>
+ANSI_COLOR=<span class="hljs-string">&quot;0;31&quot;</span>
+</code></div></pre>
+<p>查看 Grid 版本以及补丁：</p>
+<pre><div class="hljs"><code class="lang-bash">[grid@openEuler23:/home/grid]$ sqlplus -v
+
+SQL*Plus: Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+[grid@openEuler23:/home/grid]$ opatch lspatches
+There are no Interim patches installed <span class="hljs-keyword">in</span> this Oracle Home <span class="hljs-string">&quot;/u01/app/21.3.0/grid&quot;</span>.
+
+OPatch succeeded.
+</code></div></pre>
+<p>查看集群：</p>
+<pre><div class="hljs"><code class="lang-bash">[grid@openEuler23:/home/grid]$ crsctl <span class="hljs-built_in">stat</span> res -t
+--------------------------------------------------------------------------------
+Name           Target  State        Server                   State details       
+--------------------------------------------------------------------------------
+Local Resources
+--------------------------------------------------------------------------------
+ora.DATA.dg
+               ONLINE  ONLINE       openeuler23              STABLE
+ora.LISTENER.lsnr
+               ONLINE  ONLINE       openeuler23              STABLE
+ora.asm
+               ONLINE  ONLINE       openeuler23              Started,STABLE
+ora.ons
+               OFFLINE OFFLINE      openeuler23              STABLE
+--------------------------------------------------------------------------------
+Cluster Resources
+--------------------------------------------------------------------------------
+ora.cssd
+      1        ONLINE  ONLINE       openeuler23              STABLE
+ora.diskmon
+      1        OFFLINE OFFLINE                               STABLE
+ora.evmd
+      1        ONLINE  ONLINE       openeuler23              STABLE
+ora.lucifer.db
+      1        ONLINE  ONLINE       openeuler23              Open,HOME=/u01/app/o
+                                                             racle/product/21.3.0
+                                                             /db,STABLE
+ora.lucifer.pdb01.pdb
+      1        ONLINE  ONLINE       openeuler23              STABLE
+--------------------------------------------------------------------------------
+</code></div></pre>
+<p>查看 Oracle 版本以及补丁：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@openEuler23:/home/oracle]$ sqlplus -v
+
+SQL*Plus: Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+[oracle@openEuler23:/home/oracle]$ opatch lspatches
+There are no Interim patches installed <span class="hljs-keyword">in</span> this Oracle Home <span class="hljs-string">&quot;/u01/app/oracle/product/21.3.0/db&quot;</span>.
+
+OPatch succeeded.
+</code></div></pre>
+<p>查看监听：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@openEuler23:/home/oracle]$ lsnrctl <span class="hljs-built_in">stat</span>
+
+LSNRCTL <span class="hljs-keyword">for</span> Linux: Version 21.0.0.0.0 - Production on 08-MAY-2024 14:54:00
+
+Copyright (c) 1991, 2021, Oracle.  All rights reserved.
+
+Connecting to (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1521))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR <span class="hljs-keyword">for</span> Linux: Version 21.0.0.0.0 - Production
+Start Date                08-MAY-2024 14:51:27
+Uptime                    0 days 0 hr. 2 min. 33 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /u01/app/21.3.0/grid/network/admin/listener.ora
+Listener Log File         /u01/app/grid/diag/tnslsnr/openEuler23/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=openEuler23)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+Services Summary...
+Service <span class="hljs-string">&quot;+ASM&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;+ASM&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;+ASM_DATA&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;+ASM&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;17ecaebb3da79885e063c506a8c0b326&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;c8209f27c6b16005e053362ee80ae60e&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;lucifer&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;luciferXDB&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;pdb01&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+The <span class="hljs-built_in">command</span> completed successfully
+</code></div></pre>
+<p>连接数据库：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@openEuler23:/home/oracle]$ sas
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Wed May 8 14:53:30 2024
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+sys@LUCIFER 2024-05-08 14:53:30&gt; show parameter name
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+cdb_cluster_name                     string
+cell_offloadgroup_name               string
+db_file_name_convert                 string
+db_name                              string      lucifer
+db_unique_name                       string      lucifer
+global_names                         boolean     FALSE
+instance_name                        string      lucifer
+lock_name_space                      string
+log_file_name_convert                string
+pdb_file_name_convert                string
+processor_group_name                 string
+service_names                        string      lucifer
+sys@LUCIFER 2024-05-08 14:53:35&gt; show pdbs
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB<span class="hljs-variable">$SEED</span>                       READ ONLY  NO
+         3 PDB01                          READ WRITE NO
+</code></div></pre>
+<p>数据库连接正常。</p>
+</div> <div class="tag-box mb20"><i class="cs-tag"></i> <a href="/tag/墨力计划?type=knowledge" target="_blank" class="ml4">墨力计划</a></div> <!----> <div class="praise-box vc font14 c6"><div>「喜欢这篇文章，您的关注和赞赏是给作者最好的鼓励」</div> <div class="flex center mt20 mb10"><div class="f-btn mr20">关注作者</div> <button type="button" class="el-button praise-btn el-button--danger el-button--small"><!----><!----><span>点赞</span></button></div> <div class="el-dialog__wrapper" style="display:none;"><div role="dialog" aria-modal="true" aria-label="dialog" class="el-dialog vertical-horizontal" style="margin-top:0;width:340px;"><div class="el-dialog__header"><span class="el-dialog__title"></span><button type="button" aria-label="Close" class="el-dialog__headerbtn"><i class="el-dialog__close el-icon el-icon-close"></i></button></div><!----><!---->  </div>
+</div></article>
+<div id="footer"></div>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('compat');
+document.getElementById('footer').innerHTML = footerHTML();
+</script>
+</body>
+</html>

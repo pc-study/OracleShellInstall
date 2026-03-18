@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rocky Linux 9.4 一键安装 Oracle 11GR2 RAC - OracleShellInstall</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+<article class="guide-article"><div class="container">
+  <div class="guide-header">
+    <a href="../compat.html" class="guide-back">&larr; 返回安装合集</a>
+    <h1>Rocky Linux 9.4 一键安装 Oracle 11GR2 RAC</h1>
+    <div class="guide-meta">
+      <span>原文来源：<a href="https://www.modb.pro/db/1824009073648017408" target="_blank" rel="noopener noreferrer">墨天轮</a></span>
+      <span>作者：Lucifer</span>
+    </div>
+  </div>
+  <div class="guide-body markdown-body">
+<blockquote>
+<p>大家好，这里是 <strong>Lucifer三思而后行</strong>，专注于提升数据库运维效率。</p>
+</blockquote>
+<p><h3>目录</h3><ul><li><a href="#_4">前言</a></li><ul><li><a href="#_10">问题记录</a></li></ul><li><a href="#_73">安装准备</a></li><ul><li><a href="#_83">环境信息</a></li><li><a href="#_237">安装命令</a></li><li><a href="#_264">安装过程</a></li><li><a href="#_335">连接测试</a></li></ul><li><a href="#_470">往期精彩文章推荐</a></li></ul></p>
+<h1><a id="_4"></a>前言</h1>
+<p>Oracle 一键安装脚本，演示 Rocky Linux 9.4 一键安装 Oracle 11GR2 RAC。</p>
+<blockquote>
+<p><strong>脚本下载：<a href="https://www.modb.pro/course/148" title="Oracle一键安装脚本" target="_blank">Oracle一键安装脚本</a></strong><br />
+<strong>作者微信</strong>：Lucifer-0622</p>
+</blockquote>
+<h2><a id="_10"></a>问题记录</h2>
+<p>昨天，群友反馈一键安装脚本在 Rocky Linux 9.4 一键安装 Oracle 11GR2 RAC 遇到问题了，互信之后依然遇到通信失败的报错：</p>
+<pre><div class="hljs"><code class="lang-bash">Starting Oracle Universal Installer...
+
+Checking Temp space: must be greater than 120 MB.   Actual 83352 MB    Passed
+Checking swap space: must be greater than 150 MB.   Actual 8183 MB    Passed
+Preparing to launch Oracle Universal Installer from /tmp/OraInstall2024-08-15_11-33-32AM. Please <span class="hljs-built_in">wait</span> ...[FATAL] [INS-30132] Initial setup required <span class="hljs-keyword">for</span> the execution of installer validations failed on nodes: rocky9-02
+   CAUSE: Indicated nodes were not reachable or failed to access the temporary location on the indicated nodes.
+   ACTION: Ensure that all the indicated nodes are reachable and current user has required permissions to access the temporary location on all the indicated nodes.
+A <span class="hljs-built_in">log</span> of this session is currently saved as: /tmp/OraInstall2024-08-15_11-33-32AM/installActions2024-08-15_11-33-32AM.log. Oracle recommends that <span class="hljs-keyword">if</span> you want to keep this <span class="hljs-built_in">log</span>, you should move it from the temporary location to a more permanent location.
+</code></div></pre>
+<p>由于确保互信是完全没有问题的，所以怀疑是 openssh 版本问题导致，但是因为脚本是处理过 openssh 适配的：</p>
+<ul>
+<li>8.x 版本 <code>+ -T</code></li>
+<li>9.x 版本 <code>+ -T -O</code></li>
+</ul>
+<p>按理说不会出现问题，查看 <code>Rocky Linux 9.4</code> 的 openssh 版本为：<code>OpenSSH_8.7p1</code>，脚本也确实进行了 <code>+ -T</code> 处理，按理说没有问题才对。经过深入专研分析之后发现，其实 <code>-O</code> 选项是从 8.7 版本就已经出现的，因此从 8.7 版本开始就需要进行 <code>+ -T -O</code> 处理，验证后确实如此：</p>
+<p><img src="https://oss-emcsprod-public.modb.pro/image/editor/20240815-c8e041e3-52f0-4577-879e-699b9042bcae.png" alt="" /></p>
+<p>后续，在建库时遇到了监听没有创建成功的问题，装 Grid 时后续创建监听报错：</p>
+<pre><div class="hljs"><code class="lang-bash">[grid@rocky9-01:/u01/app/grid/cfgtoollogs/netca]$ cat netca_Ora11g_gridinfrahome1-2408152PM1111.log
+...
+...
+Problem <span class="hljs-keyword">in</span> configuration: PRCN-2061 : Failed to add listener LISTENER
+PRCT-1011 : Failed to run <span class="hljs-string">&quot;srvctl&quot;</span>. Detailed error: [/bin/sh: <span class="hljs-built_in">which</span>: line 1: syntax error: unexpected end of file, /bin/sh: error importing <span class="hljs-keyword">function</span> definition <span class="hljs-keyword">for</span> `<span class="hljs-built_in">which</span><span class="hljs-string">&#x27;]
+
+## 监听报错
+[grid@rocky9-01:/home/grid]$ lsnrctl stat
+
+LSNRCTL for Linux: Version 11.2.0.4.0 - Production on 15-AUG-2024 14:26:25
+
+Copyright (c) 1991, 2013, Oracle.  All rights reserved.
+
+Connecting to (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1521))
+TNS-12541: TNS:no listener
+ TNS-12560: TNS:protocol adapter error
+  TNS-00511: No listener
+   Linux Error: 111: Connection refused
+[grid@rocky9-01:/home/grid]$ lsnrctl start
+
+LSNRCTL for Linux: Version 11.2.0.4.0 - Production on 15-AUG-2024 14:26:30
+
+Copyright (c) 1991, 2013, Oracle.  All rights reserved.
+
+Starting /u01/app/11.2.0/grid/bin/tnslsnr: please wait...
+
+TNSLSNR for Linux: Version 11.2.0.4.0 - Production
+System parameter file is /u01/app/11.2.0/grid/network/admin/listener.ora
+Log messages written to /u01/app/grid/diag/tnslsnr/rocky9-01/listener/alert/log.xml
+Error listening on: (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1521))
+TNS-12542: TNS:address already in use
+ TNS-12560: TNS:protocol adapter error
+  TNS-00512: Address already in use
+   Linux Error: 98: Address already in use
+
+Listener failed to start. See the error message(s) above...
+</span></code></div></pre>
+<p>解决方案可参考：<a href="https://access.redhat.com/solutions/6994985" target="_blank">Errors while running shell scripts: /bin/sh: error importing function definition for `which’</a></p>
+<p>经过以上修复之后，测试脚本进行一键安装成功，没有问题。</p>
+<h1><a id="_73"></a>安装准备</h1>
+<ul>
+<li>1、系统组所有节点均安装好操作系统（支持最小化安装）</li>
+<li>2、网络组所有节点均配置好主机网络，至少需要一组公网 IP 地址和一组心跳 IP 地址</li>
+<li>3、存储组所有节点均配置并在主机层挂载好 ASM 磁盘，至少需要一组 OCR 和 DATA 磁盘组，虚拟化环境需要确保已开启磁盘的 UUID</li>
+<li>4、DBA 只需要在主节点创建软件目录：<code>mkdir /soft</code></li>
+<li>5、DBA 只需要在主节点上传 Oracle 安装介质（基础包，补丁包）到 /soft 目录下，其他节点无需任何操作</li>
+<li>6、DBA 只需要在主节点上传 Oracle 一键安装脚本到 /soft 目录下，授予脚本执行权限：<code>chmod +x OracleshellInstall</code></li>
+<li>7、DBA 所有节点均挂载主机 ISO 镜像，这里只需要 mount 上即可（这个很简单，不了解的可以百度下）</li>
+<li>8、根据脚本安装脚本以及实际情况，配置好脚本的安装参数，在主节点的 /soft 目录下执行一键安装即可。</li>
+</ul>
+<h2><a id="_83"></a>环境信息</h2>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
+<span class="hljs-comment">## 节点一</span>
+[root@rocky9-01 ~]<span class="hljs-comment"># cat /etc/os-release </span>
+NAME=<span class="hljs-string">&quot;Rocky Linux&quot;</span>
+VERSION=<span class="hljs-string">&quot;9.4 (Blue Onyx)&quot;</span>
+ID=<span class="hljs-string">&quot;rocky&quot;</span>
+ID_LIKE=<span class="hljs-string">&quot;rhel centos fedora&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;9.4&quot;</span>
+PLATFORM_ID=<span class="hljs-string">&quot;platform:el9&quot;</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Rocky Linux 9.4 (Blue Onyx)&quot;</span>
+ANSI_COLOR=<span class="hljs-string">&quot;0;32&quot;</span>
+LOGO=<span class="hljs-string">&quot;fedora-logo-icon&quot;</span>
+CPE_NAME=<span class="hljs-string">&quot;cpe:/o:rocky:rocky:9::baseos&quot;</span>
+HOME_URL=<span class="hljs-string">&quot;https://rockylinux.org/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bugs.rockylinux.org/&quot;</span>
+SUPPORT_END=<span class="hljs-string">&quot;2032-05-31&quot;</span>
+ROCKY_SUPPORT_PRODUCT=<span class="hljs-string">&quot;Rocky-Linux-9&quot;</span>
+ROCKY_SUPPORT_PRODUCT_VERSION=<span class="hljs-string">&quot;9.4&quot;</span>
+REDHAT_SUPPORT_PRODUCT=<span class="hljs-string">&quot;Rocky Linux&quot;</span>
+REDHAT_SUPPORT_PRODUCT_VERSION=<span class="hljs-string">&quot;9.4&quot;</span>
+<span class="hljs-comment">## 节点二</span>
+[root@rocky9-02 ~]<span class="hljs-comment"># cat /etc/os-release </span>
+NAME=<span class="hljs-string">&quot;Rocky Linux&quot;</span>
+VERSION=<span class="hljs-string">&quot;9.4 (Blue Onyx)&quot;</span>
+ID=<span class="hljs-string">&quot;rocky&quot;</span>
+ID_LIKE=<span class="hljs-string">&quot;rhel centos fedora&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;9.4&quot;</span>
+PLATFORM_ID=<span class="hljs-string">&quot;platform:el9&quot;</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Rocky Linux 9.4 (Blue Onyx)&quot;</span>
+ANSI_COLOR=<span class="hljs-string">&quot;0;32&quot;</span>
+LOGO=<span class="hljs-string">&quot;fedora-logo-icon&quot;</span>
+CPE_NAME=<span class="hljs-string">&quot;cpe:/o:rocky:rocky:9::baseos&quot;</span>
+HOME_URL=<span class="hljs-string">&quot;https://rockylinux.org/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bugs.rockylinux.org/&quot;</span>
+SUPPORT_END=<span class="hljs-string">&quot;2032-05-31&quot;</span>
+ROCKY_SUPPORT_PRODUCT=<span class="hljs-string">&quot;Rocky-Linux-9&quot;</span>
+ROCKY_SUPPORT_PRODUCT_VERSION=<span class="hljs-string">&quot;9.4&quot;</span>
+REDHAT_SUPPORT_PRODUCT=<span class="hljs-string">&quot;Rocky Linux&quot;</span>
+REDHAT_SUPPORT_PRODUCT_VERSION=<span class="hljs-string">&quot;9.4&quot;</span>
+
+<span class="hljs-comment"># 网络信息</span>
+<span class="hljs-comment">## 节点一</span>
+[root@rocky9-01 ~]<span class="hljs-comment"># ip a</span>
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:<span class="hljs-built_in">fc</span>:04:99 brd ff:ff:ff:ff:ff:ff
+    altname enp2s1
+    inet 192.168.6.160/24 brd 192.168.6.255 scope global noprefixroute ens33
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fefc:499/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+3: ens34: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:<span class="hljs-built_in">fc</span>:04:a3 brd ff:ff:ff:ff:ff:ff
+    altname enp2s2
+    inet 1.1.1.1/24 brd 1.1.1.255 scope global noprefixroute ens34
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fefc:4a3/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+
+<span class="hljs-comment">## 节点二</span>
+[root@rocky9-02 ~]<span class="hljs-comment"># ip a</span>
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:f4:56:8d brd ff:ff:ff:ff:ff:ff
+    altname enp2s1
+    inet 192.168.6.161/24 brd 192.168.6.255 scope global noprefixroute ens33
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fef4:568d/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+3: ens34: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:f4:56:97 brd ff:ff:ff:ff:ff:ff
+    altname enp2s2
+    inet 1.1.1.2/24 brd 1.1.1.255 scope global noprefixroute ens34
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fef4:5697/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+
+<span class="hljs-comment"># 挂载本地 ISO 镜像</span>
+<span class="hljs-comment">## 节点一</span>
+[root@rocky9-01 ~]<span class="hljs-comment"># mount /dev/cdrom /mnt/</span>
+mount: /mnt: WARNING: <span class="hljs-built_in">source</span> write-protected, mounted read-only.
+[root@rocky9-01 ~]<span class="hljs-comment"># mount | grep iso9660 | grep -v &quot;/run/media&quot;</span>
+/dev/sr0 on /mnt <span class="hljs-built_in">type</span> iso9660 (ro,relatime,nojoliet,check=s,map=n,blocksize=2048)
+[root@rocky9-01 ~]<span class="hljs-comment"># df -h|grep /mnt</span>
+/dev/sr0              11G   11G     0 100% /mnt
+
+<span class="hljs-comment">## 节点二</span>
+[root@rocky9-02 ~]<span class="hljs-comment"># mount /dev/cdrom /mnt/</span>
+mount: /mnt: WARNING: <span class="hljs-built_in">source</span> write-protected, mounted read-only.
+[root@rocky9-02 ~]<span class="hljs-comment"># mount | grep iso9660 | grep -v &quot;/run/media&quot;</span>
+/dev/sr0 on /mnt <span class="hljs-built_in">type</span> iso9660 (ro,relatime,nojoliet,check=s,map=n,blocksize=2048)
+[root@rocky9-02 ~]<span class="hljs-comment"># df -h|grep /mnt</span>
+/dev/sr0              11G   11G     0 100% /mnt
+
+<span class="hljs-comment"># 两节点均需执行，配置本地软件源(为了安装 iscsi，不需要使用 starwind 挂载共享存储可以不配置)</span>
+mkdir -p /etc/yum.repos.d/bak
+mv /etc/yum.repos.d/* /etc/yum.repos.d/bak
+cat&lt;&lt;-<span class="hljs-string">EOF&gt;/etc/yum.repos.d/local.repo
+[BaseOS]
+name=BaseOS
+baseurl=file:///mnt/BaseOS
+enabled=1
+gpgcheck=0
+[AppStream]
+name=AppStream
+baseurl=file:///mnt/AppStream
+enabled=1
+gpgcheck=0
+EOF</span>
+
+<span class="hljs-comment"># 两节点均需执行，Starwind 共享磁盘挂载（有存储就不需要使用 starwind，直接存储上划盘挂载就可）</span>
+yum install -y iscsi-initiator-utils*
+systemctl start iscsid.service
+systemctl <span class="hljs-built_in">enable</span> iscsid.service
+iscsiadm -m discovery -t st -p 192.168.6.188
+<span class="hljs-comment">## 挂载 ASM 磁盘</span>
+iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:192.168.6.188-lucifer -p 192.168.6.188 -l
+<span class="hljs-comment">## 配置开机自动挂载</span>
+iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:192.168.6.188-lucifer -p 192.168.6.188 --op update -n node.startup -v automatic
+
+<span class="hljs-comment">## 节点一</span>
+[root@rocky9-01 ~]<span class="hljs-comment"># lsblk</span>
+NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sda           8:0    0  100G  0 disk 
+├─sda1        8:1    0    1G  0 part /boot
+└─sda2        8:2    0   99G  0 part 
+  ├─rl-root 253:0    0   91G  0 lvm  /
+  └─rl-swap 253:1    0    8G  0 lvm  [SWAP]
+sdb           8:16   0   50G  0 disk 
+sdc           8:32   0   20G  0 disk 
+sr0          11:0    1 10.2G  0 rom  /mnt
+<span class="hljs-comment">## 节点二</span>
+[root@rocky9-02 ~]<span class="hljs-comment"># lsblk</span>
+NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sda           8:0    0  100G  0 disk 
+├─sda1        8:1    0    1G  0 part /boot
+└─sda2        8:2    0   99G  0 part 
+  ├─rl-root 253:0    0   91G  0 lvm  /
+  └─rl-swap 253:1    0    8G  0 lvm  [SWAP]
+sdb           8:16   0   50G  0 disk 
+sdc           8:32   0   20G  0 disk 
+sr0          11:0    1 10.2G  0 rom  /mnt
+
+<span class="hljs-comment"># 安装包存放在 /soft 目录下</span>
+[root@rocky9-01 soft]<span class="hljs-comment"># ll</span>
+-rw-r--r--. 1 root root     237200 Aug 15 10:24 OracleShellInstall
+-rwx------. 1 root root 1395582860 Aug 15 10:25 p13390677_112040_Linux-x86-64_1of7.zip
+-rwx------. 1 root root 1151304589 Aug 15 10:25 p13390677_112040_Linux-x86-64_2of7.zip
+-rwx------. 1 root root 1205251894 Aug 15 10:25 p13390677_112040_Linux-x86-64_3of7.zip
+-rwx------. 1 root root  174911877 Aug 15 10:25 p18370031_112040_Linux-x86-64.zip
+-rwx------. 1 root root     321590 Aug 15 10:25 rlwrap-0.44.tar.gz
+</code></div></pre>
+<p>确保安装环境准备完成后，即可执行一键安装。</p>
+<h2><a id="_237"></a>安装命令</h2>
+<p>使用标准生产环境安装参数（安装过程若失败，脚本支持重复执行安装）：</p>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：</span>
+[root@rocky9-01 ~]<span class="hljs-comment"># cd /soft/</span>
+[root@rocky9-01 soft]<span class="hljs-comment"># chmod +x OracleShellInstall </span>
+
+./OracleShellInstall -n rocky9 `<span class="hljs-comment"># RAC 主机名前缀`\</span>
+-hn rocky9-01,rocky9-02 `<span class="hljs-comment"># RAC 主机名`\</span>
+-cn rocky9-cls `<span class="hljs-comment"># RAC 集群名称`\</span>
+-sn rocky9-scan `<span class="hljs-comment"># RAC SCAN 名称`\</span>
+-rp oracle `<span class="hljs-comment"># 主机 root 用户密码`\</span>
+-lf ens33 `<span class="hljs-comment"># 主机网卡名称`\</span>
+-pf ens34 `<span class="hljs-comment"># 主机心跳网卡名称`\</span>
+-ri 192.168.6.160,192.168.6.161 `<span class="hljs-comment"># RAC 公网 IP`\</span>
+-vi 192.168.6.162,192.168.6.163 `<span class="hljs-comment"># RAC 虚拟 IP`\</span>
+-si 192.168.6.165 `<span class="hljs-comment"># RAC SCAN IP`\</span>
+-od /dev/sdb `<span class="hljs-comment"># OCR 磁盘盘符名称`\</span>
+-dd /dev/sdc `<span class="hljs-comment"># DATA 磁盘盘符名称`\</span>
+-o lucifer `<span class="hljs-comment"># 数据库名称`\</span>
+-dp <span class="hljs-string">&#x27;Passw0rd#PST&#x27;</span> `<span class="hljs-comment"># sys/system 用户密码`\</span>
+-ds AL32UTF8 `<span class="hljs-comment"># 数据库字符集`\</span>
+-ns AL16UTF16 `<span class="hljs-comment"># 国家字符集`\</span>
+-redo 100 `<span class="hljs-comment"># 在线重做日志大小（M）`\</span>
+-opd Y `<span class="hljs-comment"># 是否优化数据库`</span>
+</code></div></pre>
+<h2><a id="_264"></a>安装过程</h2>
+<pre><div class="hljs"><code class="lang-bash">   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
+  ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
+ ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
+░██      ░██░░██░░█ ░░░░░░██  ██░░░██ ░██ ██░░░██░█████████░██████  ██░░░██ ░██ ░██░██░░██░░░██ ██░░░░ ░░░██░  ░░░░░░██  ░██ ░██
+░██      ░██ ░██ ░   ███████ ░██  ░░  ░██░███████░░░░░░░░██░██░░░██░███████ ░██ ░██░██ ░██  ░██░░█████   ░██    ███████  ░██ ░██
+░░██     ██  ░██    ██░░░░██ ░██   ██ ░██░██░░░░        ░██░██  ░██░██░░░░  ░██ ░██░██ ░██  ░██ ░░░░░██  ░██   ██░░░░██  ░██ ░██
+ ░░███████  ░███   ░░████████░░█████  ███░░██████ ████████ ░██  ░██░░██████ ███ ███░██ ███  ░██ ██████   ░░██ ░░████████ ███ ███
+  ░░░░░░░   ░░░     ░░░░░░░░  ░░░░░  ░░░  ░░░░░░ ░░░░░░░░  ░░   ░░  ░░░░░░ ░░░ ░░░ ░░ ░░░   ░░ ░░░░░░     ░░   ░░░░░░░░ ░░░ ░░░ 
+
+
+注意：本脚本仅用于新服务器上实施部署数据库使用，严禁在已运行数据库的主机上执行，以免发生数据丢失或者损坏，造成不可挽回的损失！！！                                                                                  
+
+请选择安装模式 [单机(si)/单机ASM(sa)/集群(rac)] : rac
+
+数据库安装模式: rac                                                                              
+
+请选择数据库版本 [11/12/19/21/23] : 11
+
+数据库版本:     11                                                                               
+
+!!! 免责声明：当前操作系统版本是 [ Rocky Linux 9.4 (Blue Onyx) ] 不在 Oracle 官方支持列表，本脚本只负责安装，请确认是否继续安装 (Y/N): [Y] 
+
+检查 ASM 磁盘 [ /dev/sdb ] 中已存在磁盘组名称 [ OCR ] 信息，请确认是否格式化磁盘 (Y/N): [Y] 
+检查 ASM 磁盘 [ /dev/sdc ] 中已存在磁盘组名称 [ DATA ] 信息，请确认是否格式化磁盘 (Y/N): [Y] 
+
+OracleShellInstall 开始安装，详细安装过程可查看日志： tail -2000f /soft/print_shell_install_20240815155940.log                                                                                  
+
+正在进行安装前检查，请稍等......                                                                                  
+
+正在检测安装包 /soft/p13390677_112040_Linux-x86-64_3of7.zip 的 MD5 值是否正确，请稍等......                                                                                  
+正在检测安装包 /soft/p13390677_112040_Linux-x86-64_1of7.zip 的 MD5 值是否正确，请稍等......                                                                                  
+正在检测安装包 /soft/p13390677_112040_Linux-x86-64_2of7.zip 的 MD5 值是否正确，请稍等......                                                                                  
+正在检测安装包 /soft/p18370031_112040_Linux-x86-64.zip 的 MD5 值是否正确，请稍等......        
+
+正在配置本地软件源......已完成 (耗时: 1 秒)                 
+配置 root 用户互信......已完成 (耗时: 6 秒)
+正在检查并更新 RAC 主机时间......已完成 (耗时: 1 秒)
+正在获取操作系统信息......已完成 (耗时: 1 秒)
+正在安装依赖包......已完成 (耗时: 89 秒)
+正在禁用防火墙......已完成 (耗时: 1 秒)
+正在禁用 selinux......已完成 (耗时: 1 秒)
+正在配置 nsyctl......已完成 (耗时: 0 秒)
+正在配置主机名和 hosts 文件......已完成 (耗时: 0 秒)
+正在创建用户和组......已完成 (耗时: 3 秒)
+正在创建安装目录......已完成 (耗时: 0 秒)
+正在配置透明大页 &amp;&amp; NUMA &amp;&amp; 磁盘 IO 调度器......已完成 (耗时: 2 秒)
+正在配置操作系统参数 sysctl......已完成 (耗时: 0 秒)
+正在配置 RemoveIPC......已完成 (耗时: 1 秒)
+正在配置用户限制 <span class="hljs-built_in">limit</span>......已完成 (耗时: 0 秒)
+正在配置 shm 目录......已完成 (耗时: 0 秒)
+正在安装 rlwrap 插件......已完成 (耗时: 13 秒)
+正在配置用户环境变量......已完成 (耗时: 1 秒)
+正在配置 RAC 其他节点信息......已完成 (耗时: 121 秒)
+正在配置 RAC 所有节点互信......已完成 (耗时: 13 秒)
+正在解压 Grid 安装包以及补丁......已完成 (耗时: 28 秒)
+正在解压 Oracle 软件以及补丁......已完成 (耗时: 25 秒)
+正在安装 Grid 软件以及补丁......已完成 (耗时: 1362 秒)
+正在创建 ASM 磁盘组......已完成 (耗时: 17 秒)
+正在安装 Oracle 软件以及补丁......已完成 (耗时: 579 秒)
+正在创建数据库......已完成 (耗时: 404 秒)
+正在优化数据库......已完成 (耗时: 62 秒)
+
+恭喜！Oracle 一键安装执行完成 (耗时: 2760 秒)，现在是否重启主机：[Y/N] Y
+
+正在重启节点 192.168.6.161 主机......                                                                                  
+
+正在重启当前节点主机...... 
+</code></div></pre>
+<h2><a id="_335"></a>连接测试</h2>
+<p>查看系统版本：</p>
+<pre><div class="hljs"><code class="lang-bash">[root@rocky9-01:/root]<span class="hljs-comment"># cat /etc/os-release </span>
+NAME=<span class="hljs-string">&quot;Rocky Linux&quot;</span>
+VERSION=<span class="hljs-string">&quot;9.4 (Blue Onyx)&quot;</span>
+ID=<span class="hljs-string">&quot;rocky&quot;</span>
+ID_LIKE=<span class="hljs-string">&quot;rhel centos fedora&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;9.4&quot;</span>
+PLATFORM_ID=<span class="hljs-string">&quot;platform:el9&quot;</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Rocky Linux 9.4 (Blue Onyx)&quot;</span>
+ANSI_COLOR=<span class="hljs-string">&quot;0;32&quot;</span>
+LOGO=<span class="hljs-string">&quot;fedora-logo-icon&quot;</span>
+CPE_NAME=<span class="hljs-string">&quot;cpe:/o:rocky:rocky:9::baseos&quot;</span>
+HOME_URL=<span class="hljs-string">&quot;https://rockylinux.org/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bugs.rockylinux.org/&quot;</span>
+SUPPORT_END=<span class="hljs-string">&quot;2032-05-31&quot;</span>
+ROCKY_SUPPORT_PRODUCT=<span class="hljs-string">&quot;Rocky-Linux-9&quot;</span>
+ROCKY_SUPPORT_PRODUCT_VERSION=<span class="hljs-string">&quot;9.4&quot;</span>
+REDHAT_SUPPORT_PRODUCT=<span class="hljs-string">&quot;Rocky Linux&quot;</span>
+REDHAT_SUPPORT_PRODUCT_VERSION=<span class="hljs-string">&quot;9.4&quot;</span>
+</code></div></pre>
+<p>查看 Grid 版本以及补丁：</p>
+<pre><div class="hljs"><code class="lang-bash">[grid@rocky9-01:/home/grid]$ sqlplus -v
+
+SQL*Plus: Release 11.2.0.4.0 Production
+
+[grid@rocky9-01:/home/grid]$ opatch lspatches
+18370031;Grid Infrastructure Patch Set Update : 11.2.0.4.x (gibugno)
+</code></div></pre>
+<p>查看集群：</p>
+<pre><div class="hljs"><code class="lang-bash">[grid@rocky9-01:/home/grid]$ crsctl <span class="hljs-built_in">stat</span> res -t
+--------------------------------------------------------------------------------
+NAME           TARGET  STATE        SERVER                   STATE_DETAILS       
+--------------------------------------------------------------------------------
+Local Resources
+--------------------------------------------------------------------------------
+ora.DATA.dg
+               ONLINE  ONLINE       rocky9-01                                    
+               ONLINE  ONLINE       rocky9-02                                    
+ora.LISTENER.lsnr
+               ONLINE  ONLINE       rocky9-01                                    
+               ONLINE  ONLINE       rocky9-02                                    
+ora.OCR.dg
+               ONLINE  ONLINE       rocky9-01                                    
+               ONLINE  ONLINE       rocky9-02                                    
+ora.asm
+               ONLINE  ONLINE       rocky9-01                Started             
+               ONLINE  ONLINE       rocky9-02                Started             
+ora.gsd
+               OFFLINE OFFLINE      rocky9-01                                    
+               OFFLINE OFFLINE      rocky9-02                                    
+ora.net1.network
+               ONLINE  ONLINE       rocky9-01                                    
+               ONLINE  ONLINE       rocky9-02                                    
+ora.ons
+               ONLINE  ONLINE       rocky9-01                                    
+               ONLINE  ONLINE       rocky9-02                                    
+--------------------------------------------------------------------------------
+Cluster Resources
+--------------------------------------------------------------------------------
+ora.LISTENER_SCAN1.lsnr
+      1        ONLINE  ONLINE       rocky9-01                                    
+ora.cvu
+      1        ONLINE  ONLINE       rocky9-02                                    
+ora.lucifer.db
+      1        ONLINE  ONLINE       rocky9-01                Open                
+      2        ONLINE  ONLINE       rocky9-02                Open                
+ora.oc4j
+      1        ONLINE  ONLINE       rocky9-02                                    
+ora.rocky9-01.vip
+      1        ONLINE  ONLINE       rocky9-01                                    
+ora.rocky9-02.vip
+      1        ONLINE  ONLINE       rocky9-02                                    
+ora.scan1.vip
+      1        ONLINE  ONLINE       rocky9-01  
+</code></div></pre>
+<p>查看 ASM 磁盘组：</p>
+<pre><div class="hljs"><code class="lang-bash">[grid@rocky9-01:/home/grid]$ asmcmd lsdg
+State    Type    Rebal  Sector  Block       AU  Total_MB  Free_MB  Req_mir_free_MB  Usable_file_MB  Offline_disks  Voting_files  Name
+MOUNTED  EXTERN  N         512   4096  1048576     20480    16080                0           16080              0             N  DATA/
+MOUNTED  EXTERN  N         512   4096  1048576     51200    50804                0           50804              0             Y  OCR/
+</code></div></pre>
+<p>查看 Oracle 版本以及补丁：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@rocky9-01:/home/oracle]$ sqlplus -v
+
+SQL*Plus: Release 11.2.0.4.0 Production
+
+[oracle@rocky9-01:/home/oracle]$ opatch lspatches
+There are no Interim patches installed <span class="hljs-keyword">in</span> this Oracle Home.
+</code></div></pre>
+<p>连接数据库：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@rocky9-01:/home/oracle]$ sas
+
+SQL*Plus: Release 11.2.0.4.0 Production on Thu Aug 15 17:02:21 2024
+
+Copyright (c) 1982, 2013, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 11g Enterprise Edition Release 11.2.0.4.0 - 64bit Production
+With the Partitioning, Real Application Clusters, Automatic Storage Management, OLAP,
+Data Mining and Real Application Testing options
+
+sys@LUCIFER 2024-08-15 17:02:21&gt; show parameter name
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+cell_offloadgroup_name               string
+db_file_name_convert                 string
+db_name                              string      lucifer
+db_unique_name                       string      lucifer
+global_names                         boolean     FALSE
+instance_name                        string      lucifer1
+lock_name_space                      string
+log_file_name_convert                string
+processor_group_name                 string
+service_names                        string      lucifer
+sys@LUCIFER 2024-08-15 17:02:26&gt; select instance_name,status from gv<span class="hljs-variable">$instance</span>;
+
+INSTANCE_NAME    STATUS
+---------------- ------------
+lucifer1         OPEN
+lucifer2         OPEN
+</code></div></pre>
+<p>数据库连接正常。</p>
+<hr />
+<h1><a id="_470"></a>往期精彩文章推荐</h1>
+<blockquote>
+<p><a href="https://mp.weixin.qq.com/s/GmSqHJiBToncvcpFAJUZbw" target="_blank">一篇文章让你彻底掌握 Shell</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/0xFe5m1DQ0ucT2_266hsrA" target="_blank">Oracle 一键巡检自动生成 Word 报告</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/gv6t97FFyMsd6e4GH1HAwQ" target="_blank">Oracle一键安装脚本的 21 个疑问与解答</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/4zI73auIUhwSRb7qL3UIfw" target="_blank">Oracle一键巡检脚本的 21 个疑问与解答</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/UL0BSMCAZrOQgCoWpDMGew" target="_blank">全网首发：Oracle 23ai 一键安装脚本</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/T7GbpwhnMugzk7PB6hAoJQ" target="_blank">Oracle 19C 最新 RU 补丁 19.24 ，一键安装！</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/uicyzHfgS2TwleocXJEIrA" target="_blank">Oracle Linux 6 一键安装 Oracle 11GR2 RAC</a><br />
+<a href="https://mp.weixin.qq.com/s/dT4tFMYVZ3mh49CI6V3YEA" target="_blank">Oracle Linux 7.9 一键安装 Oracle 19C</a><br />
+<a href="https://mp.weixin.qq.com/s/FHXYiZBPn3XpKOM6ZqlU1A" target="_blank">Oracle Linux 8.9 一键安装 Oracle 19C RAC</a><br />
+<a href="https://mp.weixin.qq.com/s/cTuTUE-oaO-tKZ72F2WjAA" target="_blank">Oracle Linux 9.4(aarch64) 一键安装 Oracle 19C</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/uJwEPOG22fhQcC6cTLfN1Q" target="_blank">openEuler 20.03 LTS SP4 一键安装 Oracle 19C</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/sx1E4GIvIeQXp2vGMmVr2A" target="_blank">openEuler 22.03 LTS SP4 一键安装 Oracle 19C RAC</a><br />
+<a href="https://mp.weixin.qq.com/s/mUHqU5hQ9GdH2bKuClPt5A" target="_blank">RHEL 7.9 一键安装 Oracle 19C 19.23 RAC</a><br />
+<a href="https://mp.weixin.qq.com/s/fnuHKotjj_S8_0EfUkWI4Q" target="_blank">Redhat 8.4 一键安装 Oracle 11GR2</a><br />
+<a href="https://mp.weixin.qq.com/s/cQJ6gP1bM_7m0H5-Dha4TA" target="_blank">RedHat 9.4(aarch64) 一键安装 Oracle 19C</a><br />
+<a href="https://mp.weixin.qq.com/s/bJtBpzyG_NAhU-0vov1WmQ" target="_blank">龙蜥 Anolis 7.9 一键安装 Oracle 19C 19.23</a><br />
+<a href="https://mp.weixin.qq.com/s/_4-anPhn9wThtdAqqHIH5w" target="_blank">龙蜥 Anolis OS 8.8 一键安装 Oracle 19C</a><br />
+<a href="https://mp.weixin.qq.com/s/N2J9JxZ7l9elG1L1NV7ynA" target="_blank">SUSE 15 SP5 一键安装 Oracle 19C</a><br />
+<a href="https://mp.weixin.qq.com/s/SSmLvx2wDzhzsQY6f5Q5Rg" target="_blank">统信 UOS V20 1070(a) 一键安装 Oracle 11GR2</a><br />
+<a href="https://mp.weixin.qq.com/s/0-q9mLR48abGUbZUODj7xw" target="_blank">Ubuntu 22.04 一键安装 Oracle 19C</a><br />
+<a href="https://mp.weixin.qq.com/s/Y6fFi3Nth0NA5HGq2LjubQ" target="_blank">Ubuntu 14.04 一键安装 Oracle 19C</a><br />
+<a href="https://mp.weixin.qq.com/s/EVNaKhH53YN885gk_Ik_Xg" target="_blank">银河麒麟 Kylin V10 SP3 一键安装 Oracle 19C</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/IZ_VYoDOxzSLzsQo8aJTIw" target="_blank">银河麒麟 Kylin V10 SP3 一键安装 Oracle 11GR2 RAC</a><br />
+<a href="https://mp.weixin.qq.com/s/Trt7gYkQVoL5A803WlDL6Q" target="_blank">Oracle DataGuard GAP 修复手册</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/DysIcb-p11j56d3YtlqpcQ" target="_blank">优化 Oracle：最佳实践与开发规范</a><br />
+<a href="https://mp.weixin.qq.com/s/SmncWuYAubj0tnOw35aJGA" target="_blank">DBA 必备：Linux 软件源配置全攻略</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/yvth1vorP3JjUp3g3vPBAQ" target="_blank">Linux 一键配置时钟同步全攻略</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/xjYZmGcwshbJBICcr0xvBw" target="_blank">Starwind 配置 ISCSI 共享存储</a><br />
+<a href="https://mp.weixin.qq.com/s/JMMzOa6dN6ytAUkcy7I2jQ" target="_blank">SUSE 15 SP3 安装 Oracle 19C RAC 数据库</a><br />
+<a href="https://mp.weixin.qq.com/s/KEobA1FAx4Uod3uBGkJ9-A" target="_blank">达梦 8 数据库安装手册</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/KlP4IM4O7sHVvSNJ9rNXEA" target="_blank">Oracle 12CR2 RAC 安装避坑宝典</a><br />
+<a href="https://mp.weixin.qq.com/s/vNZbH5QsiSWrdtJcqP2MWg" target="_blank">Linux7 安装 Oracle 19C RAC 详细图文教程</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/mA5MPcykF-eytChoUAhwnA" target="_blank">Oracle ADG 搭建 RAC to Single 详细教程</a><br />
+<a href="https://mp.weixin.qq.com/s/Trt7gYkQVoL5A803WlDL6Q" target="_blank">Oracle DataGuard GAP 修复手册</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/NYQ8TPMktc6u8jMtnI_Gpg" target="_blank">Oracle 分区表之在线重定义</a><br />
+<a href="https://mp.weixin.qq.com/s/ebpMdmozKOR6XZSMKsG2DQ" target="_blank">AutoUpgrade 快速升级 Oracle 数据库</a><br />
+<a href="https://mp.weixin.qq.com/s/vLtJ2zH_TnyQxKyVddzMRg" target="_blank">Oracle 数据库巡检命令手册</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/0w66O5Ugx-TX7e_trE5ZBQ" target="_blank">Oracle 数据坏块的 N 种修复方式</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/92mBTibjSGNywnwOYIFuqg" target="_blank">数据库 SQL 开发入门教程</a><br />
+<a href="https://mp.weixin.qq.com/s/UwVlWxEUBE4OEq4a91dyfg" target="_blank">超全 Linux 基础命令总结</a> 🔥<br />
+<a href="https://mp.weixin.qq.com/s/-gTiGVWFZV0tkw0yZyI2bQ" target="_blank">VMware 虚拟机安装 Linux 系统</a><br />
+<a href="https://mp.weixin.qq.com/s/dHSaDSrUqxFG9E2dMuTmxg" target="_blank">Linux 安装 MySQL 详细教程</a><br />
+<a href="https://mp.weixin.qq.com/s/KaxEN6qxLDJWb7paOvcffw" target="_blank">教你玩转 SQLPLUS，工作效率提升 200%</a></p>
+</blockquote>
+<hr />
+<p>感谢您的阅读，这里是 <strong>Lucifer三思而后行</strong>，欢迎 <strong>点赞+关注</strong>，我会持续分享数据库知识、运维技巧。</p>
+</div> <div class="tag-box mb20"><i class="cs-tag"></i> <a href="/tag/墨力计划?type=knowledge" target="_blank" class="ml4">墨力计划</a></div> <!----> <div class="praise-box vc font14 c6"><div>「喜欢这篇文章，您的关注和赞赏是给作者最好的鼓励」</div> <div class="flex center mt20 mb10"><div class="f-btn mr20">关注作者</div> <button type="button" class="el-button praise-btn el-button--danger el-button--small"><!----><!----><span>点赞</span></button></div> <div class="el-dialog__wrapper" style="display:none;"><div role="dialog" aria-modal="true" aria-label="dialog" class="el-dialog vertical-horizontal" style="margin-top:0;width:340px;"><div class="el-dialog__header"><span class="el-dialog__title"></span><button type="button" aria-label="Close" class="el-dialog__headerbtn"><i class="el-dialog__close el-icon el-icon-close"></i></button></div><!----><!---->  </div>
+</div></article>
+<div id="footer"></div>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('compat');
+document.getElementById('footer').innerHTML = footerHTML();
+</script>
+</body>
+</html>

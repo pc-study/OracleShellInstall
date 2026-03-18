@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>统信 UOS V20 1070(a) 一键安装 Oracle 19C 单机 ASM - OracleShellInstall</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+<article class="guide-article"><div class="container">
+  <div class="guide-header">
+    <a href="../compat.html" class="guide-back">&larr; 返回安装合集</a>
+    <h1>统信 UOS V20 1070(a) 一键安装 Oracle 19C 单机 ASM</h1>
+    <div class="guide-meta">
+      <span>原文来源：<a href="https://www.modb.pro/db/1802981973908066304" target="_blank" rel="noopener noreferrer">墨天轮</a></span>
+      <span>作者：Lucifer</span>
+    </div>
+  </div>
+  <div class="guide-body markdown-body">
+<h1><a id="_0"></a>前言</h1>
+<p>Oracle 一键安装脚本，演示 统信 UOS V20 1070(a) 一键安装 Oracle 19C 单机 ASM（全程无需人工干预）。</p>
+<blockquote>
+<p><strong>⭐️ <font color='red'>脚本下载地址</font>：<a href="https://www.modb.pro/course/148" target="_blank">Shell脚本安装Oracle数据库</a></strong></p>
+</blockquote>
+<h1><a id="_6"></a>前置准备</h1>
+<ul>
+<li>1、安装好操作系统，建议安装图形化</li>
+<li>2、配置好网络</li>
+<li>3、挂载本地 ISO 镜像源</li>
+<li>4、上传软件安装包（安装基础包，补丁包）</li>
+<li>5、上传一键安装脚本：OracleShellInstall</li>
+</ul>
+<h1><a id="_14"></a>环境信息</h1>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
+[root@uos1070 soft]<span class="hljs-comment"># cat /etc/os-release </span>
+PRETTY_NAME=<span class="hljs-string">&quot;UOS Server 20&quot;</span>
+NAME=<span class="hljs-string">&quot;UOS Server 20&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;20&quot;</span>
+VERSION=<span class="hljs-string">&quot;20&quot;</span>
+ID=uos
+HOME_URL=<span class="hljs-string">&quot;https://www.chinauos.com/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bbs.chinauos.com/&quot;</span>
+VERSION_CODENAME=kongzi
+PLATFORM_ID=<span class="hljs-string">&quot;platform:uelc20&quot;</span>
+
+[root@uos1070 soft]<span class="hljs-comment"># cat /etc/issue</span>
+UOS Server 20 1070a \n \l
+
+<span class="hljs-comment"># 网络信息</span>
+[root@uos1070 soft]<span class="hljs-comment"># ip a</span>
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:fe:ec:c8 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.6.143/24 brd 192.168.6.255 scope global noprefixroute ens33
+       valid_lft forever preferred_lft forever
+    inet6 fe80::e6ba:489:7fc:56ed/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+
+<span class="hljs-comment"># 挂载本地 ISO 镜像</span>
+[root@uos1070 soft]<span class="hljs-comment"># mount | grep iso9660 | grep -v &quot;/run/media&quot;</span>
+/dev/sr0 on /mnt <span class="hljs-built_in">type</span> iso9660 (ro,relatime,nojoliet,check=s,map=n,blocksize=2048,iocharset=utf8)
+[root@uos1070 soft]<span class="hljs-comment"># df -h|grep /mnt</span>
+/dev/sr0              7.2G  7.2G     0  100% /mnt
+
+<span class="hljs-comment"># starwind 共享磁盘挂载（有存储就不需要使用 starwind，直接存储上划盘挂载就可）</span>
+yum install -y iscsi-initiator-utils*
+systemctl start iscsid.service
+systemctl <span class="hljs-built_in">enable</span> iscsid.service
+iscsiadm -m discovery -t st -p 192.168.6.188
+<span class="hljs-comment">## 挂载 ASM 磁盘</span>
+iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:192.168.6.188-lucifer -p 192.168.6.188 -l
+<span class="hljs-comment">## 配置开机自动挂载</span>
+iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:192.168.6.188-lucifer -p 192.168.6.188 --op update -n node.startup -v automatic
+
+[root@uos1070 soft]<span class="hljs-comment"># lsblk </span>
+NAME         MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda            8:0    0  100G  0 disk 
+├─sda1         8:1    0    1G  0 part /boot
+└─sda2         8:2    0   99G  0 part 
+  ├─uos-root 253:0    0   91G  0 lvm  /
+  └─uos-swap 253:1    0    8G  0 lvm  [SWAP]
+sdb            8:16   0   10G  0 disk 
+sdc            8:32   0   50G  0 disk 
+sr0           11:0    1  7.1G  0 rom  /mnt
+
+<span class="hljs-comment"># 安装包存放在 /soft 目录下</span>
+[root@uos1070 soft]<span class="hljs-comment"># ll</span>
+-rwx------ 1 root root 3059705302  5月 24 13:53 LINUX.X64_193000_db_home.zip
+-rwx------ 1 root root 2889184573  5月 24 13:54 LINUX.X64_193000_grid_home.zip
+-rwxr-xr-x 1 root root     217908  5月 24 13:53 OracleShellInstall
+-rwx------ 1 root root     321590  5月 24 13:44 rlwrap-0.44.tar.gz
+</code></div></pre>
+<p>确保安装环境准备完成后，即可执行一键安装。</p>
+<h1><a id="_77"></a>安装命令</h1>
+<p>使用标准生产环境安装参数：</p>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：</span>
+./OracleShellInstall -n uos1070 `<span class="hljs-comment"># hostname prefix`\</span>
+-gp oracle `<span class="hljs-comment"># grid password`\</span>
+-op oracle `<span class="hljs-comment"># oracle password`\</span>
+-lf ens33 `<span class="hljs-comment"># local ip ifname`\</span>
+-dd /dev/sdc `<span class="hljs-comment"># rac data asm disk`\</span>
+-o lucifer `<span class="hljs-comment"># dbname`\</span>
+-ds AL32UTF8 `<span class="hljs-comment"># database character`\</span>
+-ns AL16UTF16 `<span class="hljs-comment"># national character`\</span>
+-redo 100 `<span class="hljs-comment"># redo size`\</span>
+-dp oracle `<span class="hljs-comment"># sys/system password`\</span>
+-opd Y `<span class="hljs-comment"># optimize db`</span>
+</code></div></pre>
+<h1><a id="_96"></a>安装过程</h1>
+<pre><div class="hljs"><code class="lang-bash">   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
+  ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
+ ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
+░██      ░██░░██░░█ ░░░░░░██  ██░░░██ ░██ ██░░░██░█████████░██████  ██░░░██ ░██ ░██░██░░██░░░██ ██░░░░ ░░░██░  ░░░░░░██  ░██ ░██
+░██      ░██ ░██ ░   ███████ ░██  ░░  ░██░███████░░░░░░░░██░██░░░██░███████ ░██ ░██░██ ░██  ░██░░█████   ░██    ███████  ░██ ░██
+░░██     ██  ░██    ██░░░░██ ░██   ██ ░██░██░░░░        ░██░██  ░██░██░░░░  ░██ ░██░██ ░██  ░██ ░░░░░██  ░██   ██░░░░██  ░██ ░██
+ ░░███████  ░███   ░░████████░░█████  ███░░██████ ████████ ░██  ░██░░██████ ███ ███░██ ███  ░██ ██████   ░░██ ░░████████ ███ ███
+  ░░░░░░░   ░░░     ░░░░░░░░  ░░░░░  ░░░  ░░░░░░ ░░░░░░░░  ░░   ░░  ░░░░░░ ░░░ ░░░ ░░ ░░░   ░░ ░░░░░░     ░░   ░░░░░░░░ ░░░ ░░░ 
+
+
+注意：本脚本仅用于新服务器上实施部署数据库使用，严禁在已运行数据库的主机上执行，以免发生数据丢失或者损坏，造成不可挽回的损失！！！                                                                                  
+
+请选择安装模式 [单机(si)/单机ASM(sa)/集群(rac)] : sa
+
+数据库安装模式: standalone                                                                       
+
+请选择数据库版本 [11/12/19/21] : 19
+
+数据库版本:     19                                                                               
+
+!!! 免责声明：当前操作系统版本是 [ UOS Server 20 ] 不在 Oracle 官方支持列表，本脚本只负责安装，请确认是否继续安装 (Y/N): [Y] 
+
+OracleShellInstall 开始安装，详细安装过程可查看日志： tail -2000f /soft/print_shell_install_20240524135513.log                                                                                  
+
+正在去除密码复杂度配置......已完成 (耗时: 0 秒)
+正在检查 ISO 镜像源挂载......已完成 (耗时: 0 秒)
+正在配置软件源......已完成 (耗时: 0 秒)
+正在获取操作系统信息......已完成 (耗时: 1 秒)
+正在安装依赖包......已完成 (耗时: 19 秒)
+正在配置 Swap......已完成 (耗时: 0 秒)
+正在配置防火墙......已完成 (耗时: 3 秒)
+正在配置 selinux......已完成 (耗时: 1 秒)
+正在配置 nsyctl......已完成 (耗时: 0 秒)
+正在配置主机名和 /etc/hosts......已完成 (耗时: 0 秒)
+正在创建用户和组......已完成 (耗时: 8 秒)
+正在创建安装目录......已完成 (耗时: 0 秒)
+正在配置 Avahi-daemon 服务......已完成 (耗时: 3 秒)
+正在配置透明大页 &amp;&amp; NUMA &amp;&amp; 磁盘 IO 调度器......已完成 (耗时: 2 秒)
+正在配置操作系统参数 sysctl......已完成 (耗时: 1 秒)
+正在配置 RemoveIPC......已完成 (耗时: 1 秒)
+正在配置用户限制 <span class="hljs-built_in">limit</span>......已完成 (耗时: 1 秒)
+正在配置 shm 目录......已完成 (耗时: 1 秒)
+正在安装 rlwrap 插件......已完成 (耗时: 11 秒)
+正在配置用户环境变量......已完成 (耗时: 1 秒)
+正在解压 Grid 安装包以及补丁......已完成 (耗时: 71 秒)
+正在解压 Oracle 安装包以及补丁......已完成 (耗时: 125 秒)
+正在安装 Grid 软件以及补丁......已完成 (耗时: 372 秒)
+正在安装 Oracle 软件以及补丁......已完成 (耗时: 190 秒)
+正在创建数据库......已完成 (耗时: 866 秒)
+正在优化数据库......已完成 (耗时: 178 秒)
+
+恭喜！Oracle 单机 ASM 安装成功 (耗时: 1862 秒)，现在是否重启主机：[Y/N] Y
+
+正在重启当前节点主机......         
+</code></div></pre>
+<h1><a id="_155"></a>连接测试</h1>
+<p>查看系统版本：</p>
+<pre><div class="hljs"><code class="lang-bash">[root@uos1070 soft]<span class="hljs-comment"># cat /etc/os-release </span>
+PRETTY_NAME=<span class="hljs-string">&quot;UOS Server 20&quot;</span>
+NAME=<span class="hljs-string">&quot;UOS Server 20&quot;</span>
+VERSION_ID=<span class="hljs-string">&quot;20&quot;</span>
+VERSION=<span class="hljs-string">&quot;20&quot;</span>
+ID=uos
+HOME_URL=<span class="hljs-string">&quot;https://www.chinauos.com/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bbs.chinauos.com/&quot;</span>
+VERSION_CODENAME=kongzi
+PLATFORM_ID=<span class="hljs-string">&quot;platform:uelc20&quot;</span>
+</code></div></pre>
+<p>查看 Grid 版本以及补丁：</p>
+<pre><div class="hljs"><code class="lang-bash">[grid@uos1070:/home/grid]$ sqlplus -v
+
+SQL*Plus: Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+[grid@uos1070:/home/grid]$ opatch lspatches
+29585399;OCW RELEASE UPDATE 19.3.0.0.0 (29585399)
+29517247;ACFS RELEASE UPDATE 19.3.0.0.0 (29517247)
+29517242;Database Release Update : 19.3.0.0.190416 (29517242)
+29401763;TOMCAT RELEASE UPDATE 19.0.0.0.0 (29401763)
+
+OPatch succeeded.
+</code></div></pre>
+<p>查看集群：</p>
+<pre><div class="hljs"><code class="lang-bash">[grid@uos1070:/home/grid]$ crsctl <span class="hljs-built_in">stat</span> res -t
+--------------------------------------------------------------------------------
+Name           Target  State        Server                   State details       
+--------------------------------------------------------------------------------
+Local Resources
+--------------------------------------------------------------------------------
+ora.DATA.dg
+               ONLINE  ONLINE       uos1070                  STABLE
+ora.LISTENER.lsnr
+               ONLINE  ONLINE       uos1070                  STABLE
+ora.asm
+               ONLINE  ONLINE       uos1070                  Started,STABLE
+ora.ons
+               OFFLINE OFFLINE      uos1070                  STABLE
+--------------------------------------------------------------------------------
+Cluster Resources
+--------------------------------------------------------------------------------
+ora.cssd
+      1        ONLINE  ONLINE       uos1070                  STABLE
+ora.diskmon
+      1        OFFLINE OFFLINE                               STABLE
+ora.evmd
+      1        ONLINE  ONLINE       uos1070                  STABLE
+ora.lucifer.db
+      1        ONLINE  ONLINE       uos1070                  Open,HOME=/u01/app/o
+                                                             racle/product/19.3.0
+                                                             /db,STABLE
+--------------------------------------------------------------------------------
+</code></div></pre>
+<p>查看 Oracle 版本以及补丁：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@uos1070:/home/oracle]$ sqlplus -v
+
+SQL*Plus: Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+[oracle@uos1070:/home/oracle]$ opatch lspatches
+29585399;OCW RELEASE UPDATE 19.3.0.0.0 (29585399)
+29517242;Database Release Update : 19.3.0.0.190416 (29517242)
+
+OPatch succeeded.
+</code></div></pre>
+<p>查看监听：</p>
+<pre><div class="hljs"><code class="lang-bash">[grid@uos1070:/home/grid]$ lsnrctl <span class="hljs-built_in">stat</span>
+
+LSNRCTL <span class="hljs-keyword">for</span> Linux: Version 19.0.0.0.0 - Production on 05-JUN-2024 14:56:25
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=uos1070)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR <span class="hljs-keyword">for</span> Linux: Version 19.0.0.0.0 - Production
+Start Date                04-JUN-2024 21:45:29
+Uptime                    0 days 1 hr. 10 min. 55 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /u01/app/19.3.0/grid/network/admin/listener.ora
+Listener Log File         /u01/app/grid/diag/tnslsnr/uos1070/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=uos1070)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+Services Summary...
+Service <span class="hljs-string">&quot;+ASM&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;+ASM&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;+ASM_DATA&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;+ASM&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;lucifer&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;luciferXDB&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+The <span class="hljs-built_in">command</span> completed successfully
+</code></div></pre>
+<p>连接数据库：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@uos1070:/home/oracle]$ sas
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Wed Jun 5 14:56:57 2024
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+sys@LUCIFER 2024-06-05 14:56:58&gt; show parameter name
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+cdb_cluster_name                     string
+cell_offloadgroup_name               string
+db_file_name_convert                 string
+db_name                              string      lucifer
+db_unique_name                       string      lucifer
+global_names                         boolean     FALSE
+instance_name                        string      lucifer
+lock_name_space                      string
+log_file_name_convert                string
+pdb_file_name_convert                string
+processor_group_name                 string
+service_names                        string      lucifer
+</code></div></pre>
+<p>数据库连接正常。</p>
+</div> <div class="tag-box mb20"><i class="cs-tag"></i> <a href="/tag/墨力计划?type=knowledge" target="_blank" class="ml4">墨力计划</a></div> <!----> <div class="praise-box vc font14 c6"><div>「喜欢这篇文章，您的关注和赞赏是给作者最好的鼓励」</div> <div class="flex center mt20 mb10"><div class="f-btn mr20">关注作者</div> <button type="button" class="el-button praise-btn el-button--danger el-button--small"><!----><!----><span>点赞</span></button></div> <div class="el-dialog__wrapper" style="display:none;"><div role="dialog" aria-modal="true" aria-label="dialog" class="el-dialog vertical-horizontal" style="margin-top:0;width:340px;"><div class="el-dialog__header"><span class="el-dialog__title"></span><button type="button" aria-label="Close" class="el-dialog__headerbtn"><i class="el-dialog__close el-icon el-icon-close"></i></button></div><!----><!---->  </div>
+</div></article>
+<div id="footer"></div>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('compat');
+document.getElementById('footer').innerHTML = footerHTML();
+</script>
+</body>
+</html>

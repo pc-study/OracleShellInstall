@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fedora 40 一键安装 Oracle 19C 单机 - OracleShellInstall</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+<article class="guide-article"><div class="container">
+  <div class="guide-header">
+    <a href="../compat.html" class="guide-back">&larr; 返回安装合集</a>
+    <h1>Fedora 40 一键安装 Oracle 19C 单机</h1>
+    <div class="guide-meta">
+      <span>原文来源：<a href="https://www.modb.pro/db/1845719755091705856" target="_blank" rel="noopener noreferrer">墨天轮</a></span>
+      <span>作者：Lucifer</span>
+    </div>
+  </div>
+  <div class="guide-body markdown-body">
+<blockquote>
+<p>大家好，这里是 <strong>Lucifer三思而后行</strong>，专注于提升数据库运维效率。</p>
+</blockquote>
+<h2><a id="_2"></a>前言</h2>
+<p>Oracle 一键安装脚本，演示 Fedora 40 一键安装 Oracle 19C 单机（全程无需人工干预）。</p>
+<blockquote>
+<p><strong>脚本下载：<a href="https://www.modb.pro/course/148" title="Oracle一键安装脚本" target="_blank">Oracle一键安装脚本</a></strong><br />
+<strong>作者微信</strong>：Lucifer-0622</p>
+</blockquote>
+<h2><a id="_8"></a>前置准备</h2>
+<ul>
+<li>1、系统组安装好操作系统（支持最小化安装）</li>
+<li>2、网络组配置好主机网络，通常只需要一个公网 IP 地址</li>
+<li>3、DBA 创建软件目录：<code>mkdir /soft</code></li>
+<li>4、DBA 上传 Oracle 安装介质（基础包，补丁包）到 /soft 目录下</li>
+<li>5、DBA 上传 Oracle 一键安装脚本到 /soft 目录下，授予脚本执行权限：<code>chmod +x OracleshellInstall</code></li>
+<li>6、Fedora ISO 没有必须安装包，需要联网配置网络软件源，只需要确保能 Ping 通 www.baidu.com 即可（不需要挂载 ISO）。</li>
+<li>7、根据脚本安装脚本以及实际情况，配置好脚本的安装参数，在 /soft 目录下执行一键安装即可。</li>
+</ul>
+<h2><a id="_17"></a>环境信息</h2>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
+[root@fedora40-01 ~]<span class="hljs-comment"># cat /etc/os-release</span>
+NAME=<span class="hljs-string">&quot;Fedora Linux&quot;</span>
+VERSION=<span class="hljs-string">&quot;40 (Server Edition)&quot;</span>
+ID=fedora
+VERSION_ID=40
+VERSION_CODENAME=<span class="hljs-string">&quot;&quot;</span>
+PLATFORM_ID=<span class="hljs-string">&quot;platform:f40&quot;</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Fedora Linux 40 (Server Edition)&quot;</span>
+ANSI_COLOR=<span class="hljs-string">&quot;0;38;2;60;110;180&quot;</span>
+LOGO=fedora-logo-icon
+CPE_NAME=<span class="hljs-string">&quot;cpe:/o:fedoraproject:fedora:40&quot;</span>
+HOME_URL=<span class="hljs-string">&quot;https://fedoraproject.org/&quot;</span>
+DOCUMENTATION_URL=<span class="hljs-string">&quot;https://docs.fedoraproject.org/en-US/fedora/f40/system-administrators-guide/&quot;</span>
+SUPPORT_URL=<span class="hljs-string">&quot;https://ask.fedoraproject.org/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bugzilla.redhat.com/&quot;</span>
+REDHAT_BUGZILLA_PRODUCT=<span class="hljs-string">&quot;Fedora&quot;</span>
+REDHAT_BUGZILLA_PRODUCT_VERSION=40
+REDHAT_SUPPORT_PRODUCT=<span class="hljs-string">&quot;Fedora&quot;</span>
+REDHAT_SUPPORT_PRODUCT_VERSION=40
+SUPPORT_END=2025-05-13
+VARIANT=<span class="hljs-string">&quot;Server Edition&quot;</span>
+VARIANT_ID=server
+
+<span class="hljs-comment"># 网络信息</span>
+[root@fedora40-01 ~]<span class="hljs-comment"># ip a</span>
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:01:22:54 brd ff:ff:ff:ff:ff:ff
+    altname enp2s1
+    inet 192.168.6.130/24 brd 192.168.6.255 scope global noprefixroute ens33
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fe01:2254/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+
+<span class="hljs-comment"># 连接外网测试</span>
+[root@fedora40-01 ~]<span class="hljs-comment"># ping www.baidu.com</span>
+PING www.a.shifen.com (180.101.50.188) 56(84) 字节的数据。
+64 字节，来自 www.baidu.com (180.101.50.188): icmp_seq=1 ttl=53 时间=6.62 毫秒
+64 字节，来自 www.baidu.com (180.101.50.188): icmp_seq=2 ttl=53 时间=6.70 毫秒
+64 字节，来自 www.baidu.com (180.101.50.188): icmp_seq=3 ttl=53 时间=6.51 毫秒
+64 字节，来自 www.baidu.com (180.101.50.188): icmp_seq=4 ttl=53 时间=6.68 毫秒
+64 字节，来自 www.baidu.com (180.101.50.188): icmp_seq=5 ttl=53 时间=6.62 毫秒
+
+<span class="hljs-comment"># 安装包存放在 /soft 目录下</span>
+[root@fedora40-01 soft]<span class="hljs-comment"># ll</span>
+总计 2988220
+-rw-r--r--. 1 root root 3059705302  6月26日 22:28 LINUX.X64_193000_db_home.zip
+-rwxr-xr-x. 1 root root     228461  6月26日 22:28 OracleShellInstall
+</code></div></pre>
+<p>确保安装环境准备完成后，即可执行一键安装。</p>
+<h2><a id="_70"></a>安装命令</h2>
+<p>使用标准生产环境安装参数：</p>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：</span>
+[root@fedora40-01 soft]<span class="hljs-comment"># cd /soft/</span>
+[root@fedora40-01 soft]<span class="hljs-comment"># chmod +x OracleShellInstall</span>
+
+./OracleShellInstall -lf ens33 `<span class="hljs-comment"># 主机网卡名称`\</span>
+-n fedora40-01 `<span class="hljs-comment"># 主机名`\</span>
+-op <span class="hljs-string">&#x27;P@ssw0rd!123&#x27;</span> `<span class="hljs-comment"># 主机 oracle 用户密码`\</span>
+-d /u01 `<span class="hljs-comment"># Oracle 软件安装基础目录`\</span>
+-ord /oradata `<span class="hljs-comment"># 数据库文件存放目录`\</span>
+-o lucifer `<span class="hljs-comment"># 数据库名称`\</span>
+-dp <span class="hljs-string">&#x27;Passw0rd#PST&#x27;</span> `<span class="hljs-comment"># sys/system 用户密码`\</span>
+-ds AL32UTF8 `<span class="hljs-comment"># 数据库字符集`\</span>
+-ns AL16UTF16 `<span class="hljs-comment"># 国家字符集`\</span>
+-redo 10 `<span class="hljs-comment"># 在线重做日志大小（M）`\</span>
+-opd Y `<span class="hljs-comment"># 是否优化数据库`</span>
+</code></div></pre>
+<h2><a id="_90"></a>安装过程</h2>
+<pre><div class="hljs"><code class="lang-bash">   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
+  ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
+ ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
+░██      ░██░░██░░█ ░░░░░░██  ██░░░██ ░██ ██░░░██░█████████░██████  ██░░░██ ░██ ░██░██░░██░░░██ ██░░░░ ░░░██░  ░░░░░░██  ░██ ░██
+░██      ░██ ░██ ░   ███████ ░██  ░░  ░██░███████░░░░░░░░██░██░░░██░███████ ░██ ░██░██ ░██  ░██░░█████   ░██    ███████  ░██ ░██
+░░██     ██  ░██    ██░░░░██ ░██   ██ ░██░██░░░░        ░██░██  ░██░██░░░░  ░██ ░██░██ ░██  ░██ ░░░░░██  ░██   ██░░░░██  ░██ ░██
+ ░░███████  ░███   ░░████████░░█████  ███░░██████ ████████ ░██  ░██░░██████ ███ ███░██ ███  ░██ ██████   ░░██ ░░████████ ███ ███
+  ░░░░░░░   ░░░     ░░░░░░░░  ░░░░░  ░░░  ░░░░░░ ░░░░░░░░  ░░   ░░  ░░░░░░ ░░░ ░░░ ░░ ░░░   ░░ ░░░░░░     ░░   ░░░░░░░░ ░░░ ░░░
+
+
+注意：本脚本仅用于新服务器上实施部署数据库使用，严禁在已运行数据库的主机上执行，以免发生数据丢失或者损坏，造成不可挽回的损失！！！                      
+
+请选择安装模式 [单机(si)/单机ASM(sa)/集群(rac)] : si
+
+数据库安装模式: single
+
+请选择数据库版本 [11/12/19/21] : 19
+
+数据库版本:     19
+
+!!! 免责声明：当前操作系统版本是 [ Fedora Linux 40 (Server Edition) ] 不在 Oracle 官方支持列表，本脚本只负责安装，请确认是否继续安装 (Y/N): [Y]
+
+正在进行安装前检查，请稍等......
+
+正在检测安装包 /soft/LINUX.X64_193000_db_home.zip 的 MD5 值是否正确，请稍等......                                                                       
+
+OracleShellInstall 开始安装，详细安装过程可查看日志： tail -2000f /soft/print_shell_install_20240626225128.log                                          
+正在获取操作系统信息......已完成 (耗时: 0 秒)
+正在配置网络软件源......已完成 (耗时: 0 秒)
+正在安装依赖包......已完成 (耗时: 88 秒)
+正在禁用防火墙......已完成 (耗时: 1 秒)
+正在禁用 selinux......已完成 (耗时: 0 秒)
+正在配置 nsyctl......已完成 (耗时: 0 秒)
+正在配置主机名和 hosts 文件......已完成 (耗时: 0 秒)
+正在创建用户和组......已完成 (耗时: 1 秒)
+正在创建安装目录......已完成 (耗时: 0 秒)
+正在配置透明大页 &amp;&amp; NUMA &amp;&amp; 磁盘 IO 调度器......已完成 (耗时: 3 秒)
+正在配置操作系统参数 sysctl......已完成 (耗时: 0 秒)
+正在配置用户限制 <span class="hljs-built_in">limit</span>......已完成 (耗时: 0 秒)
+正在配置 shm 目录......已完成 (耗时: 0 秒)
+正在配置用户环境变量......已完成 (耗时: 0 秒)
+正在解压 Oracle 安装包以及补丁......已完成 (耗时: 72 秒)
+正在安装 Oracle 软件以及补丁......已完成 (耗时: 125 秒)
+正在创建监听......已完成 (耗时: 2 秒)
+正在创建数据库......已完成 (耗时: 935 秒)
+正在优化数据库......已完成 (耗时: 15 秒)
+
+恭喜！Oracle 一键安装执行完成 (耗时: 1244 秒)，现在是否重启主机：[Y/N] Y
+
+正在重启当前节点主机...... 
+</code></div></pre>
+<h2><a id="_144"></a>连接测试</h2>
+<p>查看系统版本：</p>
+<pre><div class="hljs"><code class="lang-bash">[root@fedora40-01:/root]<span class="hljs-comment"># cat /etc/os-release</span>
+NAME=<span class="hljs-string">&quot;Fedora Linux&quot;</span>
+VERSION=<span class="hljs-string">&quot;40 (Server Edition)&quot;</span>
+ID=fedora
+VERSION_ID=40
+VERSION_CODENAME=<span class="hljs-string">&quot;&quot;</span>
+PLATFORM_ID=<span class="hljs-string">&quot;platform:f40&quot;</span>
+PRETTY_NAME=<span class="hljs-string">&quot;Fedora Linux 40 (Server Edition)&quot;</span>
+ANSI_COLOR=<span class="hljs-string">&quot;0;38;2;60;110;180&quot;</span>
+LOGO=fedora-logo-icon
+CPE_NAME=<span class="hljs-string">&quot;cpe:/o:fedoraproject:fedora:40&quot;</span>
+HOME_URL=<span class="hljs-string">&quot;https://fedoraproject.org/&quot;</span>
+DOCUMENTATION_URL=<span class="hljs-string">&quot;https://docs.fedoraproject.org/en-US/fedora/f40/system-administrators-guide/&quot;</span>
+SUPPORT_URL=<span class="hljs-string">&quot;https://ask.fedoraproject.org/&quot;</span>
+BUG_REPORT_URL=<span class="hljs-string">&quot;https://bugzilla.redhat.com/&quot;</span>
+REDHAT_BUGZILLA_PRODUCT=<span class="hljs-string">&quot;Fedora&quot;</span>
+REDHAT_BUGZILLA_PRODUCT_VERSION=40
+REDHAT_SUPPORT_PRODUCT=<span class="hljs-string">&quot;Fedora&quot;</span>
+REDHAT_SUPPORT_PRODUCT_VERSION=40
+SUPPORT_END=2025-05-13
+VARIANT=<span class="hljs-string">&quot;Server Edition&quot;</span>
+VARIANT_ID=server
+</code></div></pre>
+<p>查看补丁信息：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@fedora40-01:/home/oracle]$ sqlplus -v
+
+SQL*Plus: Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+[oracle@fedora40-01:/home/oracle]$ opatch lspatches
+29585399;OCW RELEASE UPDATE 19.3.0.0.0 (29585399)
+29517242;Database Release Update : 19.3.0.0.190416 (29517242)
+
+OPatch succeeded.
+</code></div></pre>
+<p>查看监听：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@fedora40-01:/home/oracle]$ lsnrctl <span class="hljs-built_in">stat</span>
+
+LSNRCTL <span class="hljs-keyword">for</span> Linux: Version 19.0.0.0.0 - Production on 26-JUN-2024 23:17:05
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=fedora40-01)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR <span class="hljs-keyword">for</span> Linux: Version 19.0.0.0.0 - Production
+Start Date                26-JUN-2024 23:15:36
+Uptime                    0 days 0 hr. 1 min. 28 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /u01/app/oracle/product/19.3.0/db/network/admin/listener.ora
+Listener Log File         /u01/app/oracle/diag/tnslsnr/fedora40-01/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=fedora40-01)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+Services Summary...
+Service <span class="hljs-string">&quot;lucifer&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+Service <span class="hljs-string">&quot;luciferXDB&quot;</span> has 1 instance(s).
+  Instance <span class="hljs-string">&quot;lucifer&quot;</span>, status READY, has 1 handler(s) <span class="hljs-keyword">for</span> this service...
+The <span class="hljs-built_in">command</span> completed successfully
+</code></div></pre>
+<p>连接数据库：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@fedora40-01:/home/oracle]$ sas
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Wed Jun 26 23:17:06 2024
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+sys@LUCIFER 2024-06-26 23:17:06&gt; show parameter name
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+cdb_cluster_name                     string
+cell_offloadgroup_name               string
+db_file_name_convert                 string
+db_name                              string      lucifer
+db_unique_name                       string      lucifer
+global_names                         boolean     FALSE
+instance_name                        string      lucifer
+lock_name_space                      string
+log_file_name_convert                string
+pdb_file_name_convert                string
+processor_group_name                 string
+service_names                        string      lucifer
+</code></div></pre>
+<p>数据库可以正常连接。</p>
+<h2><a id="_249"></a>往期精彩文章</h2>
+<blockquote>
+<p><a href="https://mp.weixin.qq.com/s/0xFe5m1DQ0ucT2_266hsrA" target="_blank">Oracle 一键巡检自动生成 Word 报告</a><br />
+<a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5MzcwNzQ0MQ==&amp;action=getalbum&amp;album_id=3497774649285296131#wechat_redirect" target="_blank">Oracle 一键安装合集</a><br />
+<a href="https://mp.weixin.qq.com/s/gv6t97FFyMsd6e4GH1HAwQ" target="_blank">Oracle一键安装脚本的 21 个疑问与解答</a><br />
+<a href="https://mp.weixin.qq.com/s/4zI73auIUhwSRb7qL3UIfw" target="_blank">Oracle一键巡检脚本的 21 个疑问与解答</a><br />
+<a href="https://mp.weixin.qq.com/s/UL0BSMCAZrOQgCoWpDMGew" target="_blank">全网首发：Oracle 23ai 一键安装脚本（非 RPM）</a><br />
+<a href="https://mp.weixin.qq.com/s/T7GbpwhnMugzk7PB6hAoJQ" target="_blank">Oracle 19C 最新 RU 补丁 19.24 ，一键安装！</a><br />
+<a href="https://mp.weixin.qq.com/s/dT4tFMYVZ3mh49CI6V3YEA" target="_blank">Oracle Linux 7.9 一键安装 Oracle 19C</a><br />
+<a href="https://mp.weixin.qq.com/s/cQJ6gP1bM_7m0H5-Dha4TA" target="_blank">RedHat 9.4(aarch64) 一键安装 Oracle 19C</a><br />
+<a href="https://mp.weixin.qq.com/s/sx1E4GIvIeQXp2vGMmVr2A" target="_blank">openEuler 22.03 LTS SP4 一键安装 Oracle 19C RAC</a><br />
+<a href="https://mp.weixin.qq.com/s/mUHqU5hQ9GdH2bKuClPt5A" target="_blank">RHEL 7.9 一键安装 Oracle 19C 19.23 RAC</a><br />
+<a href="https://mp.weixin.qq.com/s/Trt7gYkQVoL5A803WlDL6Q" target="_blank">Oracle DataGuard GAP 修复手册</a><br />
+<a href="https://mp.weixin.qq.com/s/DysIcb-p11j56d3YtlqpcQ" target="_blank">优化 Oracle：最佳实践与开发规范</a><br />
+<a href="https://mp.weixin.qq.com/s/SmncWuYAubj0tnOw35aJGA" target="_blank">DBA 必备：Linux 软件源配置全攻略</a><br />
+<a href="https://mp.weixin.qq.com/s/yvth1vorP3JjUp3g3vPBAQ" target="_blank">Linux 一键配置时钟同步全攻略</a></p>
+</blockquote>
+<hr />
+<p>感谢您的阅读，这里是 <strong>Lucifer三思而后行</strong>，欢迎<strong>点赞+关注</strong>，我会持续分享数据库知识、运维技巧。</p>
+</div> <div class="tag-box mb20"><i class="cs-tag"></i> <a href="/tag/墨力计划?type=knowledge" target="_blank" class="ml4">墨力计划</a></div> <!----> <div class="praise-box vc font14 c6"><div>「喜欢这篇文章，您的关注和赞赏是给作者最好的鼓励」</div> <div class="flex center mt20 mb10"><div class="f-btn mr20">关注作者</div> <button type="button" class="el-button praise-btn el-button--danger el-button--small"><!----><!----><span>点赞</span></button></div> <div class="el-dialog__wrapper" style="display:none;"><div role="dialog" aria-modal="true" aria-label="dialog" class="el-dialog vertical-horizontal" style="margin-top:0;width:340px;"><div class="el-dialog__header"><span class="el-dialog__title"></span><button type="button" aria-label="Close" class="el-dialog__headerbtn"><i class="el-dialog__close el-icon el-icon-close"></i></button></div><!----><!---->  </div>
+</div></article>
+<div id="footer"></div>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('compat');
+document.getElementById('footer').innerHTML = footerHTML();
+</script>
+</body>
+</html>

@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redhat 9.3 一键安装 Oracle 19C 19.21 单机版 - OracleShellInstall</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+<article class="guide-article"><div class="container">
+  <div class="guide-header">
+    <a href="../compat.html" class="guide-back">&larr; 返回安装合集</a>
+    <h1>Redhat 9.3 一键安装 Oracle 19C 19.21 单机版</h1>
+    <div class="guide-meta">
+      <span>原文来源：<a href="https://www.modb.pro/db/1722500845915430912" target="_blank" rel="noopener noreferrer">墨天轮</a></span>
+      <span>作者：Lucifer</span>
+    </div>
+  </div>
+  <div class="guide-body markdown-body">
+<p><strong>Oracle 一键安装脚本，演示 Redhat 9.3 一键安装 Oracle 19C 19.21 单机版过程（全程无需人工干预）：（脚本包括 <font color='red'>ORALCE PSU/OJVM 等补丁自动安装</font>）</strong></p>
+<p><strong>⭐️ <font color='red'>脚本下载地址</font>：<a href="https://www.modb.pro/course/148" target="_blank">Shell脚本安装Oracle数据库</a></strong></p>
+<p>脚本第三代支持 N 节点一键安装，不限制节点数！</p>
+<p><img src="https://oss-emcsprod-public.modb.pro/image/editor/20230505-1847efab-b5e0-4f66-93f5-79b6e108980e.png" alt="image.png" /></p>
+<h1><a id="_8"></a>安装准备</h1>
+<ul>
+<li>1、安装好操作系统，建议安装图形化</li>
+<li>2、配置好网络</li>
+<li>3、挂载本地 ISO 镜像源</li>
+<li>4、上传必须软件安装包（安装基础包，补丁包：35643107、35648110、6880880）</li>
+<li>5、上传一键安装脚本：OracleShellInstall</li>
+</ul>
+<h1><a id="_15"></a>演示环境信息</h1>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
+[root@rhel9:/root]$ cat /etc/redhat-release 
+Red Hat Enterprise Linux release 9.3 (Plow)
+
+<span class="hljs-comment"># 网络信息</span>
+[root@rhel9:/root]$ ip a
+2: ens192: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 00:0c:29:54:f6:b8 brd ff:ff:ff:ff:ff:ff
+    altname enp11s0
+    inet 192.168.6.155/24 brd 192.168.6.255 scope global noprefixroute ens192
+       valid_lft forever preferred_lft forever
+    inet6 fe80::20c:29ff:fe54:f6b8/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+
+<span class="hljs-comment"># 挂载本地 ISO 镜像</span>
+[root@rhel9:/root]$ mount | grep iso | grep -v <span class="hljs-string">&quot;/run/media&quot;</span>
+/dev/sr0 on /mnt <span class="hljs-built_in">type</span> iso9660 (ro,relatime,nojoliet,check=s,map=n,blocksize=2048)
+[root@rhel9:/root]$ df -h|grep /mnt
+/dev/sr0               9.9G  9.9G     0 100% /mnt
+
+<span class="hljs-comment"># 安装包存放在 /soft 目录下</span>
+[root@lucifer ~]<span class="hljs-comment"># cd /soft/</span>
+[root@rhel9:/soft]$ ll
+-rwx------. 1 oracle oinstall 3059705302 Nov  9 11:33 LINUX.X64_193000_db_home.zip
+-rwxr-xr-x. 1 oracle oinstall     162550 Nov  9 13:16 OracleShellInstall
+-rwxr-xr-x. 1 oracle oinstall 1815725977 Nov  9 11:31 p35643107_190000_Linux-x86-64.zip
+-rwxr-xr-x. 1 oracle oinstall  127350205 Nov  9 11:31 p35648110_190000_Linux-x86-64.zip
+-rwxr-xr-x. 1 oracle oinstall  127774864 Nov  9 11:31 p6880880_190000_Linux-x86-64.zip
+</code></div></pre>
+<p>确保安装环境准备完成后，即可执行一键安装。</p>
+<h1><a id="_48"></a>安装命令</h1>
+<p>使用标准生产环境安装参数：</p>
+<pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：</span>
+./OracleShellInstall -lf ens192 `<span class="hljs-comment"># local ip ifname`\</span>
+-n rhel9 `<span class="hljs-comment"># hostname`\</span>
+-op oracle `<span class="hljs-comment"># oracle password`\</span>
+-d /u01 `<span class="hljs-comment"># software base dir`\</span>
+-ord /oradata `<span class="hljs-comment"># data dir`\</span>
+-o oradb `<span class="hljs-comment"># dbname`\</span>
+-dp oracle `<span class="hljs-comment"># sys/system password`\</span>
+-ds AL32UTF8 `<span class="hljs-comment"># database character`\</span>
+-ns AL16UTF16 `<span class="hljs-comment"># national character`\</span>
+-pdb lucifer `<span class="hljs-comment"># pdb name`\</span>
+-redo 200 `<span class="hljs-comment"># redo size`\</span>
+-opa 35643107 `<span class="hljs-comment"># oracle PSU/RU`\</span>
+-jpa 35648110 `<span class="hljs-comment"># OJVM PSU/RU`\</span>
+-opd Y `<span class="hljs-comment"># optimize db`</span>
+</code></div></pre>
+<p>选择需要安装的模式以及版本，即可开始安装：</p>
+<p><img src="https://oss-emcsprod-public.modb.pro/image/editor/20231109-75107355-4976-45ed-8767-3b714b9e2d17.png" alt="" /></p>
+<h1><a id="_72"></a>安装过程</h1>
+<pre><div class="hljs"><code class="lang-bash">   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
+  ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
+ ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
+░██      ░██░░██░░█ ░░░░░░██  ██░░░██ ░██ ██░░░██░█████████░██████  ██░░░██ ░██ ░██░██░░██░░░██ ██░░░░ ░░░██░  ░░░░░░██  ░██ ░██
+░██      ░██ ░██ ░   ███████ ░██  ░░  ░██░███████░░░░░░░░██░██░░░██░███████ ░██ ░██░██ ░██  ░██░░█████   ░██    ███████  ░██ ░██
+░░██     ██  ░██    ██░░░░██ ░██   ██ ░██░██░░░░        ░██░██  ░██░██░░░░  ░██ ░██░██ ░██  ░██ ░░░░░██  ░██   ██░░░░██  ░██ ░██
+ ░░███████  ░███   ░░████████░░█████  ███░░██████ ████████ ░██  ░██░░██████ ███ ███░██ ███  ░██ ██████   ░░██ ░░████████ ███ ███
+  ░░░░░░░   ░░░     ░░░░░░░░  ░░░░░  ░░░  ░░░░░░ ░░░░░░░░  ░░   ░░  ░░░░░░ ░░░ ░░░ ░░ ░░░   ░░ ░░░░░░     ░░   ░░░░░░░░ ░░░ ░░░ 
+
+
+请选择安装模式 [单机(si)/单机ASM(sa)/集群(rac)] : si
+
+数据库安装模式: single                                                                           
+
+请选择数据库版本 [11/12/19/21] : 19
+
+数据库版本:     19                                                                               
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置本地 YUM 源                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+[BaseOS]
+name=BaseOS
+baseurl=file:///mnt/BaseOS
+enabled=1
+gpgcheck=0
+[AppStream]
+name=AppStream
+baseurl=file:///mnt/AppStream
+enabled=1
+gpgcheck=0
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+禁用防火墙                                                                                       
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+○ firewalld.service - firewalld - dynamic firewall daemon
+     Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; preset: enabled)
+     Active: inactive (dead)
+       Docs: man:firewalld(1)
+
+Nov 09 11:27:14 rhel9 systemd[1]: Starting firewalld - dynamic firewall daemon...
+Nov 09 11:27:16 rhel9 systemd[1]: Started firewalld - dynamic firewall daemon.
+Nov 09 13:17:22 rhel9 systemd[1]: Stopping firewalld - dynamic firewall daemon...
+Nov 09 13:17:23 rhel9 systemd[1]: firewalld.service: Deactivated successfully.
+Nov 09 13:17:23 rhel9 systemd[1]: Stopped firewalld - dynamic firewall daemon.
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+禁用 SELinux                                                                                        
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   permissive
+Mode from config file:          disabled
+Policy MLS status:              enabled
+Policy deny_unknown status:     allowed
+Memory protection checking:     actual (secure)
+Max kernel policy version:      33
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+YUM 静默安装依赖包                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+bc-1.07.1-14.el9.x86_64
+binutils-2.35.2-42.el9.x86_64
+package compat-libcap1 is not installed
+gcc-11.4.1-2.1.el9.x86_64
+gcc-c++-11.4.1-2.1.el9.x86_64
+elfutils-libelf-0.189-3.el9.x86_64
+elfutils-libelf-devel-0.189-3.el9.x86_64
+glibc-2.34-83.el9_3.7.x86_64
+glibc-devel-2.34-83.el9_3.7.x86_64
+libaio-0.3.111-13.el9.x86_64
+libaio-devel-0.3.111-13.el9.x86_64
+libgcc-11.4.1-2.1.el9.x86_64
+libstdc++-11.4.1-2.1.el9.x86_64
+libstdc++-devel-11.4.1-2.1.el9.x86_64
+libxcb-1.13.1-9.el9.x86_64
+libX11-1.7.0-8.el9.x86_64
+libXau-1.0.9-8.el9.x86_64
+libXi-1.7.10-8.el9.x86_64
+libXrender-0.9.10-16.el9.x86_64
+make-4.3-7.el9.x86_64
+net-tools-2.0-0.62.20160912git.el9.x86_64
+smartmontools-7.2-7.el9.x86_64
+sysstat-12.5.4-7.el9.x86_64
+e2fsprogs-1.46.5-3.el9.x86_64
+e2fsprogs-libs-1.46.5-3.el9.x86_64
+unzip-6.0-56.el9.x86_64
+openssh-clients-8.7p1-34.el9.x86_64
+readline-8.1-4.el9.x86_64
+readline-devel-8.1-4.el9.x86_64
+psmisc-23.4-3.el9.x86_64
+ksh-1.0.0~beta.1-3.el9.x86_64
+nfs-utils-2.5.4-20.el9.x86_64
+tar-1.34-6.el9_1.x86_64
+device-mapper-multipath-0.8.7-22.el9.x86_64
+avahi-0.8-15.el9.x86_64
+package ntp is not installed
+chrony-4.3-1.el9.x86_64
+libXtst-1.2.3-16.el9.x86_64
+libXrender-devel-0.9.10-16.el9.x86_64
+fontconfig-devel-2.14.0-2.el9_1.x86_64
+policycoreutils-3.5-2.el9.x86_64
+package policycoreutils-python is not installed
+librdmacm-46.0-1.el9.x86_64
+package libnsl* is not installed
+libibverbs-46.0-1.el9.x86_64
+package compat-openssl10 is not installed
+policycoreutils-python-utils-3.5-2.el9.noarch
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置主机名                                                                                       
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+rhel9
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 /etc/hosts 文件                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+<span class="hljs-comment">## OracleBegin</span>
+<span class="hljs-comment">## Public IP</span>
+192.168.6.155   rhel9
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+创建用户和组                                                                                    
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+oracle 用户：                                                                                      
+
+uid=54321(oracle) gid=54321(oinstall) groups=54321(oinstall),54322(dba),54323(oper),54324(backupdba),54325(dgdba),54326(kmdba),54330(racdba)
+
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 Avahi-daemon 服务                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+○ avahi-daemon.service - Avahi mDNS/DNS-SD Stack
+     Loaded: loaded (/usr/lib/systemd/system/avahi-daemon.service; disabled; preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: ○ avahi-daemon.socket
+
+Nov 09 11:27:17 rhel9 avahi-daemon[958]: Registering new address record <span class="hljs-keyword">for</span> fe80::20c:29ff:fe54:f6b8 on ens192.*.
+Nov 09 13:18:36 rhel9 systemd[1]: Stopping Avahi mDNS/DNS-SD Stack...
+Nov 09 13:18:36 rhel9 avahi-daemon[958]: Got SIGTERM, quitting.
+Nov 09 13:18:36 rhel9 avahi-daemon[958]: Leaving mDNS multicast group on interface ens192.IPv6 with address fe80::20c:29ff:fe54:f6b8.
+Nov 09 13:18:36 rhel9 avahi-daemon[958]: Leaving mDNS multicast group on interface ens192.IPv4 with address 192.168.6.155.
+Nov 09 13:18:36 rhel9 avahi-daemon[958]: Leaving mDNS multicast group on interface lo.IPv6 with address ::1.
+Nov 09 13:18:36 rhel9 avahi-daemon[958]: Leaving mDNS multicast group on interface lo.IPv4 with address 127.0.0.1.
+Nov 09 13:18:36 rhel9 avahi-daemon[958]: avahi-daemon 0.8 exiting.
+Nov 09 13:18:36 rhel9 systemd[1]: avahi-daemon.service: Deactivated successfully.
+Nov 09 13:18:36 rhel9 systemd[1]: Stopped Avahi mDNS/DNS-SD Stack.
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置透明大页 &amp;&amp; NUMA &amp;&amp; 磁盘 IO 调度器                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+args=<span class="hljs-string">&quot;ro resume=/dev/mapper/rhel-swap rd.lvm.lv=rhel/root rd.lvm.lv=rhel/swap rhgb quiet numa=off transparent_hugepage=never elevator=deadline&quot;</span>
+-resume=/dev/mapper/rhel-swap
+-args=<span class="hljs-string">&quot;ro
+args=&quot;</span>ro resume=/dev/mapper/rhel-swap rd.lvm.lv=rhel/root rd.lvm.lv=rhel/swap rhgb quiet numa=off transparent_hugepage=never elevator=deadline<span class="hljs-string">&quot;
+-elevator=deadline&quot;</span>
+-transparent_hugepage=never
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 sysctl.conf                                                                                    
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+fs.aio-max-nr = 1048576
+fs.file-max = 6815744
+kernel.shmall = 4090819
+kernel.shmmax = 16755998719
+kernel.shmmni = 4096
+kernel.sem = 250 32000 100 128
+net.ipv4.ip_local_port_range = 9000 65500
+net.core.rmem_default = 262144
+net.core.rmem_max = 4194304
+net.core.wmem_default = 262144
+net.core.wmem_max = 1048576
+vm.min_free_kbytes = 65453
+net.ipv4.conf.ens192.rp_filter = 1
+vm.swappiness = 10
+kernel.panic_on_oops = 1
+kernel.randomize_va_space = 2
+kernel.numa_balancing = 0
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 RemoveIPC                                                                                      
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+[Login]
+RemoveIPC=no
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 /etc/security/limits.conf 和 /etc/pam.d/login                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+查看 /etc/security/limits.conf：                                                                                  
+
+oracle soft nofile 1024
+oracle hard nofile 65536
+oracle soft stack 10240
+oracle hard stack 32768
+oracle soft nproc 2047
+oracle hard nproc 16384
+oracle hard memlock unlimited
+oracle soft memlock unlimited
+
+查看 /etc/pam.d/login 文件：                                                                                  
+
+auth       substack     system-auth
+auth       include      postlogin
+account    required     pam_nologin.so
+account    include      system-auth
+password   include      system-auth
+session    required     pam_selinux.so close
+session    required     pam_loginuid.so
+session    required     pam_selinux.so open
+session    required     pam_namespace.so
+session    optional     pam_keyinit.so force revoke
+session    include      system-auth
+session    include      postlogin
+-session   optional     pam_ck_connector.so
+session required pam_limits.so
+session required /lib64/security/pam_limits.so
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 /dev/shm                                                                                       
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+/dev/mapper/rhel-root   /                       xfs     defaults        0 0
+UUID=1e070be2-6168-4b31-b206-56fd68e17cf9 /boot                   xfs     defaults        0 0
+UUID=E354-7851          /boot/efi               vfat    <span class="hljs-built_in">umask</span>=0077,shortname=winnt 0 2
+/dev/mapper/rhel-swap   none                    swap    defaults        0 0
+tmpfs /dev/shm tmpfs size=16363280k 0 0
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Root 用户环境变量                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+<span class="hljs-keyword">if</span> [ -f ~/.bashrc ]; <span class="hljs-keyword">then</span>
+        . ~/.bashrc
+<span class="hljs-keyword">fi</span>
+<span class="hljs-built_in">alias</span> so=<span class="hljs-string">&#x27;su - oracle&#x27;</span>
+<span class="hljs-built_in">export</span> PS1=<span class="hljs-string">&quot;[`whoami`@`hostname`:&quot;</span><span class="hljs-string">&#x27;$PWD]$ &#x27;</span>
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Oracle 用户环境变量                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+<span class="hljs-keyword">if</span> [ -f ~/.bashrc ]; <span class="hljs-keyword">then</span>
+        . ~/.bashrc
+<span class="hljs-keyword">fi</span>
+<span class="hljs-built_in">umask</span> 022
+<span class="hljs-built_in">export</span> TMP=/tmp
+<span class="hljs-built_in">export</span> TMPDIR=<span class="hljs-variable">$TMP</span>
+<span class="hljs-built_in">export</span> NLS_LANG=AMERICAN_AMERICA.AL32UTF8
+<span class="hljs-built_in">export</span> ORACLE_BASE=/u01/app/oracle
+<span class="hljs-built_in">export</span> ORACLE_HOME=/u01/app/oracle/product/19.3.0/db
+<span class="hljs-built_in">export</span> ORACLE_TERM=xterm
+<span class="hljs-built_in">export</span> TNS_ADMIN=<span class="hljs-variable">$ORACLE_HOME</span>/network/admin
+<span class="hljs-built_in">export</span> LD_LIBRARY_PATH=<span class="hljs-variable">$ORACLE_HOME</span>/lib:/lib:/usr/lib
+<span class="hljs-built_in">export</span> ORACLE_SID=oradb
+<span class="hljs-built_in">export</span> PATH=/usr/sbin:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$ORACLE_HOME</span>/bin:<span class="hljs-variable">$ORACLE_HOME</span>/OPatch:<span class="hljs-variable">$ORACLE_HOME</span>/perl/bin:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">export</span> PERL5LIB=<span class="hljs-variable">$ORACLE_HOME</span>/perl/lib
+<span class="hljs-built_in">alias</span> sas=<span class="hljs-string">&#x27;sqlplus / as sysdba&#x27;</span>
+<span class="hljs-built_in">alias</span> awr=<span class="hljs-string">&#x27;sqlplus / as sysdba @?/rdbms/admin/awrrpt&#x27;</span>
+<span class="hljs-built_in">alias</span> ash=<span class="hljs-string">&#x27;sqlplus / as sysdba @?/rdbms/admin/ashrpt&#x27;</span>
+<span class="hljs-built_in">alias</span> alert=<span class="hljs-string">&#x27;vi $ORACLE_BASE/diag/rdbms/*/$ORACLE_SID/trace/alert_$ORACLE_SID.log&#x27;</span>
+<span class="hljs-built_in">export</span> PS1=<span class="hljs-string">&quot;[`whoami`@`hostname`:&quot;</span><span class="hljs-string">&#x27;$PWD]$ &#x27;</span>
+<span class="hljs-built_in">export</span> CV_ASSUME_DISTID=OL7
+stty erase ^H
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+静默解压 Oracle 软件包                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+正在静默解压缩 Oracle 软件包，请稍等：                                                                                  
+
+.---- -. -. .  .   .        .
+( .<span class="hljs-string">&#x27;,----- - - &#x27;</span> <span class="hljs-string">&#x27;      &#x27;</span>                                         __
+ \_/      ;--:-          __--------------------___  ____=========_||___
+__U__n_^_<span class="hljs-string">&#x27;&#x27;</span>__[.  ooo___  | |_!_||_!_||_!_||_!_| |   |..|_i_|..|_i_|..|
+c(_ ..(_ ..(_ ..( /,,,,,,] | |___||___||___||___| |   |                |
+,_\___________<span class="hljs-string">&#x27;_|,L______],|______________________|_i,!________________!_i
+/;_(@)(@)==(@)(@)   (o)(o)      (o)^(o)--(o)^(o)          (o)(o)-(o)(o)
+&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&#x27;</span><span class="hljs-string">&quot;&quot;</span>
+
+
+静默解压 Oracle 软件安装包： /soft/LINUX.X64_193000_db_home.zip                                                                                  
+
+静默解压 OPatch 软件补丁包： /soft/p6880880_*.zip                                                                                  
+
+静默解压 OJVM 软件补丁包： /soft/p35648110*.zip                                                                                  
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Oracle 安装静默文件                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+oracle.install.option=INSTALL_DB_SWONLY
+UNIX_GROUP_NAME=oinstall
+INVENTORY_LOCATION=/u01/app/oraInventory
+ORACLE_BASE=/u01/app/oracle
+oracle.install.db.InstallEdition=EE
+oracle.install.db.DBA_GROUP=dba
+oracle.install.db.OPER_GROUP=oper
+oracle.install.db.OSBACKUPDBA_GROUP=backupdba
+oracle.install.db.OSDGDBA_GROUP=dgdba
+oracle.install.db.OSKMDBA_GROUP=kmdba
+oracle.install.db.OSRACDBA_GROUP=racdba
+oracle.install.db.rootconfig.executeRootScript=<span class="hljs-literal">false</span>
+oracle.install.db.rootconfig.configMethod=
+oracle.install.responseFileVersion=/oracle/install/rspfmt_dbinstall_response_schema_v19.0.0
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+静默安装数据库软件                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+Preparing the home to patch...
+Applying the patch /soft/35643107...
+Successfully applied the patch.
+The <span class="hljs-built_in">log</span> can be found at: /tmp/InstallActions2023-11-09_01-19-57PM/installerPatchActions_2023-11-09_01-19-57PM.log
+Launching Oracle Database Setup Wizard...
+
+[WARNING] [INS-13014] Target environment does not meet some optional requirements.
+   CAUSE: Some of the optional prerequisites are not met. See logs <span class="hljs-keyword">for</span> details. installActions2023-11-09_01-19-57PM.log
+   ACTION: Identify the list of failed prerequisite checks from the <span class="hljs-built_in">log</span>: installActions2023-11-09_01-19-57PM.log. Then either from the <span class="hljs-built_in">log</span> file or from installation manual find the appropriate configuration to meet the prerequisites and fix it manually.
+The response file <span class="hljs-keyword">for</span> this session can be found at:
+ /u01/app/oracle/product/19.3.0/db/install/response/db_2023-11-09_01-19-57PM.rsp
+
+You can find the <span class="hljs-built_in">log</span> of this install session at:
+ /tmp/InstallActions2023-11-09_01-19-57PM/installActions2023-11-09_01-19-57PM.log
+
+As a root user, execute the following script(s):
+        1. /u01/app/oraInventory/orainstRoot.sh
+        2. /u01/app/oracle/product/19.3.0/db/root.sh
+
+Execute /u01/app/oraInventory/orainstRoot.sh on the following nodes: 
+[rhel9]
+Execute /u01/app/oracle/product/19.3.0/db/root.sh on the following nodes: 
+[rhel9]
+
+
+Successfully Setup Software with warning(s).
+Moved the install session logs to:
+ /u01/app/oraInventory/logs/InstallActions2023-11-09_01-19-57PM
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+执行 root 脚本                                                                                    
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+Changing permissions of /u01/app/oraInventory.
+Adding <span class="hljs-built_in">read</span>,write permissions <span class="hljs-keyword">for</span> group.
+Removing <span class="hljs-built_in">read</span>,write,execute permissions <span class="hljs-keyword">for</span> world.
+
+Changing groupname of /u01/app/oraInventory to oinstall.
+The execution of the script is complete.
+Check /u01/app/oracle/product/19.3.0/db/install/root_rhel9_2023-11-09_13-38-03-210893122.log <span class="hljs-keyword">for</span> the output of root script
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+OJVM 补丁安装                                                                                     
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+stty: <span class="hljs-string">&#x27;standard input&#x27;</span>: Inappropriate ioctl <span class="hljs-keyword">for</span> device
+Oracle Interim Patch Installer version 12.2.0.1.40
+Copyright (c) 2023, Oracle Corporation.  All rights reserved.
+
+PREREQ session
+
+Oracle Home       : /u01/app/oracle/product/19.3.0/db
+Central Inventory : /u01/app/oraInventory
+   from           : /u01/app/oracle/product/19.3.0/db/oraInst.loc
+OPatch version    : 12.2.0.1.40
+OUI version       : 12.2.0.7.0
+Log file location : /u01/app/oracle/product/19.3.0/db/cfgtoollogs/opatch/opatch2023-11-09_13-38-06PM_1.log
+
+Invoking prereq <span class="hljs-string">&quot;checkconflictagainstohwithdetail&quot;</span>
+
+Prereq <span class="hljs-string">&quot;checkConflictAgainstOHWithDetail&quot;</span> passed.
+
+OPatch succeeded.
+Oracle Interim Patch Installer version 12.2.0.1.40
+Copyright (c) 2023, Oracle Corporation.  All rights reserved.
+
+
+Oracle Home       : /u01/app/oracle/product/19.3.0/db
+Central Inventory : /u01/app/oraInventory
+   from           : /u01/app/oracle/product/19.3.0/db/oraInst.loc
+OPatch version    : 12.2.0.1.40
+OUI version       : 12.2.0.7.0
+Log file location : /u01/app/oracle/product/19.3.0/db/cfgtoollogs/opatch/opatch2023-11-09_13-38-22PM_1.log
+
+Verifying environment and performing prerequisite checks...
+OPatch continues with these patches:   35648110  
+
+Do you want to proceed? [y|n]
+Y (auto-answered by -silent)
+User Responded with: Y
+All checks passed.
+
+Please shutdown Oracle instances running out of this ORACLE_HOME on the <span class="hljs-built_in">local</span> system.
+(Oracle Home = <span class="hljs-string">&#x27;/u01/app/oracle/product/19.3.0/db&#x27;</span>)
+
+
+Is the <span class="hljs-built_in">local</span> system ready <span class="hljs-keyword">for</span> patching? [y|n]
+Y (auto-answered by -silent)
+User Responded with: Y
+Backing up files...
+Applying interim patch <span class="hljs-string">&#x27;35648110&#x27;</span> to OH <span class="hljs-string">&#x27;/u01/app/oracle/product/19.3.0/db&#x27;</span>
+
+Patching component oracle.javavm.server, 19.0.0.0.0...
+
+Patching component oracle.javavm.server.core, 19.0.0.0.0...
+
+Patching component oracle.rdbms.dbscripts, 19.0.0.0.0...
+
+Patching component oracle.rdbms, 19.0.0.0.0...
+
+Patching component oracle.javavm.client, 19.0.0.0.0...
+Patch 35648110 successfully applied.
+Log file location: /u01/app/oracle/product/19.3.0/db/cfgtoollogs/opatch/opatch2023-11-09_13-38-22PM_1.log
+
+OPatch succeeded.
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Oracle 软件版本                                                                                   
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+
+SQL*Plus: Release 19.0.0.0.0 - Production
+Version 19.21.0.0.0
+
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Oracle 补丁信息                                                                                   
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+35648110;OJVM RELEASE UPDATE: 19.21.0.0.231017 (35648110)
+35643107;Database Release Update : 19.21.0.0.231017 (35643107)
+29585399;OCW RELEASE UPDATE 19.3.0.0.0 (29585399)
+
+OPatch succeeded.
+
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置监听                                                                                          
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+
+Parsing <span class="hljs-built_in">command</span> line arguments:
+    Parameter <span class="hljs-string">&quot;silent&quot;</span> = <span class="hljs-literal">true</span>
+    Parameter <span class="hljs-string">&quot;responsefile&quot;</span> = /u01/app/oracle/product/19.3.0/db/assistants/netca/netca.rsp
+Done parsing <span class="hljs-built_in">command</span> line arguments.
+Oracle Net Services Configuration:
+Profile configuration complete.
+Oracle Net Listener Startup:
+    Running Listener Control: 
+      /u01/app/oracle/product/19.3.0/db/bin/lsnrctl start LISTENER
+    Listener Control complete.
+    Listener started successfully.
+Listener configuration complete.
+Oracle Net Services configuration successful. The <span class="hljs-built_in">exit</span> code is 0
+
+检查监听状态：                                                                                  
+
+
+LSNRCTL <span class="hljs-keyword">for</span> Linux: Version 19.0.0.0.0 - Production on 09-NOV-2023 13:40:31
+
+Copyright (c) 1991, 2023, Oracle.  All rights reserved.
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=rhel9)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR <span class="hljs-keyword">for</span> Linux: Version 19.0.0.0.0 - Production
+Start Date                09-NOV-2023 13:40:30
+Uptime                    0 days 0 hr. 0 min. 0 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /u01/app/oracle/product/19.3.0/db/network/admin/listener.ora
+Listener Log File         /u01/app/oracle/diag/tnslsnr/rhel9/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=rhel9)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+The listener supports no services
+The <span class="hljs-built_in">command</span> completed successfully
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+静默建库命令                                                                                    
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+dbca -silent -createDatabase \
+-ignorePrereqFailure \
+-templateName General_Purpose.dbc \
+-responseFile NO_VALUE \
+-gdbName oradb \
+-sid oradb \
+-sysPassword oracle \
+-systemPassword oracle \
+-redoLogFileSize 200 \
+-datafileDestination /oradata \
+-storageType FS \
+-enableArchive <span class="hljs-literal">true</span> \
+-archiveLogDest /oradata \
+-databaseConfigType SINGLE \
+-characterset AL32UTF8 \
+-nationalCharacterSet AL16UTF16 \
+-emConfiguration NONE \
+-automaticMemoryManagement <span class="hljs-literal">false</span> \
+-totalMemory 7989 \
+-databaseType OLTP \
+-createAsContainerDatabase <span class="hljs-literal">true</span>                                                                                  
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+创建数据库                                                                                       
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+[WARNING] [DBT-06208] The <span class="hljs-string">&#x27;SYS&#x27;</span> password entered does not conform to the Oracle recommended standards.
+   CAUSE: 
+a. Oracle recommends that the password entered should be at least 8 characters <span class="hljs-keyword">in</span> length, contain at least 1 uppercase character, 1 lower <span class="hljs-keyword">case</span> character and 1 digit [0-9].
+b.The password entered is a keyword that Oracle does not recommend to be used as password
+   ACTION: Specify a strong password. If required refer Oracle documentation <span class="hljs-keyword">for</span> guidelines.
+[WARNING] [DBT-06208] The <span class="hljs-string">&#x27;SYSTEM&#x27;</span> password entered does not conform to the Oracle recommended standards.
+   CAUSE: 
+a. Oracle recommends that the password entered should be at least 8 characters <span class="hljs-keyword">in</span> length, contain at least 1 uppercase character, 1 lower <span class="hljs-keyword">case</span> character and 1 digit [0-9].
+b.The password entered is a keyword that Oracle does not recommend to be used as password
+   ACTION: Specify a strong password. If required refer Oracle documentation <span class="hljs-keyword">for</span> guidelines.
+Prepare <span class="hljs-keyword">for</span> db operation
+10% complete
+Copying database files
+40% complete
+Creating and starting Oracle instance
+42% complete
+46% complete
+52% complete
+56% complete
+60% complete
+Completing Database Creation
+66% complete        
+69% complete
+70% complete
+Executing Post Configuration Actions
+100% complete
+Database creation complete. For details check the logfiles at:
+ /u01/app/oracle/cfgtoollogs/dbca/oradb.
+Database Information:
+Global Database Name:oradb
+System Identifier(SID):oradb
+Look at the <span class="hljs-built_in">log</span> file <span class="hljs-string">&quot;/u01/app/oracle/cfgtoollogs/dbca/oradb/oradb.log&quot;</span> <span class="hljs-keyword">for</span> further details.
+stty: <span class="hljs-string">&#x27;standard input&#x27;</span>: Inappropriate ioctl <span class="hljs-keyword">for</span> device
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+创建 PDB 数据库                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+正在创建 PDB：lucifer                                                                                  
+
+stty: <span class="hljs-string">&#x27;standard input&#x27;</span>: Inappropriate ioctl <span class="hljs-keyword">for</span> device
+stty: <span class="hljs-string">&#x27;standard input&#x27;</span>: Inappropriate ioctl <span class="hljs-keyword">for</span> device
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB<span class="hljs-variable">$SEED</span>                       READ ONLY  NO
+         3 LUCIFER                        READ WRITE NO
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置在线重做日志                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+stty: <span class="hljs-string">&#x27;standard input&#x27;</span>: Inappropriate ioctl <span class="hljs-keyword">for</span> device
+数据库在线重做日志文件：                                                                                  
+
+stty: <span class="hljs-string">&#x27;standard input&#x27;</span>: Inappropriate ioctl <span class="hljs-keyword">for</span> device
+
+   THREAD<span class="hljs-comment">#     GROUP# MEMBER                                                                                                                      size(M)</span>
+---------- ---------- ------------------------------------------------------------------------------------------------------------------------ ----------
+         1          1 /oradata/ORADB/redo01.log                                                                                                       200
+         1          2 /oradata/ORADB/redo02.log                                                                                                       200
+         1          3 /oradata/ORADB/redo03.log                                                                                                       200
+         1         11 /oradata/ORADB/onlinelog/o1_mf_11_lnryoff2_.log                                                                                 200
+         1         12 /oradata/ORADB/onlinelog/o1_mf_12_lnryofjv_.log                                                                                 200
+         1         13 /oradata/ORADB/onlinelog/o1_mf_13_lnryofpv_.log                                                                                 200
+         1         14 /oradata/ORADB/onlinelog/o1_mf_14_lnryofw2_.log                                                                                 200
+         1         15 /oradata/ORADB/onlinelog/o1_mf_15_lnryohcg_.log                                                                                 200
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 RMAN 备份任务                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+<span class="hljs-comment">## OracleBegin</span>
+00 02 * * * /home/oracle/scripts/del_arch.sh
+<span class="hljs-comment">#00 00 * * 0 /home/oracle/scripts/dbbackup_lv0.sh</span>
+<span class="hljs-comment">#00 00 * * 1,2,3,4,5,6 /home/oracle/scripts/dbbackup_lv1.sh</span>
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 glogin.sql                                                                                     
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+define _editor=vi
+<span class="hljs-built_in">set</span> serveroutput on size 1000000
+<span class="hljs-built_in">set</span> pagesize 9999
+<span class="hljs-built_in">set</span> long 99999
+<span class="hljs-built_in">set</span> trimspool on
+col name format a80
+<span class="hljs-built_in">set</span> termout off
+define gname=idle
+column global_name new_value gname
+select lower(user) || <span class="hljs-string">&#x27;@&#x27;</span> || substr( global_name, 1, decode( dot, 0, length(global_name), dot-1) ) global_name from (select global_name, instr(global_name,<span class="hljs-string">&#x27;.&#x27;</span>) dot from global_name );
+ALTER SESSION SET nls_date_format = <span class="hljs-string">&#x27;YYYY-MM-DD HH24:MI:SS&#x27;</span>;
+<span class="hljs-built_in">set</span> sqlprompt <span class="hljs-string">&#x27;&amp;gname _DATE&gt; &#x27;</span>
+<span class="hljs-built_in">set</span> termout on
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+优化数据库参数                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+stty: <span class="hljs-string">&#x27;standard input&#x27;</span>: Inappropriate ioctl <span class="hljs-keyword">for</span> device
+数据库参数：                                                                                    
+
+stty: <span class="hljs-string">&#x27;standard input&#x27;</span>: Inappropriate ioctl <span class="hljs-keyword">for</span> device
+
+NAME                                               SID        SPVALUE                                                                          VALUE
+-------------------------------------------------- ---------- -------------------------------------------------------------------------------- --------------------------------------------------------------------------------
+_b_tree_bitmap_plans                               *          FALSE                                                                            FALSE
+_datafile_write_errors_crash_instance              *          FALSE                                                                            FALSE
+audit_file_dest                                    *          /u01/app/oracle/admin/oradb/adump                                                /u01/app/oracle/admin/oradb/adump
+audit_trail                                        *          NONE                                                                             DB
+compatible                                         *          19.0.0                                                                           19.0.0
+control_file_record_keep_time                      *          31                                                                               31
+db_block_size                                      *          8192                                                                             8192
+db_create_file_dest                                *          /oradata                                                                         /oradata
+db_file_multiblock_read_count                      *                                                                                           128
+db_files                                           *          5000                                                                             200
+db_name                                            *          oradb                                                                            oradb
+db_writer_processes                                *                                                                                           1
+deferred_segment_creation                          *          FALSE                                                                            FALSE
+diagnostic_dest                                    *          /u01/app/oracle                                                                  /u01/app/oracle
+dispatchers                                        *          (PROTOCOL=TCP) (SERVICE=oradbXDB)                                                (PROTOCOL=TCP) (SERVICE=oradbXDB)
+enable_pluggable_database                          *          <span class="hljs-literal">true</span>                                                                             TRUE
+event                                              *          10949 trace name context forever,level 1
+event                                              *          28401 trace name context forever,level 1
+fast_start_parallel_rollback                       *                                                                                           LOW
+log_archive_dest_1                                 *          location=/oradata/archivelog                                                     location=/oradata/archivelog
+log_archive_format                                 *          %t_%s_%r.dbf                                                                     %t_%s_%r.dbf
+max_dump_file_size                                 *                                                                                           unlimited
+max_string_size                                    *                                                                                           STANDARD
+nls_language                                       *          AMERICAN                                                                         AMERICAN
+nls_territory                                      *          AMERICA                                                                          AMERICA
+open_cursors                                       *          1000                                                                             300
+optimizer_adaptive_plans                           *                                                                                           TRUE
+optimizer_adaptive_statistics                      *                                                                                           FALSE
+optimizer_index_caching                            *                                                                                           0
+optimizer_mode                                     *                                                                                           ALL_ROWS
+parallel_force_local                               *                                                                                           FALSE
+parallel_max_servers                               *          64                                                                               64
+pga_aggregate_target                               *          2680160256                                                                       1675624448
+processes                                          *          2000                                                                             640
+remote_login_passwordfile                          *          EXCLUSIVE                                                                        EXCLUSIVE
+session_cached_cursors                             *          300                                                                              50
+sessions                                           *                                                                                           984
+sga_max_size                                       *          10723786752                                                                      6710886400
+sga_target                                         *          10723786752                                                                      6710886400
+spfile                                             *                                                                                           /u01/app/oracle/product/19.3.0/db/dbs/spfileoradb.ora
+statistics_level                                   *                                                                                           TYPICAL
+undo_retention                                     *          10800                                                                            900
+
+恭喜！Oracle 单机安装成功，现在是否重启主机：[Y/N] Y
+
+正在重启 ......               
+</code></div></pre>
+<h1><a id="_754"></a>连接数据库</h1>
+<p>重启数据库后，连接数据库：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@rhel9:/home/oracle]$ sas
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Thu Nov 9 14:24:51 2023
+Version 19.21.0.0.0
+
+Copyright (c) 1982, 2022, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.21.0.0.0
+
+sys@ORADB 2023-11-09 14:24:51&gt; show parameter name
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+cdb_cluster_name                     string
+cell_offloadgroup_name               string
+db_file_name_convert                 string
+db_name                              string      oradb
+db_unique_name                       string      oradb
+global_names                         boolean     FALSE
+instance_name                        string      oradb
+lock_name_space                      string
+log_file_name_convert                string
+pdb_file_name_convert                string
+processor_group_name                 string
+service_names                        string      oradb
+sys@ORADB 2023-11-09 14:24:58&gt; show pdbs
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB<span class="hljs-variable">$SEED</span>                       READ ONLY  NO
+         3 LUCIFER                        READ WRITE NO
+</code></div></pre>
+<p>查看补丁版本：</p>
+<pre><div class="hljs"><code class="lang-bash">[oracle@rhel9:/home/oracle]$ opatch lspatches
+35648110;OJVM RELEASE UPDATE: 19.21.0.0.231017 (35648110)
+35643107;Database Release Update : 19.21.0.0.231017 (35643107)
+29585399;OCW RELEASE UPDATE 19.3.0.0.0 (29585399)
+
+OPatch succeeded.
+</code></div></pre>
+</div> <div class="tag-box mb20"><i class="cs-tag"></i> <a href="/tag/oracle?type=knowledge" target="_blank" class="ml4">oracle</a><a href="/tag/redhat?type=knowledge" target="_blank" class="ml4">redhat</a><a href="/tag/systemd?type=knowledge" target="_blank" class="ml4">systemd</a><a href="/tag/oracle数据库?type=knowledge" target="_blank" class="ml4">oracle数据库</a><a href="/tag/墨力计划?type=knowledge" target="_blank" class="ml4">墨力计划</a></div> <div class="font12 h-time">最后修改时间：2023-11-10 10:00:37</div> <div class="praise-box vc font14 c6"><div>「喜欢这篇文章，您的关注和赞赏是给作者最好的鼓励」</div> <div class="flex center mt20 mb10"><div class="f-btn mr20">关注作者</div> <button type="button" class="el-button praise-btn el-button--danger el-button--small"><!----><!----><span>点赞</span></button></div> <div class="el-dialog__wrapper" style="display:none;"><div role="dialog" aria-modal="true" aria-label="dialog" class="el-dialog vertical-horizontal" style="margin-top:0;width:340px;"><div class="el-dialog__header"><span class="el-dialog__title"></span><button type="button" aria-label="Close" class="el-dialog__headerbtn"><i class="el-dialog__close el-icon el-icon-close"></i></button></div><!----><!---->  </div>
+</div></article>
+<div id="footer"></div>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('compat');
+document.getElementById('footer').innerHTML = footerHTML();
+</script>
+</body>
+</html>

@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>19C 19.22 RAC 2节点一键安装演示 - OracleShellInstall</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+<article class="guide-article"><div class="container">
+  <div class="guide-header">
+    <a href="../compat.html" class="guide-back">&larr; 返回安装合集</a>
+    <h1>19C 19.22 RAC 2节点一键安装演示</h1>
+    <div class="guide-meta">
+      <span>原文来源：<a href="https://www.modb.pro/db/1767425920041848832" target="_blank" rel="noopener noreferrer">墨天轮</a></span>
+      <span>作者：Lucifer</span>
+    </div>
+  </div>
+  <div class="guide-body markdown-body">
+<p><strong>Oracle 一键安装脚本，演示 2 节点 RAC 一键安装过程（全程无需人工干预）：（脚本包括 <font color='red'>GRID/ORALCE PSU/OJVM 补丁自动安装</font>）</strong></p>
+<p><strong>⭐️ <font color='red'>脚本下载地址</font>：<a href="https://www.modb.pro/course/148" target="_blank">Shell脚本安装Oracle数据库</a></strong></p>
+<p>脚本第三代支持 N 节点一键安装，不限制节点数！</p>
+<p><img src="https://oss-emcsprod-public.modb.pro/image/editor/20230505-1847efab-b5e0-4f66-93f5-79b6e108980e.png" alt="image.png" /></p>
+<pre><div class="hljs"><code class="lang-bash">[root@rac01 soft]<span class="hljs-comment"># ./OracleShellInstall -n rac `# hostname prefix`\</span>
+&gt; -hn rac01,rac02 `<span class="hljs-comment"># rac node hostname`\</span>
+&gt; -cn rac-cls `<span class="hljs-comment"># cluster_name`\</span>
+&gt; -rp oracle `<span class="hljs-comment"># root password`\</span>
+&gt; -gp oracle `<span class="hljs-comment"># grid password`\</span>
+&gt; -op oracle `<span class="hljs-comment"># oracle password`\</span>
+&gt; -lf ens192 `<span class="hljs-comment"># local ip ifname`\</span>
+&gt; -pf ens224 `<span class="hljs-comment"># rac private ip ifname`\</span>
+&gt; -ri 192.168.6.151,192.168.6.152 `<span class="hljs-comment"># rac node public ip`\</span>
+&gt; -vi 192.168.6.153,192.168.6.154 `<span class="hljs-comment"># rac virtual ip`\</span>
+&gt; -si 192.168.6.155 `<span class="hljs-comment"># rac scan ip`\</span>
+&gt; -od /dev/sdb `<span class="hljs-comment"># rac ocr asm disk`\</span>
+&gt; -dd /dev/sdc `<span class="hljs-comment"># rac data asm disk`\</span>
+&gt; -o lucifer `<span class="hljs-comment"># dbname`\</span>
+&gt; -ds AL32UTF8 `<span class="hljs-comment"># database character`\</span>
+&gt; -ns AL16UTF16 `<span class="hljs-comment"># national character`\</span>
+&gt; -dp oracle `<span class="hljs-comment"># sys/system password`\</span>
+&gt; -gpa 35940989 `<span class="hljs-comment"># grid PSU/RU`\</span>
+&gt; -ud Y
+
+   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
+  ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
+ ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
+░██      ░██░░██░░█ ░░░░░░██  ██░░░██ ░██ ██░░░██░█████████░██████  ██░░░██ ░██ ░██░██░░██░░░██ ██░░░░ ░░░██░  ░░░░░░██  ░██ ░██
+░██      ░██ ░██ ░   ███████ ░██  ░░  ░██░███████░░░░░░░░██░██░░░██░███████ ░██ ░██░██ ░██  ░██░░█████   ░██    ███████  ░██ ░██
+░░██     ██  ░██    ██░░░░██ ░██   ██ ░██░██░░░░        ░██░██  ░██░██░░░░  ░██ ░██░██ ░██  ░██ ░░░░░██  ░██   ██░░░░██  ░██ ░██
+ ░░███████  ░███   ░░████████░░█████  ███░░██████ ████████ ░██  ░██░░██████ ███ ███░██ ███  ░██ ██████   ░░██ ░░████████ ███ ███
+  ░░░░░░░   ░░░     ░░░░░░░░  ░░░░░  ░░░  ░░░░░░ ░░░░░░░░  ░░   ░░  ░░░░░░ ░░░ ░░░ ░░ ░░░   ░░ ░░░░░░     ░░   ░░░░░░░░ ░░░ ░░░ 
+
+
+请选择安装模式 [单机(si)/单机ASM(sa)/集群(rac)] : rac
+
+数据库安装模式: rac                                                                              
+
+请选择数据库版本 [11203/11/12/19/21] : 19
+
+数据库版本:     19                                                                               
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置本地 YUM 源                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+[server]
+name=server
+baseurl=file:///mnt
+enabled=1
+gpgcheck=0
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+获取 ASM 磁盘 UUID &amp;&amp; 格式化磁盘头                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+格式化 OCR 磁盘：/dev/sdb                                                                                  
+
+1+0 records <span class="hljs-keyword">in</span>
+1+0 records out
+1024 bytes (1.0 kB) copied, 0.0471055 s, 21.7 kB/s
+
+OCR磁盘组的磁盘UUID： 2e87e4f535c397171                                                                
+
+格式化 DATA 磁盘：/dev/sdc                                                                                  
+
+1+0 records <span class="hljs-keyword">in</span>
+1+0 records out
+1024 bytes (1.0 kB) copied, 0.0396776 s, 25.8 kB/s
+
+DATA磁盘组的磁盘UUID： 2f218dae15b551c5d                                                                
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 root 用户互信                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+Generating public/private rsa key pair.
+Your identification has been saved <span class="hljs-keyword">in</span> /root/.ssh/id_rsa.
+Your public key has been saved <span class="hljs-keyword">in</span> /root/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:WWoGD210PXUNrmIMaZZY4Tkh1KeJnjQlEk//8tBpAZw root@rac01
+The key<span class="hljs-string">&#x27;s randomart image is:
++---[RSA 2048]----+
+|    .o+o*o.. .o.o|
+|    .o.OEB. o. ..|
+|     .=+&amp;+o  ..  |
+|      +BoX o .   |
+|     o oS O .    |
+|      oo * .     |
+|          .      |
+|                 |
+|                 |
++----[SHA256]-----+
+
+#==============================================================#                                                                                  
+禁用防火墙                                                                                       
+#==============================================================#                                                                                  
+
+● firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: man:firewalld(1)
+
+Mar 11 14:50:08 rac01 systemd[1]: Starting firewalld - dynamic firewall daemon...
+Mar 11 14:50:10 rac01 systemd[1]: Started firewalld - dynamic firewall daemon.
+Mar 11 14:50:11 rac01 firewalld[982]: WARNING: AllowZoneDrifting is enabled. This is considered an insecure configuration option. It will be removed in a future release. Please consider disabling it now.
+Mar 12 13:38:19 rac01 systemd[1]: Stopping firewalld - dynamic firewall daemon...
+Mar 12 13:38:20 rac01 systemd[1]: Stopped firewalld - dynamic firewall daemon.
+
+#==============================================================#                                                                                  
+禁用 SELinux                                                                                        
+#==============================================================#                                                                                  
+
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   permissive
+Mode from config file:          disabled
+Policy MLS status:              enabled
+Policy deny_unknown status:     allowed
+Max kernel policy version:      31
+
+#==============================================================#                                                                                  
+YUM 静默安装依赖包                                                                                  
+#==============================================================#                                                                                  
+
+bc-1.06.95-13.el7.x86_64
+binutils-2.27-44.base.el7.x86_64
+compat-libcap1-1.10-7.el7.x86_64
+gcc-4.8.5-44.el7.x86_64
+gcc-c++-4.8.5-44.el7.x86_64
+elfutils-libelf-0.176-5.el7.x86_64
+elfutils-libelf-devel-0.176-5.el7.x86_64
+glibc-2.17-317.el7.x86_64
+glibc-devel-2.17-317.el7.x86_64
+libaio-0.3.109-13.el7.x86_64
+libaio-devel-0.3.109-13.el7.x86_64
+libgcc-4.8.5-44.el7.x86_64
+libstdc++-4.8.5-44.el7.x86_64
+libstdc++-devel-4.8.5-44.el7.x86_64
+libxcb-1.13-1.el7.x86_64
+libX11-1.6.7-2.el7.x86_64
+libXau-1.0.8-2.1.el7.x86_64
+libXi-1.7.9-1.el7.x86_64
+libXrender-0.9.10-1.el7.x86_64
+make-3.82-24.el7.x86_64
+net-tools-2.0-0.25.20131004git.el7.x86_64
+smartmontools-7.0-2.el7.x86_64
+sysstat-10.1.5-19.el7.x86_64
+e2fsprogs-1.42.9-19.el7.x86_64
+e2fsprogs-libs-1.42.9-19.el7.x86_64
+unzip-6.0-21.el7.x86_64
+openssh-clients-7.4p1-21.el7.x86_64
+readline-6.2-11.el7.x86_64
+readline-devel-6.2-11.el7.x86_64
+psmisc-22.20-17.el7.x86_64
+ksh-20120801-142.el7.x86_64
+nfs-utils-1.3.0-0.68.el7.x86_64
+tar-1.26-35.el7.x86_64
+device-mapper-multipath-0.4.9-133.el7.x86_64
+avahi-0.6.31-20.el7.x86_64
+ntp-4.2.6p5-29.el7_8.2.x86_64
+chrony-3.4-1.el7.x86_64
+libXtst-1.2.3-1.el7.x86_64
+libXrender-devel-0.9.10-1.el7.x86_64
+fontconfig-devel-2.13.0-4.3.el7.x86_64
+policycoreutils-2.5-34.el7.x86_64
+policycoreutils-python-2.5-34.el7.x86_64
+
+#==============================================================#                                                                                  
+配置主机名                                                                                       
+#==============================================================#                                                                                  
+
+rac01
+
+#==============================================================#                                                                                  
+配置 /etc/hosts 文件                                                                                  
+#==============================================================#                                                                                  
+
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+## OracleBegin
+
+## RAC1 IP&#x27;</span>s: rac01
+
+<span class="hljs-comment">## RAC1 Public IP</span>
+192.168.6.151 rac01
+<span class="hljs-comment">## RAC1 Virtual IP</span>
+192.168.6.153 rac01-vip
+<span class="hljs-comment">## RAC1 Private IP</span>
+1.1.1.1 rac01-priv
+
+<span class="hljs-comment">## RAC2 IP&#x27;s: rac02</span>
+
+<span class="hljs-comment">## RAC2 Public IP</span>
+192.168.6.152 rac02
+<span class="hljs-comment">## RAC2 Virtual IP</span>
+192.168.6.154 rac02-vip
+<span class="hljs-comment">## RAC2 Private IP</span>
+1.1.1.2 rac02-priv
+
+<span class="hljs-comment">## SCAN IP</span>
+192.168.6.155 rac-scan
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+创建用户和组                                                                                    
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+oracle 用户：                                                                                      
+
+uid=54321(oracle) gid=54321(oinstall) groups=54321(oinstall),54322(dba),54323(oper),54324(backupdba),54325(dgdba),54326(kmdba),54330(racdba),54327(asmdba),54328(asmoper),54329(asmadmin)
+
+grid 用户：                                                                                        
+
+uid=11012(grid) gid=54321(oinstall) groups=54321(oinstall),54322(dba),54323(oper),54324(backupdba),54325(dgdba),54326(kmdba),54330(racdba),54327(asmdba),54328(asmoper),54329(asmadmin)
+
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 Avahi-daemon 服务                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+● avahi-daemon.service - Avahi mDNS/DNS-SD Stack
+   Loaded: loaded (/usr/lib/systemd/system/avahi-daemon.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+
+Mar 12 13:33:14 rac01 avahi-daemon[877]: Registering new address record <span class="hljs-keyword">for</span> fe80::f5b9:ca65:dba2:bf0 on ens192.*.
+Mar 12 13:33:14 rac01 avahi-daemon[877]: Joining mDNS multicast group on interface ens192.IPv4 with address 192.168.6.151.
+Mar 12 13:33:14 rac01 avahi-daemon[877]: New relevant interface ens192.IPv4 <span class="hljs-keyword">for</span> mDNS.
+Mar 12 13:33:14 rac01 avahi-daemon[877]: Registering new address record <span class="hljs-keyword">for</span> 192.168.6.151 on ens192.IPv4.
+Mar 12 13:33:14 rac01 avahi-daemon[877]: Registering new address record <span class="hljs-keyword">for</span> fe80::a8ce:7574:2cec:a98e on ens224.*.
+Mar 12 13:33:14 rac01 avahi-daemon[877]: Joining mDNS multicast group on interface ens224.IPv4 with address 1.1.1.1.
+Mar 12 13:33:14 rac01 avahi-daemon[877]: New relevant interface ens224.IPv4 <span class="hljs-keyword">for</span> mDNS.
+Mar 12 13:33:14 rac01 avahi-daemon[877]: Registering new address record <span class="hljs-keyword">for</span> 1.1.1.1 on ens224.IPv4.
+Mar 12 13:39:02 rac01 systemd[1]: Stopping Avahi mDNS/DNS-SD Stack...
+Mar 12 13:39:02 rac01 systemd[1]: Stopped Avahi mDNS/DNS-SD Stack.
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置透明大页 &amp;&amp; NUMA &amp;&amp; 磁盘 IO 调度器                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+args=<span class="hljs-string">&quot;ro rd.lvm.lv=rhel/root rd.lvm.lv=rhel/swap rhgb quiet LANG=en_US.UTF-8 numa=off transparent_hugepage=never elevator=deadline&quot;</span>
+-rd.lvm.lv=rhel/root
+-args=<span class="hljs-string">&quot;ro
+args=&quot;</span>ro rd.lvm.lv=rhel/root rd.lvm.lv=rhel/swap rhgb quiet numa=off transparent_hugepage=never elevator=deadline<span class="hljs-string">&quot;
+-elevator=deadline&quot;</span>
+-transparent_hugepage=never
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 sysctl.conf                                                                                    
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+fs.aio-max-nr = 1048576
+fs.file-max = 6815744
+kernel.shmall = 2097152
+kernel.shmmax = 8369385471
+kernel.shmmni = 4096
+kernel.sem = 250 32000 100 128
+net.ipv4.ip_local_port_range = 9000 65500
+net.core.rmem_default = 262144
+net.core.rmem_max = 4194304
+net.core.wmem_default = 262144
+net.core.wmem_max = 1048576
+vm.min_free_kbytes = 32692
+net.ipv4.conf.ens192.rp_filter = 1
+vm.swappiness = 10
+kernel.panic_on_oops = 1
+kernel.randomize_va_space = 2
+kernel.numa_balancing = 0
+net.ipv4.conf.ens224.rp_filter = 2
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 nsysctl.conf                                                                                   
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+NOZEROCONF=yes
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 RemoveIPC                                                                                      
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+[Login]
+RemoveIPC=no
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 /etc/security/limits.conf 和 /etc/pam.d/login                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+查看 /etc/security/limits.conf：                                                                                  
+
+oracle soft nofile 1024
+oracle hard nofile 65536
+oracle soft stack 10240
+oracle hard stack 32768
+oracle soft nproc 2047
+oracle hard nproc 16384
+oracle hard memlock unlimited
+oracle soft memlock unlimited
+grid soft nofile 1024
+grid hard nofile 65536
+grid soft stack 10240
+grid hard stack 32768
+grid soft nproc 2047
+grid hard nproc 16384
+
+查看 /etc/pam.d/login 文件：                                                                                  
+
+auth [user_unknown=ignore success=ok ignore=ignore default=bad] pam_securetty.so
+auth       substack     system-auth
+auth       include      postlogin
+account    required     pam_nologin.so
+account    include      system-auth
+password   include      system-auth
+session    required     pam_selinux.so close
+session    required     pam_loginuid.so
+session    optional     pam_console.so
+session    required     pam_selinux.so open
+session    required     pam_namespace.so
+session    optional     pam_keyinit.so force revoke
+session    include      system-auth
+session    include      postlogin
+-session   optional     pam_ck_connector.so
+session required pam_limits.so
+session required /lib64/security/pam_limits.so
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 /dev/shm                                                                                       
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+/dev/mapper/rhel-root   /                       xfs     defaults        0 0
+UUID=64fa46ff-7a45-4939-b2bf-f995a20165d1 /boot                   xfs     defaults        0 0
+/dev/mapper/rhel-swap   swap                    swap    defaults        0 0
+tmpfs /dev/shm tmpfs size=8173228k 0 0
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+安装 rlwrap 插件                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+成功安装 rlwrap： rlwrap 0.44                                                                      
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Root 用户环境变量                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+<span class="hljs-keyword">if</span> [ -f ~/.bashrc ]; <span class="hljs-keyword">then</span>
+        . ~/.bashrc
+<span class="hljs-keyword">fi</span>
+PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$HOME</span>/bin
+<span class="hljs-built_in">export</span> PATH
+<span class="hljs-built_in">alias</span> so=<span class="hljs-string">&#x27;su - oracle&#x27;</span>
+<span class="hljs-built_in">export</span> PS1=<span class="hljs-string">&quot;[`whoami`@`hostname`:&quot;</span><span class="hljs-string">&#x27;$PWD]$ &#x27;</span>
+<span class="hljs-built_in">alias</span> sg=<span class="hljs-string">&#x27;su - grid&#x27;</span>
+<span class="hljs-built_in">alias</span> crsctl=<span class="hljs-string">&#x27;/u01/app/19.3.0/grid/bin/crsctl&#x27;</span>
+<span class="hljs-built_in">alias</span> srvctl=<span class="hljs-string">&#x27;/u01/app/19.3.0/grid/bin/srvctl&#x27;</span>
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Oracle 用户环境变量                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+<span class="hljs-keyword">if</span> [ -f ~/.bashrc ]; <span class="hljs-keyword">then</span>
+        . ~/.bashrc
+<span class="hljs-keyword">fi</span>
+PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$HOME</span>/.<span class="hljs-built_in">local</span>/bin:<span class="hljs-variable">$HOME</span>/bin
+<span class="hljs-built_in">export</span> PATH
+<span class="hljs-built_in">umask</span> 022
+<span class="hljs-built_in">export</span> TMP=/tmp
+<span class="hljs-built_in">export</span> TMPDIR=<span class="hljs-variable">$TMP</span>
+<span class="hljs-built_in">export</span> NLS_LANG=AMERICAN_AMERICA.AL32UTF8
+<span class="hljs-built_in">export</span> ORACLE_BASE=/u01/app/oracle
+<span class="hljs-built_in">export</span> ORACLE_HOME=/u01/app/oracle/product/19.3.0/db
+<span class="hljs-built_in">export</span> ORACLE_TERM=xterm
+<span class="hljs-built_in">export</span> TNS_ADMIN=<span class="hljs-variable">$ORACLE_HOME</span>/network/admin
+<span class="hljs-built_in">export</span> LD_LIBRARY_PATH=<span class="hljs-variable">$ORACLE_HOME</span>/lib:/lib:/usr/lib
+<span class="hljs-built_in">export</span> ORACLE_SID=lucifer1
+<span class="hljs-built_in">export</span> PATH=/usr/sbin:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$ORACLE_HOME</span>/bin:<span class="hljs-variable">$ORACLE_HOME</span>/OPatch:<span class="hljs-variable">$ORACLE_HOME</span>/perl/bin:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">export</span> PERL5LIB=<span class="hljs-variable">$ORACLE_HOME</span>/perl/lib
+<span class="hljs-built_in">alias</span> sas=<span class="hljs-string">&#x27;sqlplus / as sysdba&#x27;</span>
+<span class="hljs-built_in">alias</span> awr=<span class="hljs-string">&#x27;sqlplus / as sysdba @?/rdbms/admin/awrrpt&#x27;</span>
+<span class="hljs-built_in">alias</span> ash=<span class="hljs-string">&#x27;sqlplus / as sysdba @?/rdbms/admin/ashrpt&#x27;</span>
+<span class="hljs-built_in">alias</span> alert=<span class="hljs-string">&#x27;vi $ORACLE_BASE/diag/rdbms/*/$ORACLE_SID/trace/alert_$ORACLE_SID.log&#x27;</span>
+<span class="hljs-built_in">export</span> PS1=<span class="hljs-string">&quot;[`whoami`@`hostname`:&quot;</span><span class="hljs-string">&#x27;$PWD]$ &#x27;</span>
+<span class="hljs-built_in">alias</span> sqlplus=<span class="hljs-string">&#x27;rlwrap sqlplus&#x27;</span>
+<span class="hljs-built_in">alias</span> rman=<span class="hljs-string">&#x27;rlwrap rman&#x27;</span>
+<span class="hljs-built_in">alias</span> adrci=<span class="hljs-string">&#x27;rlwrap adrci&#x27;</span>
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Grid 用户环境变量                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+<span class="hljs-keyword">if</span> [ -f ~/.bashrc ]; <span class="hljs-keyword">then</span>
+        . ~/.bashrc
+<span class="hljs-keyword">fi</span>
+PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$HOME</span>/.<span class="hljs-built_in">local</span>/bin:<span class="hljs-variable">$HOME</span>/bin
+<span class="hljs-built_in">export</span> PATH
+<span class="hljs-built_in">umask</span> 022
+<span class="hljs-built_in">export</span> TMP=/tmp
+<span class="hljs-built_in">export</span> TMPDIR=<span class="hljs-variable">$TMP</span>
+<span class="hljs-built_in">export</span> NLS_LANG=AMERICAN_AMERICA.AL32UTF8
+<span class="hljs-built_in">export</span> ORACLE_BASE=/u01/app/grid
+<span class="hljs-built_in">export</span> ORACLE_HOME=/u01/app/19.3.0/grid
+<span class="hljs-built_in">export</span> ORACLE_TERM=xterm
+<span class="hljs-built_in">export</span> TNS_ADMIN=<span class="hljs-variable">$ORACLE_HOME</span>/network/admin
+<span class="hljs-built_in">export</span> LD_LIBRARY_PATH=<span class="hljs-variable">$ORACLE_HOME</span>/lib:/lib:/usr/lib
+<span class="hljs-built_in">export</span> ORACLE_SID=+ASM1
+<span class="hljs-built_in">export</span> PATH=/usr/sbin:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$ORACLE_HOME</span>/bin:<span class="hljs-variable">$ORACLE_HOME</span>/OPatch:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">alias</span> sas=<span class="hljs-string">&#x27;sqlplus / as sysasm&#x27;</span>
+<span class="hljs-built_in">export</span> PS1=<span class="hljs-string">&quot;[`whoami`@`hostname`:&quot;</span><span class="hljs-string">&#x27;$PWD]$ &#x27;</span>
+<span class="hljs-built_in">alias</span> sqlplus=<span class="hljs-string">&#x27;rlwrap sqlplus&#x27;</span>
+<span class="hljs-built_in">alias</span> asmcmd=<span class="hljs-string">&#x27;rlwrap asmcmd&#x27;</span>
+<span class="hljs-built_in">alias</span> adrci=<span class="hljs-string">&#x27;rlwrap adrci&#x27;</span>
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 multipath 多路径                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+create: asm_ocr_1 (2e87e4f535c397171) undef ROCKET  ,IMAGEFILE       
+size=10G features=<span class="hljs-string">&#x27;0&#x27;</span> hwhandler=<span class="hljs-string">&#x27;0&#x27;</span> wp=undef
+`-+- policy=<span class="hljs-string">&#x27;service-time 0&#x27;</span> prio=1 status=undef
+  `- 33:0:0:0 sdb 8:16 undef ready running
+create: asm_data_1 (2f218dae15b551c5d) undef ROCKET  ,IMAGEFILE       
+size=20G features=<span class="hljs-string">&#x27;0&#x27;</span> hwhandler=<span class="hljs-string">&#x27;0&#x27;</span> wp=undef
+`-+- policy=<span class="hljs-string">&#x27;service-time 0&#x27;</span> prio=1 status=undef
+  `- 33:0:0:1 sdc 8:32 undef ready running
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 UDEV 绑盘                                                                                    
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+KERNEL==<span class="hljs-string">&quot;dm-*&quot;</span>,ENV{DM_UUID}==<span class="hljs-string">&quot;mpath-2e87e4f535c397171&quot;</span>,SYMLINK+=<span class="hljs-string">&quot;asm_ocr_1&quot;</span>,OWNER=<span class="hljs-string">&quot;grid&quot;</span>,GROUP=<span class="hljs-string">&quot;asmadmin&quot;</span>,MODE=<span class="hljs-string">&quot;0660&quot;</span>
+KERNEL==<span class="hljs-string">&quot;dm-*&quot;</span>,ENV{DM_UUID}==<span class="hljs-string">&quot;mpath-2f218dae15b551c5d&quot;</span>,SYMLINK+=<span class="hljs-string">&quot;asm_data_1&quot;</span>,OWNER=<span class="hljs-string">&quot;grid&quot;</span>,GROUP=<span class="hljs-string">&quot;asmadmin&quot;</span>,MODE=<span class="hljs-string">&quot;0660&quot;</span>
+
+/dev/asm_data_1
+/dev/asm_ocr_1
+
+UDEV 配置完成!                                                                                    
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 RAC 节点：192.168.6.152                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+正在节点：192.168.6.152 上执行脚本：                                                                                  
+
+   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
+  ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
+ ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
+░██      ░██░░██░░█ ░░░░░░██  ██░░░██ ░██ ██░░░██░█████████░██████  ██░░░██ ░██ ░██░██░░██░░░██ ██░░░░ ░░░██░  ░░░░░░██  ░██ ░██
+░██      ░██ ░██ ░   ███████ ░██  ░░  ░██░███████░░░░░░░░██░██░░░██░███████ ░██ ░██░██ ░██  ░██░░█████   ░██    ███████  ░██ ░██
+░░██     ██  ░██    ██░░░░██ ░██   ██ ░██░██░░░░        ░██░██  ░██░██░░░░  ░██ ░██░██ ░██  ░██ ░░░░░██  ░██   ██░░░░██  ░██ ░██
+ ░░███████  ░███   ░░████████░░█████  ███░░██████ ████████ ░██  ░██░░██████ ███ ███░██ ███  ░██ ██████   ░░██ ░░████████ ███ ███
+  ░░░░░░░   ░░░     ░░░░░░░░  ░░░░░  ░░░  ░░░░░░ ░░░░░░░░  ░░   ░░  ░░░░░░ ░░░ ░░░ ░░ ░░░   ░░ ░░░░░░     ░░   ░░░░░░░░ ░░░ ░░░ 
+
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置本地 YUM 源                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+[server]
+name=server
+baseurl=file:///mnt
+enabled=1
+gpgcheck=0
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+禁用防火墙                                                                                       
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+● firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: man:firewalld(1)
+
+Mar 11 14:50:11 rac02 systemd[1]: Starting firewalld - dynamic firewall daemon...
+Mar 11 14:50:13 rac02 systemd[1]: Started firewalld - dynamic firewall daemon.
+Mar 11 14:50:13 rac02 firewalld[972]: WARNING: AllowZoneDrifting is enabled. This is considered an insecure configuration option. It will be removed <span class="hljs-keyword">in</span> a future release. Please consider disabling it now.
+Mar 12 13:39:35 rac02 systemd[1]: Stopping firewalld - dynamic firewall daemon...
+Mar 12 13:39:36 rac02 systemd[1]: Stopped firewalld - dynamic firewall daemon.
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+禁用 SELinux                                                                                        
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   permissive
+Mode from config file:          disabled
+Policy MLS status:              enabled
+Policy deny_unknown status:     allowed
+Max kernel policy version:      31
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+YUM 静默安装依赖包                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+bc-1.06.95-13.el7.x86_64
+binutils-2.27-44.base.el7.x86_64
+compat-libcap1-1.10-7.el7.x86_64
+gcc-4.8.5-44.el7.x86_64
+gcc-c++-4.8.5-44.el7.x86_64
+elfutils-libelf-0.176-5.el7.x86_64
+elfutils-libelf-devel-0.176-5.el7.x86_64
+glibc-2.17-317.el7.x86_64
+glibc-devel-2.17-317.el7.x86_64
+libaio-0.3.109-13.el7.x86_64
+libaio-devel-0.3.109-13.el7.x86_64
+libgcc-4.8.5-44.el7.x86_64
+libstdc++-4.8.5-44.el7.x86_64
+libstdc++-devel-4.8.5-44.el7.x86_64
+libxcb-1.13-1.el7.x86_64
+libX11-1.6.7-2.el7.x86_64
+libXau-1.0.8-2.1.el7.x86_64
+libXi-1.7.9-1.el7.x86_64
+libXrender-0.9.10-1.el7.x86_64
+make-3.82-24.el7.x86_64
+net-tools-2.0-0.25.20131004git.el7.x86_64
+smartmontools-7.0-2.el7.x86_64
+sysstat-10.1.5-19.el7.x86_64
+e2fsprogs-1.42.9-19.el7.x86_64
+e2fsprogs-libs-1.42.9-19.el7.x86_64
+unzip-6.0-21.el7.x86_64
+openssh-clients-7.4p1-21.el7.x86_64
+readline-6.2-11.el7.x86_64
+readline-devel-6.2-11.el7.x86_64
+psmisc-22.20-17.el7.x86_64
+ksh-20120801-142.el7.x86_64
+nfs-utils-1.3.0-0.68.el7.x86_64
+tar-1.26-35.el7.x86_64
+device-mapper-multipath-0.4.9-133.el7.x86_64
+avahi-0.6.31-20.el7.x86_64
+ntp-4.2.6p5-29.el7_8.2.x86_64
+chrony-3.4-1.el7.x86_64
+libXtst-1.2.3-1.el7.x86_64
+libXrender-devel-0.9.10-1.el7.x86_64
+fontconfig-devel-2.13.0-4.3.el7.x86_64
+policycoreutils-2.5-34.el7.x86_64
+policycoreutils-python-2.5-34.el7.x86_64
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置主机名                                                                                       
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+rac02
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 /etc/hosts 文件                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+<span class="hljs-comment">## OracleBegin</span>
+
+<span class="hljs-comment">## RAC1 IP&#x27;s: rac01</span>
+
+<span class="hljs-comment">## RAC1 Public IP</span>
+192.168.6.151 rac01
+<span class="hljs-comment">## RAC1 Virtual IP</span>
+192.168.6.153 rac01-vip
+<span class="hljs-comment">## RAC1 Private IP</span>
+1.1.1.1 rac01-priv
+
+<span class="hljs-comment">## RAC2 IP&#x27;s: rac02</span>
+
+<span class="hljs-comment">## RAC2 Public IP</span>
+192.168.6.152 rac02
+<span class="hljs-comment">## RAC2 Virtual IP</span>
+192.168.6.154 rac02-vip
+<span class="hljs-comment">## RAC2 Private IP</span>
+1.1.1.2 rac02-priv
+
+<span class="hljs-comment">## SCAN IP</span>
+192.168.6.155 rac-scan
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+创建用户和组                                                                                    
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+oracle 用户：                                                                                      
+
+uid=54321(oracle) gid=54321(oinstall) groups=54321(oinstall),54322(dba),54323(oper),54324(backupdba),54325(dgdba),54326(kmdba),54330(racdba),54327(asmdba),54328(asmoper),54329(asmadmin)
+
+grid 用户：                                                                                        
+
+uid=11012(grid) gid=54321(oinstall) groups=54321(oinstall),54322(dba),54323(oper),54324(backupdba),54325(dgdba),54326(kmdba),54330(racdba),54327(asmdba),54328(asmoper),54329(asmadmin)
+
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 Avahi-daemon 服务                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+● avahi-daemon.service - Avahi mDNS/DNS-SD Stack
+   Loaded: loaded (/usr/lib/systemd/system/avahi-daemon.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+
+Mar 12 13:31:56 rac02 avahi-daemon[909]: Joining mDNS multicast group on interface ens192.IPv4 with address 192.168.6.152.
+Mar 12 13:31:56 rac02 avahi-daemon[909]: New relevant interface ens192.IPv4 <span class="hljs-keyword">for</span> mDNS.
+Mar 12 13:31:56 rac02 avahi-daemon[909]: Registering new address record <span class="hljs-keyword">for</span> 192.168.6.152 on ens192.IPv4.
+Mar 12 13:31:57 rac02 avahi-daemon[909]: Registering new address record <span class="hljs-keyword">for</span> fe80::3044:e992:319f:95a2 on ens224.*.
+Mar 12 13:31:57 rac02 avahi-daemon[909]: Joining mDNS multicast group on interface ens224.IPv4 with address 1.1.1.2.
+Mar 12 13:31:57 rac02 avahi-daemon[909]: New relevant interface ens224.IPv4 <span class="hljs-keyword">for</span> mDNS.
+Mar 12 13:31:57 rac02 avahi-daemon[909]: Registering new address record <span class="hljs-keyword">for</span> 1.1.1.2 on ens224.IPv4.
+Mar 12 13:40:06 rac02 systemd[1]: Stopping Avahi mDNS/DNS-SD Stack...
+Mar 12 13:40:06 rac02 avahi-daemon[909]: Got SIGTERM, quitting.
+Mar 12 13:40:06 rac02 systemd[1]: Stopped Avahi mDNS/DNS-SD Stack.
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置透明大页 &amp;&amp; NUMA &amp;&amp; 磁盘 IO 调度器                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+args=<span class="hljs-string">&quot;ro rd.lvm.lv=rhel/root rd.lvm.lv=rhel/swap rhgb quiet LANG=en_US.UTF-8 numa=off transparent_hugepage=never elevator=deadline&quot;</span>
+-rd.lvm.lv=rhel/root
+-args=<span class="hljs-string">&quot;ro
+args=&quot;</span>ro rd.lvm.lv=rhel/root rd.lvm.lv=rhel/swap rhgb quiet numa=off transparent_hugepage=never elevator=deadline<span class="hljs-string">&quot;
+-elevator=deadline&quot;</span>
+-transparent_hugepage=never
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 sysctl.conf                                                                                    
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+fs.aio-max-nr = 1048576
+fs.file-max = 6815744
+kernel.shmall = 2097152
+kernel.shmmax = 8369381375
+kernel.shmmni = 4096
+kernel.sem = 250 32000 100 128
+net.ipv4.ip_local_port_range = 9000 65500
+net.core.rmem_default = 262144
+net.core.rmem_max = 4194304
+net.core.wmem_default = 262144
+net.core.wmem_max = 1048576
+vm.min_free_kbytes = 32692
+net.ipv4.conf.ens192.rp_filter = 1
+vm.swappiness = 10
+kernel.panic_on_oops = 1
+kernel.randomize_va_space = 2
+kernel.numa_balancing = 0
+net.ipv4.conf.ens224.rp_filter = 2
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 nsysctl.conf                                                                                   
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+NOZEROCONF=yes
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 RemoveIPC                                                                                      
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+[Login]
+RemoveIPC=no
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 /etc/security/limits.conf 和 /etc/pam.d/login                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+查看 /etc/security/limits.conf：                                                                                  
+
+oracle soft nofile 1024
+oracle hard nofile 65536
+oracle soft stack 10240
+oracle hard stack 32768
+oracle soft nproc 2047
+oracle hard nproc 16384
+oracle hard memlock unlimited
+oracle soft memlock unlimited
+grid soft nofile 1024
+grid hard nofile 65536
+grid soft stack 10240
+grid hard stack 32768
+grid soft nproc 2047
+grid hard nproc 16384
+
+查看 /etc/pam.d/login 文件：                                                                                  
+
+auth [user_unknown=ignore success=ok ignore=ignore default=bad] pam_securetty.so
+auth       substack     system-auth
+auth       include      postlogin
+account    required     pam_nologin.so
+account    include      system-auth
+password   include      system-auth
+session    required     pam_selinux.so close
+session    required     pam_loginuid.so
+session    optional     pam_console.so
+session    required     pam_selinux.so open
+session    required     pam_namespace.so
+session    optional     pam_keyinit.so force revoke
+session    include      system-auth
+session    include      postlogin
+-session   optional     pam_ck_connector.so
+session required pam_limits.so
+session required /lib64/security/pam_limits.so
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 /dev/shm                                                                                       
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+/dev/mapper/rhel-root   /                       xfs     defaults        0 0
+UUID=96b8401c-571c-4575-82e9-1ce6b248167b /boot                   xfs     defaults        0 0
+/dev/mapper/rhel-swap   swap                    swap    defaults        0 0
+tmpfs /dev/shm tmpfs size=8173224k 0 0
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+安装 rlwrap 插件                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+成功安装 rlwrap： rlwrap 0.44                                                                      
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Root 用户环境变量                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+<span class="hljs-keyword">if</span> [ -f ~/.bashrc ]; <span class="hljs-keyword">then</span>
+        . ~/.bashrc
+<span class="hljs-keyword">fi</span>
+PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$HOME</span>/bin
+<span class="hljs-built_in">export</span> PATH
+<span class="hljs-built_in">alias</span> so=<span class="hljs-string">&#x27;su - oracle&#x27;</span>
+<span class="hljs-built_in">export</span> PS1=<span class="hljs-string">&quot;[`whoami`@`hostname`:&quot;</span><span class="hljs-string">&#x27;$PWD]$ &#x27;</span>
+<span class="hljs-built_in">alias</span> sg=<span class="hljs-string">&#x27;su - grid&#x27;</span>
+<span class="hljs-built_in">alias</span> crsctl=<span class="hljs-string">&#x27;/u01/app/19.3.0/grid/bin/crsctl&#x27;</span>
+<span class="hljs-built_in">alias</span> srvctl=<span class="hljs-string">&#x27;/u01/app/19.3.0/grid/bin/srvctl&#x27;</span>
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Oracle 用户环境变量                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+<span class="hljs-keyword">if</span> [ -f ~/.bashrc ]; <span class="hljs-keyword">then</span>
+        . ~/.bashrc
+<span class="hljs-keyword">fi</span>
+PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$HOME</span>/.<span class="hljs-built_in">local</span>/bin:<span class="hljs-variable">$HOME</span>/bin
+<span class="hljs-built_in">export</span> PATH
+<span class="hljs-built_in">umask</span> 022
+<span class="hljs-built_in">export</span> TMP=/tmp
+<span class="hljs-built_in">export</span> TMPDIR=<span class="hljs-variable">$TMP</span>
+<span class="hljs-built_in">export</span> NLS_LANG=AMERICAN_AMERICA.AL32UTF8
+<span class="hljs-built_in">export</span> ORACLE_BASE=/u01/app/oracle
+<span class="hljs-built_in">export</span> ORACLE_HOME=/u01/app/oracle/product/19.3.0/db
+<span class="hljs-built_in">export</span> ORACLE_TERM=xterm
+<span class="hljs-built_in">export</span> TNS_ADMIN=<span class="hljs-variable">$ORACLE_HOME</span>/network/admin
+<span class="hljs-built_in">export</span> LD_LIBRARY_PATH=<span class="hljs-variable">$ORACLE_HOME</span>/lib:/lib:/usr/lib
+<span class="hljs-built_in">export</span> ORACLE_SID=lucifer2
+<span class="hljs-built_in">export</span> PATH=/usr/sbin:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$ORACLE_HOME</span>/bin:<span class="hljs-variable">$ORACLE_HOME</span>/OPatch:<span class="hljs-variable">$ORACLE_HOME</span>/perl/bin:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">export</span> PERL5LIB=<span class="hljs-variable">$ORACLE_HOME</span>/perl/lib
+<span class="hljs-built_in">alias</span> sas=<span class="hljs-string">&#x27;sqlplus / as sysdba&#x27;</span>
+<span class="hljs-built_in">alias</span> awr=<span class="hljs-string">&#x27;sqlplus / as sysdba @?/rdbms/admin/awrrpt&#x27;</span>
+<span class="hljs-built_in">alias</span> ash=<span class="hljs-string">&#x27;sqlplus / as sysdba @?/rdbms/admin/ashrpt&#x27;</span>
+<span class="hljs-built_in">alias</span> alert=<span class="hljs-string">&#x27;vi $ORACLE_BASE/diag/rdbms/*/$ORACLE_SID/trace/alert_$ORACLE_SID.log&#x27;</span>
+<span class="hljs-built_in">export</span> PS1=<span class="hljs-string">&quot;[`whoami`@`hostname`:&quot;</span><span class="hljs-string">&#x27;$PWD]$ &#x27;</span>
+<span class="hljs-built_in">alias</span> sqlplus=<span class="hljs-string">&#x27;rlwrap sqlplus&#x27;</span>
+<span class="hljs-built_in">alias</span> rman=<span class="hljs-string">&#x27;rlwrap rman&#x27;</span>
+<span class="hljs-built_in">alias</span> adrci=<span class="hljs-string">&#x27;rlwrap adrci&#x27;</span>
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Grid 用户环境变量                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+<span class="hljs-keyword">if</span> [ -f ~/.bashrc ]; <span class="hljs-keyword">then</span>
+        . ~/.bashrc
+<span class="hljs-keyword">fi</span>
+PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$HOME</span>/.<span class="hljs-built_in">local</span>/bin:<span class="hljs-variable">$HOME</span>/bin
+<span class="hljs-built_in">export</span> PATH
+<span class="hljs-built_in">umask</span> 022
+<span class="hljs-built_in">export</span> TMP=/tmp
+<span class="hljs-built_in">export</span> TMPDIR=<span class="hljs-variable">$TMP</span>
+<span class="hljs-built_in">export</span> NLS_LANG=AMERICAN_AMERICA.AL32UTF8
+<span class="hljs-built_in">export</span> ORACLE_BASE=/u01/app/grid
+<span class="hljs-built_in">export</span> ORACLE_HOME=/u01/app/19.3.0/grid
+<span class="hljs-built_in">export</span> ORACLE_TERM=xterm
+<span class="hljs-built_in">export</span> TNS_ADMIN=<span class="hljs-variable">$ORACLE_HOME</span>/network/admin
+<span class="hljs-built_in">export</span> LD_LIBRARY_PATH=<span class="hljs-variable">$ORACLE_HOME</span>/lib:/lib:/usr/lib
+<span class="hljs-built_in">export</span> ORACLE_SID=+ASM2
+<span class="hljs-built_in">export</span> PATH=/usr/sbin:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$ORACLE_HOME</span>/bin:<span class="hljs-variable">$ORACLE_HOME</span>/OPatch:<span class="hljs-variable">$PATH</span>
+<span class="hljs-built_in">alias</span> sas=<span class="hljs-string">&#x27;sqlplus / as sysasm&#x27;</span>
+<span class="hljs-built_in">export</span> PS1=<span class="hljs-string">&quot;[`whoami`@`hostname`:&quot;</span><span class="hljs-string">&#x27;$PWD]$ &#x27;</span>
+<span class="hljs-built_in">alias</span> sqlplus=<span class="hljs-string">&#x27;rlwrap sqlplus&#x27;</span>
+<span class="hljs-built_in">alias</span> asmcmd=<span class="hljs-string">&#x27;rlwrap asmcmd&#x27;</span>
+<span class="hljs-built_in">alias</span> adrci=<span class="hljs-string">&#x27;rlwrap adrci&#x27;</span>
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 multipath 多路径                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+create: asm_ocr_1 (2e87e4f535c397171) undef ROCKET  ,IMAGEFILE       
+size=10G features=<span class="hljs-string">&#x27;0&#x27;</span> hwhandler=<span class="hljs-string">&#x27;0&#x27;</span> wp=undef
+`-+- policy=<span class="hljs-string">&#x27;service-time 0&#x27;</span> prio=1 status=undef
+  `- 33:0:0:0 sdb 8:16 undef ready running
+create: asm_data_1 (2f218dae15b551c5d) undef ROCKET  ,IMAGEFILE       
+size=20G features=<span class="hljs-string">&#x27;0&#x27;</span> hwhandler=<span class="hljs-string">&#x27;0&#x27;</span> wp=undef
+`-+- policy=<span class="hljs-string">&#x27;service-time 0&#x27;</span> prio=1 status=undef
+  `- 33:0:0:1 sdc 8:32 undef ready running
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 UDEV 绑盘                                                                                    
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+KERNEL==<span class="hljs-string">&quot;dm-*&quot;</span>,ENV{DM_UUID}==<span class="hljs-string">&quot;mpath-2e87e4f535c397171&quot;</span>,SYMLINK+=<span class="hljs-string">&quot;asm_ocr_1&quot;</span>,OWNER=<span class="hljs-string">&quot;grid&quot;</span>,GROUP=<span class="hljs-string">&quot;asmadmin&quot;</span>,MODE=<span class="hljs-string">&quot;0660&quot;</span>
+KERNEL==<span class="hljs-string">&quot;dm-*&quot;</span>,ENV{DM_UUID}==<span class="hljs-string">&quot;mpath-2f218dae15b551c5d&quot;</span>,SYMLINK+=<span class="hljs-string">&quot;asm_data_1&quot;</span>,OWNER=<span class="hljs-string">&quot;grid&quot;</span>,GROUP=<span class="hljs-string">&quot;asmadmin&quot;</span>,MODE=<span class="hljs-string">&quot;0660&quot;</span>
+
+/dev/asm_data_1
+/dev/asm_ocr_1
+
+UDEV 配置完成!                                                                                    
+
+配置 RAC 节点：192.168.6.152 结束!                                                                                  
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+配置 GRID 用户 SSH 互信                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+Generating public/private rsa key pair.
+Your identification has been saved <span class="hljs-keyword">in</span> /home/grid/.ssh/id_rsa.
+Your public key has been saved <span class="hljs-keyword">in</span> /home/grid/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:Xxy1rYwXHi6ugoU2xinnwvqSPqr7c7xSF6Zkz7remTg grid@rac01
+The key<span class="hljs-string">&#x27;s randomart image is:
++---[RSA 2048]----+
+|              .  |
+|             . o |
+|            . + .|
+|    o o    . * + |
+|   o * +S   = *  |
+|    + % .. o o   |
+|   = O +  . .    |
+|  * Eooo.  .     |
+|==+X*=+  ..      |
++----[SHA256]-----+
+
+#==============================================================#                                                                                  
+配置 ORACLE 用户 SSH 互信                                                                                  
+#==============================================================#                                                                                  
+
+Generating public/private rsa key pair.
+Your identification has been saved in /home/oracle/.ssh/id_rsa.
+Your public key has been saved in /home/oracle/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:WGnj9li/3rs1bK16dc/5xe9oRJCNMZeptDn7L5Xpyac oracle@rac01
+The key&#x27;</span>s randomart image is:
++---[RSA 2048]----+
+|            o=.o |
+|         .  =o+  |
+|        =  . =   |
+|       = .  = .  |
+|      . S .  +  o|
+|       . + .. o+=|
+|        . . .ooBX|
+|             o*OB|
+|           .++EBB|
++----[SHA256]-----+
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+静默解压缩 Grid 软件包                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+正在静默解压缩 Grid 软件包，请稍等：                                                                                  
+
+.---- -. -. .  .   .        .
+( .<span class="hljs-string">&#x27;,----- - - &#x27;</span> <span class="hljs-string">&#x27;      &#x27;</span>                                         __
+ \_/      ;--:-          __--------------------___  ____=========_||___
+__U__n_^_<span class="hljs-string">&#x27;&#x27;</span>__[.  ooo___  | |_!_||_!_||_!_||_!_| |   |..|_i_|..|_i_|..|
+c(_ ..(_ ..(_ ..( /,,,,,,] | |___||___||___||___| |   |                |
+,_\___________<span class="hljs-string">&#x27;_|,L______],|______________________|_i,!________________!_i
+/;_(@)(@)==(@)(@)   (o)(o)      (o)^(o)--(o)^(o)          (o)(o)-(o)(o)
+&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&#x27;</span><span class="hljs-string">&quot;&quot;</span>
+
+
+静默解压 Grid 软件安装包： /soft/LINUX.X64_193000_grid_home.zip                                                                                  
+
+静默解压 OPatch 软件补丁包： /soft/p6880880_*.zip                                                                                  
+
+静默解压 Grid 软件补丁包： /soft/p35940989*.zip                                                                                  
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+静默解压 Oracle 软件包                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+正在静默解压缩 Oracle 软件包，请稍等：                                                                                  
+
+.---- -. -. .  .   .        .
+( .<span class="hljs-string">&#x27;,----- - - &#x27;</span> <span class="hljs-string">&#x27;      &#x27;</span>                                         __
+ \_/      ;--:-          __--------------------___  ____=========_||___
+__U__n_^_<span class="hljs-string">&#x27;&#x27;</span>__[.  ooo___  | |_!_||_!_||_!_||_!_| |   |..|_i_|..|_i_|..|
+c(_ ..(_ ..(_ ..( /,,,,,,] | |___||___||___||___| |   |                |
+,_\___________<span class="hljs-string">&#x27;_|,L______],|______________________|_i,!________________!_i
+/;_(@)(@)==(@)(@)   (o)(o)      (o)^(o)--(o)^(o)          (o)(o)-(o)(o)
+&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&quot;&quot;~&quot;&#x27;</span><span class="hljs-string">&quot;&quot;</span>
+
+
+静默解压 Oracle 软件安装包： /soft/LINUX.X64_193000_db_home.zip                                                                                  
+
+静默解压 OPatch 软件补丁包： /soft/p6880880_*.zip                                                                                  
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Grid 安装静默文件                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+INVENTORY_LOCATION=/u01/app/oraInventory
+oracle.install.option=CRS_CONFIG
+ORACLE_BASE=/u01/app/grid
+oracle.install.asm.OSDBA=asmdba
+oracle.install.asm.OSOPER=asmoper
+oracle.install.asm.OSASM=asmadmin
+oracle.install.crs.config.gpnp.scanName=rac-scan
+oracle.install.crs.config.gpnp.scanPort=1521
+oracle.install.crs.config.clusterName=rac-cls
+oracle.install.crs.config.gpnp.configureGNS=<span class="hljs-literal">false</span>
+oracle.install.crs.config.clusterNodes=rac01:rac01-vip,rac02:rac02-vip
+oracle.install.crs.config.networkInterfaceList=ens192:192.168.6.0:1,ens224:1.1.1.0:5
+oracle.install.crs.config.useIPMI=<span class="hljs-literal">false</span>
+oracle.install.asm.SYSASMPassword=oracle
+oracle.install.asm.diskGroup.name=OCR
+oracle.install.asm.diskGroup.redundancy=EXTERNAL
+oracle.install.asm.diskGroup.disks=/dev/asm_ocr_1
+oracle.install.asm.diskGroup.diskDiscoveryString=/dev/asm*
+oracle.install.asm.monitorPassword=oracle
+oracle.install.crs.config.ClusterConfiguration=STANDALONE
+oracle.install.crs.config.configureAsExtendedCluster=<span class="hljs-literal">false</span>
+oracle.install.crs.configureGIMR=<span class="hljs-literal">false</span>
+oracle.install.asm.storageOption=ASM
+oracle.install.asm.diskGroup.AUSize=4
+oracle.install.asm.configureAFD=<span class="hljs-literal">false</span>
+oracle.install.crs.config.ignoreDownNodes=<span class="hljs-literal">false</span>
+oracle.install.config.managementOption=NONE
+oracle.install.crs.rootconfig.executeRootScript=<span class="hljs-literal">false</span>
+oracle.install.responseFileVersion=/oracle/install/rspfmt_crsinstall_response_schema_v19.0.0
+oracle.install.crs.config.scanType=LOCAL_SCAN
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+静默安装 Grid 软件                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+Preparing the home to patch...
+Applying the patch /soft/35940989...
+Successfully applied the patch.
+The <span class="hljs-built_in">log</span> can be found at: /tmp/GridSetupActions2024-03-12_01-45-51PM/installerPatchActions_2024-03-12_01-45-51PM.log
+Launching Oracle Grid Infrastructure Setup Wizard...
+
+[WARNING] [INS-30011] The SYS password entered does not conform to the Oracle recommended standards.
+   CAUSE: Oracle recommends that the password entered should be at least 8 characters <span class="hljs-keyword">in</span> length, contain at least 1 uppercase character, 1 lower <span class="hljs-keyword">case</span> character and 1 digit [0-9].
+   ACTION: Provide a password that conforms to the Oracle recommended standards.
+[WARNING] [INS-30011] The ASMSNMP password entered does not conform to the Oracle recommended standards.
+   CAUSE: Oracle recommends that the password entered should be at least 8 characters <span class="hljs-keyword">in</span> length, contain at least 1 uppercase character, 1 lower <span class="hljs-keyword">case</span> character and 1 digit [0-9].
+   ACTION: Provide a password that conforms to the Oracle recommended standards.
+The response file <span class="hljs-keyword">for</span> this session can be found at:
+ /u01/app/19.3.0/grid/install/response/grid_2024-03-12_01-45-51PM.rsp
+
+You can find the <span class="hljs-built_in">log</span> of this install session at:
+ /tmp/GridSetupActions2024-03-12_01-45-51PM/gridSetupActions2024-03-12_01-45-51PM.log
+
+As a root user, execute the following script(s):
+        1. /u01/app/oraInventory/orainstRoot.sh
+        2. /u01/app/19.3.0/grid/root.sh
+
+Execute /u01/app/oraInventory/orainstRoot.sh on the following nodes: 
+[rac01, rac02]
+Execute /u01/app/19.3.0/grid/root.sh on the following nodes: 
+[rac01, rac02]
+
+Run the script on the <span class="hljs-built_in">local</span> node first. After successful completion, you can start the script <span class="hljs-keyword">in</span> parallel on all other nodes.
+
+Successfully Setup Software.
+As install user, execute the following <span class="hljs-built_in">command</span> to complete the configuration.
+        /u01/app/19.3.0/grid/gridSetup.sh -executeConfigTools -responseFile /soft/grid.rsp [-silent]
+
+
+Moved the install session logs to:
+ /u01/app/oraInventory/logs/GridSetupActions2024-03-12_01-45-51PM
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+执行 root 脚本                                                                                    
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+节点 192.168.6.151 ：                                                                                  
+
+Changing permissions of /u01/app/oraInventory.
+Adding <span class="hljs-built_in">read</span>,write permissions <span class="hljs-keyword">for</span> group.
+Removing <span class="hljs-built_in">read</span>,write,execute permissions <span class="hljs-keyword">for</span> world.
+
+Changing groupname of /u01/app/oraInventory to oinstall.
+The execution of the script is complete.
+Check /u01/app/19.3.0/grid/install/root_rac01_2024-03-12_14-11-35-906912822.log <span class="hljs-keyword">for</span> the output of root script
+
+节点 192.168.6.152 ：                                                                                  
+
+Changing permissions of /u01/app/oraInventory.
+Adding <span class="hljs-built_in">read</span>,write permissions <span class="hljs-keyword">for</span> group.
+Removing <span class="hljs-built_in">read</span>,write,execute permissions <span class="hljs-keyword">for</span> world.
+
+Changing groupname of /u01/app/oraInventory to oinstall.
+The execution of the script is complete.
+Check /u01/app/19.3.0/grid/install/root_rac02_2024-03-12_14-20-28-398646190.log <span class="hljs-keyword">for</span> the output of root script
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Grid 软件版本                                                                                     
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+
+SQL*Plus: Release 19.0.0.0.0 - Production
+Version 19.22.0.0.0
+
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Grid 补丁信息                                                                                     
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+36115038;TOMCAT RELEASE UPDATE 19.0.0.0.0 (36115038)
+35967489;OCW RELEASE UPDATE 19.22.0.0.0 (35967489)
+35956421;ACFS RELEASE UPDATE 19.22.0.0.0 (35956421)
+35943157;Database Release Update : 19.22.0.0.240116 (35943157)
+33575402;DBWLM RELEASE UPDATE 19.0.0.0.0 (33575402)
+
+OPatch succeeded.
+
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+ASM 磁盘组创建                                                                                   
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+State    Type    Rebal  Sector  Logical_Sector  Block       AU  Total_MB  Free_MB  Req_mir_free_MB  Usable_file_MB  Offline_disks  Voting_files  Name
+MOUNTED  EXTERN  N         512             512   4096  1048576     20480    20372                0           20372              0             N  DATA/
+MOUNTED  EXTERN  N         512             512   4096  4194304     10240     9900                0            9900              0             Y  OCR/
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Oracle 安装静默文件                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+oracle.install.option=INSTALL_DB_SWONLY
+UNIX_GROUP_NAME=oinstall
+INVENTORY_LOCATION=/u01/app/oraInventory
+ORACLE_BASE=/u01/app/oracle
+oracle.install.db.InstallEdition=EE
+oracle.install.db.DBA_GROUP=dba
+oracle.install.db.OPER_GROUP=oper
+oracle.install.db.CLUSTER_NODES=rac01,rac02
+oracle.install.db.OSBACKUPDBA_GROUP=backupdba
+oracle.install.db.OSDGDBA_GROUP=dgdba
+oracle.install.db.OSKMDBA_GROUP=kmdba
+oracle.install.db.OSRACDBA_GROUP=racdba
+oracle.install.db.rootconfig.executeRootScript=<span class="hljs-literal">false</span>
+oracle.install.db.rootconfig.configMethod=
+oracle.install.responseFileVersion=/oracle/install/rspfmt_dbinstall_response_schema_v19.0.0
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+静默安装数据库软件                                                                                  
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+Preparing the home to patch...
+Applying the patch /soft/35940989...
+Successfully applied the patch.
+The <span class="hljs-built_in">log</span> can be found at: /u01/app/oraInventory/logs/InstallActions2024-03-12_02-27-24PM/installerPatchActions_2024-03-12_02-27-24PM.log
+Launching Oracle Database Setup Wizard...
+
+[WARNING] [INS-13013] Target environment does not meet some mandatory requirements.
+   CAUSE: Some of the mandatory prerequisites are not met. See logs <span class="hljs-keyword">for</span> details. /u01/app/oraInventory/logs/InstallActions2024-03-12_02-27-24PM/installActions2024-03-12_02-27-24PM.log
+   ACTION: Identify the list of failed prerequisite checks from the <span class="hljs-built_in">log</span>: /u01/app/oraInventory/logs/InstallActions2024-03-12_02-27-24PM/installActions2024-03-12_02-27-24PM.log. Then either from the <span class="hljs-built_in">log</span> file or from installation manual find the appropriate configuration to meet the prerequisites and fix it manually.
+The response file <span class="hljs-keyword">for</span> this session can be found at:
+ /u01/app/oracle/product/19.3.0/db/install/response/db_2024-03-12_02-27-24PM.rsp
+
+You can find the <span class="hljs-built_in">log</span> of this install session at:
+ /u01/app/oraInventory/logs/InstallActions2024-03-12_02-27-24PM/installActions2024-03-12_02-27-24PM.log
+
+As a root user, execute the following script(s):
+        1. /u01/app/oracle/product/19.3.0/db/root.sh
+
+Execute /u01/app/oracle/product/19.3.0/db/root.sh on the following nodes: 
+[rac01, rac02]
+
+
+Successfully Setup Software with warning(s).
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+执行 root 脚本                                                                                    
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+节点 192.168.6.151 ：                                                                                  
+
+Changing permissions of /u01/app/oraInventory.
+Adding <span class="hljs-built_in">read</span>,write permissions <span class="hljs-keyword">for</span> group.
+Removing <span class="hljs-built_in">read</span>,write,execute permissions <span class="hljs-keyword">for</span> world.
+
+Changing groupname of /u01/app/oraInventory to oinstall.
+The execution of the script is complete.
+Check /u01/app/oracle/product/19.3.0/db/install/root_rac01_2024-03-12_15-08-43-940864602.log <span class="hljs-keyword">for</span> the output of root script
+
+节点 192.168.6.152 ：                                                                                  
+
+Changing permissions of /u01/app/oraInventory.
+Adding <span class="hljs-built_in">read</span>,write permissions <span class="hljs-keyword">for</span> group.
+Removing <span class="hljs-built_in">read</span>,write,execute permissions <span class="hljs-keyword">for</span> world.
+
+Changing groupname of /u01/app/oraInventory to oinstall.
+The execution of the script is complete.
+Check /u01/app/oracle/product/19.3.0/db/install/root_rac02_2024-03-12_15-08-45-122786324.log <span class="hljs-keyword">for</span> the output of root script
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Oracle 软件版本                                                                                   
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+
+SQL*Plus: Release 19.0.0.0.0 - Production
+Version 19.22.0.0.0
+
+
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+Oracle 补丁信息                                                                                   
+<span class="hljs-comment">#==============================================================#                                                                                  </span>
+
+35967489;OCW RELEASE UPDATE 19.22.0.0.0 (35967489)
+35943157;Database Release Update : 19.22.0.0.240116 (35943157)
+
+OPatch succeeded.
+</code></div></pre>
+</div> <div class="tag-box mb20"><i class="cs-tag"></i> <a href="/tag/墨力计划?type=knowledge" target="_blank" class="ml4">墨力计划</a></div> <div class="font12 h-time">最后修改时间：2024-03-12 15:17:01</div> <div class="praise-box vc font14 c6"><div>「喜欢这篇文章，您的关注和赞赏是给作者最好的鼓励」</div> <div class="flex center mt20 mb10"><div class="f-btn mr20">关注作者</div> <button type="button" class="el-button praise-btn el-button--danger el-button--small"><!----><!----><span>点赞</span></button></div> <div class="el-dialog__wrapper" style="display:none;"><div role="dialog" aria-modal="true" aria-label="dialog" class="el-dialog vertical-horizontal" style="margin-top:0;width:340px;"><div class="el-dialog__header"><span class="el-dialog__title"></span><button type="button" aria-label="Close" class="el-dialog__headerbtn"><i class="el-dialog__close el-icon el-icon-close"></i></button></div><!----><!---->  </div>
+</div></article>
+<div id="footer"></div>
+<script src="../js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('compat');
+document.getElementById('footer').innerHTML = footerHTML();
+</script>
+</body>
+</html>
