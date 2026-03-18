@@ -71,19 +71,26 @@ function navHTML(active) {
     { href: 'pricing.html', key: 'pricing', id: 'pricing', icon: '&#9733;' },
     { href: 'download.html', key: 'download', id: 'download', icon: '&#8615;' },
   ];
+  const isGuide = location.pathname.includes('/guides/');
+  const prefix = isGuide ? '../' : '';
   const themeIcon = currentTheme === 'dark' ? '\u2600' : '\u263E';
   const langLabel = currentLang === 'zh' ? 'EN' : '\u4E2D';
-  return `<nav class="nav"><div class="nav-inner">
-    <a href="index.html" class="nav-logo"><div class="logo-icon">OS</div>Oracle<span>Shell</span>Install</a>
+  // Desktop nav
+  const nav = `<nav class="nav"><div class="nav-inner">
+    <a href="${prefix}index.html" class="nav-logo"><div class="logo-icon">OS</div>Oracle<span>Shell</span>Install</a>
     <div class="nav-links">${pages.map(p =>
-      `<a href="${p.href}" class="${active===p.id?'active':''}" data-i18n="${p.key}"><span class="nav-icon">${p.icon}</span>${t(p.key)}</a>`
-    ).join('')}<a href="pricing.html" class="nav-cta" data-i18n="start">${t('start')}</a></div>
+      `<a href="${prefix}${p.href}" class="${active===p.id?'active':''}" data-i18n="${p.key}"><span class="nav-icon">${p.icon}</span>${t(p.key)}</a>`
+    ).join('')}<a href="${prefix}pricing.html" class="nav-cta" data-i18n="start">${t('start')}</a></div>
     <div class="nav-actions">
       <button class="nav-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">${themeIcon}</button>
       <button class="nav-toggle" id="langToggle" onclick="toggleLang()" title="Language" aria-label="Toggle language">${langLabel}</button>
-      <button class="nav-hamburger" aria-label="Open menu">\u2630</button>
     </div>
   </div></nav>`;
+  // Mobile bottom tab bar
+  const tabbar = `<div class="mobile-tabbar">${pages.map(p =>
+    `<a href="${prefix}${p.href}" class="${active===p.id?'active':''}" data-i18n="${p.key}"><span class="tab-icon">${p.icon}</span>${t(p.key)}</a>`
+  ).join('')}</div>`;
+  return nav + tabbar;
 }
 
 // ---- Footer HTML ----
@@ -174,24 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nav) nav.classList.toggle('scrolled', y > 10);
     btt.classList.toggle('visible', y > 400);
   }, { passive: true });
-
-  // Mobile hamburger
-  const ham = document.querySelector('.nav-hamburger');
-  const links = document.querySelector('.nav-links');
-  if (ham && links) {
-    ham.addEventListener('click', () => {
-      const isOpen = links.classList.toggle('open');
-      ham.textContent = isOpen ? '\u2715' : '\u2630';
-      ham.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
-    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      links.classList.remove('open');
-      ham.textContent = '\u2630';
-      ham.setAttribute('aria-label', 'Open menu');
-      document.body.style.overflow = '';
-    }));
-  }
 
   // Scroll reveal
   const obs = new IntersectionObserver(entries => {

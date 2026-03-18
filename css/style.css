@@ -247,32 +247,38 @@ img{max-width:100%;display:block}
   .footer-inner{grid-template-columns:1fr 1fr;gap:30px}
 }
 @media(max-width:768px){
-  /* Mobile nav drawer */
-  .nav-links{display:none;position:fixed;top:var(--nav-h);right:0;bottom:0;left:0;
-    background:rgba(10,10,14,.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-    flex-direction:column;padding:24px 20px 40px;gap:2px;z-index:1001;
-    overflow-y:auto;-webkit-overflow-scrolling:touch;
-    animation:navSlideIn .3s ease-out}
-  [data-theme="light"] .nav-links{background:rgba(244,244,247,.98)}
-  @keyframes navSlideIn{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
-  .nav-links.open{display:flex}
-  .nav-links a{padding:14px 16px;font-size:.95rem;border-radius:var(--r);font-weight:500;
-    display:flex;align-items:center;gap:12px;transition:all .2s;position:relative}
-  .nav-links a:hover{background:rgba(255,255,255,.06)}
-  [data-theme="light"] .nav-links a:hover{background:rgba(0,0,0,.05)}
-  .nav-links a.active{background:rgba(199,70,52,.1);color:var(--red);font-weight:700}
-  .nav-links a.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
-    width:3px;height:20px;background:var(--red);border-radius:0 3px 3px 0}
-  .nav-links .nav-icon{display:inline-block}
-  .nav-links .nav-cta{margin-top:16px;text-align:center;justify-content:center;
-    padding:14px 24px;font-size:.95rem;border-radius:var(--r)}
-  .nav-hamburger{display:flex}
+  /* Hide desktop nav links + hamburger */
+  .nav-links{display:none!important}
+  .nav-hamburger{display:none!important}
+
+  /* Bottom tab bar */
+  .mobile-tabbar{display:flex;position:fixed;bottom:0;left:0;right:0;height:60px;
+    background:var(--bg);border-top:1px solid var(--border);z-index:1000;
+    padding:0 4px;padding-bottom:env(safe-area-inset-bottom)}
+  [data-theme="light"] .mobile-tabbar{background:var(--bg)}
+  .mobile-tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:3px;text-decoration:none;color:var(--text-muted);font-size:.65rem;font-weight:500;
+    transition:color .2s;padding:6px 2px;position:relative;-webkit-tap-highlight-color:transparent}
+  .mobile-tabbar a .tab-icon{font-size:1.2rem;line-height:1}
+  .mobile-tabbar a.active{color:var(--red)}
+  .mobile-tabbar a.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:24px;height:2px;background:var(--red);border-radius:0 0 2px 2px}
+
+  /* Adjust page bottom padding for tab bar */
+  body{padding-bottom:60px}
+  .footer{padding-bottom:80px}
+  .back-to-top{bottom:80px;right:16px;width:38px;height:38px}
+  .wechat-fab{bottom:134px;right:16px;width:38px;height:38px}
+  .wechat-popup{bottom:186px;right:16px;width:260px;padding:16px}
+
   .footer-inner{grid-template-columns:1fr}
   .section{padding:50px 0}
   .btn{padding:10px 22px;font-size:.85rem}
   .nav-toggle{padding:5px 8px;font-size:.72rem}
   .section-eyebrow::before{width:16px}
 }
+/* Hide tabbar on desktop */
+.mobile-tabbar{display:none}
 
 /* === macOS Terminal Code Blocks === */
 .mac-term{background:var(--term-bg,#1a1a2e);border:1px solid var(--border);border-radius:var(--r-lg);
