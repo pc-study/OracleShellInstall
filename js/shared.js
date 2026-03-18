@@ -10,6 +10,7 @@ const i18n = {
     home: '首页', generator: '命令生成器', docs: '使用文档', compat: '安装合集', pricing: '脚本订阅', start: '开始使用',
     nav: '快速导航', versions: '支持版本', contact: '联系方式',
     wechat: '微信', email: '邮箱',
+    consultTitle: '扫码咨询适配需求', consultHint: '如需新的 OS / Oracle 版本适配，欢迎扫码添加微信咨询',
     footerDesc: 'Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC 三种部署模式，覆盖 20+ Linux 发行版。',
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
   },
@@ -17,6 +18,7 @@ const i18n = {
     home: 'Home', generator: 'Generator', docs: 'Docs', compat: 'Guides', pricing: 'Subscribe', start: 'Get Started',
     nav: 'Navigation', versions: 'Versions', contact: 'Contact',
     wechat: 'WeChat', email: 'Email',
+    consultTitle: 'Scan to Consult', consultHint: 'Need a new OS / Oracle version adaptation? Scan to add WeChat for consultation',
     footerDesc: 'One-click automated Oracle Database installation script. Supports Single/ASM/RAC modes across 20+ Linux distributions.',
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
   }
@@ -129,6 +131,42 @@ document.addEventListener('DOMContentLoaded', () => {
   btt.setAttribute('aria-label', 'Back to top');
   btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   document.body.appendChild(btt);
+
+  // WeChat consult floating widget
+  const isGuide = location.pathname.includes('/guides/');
+  const qrPath = isGuide ? '../img/wechat-qr.jpg' : 'img/wechat-qr.jpg';
+  const fab = document.createElement('button');
+  fab.className = 'wechat-fab';
+  fab.title = t('consultTitle');
+  fab.setAttribute('aria-label', t('consultTitle'));
+  fab.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9.5 4C5.36 4 2 6.69 2 10c0 1.89 1.08 3.56 2.78 4.66L4 17l2.5-1.5c.89.31 1.87.5 2.89.5h.27A6.48 6.48 0 0 1 9.5 15c0-3.59 3.36-6.5 7.5-6.5.17 0 .33.01.5.02C16.46 5.88 13.27 4 9.5 4zm-2 3.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm5 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM17 10c-3.31 0-6 2.24-6 5s2.69 5 6 5c.67 0 1.31-.1 1.92-.28L21 21l-.62-2.12C21.94 17.79 23 16.47 23 15c0-2.76-2.69-5-6-5zm-2 3.5a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5zm4 0a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5z"/></svg>';
+  document.body.appendChild(fab);
+
+  const popup = document.createElement('div');
+  popup.className = 'wechat-popup';
+  popup.innerHTML = `<button class="wechat-popup-close">&times;</button>
+    <div class="wechat-popup-title" data-i18n="consultTitle">${t('consultTitle')}</div>
+    <img class="wechat-popup-qr" src="${qrPath}" alt="WeChat QR">
+    <div class="wechat-popup-id">WeChat: Lucifer-0622</div>
+    <div class="wechat-popup-hint" data-i18n="consultHint">${t('consultHint')}</div>`;
+  document.body.appendChild(popup);
+
+  fab.addEventListener('click', (e) => {
+    e.stopPropagation();
+    popup.classList.toggle('show');
+    fab.classList.toggle('active');
+  });
+  popup.querySelector('.wechat-popup-close').addEventListener('click', () => {
+    popup.classList.remove('show');
+    fab.classList.remove('active');
+  });
+  document.addEventListener('click', (e) => {
+    if (!popup.contains(e.target) && !fab.contains(e.target)) {
+      popup.classList.remove('show');
+      fab.classList.remove('active');
+    }
+  });
+
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     if (nav) nav.classList.toggle('scrolled', y > 10);
