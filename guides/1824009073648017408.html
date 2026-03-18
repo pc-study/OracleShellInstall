@@ -50,7 +50,7 @@ A <span class="hljs-built_in">log</span> of this session is currently saved as: 
 <li>9.x 版本 <code>+ -T -O</code></li>
 </ul>
 <p>按理说不会出现问题，查看 <code>Rocky Linux 9.4</code> 的 openssh 版本为：<code>OpenSSH_8.7p1</code>，脚本也确实进行了 <code>+ -T</code> 处理，按理说没有问题才对。经过深入专研分析之后发现，其实 <code>-O</code> 选项是从 8.7 版本就已经出现的，因此从 8.7 版本开始就需要进行 <code>+ -T -O</code> 处理，验证后确实如此：</p>
-<p><img src="img/20240815-c8e041e3-52f0-4577-879e-699b9042bcae.png" alt="" /></p>
+<p><img src="img/20240815-c8e041e3-52f0-4577-879e-699b9042bcae.png" alt="Installation screenshot" /></p>
 <p>后续，在建库时遇到了监听没有创建成功的问题，装 Grid 时后续创建监听报错：</p>
 <pre><div class="hljs"><code class="lang-bash">[grid@rocky9-01:/u01/app/grid/cfgtoollogs/netca]$ cat netca_Ora11g_gridinfrahome1-2408152PM1111.log
 ...
