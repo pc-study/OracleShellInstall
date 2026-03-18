@@ -26,13 +26,13 @@
 <blockquote>
 <p>大家好，这里是 <strong>Lucifer三思而后行</strong>，专注于提升数据库运维效率。</p>
 </blockquote>
-<h2><a id="_2"></a>前言</h2>
+<h3><a id="_2"></a>前言</h3>
 <p>Oracle 一键安装脚本，演示腾讯 TencentOS 2.4 一键安装 Oracle 19C 单机过程（全程无需人工干预）。</p>
 <blockquote>
 <p><strong>脚本下载：<a href="../pricing.html" title="Oracle一键安装脚本" target="_blank">Oracle一键安装脚本</a></strong><br />
 <strong>作者微信</strong>：Lucifer-0622</p>
 </blockquote>
-<h2><a id="_9"></a>安装准备</h2>
+<h3><a id="_9"></a>安装准备</h3>
 <ol>
 <li>系统组安装好操作系统（支持最小化安装）</li>
 <li>网络组配置好主机网络，通常只需要一个公网 IP 地址</li>
@@ -42,7 +42,7 @@
 <li>DBA 挂载主机 ISO 镜像，这里只需要 mount 上即可（这个很简单，不了解的可以百度下）</li>
 <li>根据脚本安装脚本以及实际情况，配置好脚本的安装参数，在 /soft 目录下执行一键安装即可。</li>
 </ol>
-<h2><a id="_18"></a>环境信息</h2>
+<h3><a id="_18"></a>环境信息</h3>
 <pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
 [root@tencent ~]<span class="hljs-comment"># cat /etc/os-release </span>
 NAME=<span class="hljs-string">&quot;TencentOS Server&quot;</span>
@@ -79,7 +79,7 @@ mount: /mnt: WARNING: device write-protected, mounted read-only.
 -rwxr-xr-x. 1 root root     243167 Sep 24 15:02 OracleShellInstall
 </code></div></pre>
 <p>确保安装环境准备完成后，即可执行一键安装。</p>
-<h2><a id="_58"></a>安装命令</h2>
+<h3><a id="_58"></a>安装命令</h3>
 <p>使用标准生产环境安装参数：</p>
 <pre><div class="hljs"><code class="lang-bash">[root@tencent /soft]<span class="hljs-comment"># chmod +x OracleShellInstall</span>
 <span class="hljs-comment"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：</span>
@@ -95,7 +95,7 @@ mount: /mnt: WARNING: device write-protected, mounted read-only.
 -redo 100 `<span class="hljs-comment"># redo size`\</span>
 -opd Y `<span class="hljs-comment"># optimize db`</span>
 </code></div></pre>
-<h2><a id="_76"></a>安装过程</h2>
+<h3><a id="_76"></a>安装过程</h3>
 <pre><div class="hljs"><code class="lang-bash">   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
   ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
  ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
@@ -149,7 +149,7 @@ OracleShellInstall 开始安装，详细安装过程可查看日志： tail -200
 
 正在重启当前节点主机......   
 </code></div></pre>
-<h2><a id="_132"></a>连接测试</h2>
+<h3><a id="_132"></a>连接测试</h3>
 <p>查看系统版本：</p>
 <pre><div class="hljs"><code class="lang-bash">[root@tencent ~]<span class="hljs-comment"># cat /etc/os-release </span>
 NAME=<span class="hljs-string">&quot;TencentOS Server&quot;</span>
@@ -234,7 +234,7 @@ processor_group_name                 string
 service_names                        string      lucifer
 </code></div></pre>
 <p>数据库连接正常。</p>
-<h2><a id="_230"></a>往期精彩文章</h2>
+<h3><a id="_230"></a>往期精彩文章</h3>
 <blockquote>
 <p><a href="https://mp.weixin.qq.com/s/0xFe5m1DQ0ucT2_266hsrA" target="_blank">Oracle 一键巡检自动生成 Word 报告</a><br />
 <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5MzcwNzQ0MQ==&amp;action=getalbum&amp;album_id=3497774649285296131#wechat_redirect" target="_blank">Oracle 一键安装合集</a><br />
@@ -254,6 +254,16 @@ service_names                        string      lucifer
 <hr />
 <p>感谢您的阅读，这里是 <strong>Lucifer三思而后行</strong>，欢迎<strong>点赞+关注</strong>，我会持续分享数据库知识、运维技巧。</p>
 </div>
+<hr style="margin:40px 0 30px;border:none;border-top:1px solid var(--border)">
+<div class="guide-cta" style="background:linear-gradient(135deg,rgba(199,70,52,.06),rgba(199,70,52,.02));border:1px solid var(--border-red,rgba(199,70,52,.2));border-radius:12px;padding:28px 32px;margin:0 0 20px;text-align:center">
+  <div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px">🚀 获取 OracleShellInstall 一键安装脚本</div>
+  <div style="font-size:.85rem;color:var(--text-dim);line-height:1.7;margin-bottom:18px;max-width:520px;margin-left:auto;margin-right:auto">支持 Oracle 11gR2 ~ 26ai 全版本，覆盖 20+ 操作系统，单机 / ASM / RAC 三种模式一键部署。告别繁琐手动配置，让安装效率提升 10 倍。</div>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="../pricing.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:var(--red,#C74634);color:#fff;border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s">立即订阅</a>
+    <a href="../generator.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:transparent;color:var(--text);border:1px solid var(--border-light,#444);border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s">命令生成器</a>
+  </div>
+</div>
+
 </article>
 <div id="footer"></div>
 <script src="../js/shared.js"></script>

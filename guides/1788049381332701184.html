@@ -23,13 +23,13 @@
     </div>
   </div>
   <div class="guide-body markdown-body">
-<h1><a id="_0"></a>前言</h1>
-<p>Oracle 一键安装脚本，演示 NeoKylin V7 一键安装 Oracle 12CR2 单机（全程无需人工干预）。<strong>（脚本包括 <font color='red'>ORALCE PSU/OJVM 等补丁自动安装</font>）</strong></p>
+<h2><a id="_0"></a>前言</h2>
+<p>Oracle 一键安装脚本，演示 NeoKylin V7 一键安装 Oracle 12CR2 单机（全程无需人工干预）。<strong>（脚本包括 <span style="color:var(--red,#C74634)">ORALCE PSU/OJVM 等补丁自动安装</span>）</strong></p>
 <blockquote>
-<p><strong>⭐️ <font color='red'>脚本下载地址</font>：<a href="../pricing.html" target="_blank">Shell脚本安装Oracle数据库</a></strong></p>
+<p><strong>⭐️ <span style="color:var(--red,#C74634)">脚本下载地址</span>：<a href="../pricing.html" target="_blank">Shell脚本安装Oracle数据库</a></strong></p>
 </blockquote>
 <p>脚本第三代支持 N 节点一键安装，不限制节点数！</p>
-<h1><a id="_7"></a>前置准备</h1>
+<h2><a id="_7"></a>前置准备</h2>
 <ul>
 <li>1、安装好操作系统，建议安装图形化</li>
 <li>2、配置好网络</li>
@@ -37,7 +37,7 @@
 <li>4、上传软件安装包（安装基础包，补丁包）</li>
 <li>5、上传一键安装脚本：OracleShellInstall</li>
 </ul>
-<h1><a id="_14"></a>环境信息</h1>
+<h2><a id="_14"></a>环境信息</h2>
 <pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
 [root@neokylin:/root]$ cat /etc/os-release 
 NAME=<span class="hljs-string">&quot;NeoKylin Linux Advanced Server&quot;</span>
@@ -83,7 +83,7 @@ NEOKYLIN_SUPPORT_PRODUCT_VERSION=<span class="hljs-string">&quot;V7&quot;</span>
 -rwx------ 1 root root     321590 5月   8 10:08 rlwrap-0.44.tar.gz
 </code></div></pre>
 <p>确保安装环境准备完成后，即可执行一键安装。</p>
-<h1><a id="_62"></a>安装命令</h1>
+<h2><a id="_62"></a>安装命令</h2>
 <p>使用标准生产环境安装参数：</p>
 <pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：</span>
 ./OracleShellInstall -lf ens33 `<span class="hljs-comment"># local ip ifname`\</span>
@@ -100,7 +100,7 @@ NEOKYLIN_SUPPORT_PRODUCT_VERSION=<span class="hljs-string">&quot;V7&quot;</span>
 -jpa 35926712 `<span class="hljs-comment"># OJVM PSU/RU`\</span>
 -opd Y `<span class="hljs-comment"># optimize db`</span>
 </code></div></pre>
-<h1><a id="_81"></a>安装过程</h1>
+<h2><a id="_81"></a>安装过程</h2>
 <pre><div class="hljs"><code class="lang-bash">   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
   ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
  ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
@@ -152,7 +152,7 @@ OracleShellInstall 开始安装，详细安装过程可查看日志： tail -200
 
 正在重启主机......            
 </code></div></pre>
-<h1><a id="_135"></a>连接测试</h1>
+<h2><a id="_135"></a>连接测试</h2>
 <p>查看系统版本：</p>
 <pre><div class="hljs"><code class="lang-bash">[root@neokylin:/root]$ cat /etc/os-release 
 NAME=<span class="hljs-string">&quot;NeoKylin Linux Advanced Server&quot;</span>
@@ -243,6 +243,16 @@ service_names                        string      lucifer
 </code></div></pre>
 <p>数据库连接正常。</p>
 </div>
+<hr style="margin:40px 0 30px;border:none;border-top:1px solid var(--border)">
+<div class="guide-cta" style="background:linear-gradient(135deg,rgba(199,70,52,.06),rgba(199,70,52,.02));border:1px solid var(--border-red,rgba(199,70,52,.2));border-radius:12px;padding:28px 32px;margin:0 0 20px;text-align:center">
+  <div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px">🚀 获取 OracleShellInstall 一键安装脚本</div>
+  <div style="font-size:.85rem;color:var(--text-dim);line-height:1.7;margin-bottom:18px;max-width:520px;margin-left:auto;margin-right:auto">支持 Oracle 11gR2 ~ 26ai 全版本，覆盖 20+ 操作系统，单机 / ASM / RAC 三种模式一键部署。告别繁琐手动配置，让安装效率提升 10 倍。</div>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="../pricing.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:var(--red,#C74634);color:#fff;border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s">立即订阅</a>
+    <a href="../generator.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:transparent;color:var(--text);border:1px solid var(--border-light,#444);border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s">命令生成器</a>
+  </div>
+</div>
+
 </article>
 <div id="footer"></div>
 <script src="../js/shared.js"></script>

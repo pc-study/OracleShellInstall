@@ -27,13 +27,13 @@
 <p>大家好，这里是 <strong>Lucifer三思而后行</strong>，专注于提升数据库运维效率。</p>
 </blockquote>
 <p><h3>目录</h3><ul><li><a href="#_4">前言</a></li><ul><li><a href="#_10">问题记录</a></li></ul><li><a href="#_73">安装准备</a></li><ul><li><a href="#_83">环境信息</a></li><li><a href="#_237">安装命令</a></li><li><a href="#_264">安装过程</a></li><li><a href="#_335">连接测试</a></li></ul><li><a href="#_470">往期精彩文章推荐</a></li></ul></p>
-<h1><a id="_4"></a>前言</h1>
+<h2><a id="_4"></a>前言</h2>
 <p>Oracle 一键安装脚本，演示 Rocky Linux 9.4 一键安装 Oracle 11GR2 RAC。</p>
 <blockquote>
 <p><strong>脚本下载：<a href="../pricing.html" title="Oracle一键安装脚本" target="_blank">Oracle一键安装脚本</a></strong><br />
 <strong>作者微信</strong>：Lucifer-0622</p>
 </blockquote>
-<h2><a id="_10"></a>问题记录</h2>
+<h3><a id="_10"></a>问题记录</h3>
 <p>昨天，群友反馈一键安装脚本在 Rocky Linux 9.4 一键安装 Oracle 11GR2 RAC 遇到问题了，互信之后依然遇到通信失败的报错：</p>
 <pre><div class="hljs"><code class="lang-bash">Starting Oracle Universal Installer...
 
@@ -91,7 +91,7 @@ Listener failed to start. See the error message(s) above...
 </span></code></div></pre>
 <p>解决方案可参考：<a href="https://access.redhat.com/solutions/6994985" target="_blank">Errors while running shell scripts: /bin/sh: error importing function definition for `which’</a></p>
 <p>经过以上修复之后，测试脚本进行一键安装成功，没有问题。</p>
-<h1><a id="_73"></a>安装准备</h1>
+<h2><a id="_73"></a>安装准备</h2>
 <ul>
 <li>1、系统组所有节点均安装好操作系统（支持最小化安装）</li>
 <li>2、网络组所有节点均配置好主机网络，至少需要一组公网 IP 地址和一组心跳 IP 地址</li>
@@ -102,7 +102,7 @@ Listener failed to start. See the error message(s) above...
 <li>7、DBA 所有节点均挂载主机 ISO 镜像，这里只需要 mount 上即可（这个很简单，不了解的可以百度下）</li>
 <li>8、根据脚本安装脚本以及实际情况，配置好脚本的安装参数，在主节点的 /soft 目录下执行一键安装即可。</li>
 </ul>
-<h2><a id="_83"></a>环境信息</h2>
+<h3><a id="_83"></a>环境信息</h3>
 <pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
 <span class="hljs-comment">## 节点一</span>
 [root@rocky9-01 ~]<span class="hljs-comment"># cat /etc/os-release </span>
@@ -254,7 +254,7 @@ sr0          11:0    1 10.2G  0 rom  /mnt
 -rwx------. 1 root root     321590 Aug 15 10:25 rlwrap-0.44.tar.gz
 </code></div></pre>
 <p>确保安装环境准备完成后，即可执行一键安装。</p>
-<h2><a id="_237"></a>安装命令</h2>
+<h3><a id="_237"></a>安装命令</h3>
 <p>使用标准生产环境安装参数（安装过程若失败，脚本支持重复执行安装）：</p>
 <pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：</span>
 [root@rocky9-01 ~]<span class="hljs-comment"># cd /soft/</span>
@@ -279,7 +279,7 @@ sr0          11:0    1 10.2G  0 rom  /mnt
 -redo 100 `<span class="hljs-comment"># 在线重做日志大小（M）`\</span>
 -opd Y `<span class="hljs-comment"># 是否优化数据库`</span>
 </code></div></pre>
-<h2><a id="_264"></a>安装过程</h2>
+<h3><a id="_264"></a>安装过程</h3>
 <pre><div class="hljs"><code class="lang-bash">   ███████                             ██          ████████ ██               ██  ██ ██                    ██              ██  ██
   ██░░░░░██                           ░██         ██░░░░░░ ░██              ░██ ░██░██                   ░██             ░██ ░██
  ██     ░░██ ██████  ██████    █████  ░██  █████ ░██       ░██       █████  ░██ ░██░██ ███████   ██████ ██████  ██████   ░██ ░██
@@ -348,7 +348,7 @@ OracleShellInstall 开始安装，详细安装过程可查看日志： tail -200
 
 正在重启当前节点主机...... 
 </code></div></pre>
-<h2><a id="_335"></a>连接测试</h2>
+<h3><a id="_335"></a>连接测试</h3>
 <p>查看系统版本：</p>
 <pre><div class="hljs"><code class="lang-bash">[root@rocky9-01:/root]<span class="hljs-comment"># cat /etc/os-release </span>
 NAME=<span class="hljs-string">&quot;Rocky Linux&quot;</span>
@@ -474,7 +474,7 @@ lucifer2         OPEN
 </code></div></pre>
 <p>数据库连接正常。</p>
 <hr />
-<h1><a id="_470"></a>往期精彩文章推荐</h1>
+<h2><a id="_470"></a>往期精彩文章推荐</h2>
 <blockquote>
 <p><a href="https://mp.weixin.qq.com/s/GmSqHJiBToncvcpFAJUZbw" target="_blank">一篇文章让你彻底掌握 Shell</a> 🔥<br />
 <a href="https://mp.weixin.qq.com/s/0xFe5m1DQ0ucT2_266hsrA" target="_blank">Oracle 一键巡检自动生成 Word 报告</a> 🔥<br />
@@ -523,6 +523,16 @@ lucifer2         OPEN
 <hr />
 <p>感谢您的阅读，这里是 <strong>Lucifer三思而后行</strong>，欢迎 <strong>点赞+关注</strong>，我会持续分享数据库知识、运维技巧。</p>
 </div>
+<hr style="margin:40px 0 30px;border:none;border-top:1px solid var(--border)">
+<div class="guide-cta" style="background:linear-gradient(135deg,rgba(199,70,52,.06),rgba(199,70,52,.02));border:1px solid var(--border-red,rgba(199,70,52,.2));border-radius:12px;padding:28px 32px;margin:0 0 20px;text-align:center">
+  <div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px">🚀 获取 OracleShellInstall 一键安装脚本</div>
+  <div style="font-size:.85rem;color:var(--text-dim);line-height:1.7;margin-bottom:18px;max-width:520px;margin-left:auto;margin-right:auto">支持 Oracle 11gR2 ~ 26ai 全版本，覆盖 20+ 操作系统，单机 / ASM / RAC 三种模式一键部署。告别繁琐手动配置，让安装效率提升 10 倍。</div>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="../pricing.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:var(--red,#C74634);color:#fff;border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s">立即订阅</a>
+    <a href="../generator.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:transparent;color:var(--text);border:1px solid var(--border-light,#444);border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s">命令生成器</a>
+  </div>
+</div>
+
 </article>
 <div id="footer"></div>
 <script src="../js/shared.js"></script>

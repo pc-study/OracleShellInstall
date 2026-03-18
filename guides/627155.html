@@ -23,11 +23,11 @@
     </div>
   </div>
   <div class="guide-body markdown-body">
-<p><strong>Oracle 一键安装脚本，演示 Redhat 8.4 一键安装 Oracle 11GR2 单机版过程（全程无需人工干预）：（脚本包括 <font color='red'>ORALCE PSU/OJVM 等补丁自动安装</font>）</strong></p>
-<p><strong>⭐️ <font color='red'>脚本下载地址</font>：<a href="../pricing.html" target="_blank">Shell脚本安装Oracle数据库</a></strong></p>
+<p><strong>Oracle 一键安装脚本，演示 Redhat 8.4 一键安装 Oracle 11GR2 单机版过程（全程无需人工干预）：（脚本包括 <span style="color:var(--red,#C74634)">ORALCE PSU/OJVM 等补丁自动安装</span>）</strong></p>
+<p><strong>⭐️ <span style="color:var(--red,#C74634)">脚本下载地址</span>：<a href="../pricing.html" target="_blank">Shell脚本安装Oracle数据库</a></strong></p>
 <p>脚本第三代支持 N 节点一键安装，不限制节点数！</p>
 <p><img src="img/20230505-1847efab-b5e0-4f66-93f5-79b6e108980e.png" alt="image.png" /></p>
-<h1><a id="_8"></a>安装准备</h1>
+<h2><a id="_8"></a>安装准备</h2>
 <ul>
 <li>1、安装好操作系统，建议安装图形化</li>
 <li>2、配置好网络</li>
@@ -36,7 +36,7 @@
 <li>5、上传一键安装脚本：OracleShellInstall</li>
 </ul>
 <p>所需安装包我已经打包上传至：<strong><a href="https://www.modb.pro/doc/102664" target="_blank">Linux 8 安装 Oracle 11GR2 单机版所需软件包集合（PSU+OPatch+OneoffPatch）</a></strong></p>
-<h1><a id="_17"></a>演示环境信息</h1>
+<h2><a id="_17"></a>演示环境信息</h2>
 <pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
 [root@lucifer ~]<span class="hljs-comment"># cat /etc/redhat-release</span>
 Red Hat Enterprise Linux release 8.4 (Ootpa)
@@ -70,7 +70,7 @@ total 3057228
 -rwxr-xr-x. 1 root root  125534784 Feb 27 10:39 p6880880_112000_Linux-x86-64.zip
 </code></div></pre>
 <p>确保安装环境准备完成后，即可执行一键安装。</p>
-<h1><a id="_53"></a>安装命令</h1>
+<h2><a id="_53"></a>安装命令</h2>
 <p>使用标准生产环境安装参数：</p>
 <pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：</span>
 ./OracleShellInstall -lf enp0s5 `<span class="hljs-comment"># local ip ifname`\</span>
@@ -88,7 +88,7 @@ total 3057228
 </code></div></pre>
 <p>选择需要安装的模式以及版本，即可开始安装：</p>
 <p><img src="img/20230508-028c5ea4-a6af-4a8c-af5d-e1c414a43d76.png" alt="image.png" /></p>
-<h1><a id="_75"></a>安装过程</h1>
+<h2><a id="_75"></a>安装过程</h2>
 <pre><div class="hljs"><code class="lang-bash">[root@lucifer soft]<span class="hljs-comment"># ./OracleShellInstall -lf enp0s5 `# local ip ifname`\</span>
 &gt; -n lucifer `<span class="hljs-comment"># hostname`\</span>
 &gt; -op oracle `<span class="hljs-comment"># oracle password`\</span>
@@ -1295,7 +1295,7 @@ undo_retention                                     *          10800             
 y
 正在重启 ......
 </span></code></div></pre>
-<h1><a id="_1283"></a>连接数据库</h1>
+<h2><a id="_1283"></a>连接数据库</h2>
 <p>重启数据库后，连接数据库：</p>
 <pre><div class="hljs"><code class="lang-bash">[root@lucifer:~]<span class="hljs-comment"># so</span>
 [oracle@lucifer:~]$ sas
@@ -1337,6 +1337,16 @@ oradb            OPEN
 OPatch succeeded.
 </code></div></pre>
 </div>
+<hr style="margin:40px 0 30px;border:none;border-top:1px solid var(--border)">
+<div class="guide-cta" style="background:linear-gradient(135deg,rgba(199,70,52,.06),rgba(199,70,52,.02));border:1px solid var(--border-red,rgba(199,70,52,.2));border-radius:12px;padding:28px 32px;margin:0 0 20px;text-align:center">
+  <div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px">🚀 获取 OracleShellInstall 一键安装脚本</div>
+  <div style="font-size:.85rem;color:var(--text-dim);line-height:1.7;margin-bottom:18px;max-width:520px;margin-left:auto;margin-right:auto">支持 Oracle 11gR2 ~ 26ai 全版本，覆盖 20+ 操作系统，单机 / ASM / RAC 三种模式一键部署。告别繁琐手动配置，让安装效率提升 10 倍。</div>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="../pricing.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:var(--red,#C74634);color:#fff;border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s">立即订阅</a>
+    <a href="../generator.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:transparent;color:var(--text);border:1px solid var(--border-light,#444);border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s">命令生成器</a>
+  </div>
+</div>
+
 </article>
 <div id="footer"></div>
 <script src="../js/shared.js"></script>
