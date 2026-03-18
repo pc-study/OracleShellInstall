@@ -255,8 +255,9 @@ img{max-width:100%;display:block}
   .footer-inner{grid-template-columns:1fr 1fr;gap:30px}
 }
 @media(max-width:768px){
-  /* Solid nav background on mobile to prevent floating feel */
-  .nav{background:var(--bg);backdrop-filter:none;-webkit-backdrop-filter:none}
+  /* Lighter glassmorphism on mobile for performance */
+  .nav{background:rgba(10,10,14,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  [data-theme="light"] .nav{background:rgba(244,244,247,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
   /* Hide desktop nav links + hamburger */
   .nav-links{display:none!important}
   .nav-hamburger{display:none!important}
@@ -288,6 +289,22 @@ img{max-width:100%;display:block}
   .btn{padding:10px 22px;font-size:.85rem}
   .nav-toggle{padding:5px 8px;font-size:.72rem}
   .section-eyebrow::before{width:16px}
+
+  /* Hero orbs - smaller on mobile */
+  .hero-orb-1{width:180px;height:180px;right:0;top:-30px}
+  .hero-orb-2{width:120px;height:120px;left:0}
+  .hero-orb-3{width:100px;height:100px;left:20%}
+
+  /* Feature icons - slightly smaller on mobile */
+  .feat-icon{width:42px;height:42px;min-width:42px;border-radius:10px}
+  .feat-icon svg{width:20px;height:20px}
+
+  /* Code line numbers - compact on mobile */
+  .mac-term pre.has-lines .code-line{padding-left:40px}
+  .mac-term pre.has-lines .code-line::before{width:28px;font-size:.68rem;padding-right:8px}
+
+  /* Stats grid - 2 col on mobile */
+  .stat-num{font-size:1.6rem}
 }
 /* Hide tabbar on desktop, show in mobile media query above */
 .mobile-tabbar{display:none}
