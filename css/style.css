@@ -50,7 +50,7 @@
 [data-theme="light"] .nav-links a:hover{color:var(--text)}
 [data-theme="light"] .nav-cta{color:#fff!important}
 [data-theme="light"] .noise-overlay{opacity:.03}
-html{scroll-behavior:smooth;font-size:15px;scroll-padding-top:80px}
+html{scroll-behavior:smooth;font-size:15px;scroll-padding-top:74px}
 body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;
   overflow-x:hidden;min-height:100vh;padding-top:var(--nav-h)}
 a{color:var(--red);text-decoration:none;transition:color .2s}

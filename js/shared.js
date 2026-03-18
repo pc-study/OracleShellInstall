@@ -239,6 +239,12 @@ document.addEventListener('DOMContentLoaded', () => {
     table.classList.add('resp-cards');
   });
 
+  // Hide broken images in guides
+  document.querySelectorAll('.guide-body img').forEach(img => {
+    img.addEventListener('error', () => img.classList.add('img-broken'));
+    if (img.complete && img.naturalWidth === 0) img.classList.add('img-broken');
+  });
+
   // Docs scroll spy
   const sidebar = document.querySelector('.doc-sidebar');
   if (sidebar) {
