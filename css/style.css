@@ -254,3 +254,26 @@ img{max-width:100%;display:block}
   .nav-toggle{padding:5px 8px;font-size:.72rem}
   .section-eyebrow::before{width:16px}
 }
+
+/* === macOS Terminal Code Blocks === */
+.mac-term{background:var(--term-bg,#1a1a2e);border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;margin:16px 0}
+[data-theme="light"] .mac-term{background:#1a1a24;border-color:#2a2a38}
+.mac-term-bar{display:flex;align-items:center;padding:10px 14px;background:rgba(255,255,255,.04);
+  border-bottom:1px solid var(--border);gap:8px}
+[data-theme="light"] .mac-term-bar{background:#2a2a34;border-color:#2a2a38}
+.mac-term-bar .dot{width:12px;height:12px;border-radius:50%}
+.mac-term-bar .dot-r{background:#ff5f57}
+.mac-term-bar .dot-y{background:#febc2e}
+.mac-term-bar .dot-g{background:#28c840}
+.mac-term-bar .mac-term-title{flex:1;text-align:center;font-family:var(--mono);font-size:.72rem;
+  color:var(--text-muted);opacity:.6;margin-right:44px}
+.mac-term pre{margin:0!important;border:none!important;border-radius:0!important;background:transparent!important;
+  padding:16px 20px;font-family:var(--mono);font-size:.82rem;line-height:1.7;color:var(--green,#3aba6a);overflow-x:auto}
+[data-theme="light"] .mac-term pre{color:#3aba6a}
+.mac-term pre code{background:none!important;border:none!important;padding:0!important;color:inherit!important;
+  font-size:inherit!important}
+.mac-term pre .kw{color:#c678dd}.mac-term pre .str{color:#98c379}
+.mac-term pre .cmt{color:#5c6370;font-style:italic}.mac-term pre .num{color:#d19a66}
+.mac-term pre .fn{color:#61afef}.mac-term pre .flag{color:var(--accent2,#e8934a)}
+.mac-term pre .val{color:var(--blue,#4a8fe8)}

@@ -77,7 +77,7 @@ function navHTML(active) {
     <a href="index.html" class="nav-logo"><div class="logo-icon">OS</div>Oracle<span>Shell</span>Install</a>
     <div class="nav-links">${pages.map(p =>
       `<a href="${p.href}" class="${active===p.id?'active':''}" data-i18n="${p.key}">${t(p.key)}</a>`
-    ).join('')}<a href="generator.html" class="nav-cta" data-i18n="start">${t('start')}</a></div>
+    ).join('')}<a href="pricing.html" class="nav-cta" data-i18n="start">${t('start')}</a></div>
     <div class="nav-actions">
       <button class="nav-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">${themeIcon}</button>
       <button class="nav-toggle" id="langToggle" onclick="toggleLang()" title="Language" aria-label="Toggle language">${langLabel}</button>
@@ -193,6 +193,19 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('anim-up'); obs.unobserve(e.target); }});
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // macOS terminal wrapper for pre blocks (skip hero terminal and already-wrapped)
+  document.querySelectorAll('pre').forEach(pre => {
+    if (pre.closest('.hero-terminal') || pre.closest('.mac-term') || pre.closest('.hero-term-body')) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'mac-term';
+    const bar = document.createElement('div');
+    bar.className = 'mac-term-bar';
+    bar.innerHTML = '<span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="mac-term-title">Terminal</span>';
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.appendChild(bar);
+    wrapper.appendChild(pre);
+  });
 
   // Docs scroll spy
   const sidebar = document.querySelector('.doc-sidebar');
