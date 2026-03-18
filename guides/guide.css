@@ -26,12 +26,6 @@
 .guide-body table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.85rem}
 .guide-body th,.guide-body td{border:1px solid var(--border);padding:10px 14px;text-align:left}
 .guide-body th{background:var(--bg3);color:var(--text);font-weight:600}
-/* Responsive table wrapper (added by JS) */
-.guide-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0;
-  border-radius:var(--r);position:relative}
-.guide-table-wrap table{margin:0}
-.guide-table-wrap::after{content:'← 左右滑动查看 →';display:none;position:absolute;top:-20px;right:0;
-  font-size:.7rem;color:var(--text-muted);pointer-events:none}
 .guide-body a{color:var(--red);text-decoration:none}
 .guide-body a:hover{text-decoration:underline}
 .guide-body ul,.guide-body ol{padding-left:24px;margin:0 0 1em}
@@ -56,14 +50,23 @@
   transition:color .2s}
 .mac-term-expand:hover{color:var(--red)}
 
+/* Mobile: table → stacked card layout */
 @media(max-width:768px){
   .guide-article{padding:70px 0 40px}
   .guide-body{font-size:.86rem}
   .guide-body pre{font-size:.78rem;padding:12px}
-  .guide-body table{font-size:.78rem}
-  .guide-body th,.guide-body td{padding:7px 8px}
-  .guide-table-wrap::after{display:block}
-  .guide-table-wrap td:first-child{position:sticky;left:0;background:var(--bg2);z-index:1}
+
+  .guide-body table.resp-cards{border:none}
+  .guide-body table.resp-cards thead{display:none}
+  .guide-body table.resp-cards tr{display:block;margin-bottom:12px;border:1px solid var(--border);
+    border-radius:var(--r);overflow:hidden;background:var(--card)}
+  .guide-body table.resp-cards td{display:flex;justify-content:space-between;align-items:flex-start;
+    gap:10px;padding:8px 12px;border:none;border-bottom:1px solid var(--border);font-size:.82rem}
+  .guide-body table.resp-cards td:last-child{border-bottom:none}
+  .guide-body table.resp-cards td::before{content:attr(data-label);font-weight:700;color:var(--text);
+    flex-shrink:0;min-width:35%;font-size:.78rem}
+  .guide-body table.resp-cards td:only-child::before{display:none}
+
   .guide-cta{padding:20px 16px!important}
   .guide-cta div:last-child{flex-direction:column}
   .guide-cta a{justify-content:center}
