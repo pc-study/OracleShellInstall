@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>安装合集 - OracleShellInstall</title>
+<meta name="description" content="OracleShellInstall 脚本支持的操作系统与 Oracle 版本兼容列表，以及详细实操教程合集。">
+<meta property="og:title" content="安装合集 - OracleShellInstall">
+<meta property="og:description" content="覆盖 26+ 操作系统、4 大 Oracle 版本的兼容矩阵与 170+ 实操教程。">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://pc-study.github.io/OracleShellInstall/compat.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* HERO */
+.cp-hero{padding:80px 0 20px;text-align:center}
+.cp-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:12px}
+.cp-hero p{color:var(--text-dim);font-size:1rem;max-width:620px;margin:0 auto;line-height:1.7;font-weight:300}
+
+/* STATS BAR */
+.cp-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:32px}
+.cp-stat{text-align:center}
+.cp-stat-num{font-size:2rem;font-weight:900;font-family:var(--display);background:linear-gradient(135deg,var(--red),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent}
+.cp-stat-label{font-size:.78rem;color:var(--text-muted);margin-top:4px}
+
+/* COMPAT MATRIX */
+.cp-matrix{padding:50px 0 40px}
+.mx-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.mx-table{width:100%;border-collapse:separate;border-spacing:0;min-width:680px}
+.mx-table th,.mx-table td{padding:12px 16px;text-align:center;font-size:.84rem;border-bottom:1px solid var(--border)}
+.mx-table th:first-child,.mx-table td:first-child{text-align:left;min-width:260px}
+.mx-table thead th{background:var(--bg3);color:var(--text);font-weight:700;position:sticky;top:0;z-index:1}
+.mx-table thead th:first-child{border-radius:var(--r) 0 0 0}
+.mx-table thead th:last-child{border-radius:0 var(--r) 0 0}
+.mx-table tbody tr:hover{background:rgba(199,70,52,.03)}
+.mx-table .mx-cat{background:var(--bg2);font-weight:700;color:var(--text);font-size:.76rem;letter-spacing:1.5px}
+.mx-table .mx-cat td{border-bottom:2px solid var(--border);text-align:left}
+.mx-yes{color:var(--green);font-size:1.05rem}.mx-no{color:var(--text-muted);opacity:.3;font-size:1.05rem}
+.mx-note{margin-top:16px;font-size:.82rem;color:var(--text-muted);line-height:1.7;text-align:center;font-style:italic}
+
+/* GUIDES SECTION */
+.cp-guides{padding:50px 0 40px}
+.gd-filter{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:28px 0 32px}
+.gd-filter-btn{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:6px 16px;
+  font-size:.78rem;color:var(--text-dim);cursor:pointer;transition:all .25s;font-family:var(--font)}
+.gd-filter-btn:hover,.gd-filter-btn.active{border-color:var(--red);color:var(--red);background:rgba(199,70,52,.06)}
+
+/* GUIDE GROUPS */
+.gd-group{margin-bottom:16px;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s}
+.gd-group:hover{border-color:var(--border-light)}
+.gd-group-hd{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;
+  background:var(--card);font-weight:700;font-size:.92rem;color:var(--text);user-select:none;transition:background .2s}
+.gd-group-hd:hover{background:var(--card-hover)}
+.gd-group-hd .gd-count{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:2px 10px;
+  font-size:.72rem;color:var(--text-muted);font-weight:400;margin-left:auto;margin-right:12px}
+.gd-group-hd .gd-arrow{transition:transform .3s;color:var(--text-muted);font-size:.8rem}
+.gd-group.open .gd-arrow{transform:rotate(180deg)}
+.gd-group-bd{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.gd-group.open .gd-group-bd{max-height:3000px}
+.gd-links{padding:8px 20px 16px;display:grid;gap:6px}
+.gd-link{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:var(--r-sm);
+  text-decoration:none;color:var(--text-dim);font-size:.84rem;line-height:1.6;transition:all .2s}
+.gd-link:hover{background:rgba(199,70,52,.04);color:var(--text)}
+.gd-link::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:var(--red);flex-shrink:0;margin-top:8px;opacity:.6}
+.gd-tag{display:inline-block;background:var(--bg3);border:1px solid var(--border);border-radius:4px;
+  padding:1px 6px;font-size:.68rem;color:var(--text-muted);margin-left:6px;font-family:var(--mono);vertical-align:middle}
+.gd-tag-rac{border-color:rgba(199,70,52,.3);color:var(--red)}
+.gd-tag-asm{border-color:rgba(76,175,80,.3);color:var(--green)}
+.gd-tag-arm{border-color:rgba(100,149,237,.3);color:cornflowerblue}
+.gd-tag-patch{border-color:rgba(255,193,7,.3);color:#ffc107}
+
+/* BOTTOM NOTE */
+.cp-note{padding:30px 0 80px}
+.cp-note-box{text-align:center;background:linear-gradient(135deg,rgba(199,70,52,.06),rgba(199,70,52,.01));
+  border:1px solid var(--border-red);border-radius:var(--r-xl);padding:40px;position:relative;overflow:hidden}
+.cp-note-box p{color:var(--text-dim);font-size:.92rem;line-height:1.8;max-width:640px;margin:0 auto}
+.cp-note-box strong{color:var(--text);font-weight:700}
+
+@media(max-width:768px){
+  .cp-stats{gap:24px}
+  .mx-table{min-width:540px}
+  .gd-links{padding:8px 12px 12px}
+  .gd-link{padding:8px 10px;font-size:.8rem}
+}
+</style>
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+
+<!-- HERO -->
+<section class="cp-hero bg-grid"><div class="container">
+  <div class="section-eyebrow reveal" style="justify-content:center" data-i18n="cpEye">兼容矩阵 & 实操合集</div>
+  <h1 class="anim-up grad-text" data-i18n="cpTitle">安装合集</h1>
+  <p class="anim-up anim-d1" data-i18n="cpDesc">覆盖主流与国产化操作系统，每一条记录均由作者亲自测试验证。持续更新中。</p>
+  <div class="cp-stats anim-up anim-d2">
+    <div class="cp-stat"><div class="cp-stat-num">26+</div><div class="cp-stat-label" data-i18n="cpS1">支持操作系统</div></div>
+    <div class="cp-stat"><div class="cp-stat-num">4</div><div class="cp-stat-label" data-i18n="cpS2">Oracle 版本</div></div>
+    <div class="cp-stat"><div class="cp-stat-num">170+</div><div class="cp-stat-label" data-i18n="cpS3">实操教程</div></div>
+    <div class="cp-stat"><div class="cp-stat-num">3</div><div class="cp-stat-label" data-i18n="cpS4">部署模式</div></div>
+  </div>
+</div></section>
+
+<!-- COMPAT MATRIX -->
+<section class="cp-matrix"><div class="container">
+  <div class="section-center">
+    <div class="section-eyebrow reveal" data-i18n="mxEye">兼容矩阵</div>
+    <div class="section-title reveal" data-i18n="mxTitle">已知支持的系统与版本组合</div>
+  </div>
+  <div class="mx-wrap" style="margin-top:32px">
+    <!-- MATRIX TABLE -->
+    <table class="mx-table">
+      <thead><tr>
+        <th data-i18n="mxCol0">操作系统</th><th>11GR2</th><th>12CR2</th><th>19C</th><th>21C</th>
+      </tr></thead>
+      <tbody>
+        <tr class="mx-cat"><td colspan="5" data-i18n="mxCatRh">Red Hat 系列</td></tr>
+        <tr><td>CentOS 6 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-no">&#10005;</td><td class="mx-no">&#10005;</td></tr>
+        <tr><td>CentOS 7/8 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>RedHat 6 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-no">&#10005;</td><td class="mx-no">&#10005;</td></tr>
+        <tr><td>RedHat 7/8/9 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>OracleLinux 6 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-no">&#10005;</td><td class="mx-no">&#10005;</td></tr>
+        <tr><td>OracleLinux 7/8/9 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>RockyLinux 8/9 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>AlmaLinux 8/9 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr class="mx-cat"><td colspan="5">SUSE</td></tr>
+        <tr><td>SUSE 12/15 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr class="mx-cat"><td colspan="5" data-i18n="mxCatCn">国产化操作系统</td></tr>
+        <tr><td>华为欧拉 openEuler 20~24 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>华为欧拉 EulerOS V2 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>腾讯 TencentOS 2/3/4 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>浪潮云峦 KeyarchOS 5 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>阿里龙蜥 Anolis 7/8 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>银河麒麟 Kylin V10 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>中标麒麟 NeoKylin V7 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>统信 UOS V20 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>OpenCloudOS 7/8/9 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr class="mx-cat"><td colspan="5" data-i18n="mxCatDeb">Debian 系列</td></tr>
+        <tr><td>Debian 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>Deepin 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>Ubuntu 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr class="mx-cat"><td colspan="5" data-i18n="mxCatOther">其他</td></tr>
+        <tr><td>Fedora 13~39 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>ArchLinux</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>红旗 Asianux</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>中科方德 NFSChina</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+        <tr><td>NingOS</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="mx-note" data-i18n="mxNote">&#9432; 以上为已验证的兼容组合，&#10003; 表示支持，&#10005; 表示不支持或未验证</div>
+</div></section>
+
+<!-- GUIDES -->
+<section class="cp-guides"><div class="container">
+  <div class="section-center">
+    <div class="section-eyebrow reveal" data-i18n="gdEye">实操教程</div>
+    <div class="section-title reveal" data-i18n="gdTitle">逐步验证的安装指南</div>
+  </div>
+  <p style="text-align:center;color:var(--text-muted);font-size:.85rem;margin-top:12px" data-i18n="gdSubtitle">以下实操文档均由作者亲自测试验证可行，未列出的并非脚本不支持，只是还未测试兼容性，等待测试后会持续更新</p>
+
+  <div class="gd-filter" id="gdFilter">
+    <button class="gd-filter-btn active" data-filter="all" data-i18n="fAll">全部</button>
+    <button class="gd-filter-btn" data-filter="arm">ARM</button>
+    <button class="gd-filter-btn" data-filter="rac">RAC</button>
+    <button class="gd-filter-btn" data-filter="asm">ASM</button>
+    <button class="gd-filter-btn" data-filter="11g">11GR2</button>
+    <button class="gd-filter-btn" data-filter="19c">19C</button>
+    <button class="gd-filter-btn" data-filter="domestic" data-i18n="fDomestic">国产化</button>
+  </div>
+
+  <div id="gdList"></div>
+</div></section>
+
+<!-- BOTTOM NOTE -->
+<section class="cp-note"><div class="container">
+  <div class="cp-note-box reveal">
+    <p data-i18n="cpBottom"><strong>以上内容并非脚本可支持的所有组合</strong>，仅是目前已经实操验证过的合集。更多组合期待大家去发掘！如有新的兼容性反馈，欢迎联系作者更新。</p>
+  </div>
+</div></section>
+
+<div id="footer"></div>
+<script src="js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('compat');
+document.getElementById('footer').innerHTML = footerHTML();
+
+// ---- i18n ----
+Object.assign(i18n.zh, {
+  cpEye:'兼容矩阵 & 实操合集', cpTitle:'安装合集',
+  cpDesc:'覆盖主流与国产化操作系统，每一条记录均由作者亲自测试验证。持续更新中。',
+  cpS1:'支持操作系统', cpS2:'Oracle 版本', cpS3:'实操教程', cpS4:'部署模式',
+  mxEye:'兼容矩阵', mxTitle:'已知支持的系统与版本组合',
+  mxCol0:'操作系统', mxCatRh:'Red Hat 系列', mxCatCn:'国产化操作系统', mxCatDeb:'Debian 系列', mxCatOther:'其他',
+  mxNote:'\u2139 以上为已验证的兼容组合，\u2713 表示支持，\u2717 表示不支持或未验证',
+  gdEye:'实操教程', gdTitle:'逐步验证的安装指南',
+  gdSubtitle:'以下实操文档均由作者亲自测试验证可行，未列出的并非脚本不支持，只是还未测试兼容性，等待测试后会持续更新',
+  fAll:'全部', fDomestic:'国产化',
+  cpBottom:'<strong>以上内容并非脚本可支持的所有组合</strong>，仅是目前已经实操验证过的合集。更多组合期待大家去发掘！如有新的兼容性反馈，欢迎联系作者更新。',
+});
+Object.assign(i18n.en, {
+  cpEye:'COMPATIBILITY & GUIDES', cpTitle:'Installation Guides',
+  cpDesc:'Covers mainstream and domestic operating systems. Every entry has been personally tested and verified by the author. Continuously updated.',
+  cpS1:'Operating Systems', cpS2:'Oracle Versions', cpS3:'Tutorials', cpS4:'Deploy Modes',
+  mxEye:'COMPATIBILITY MATRIX', mxTitle:'Verified OS & Version Combinations',
+  mxCol0:'Operating System', mxCatRh:'Red Hat Family', mxCatCn:'Domestic (China) OS', mxCatDeb:'Debian Family', mxCatOther:'Others',
+  mxNote:'\u2139 The above are verified compatible combinations. \u2713 = supported, \u2717 = unsupported or not yet verified.',
+  gdEye:'TUTORIALS', gdTitle:'Step-by-Step Installation Guides',
+  gdSubtitle:'All tutorials below have been personally tested by the author. Unlisted combinations are not necessarily unsupported — they simply haven\'t been tested yet. Updates are ongoing.',
+  fAll:'All', fDomestic:'Domestic OS',
+  cpBottom:'<strong>The above is not an exhaustive list of all supported combinations</strong> — it only covers those that have been tested and verified so far. We encourage you to explore more combinations! Feel free to contact the author with compatibility feedback.',
+});
+
+if (currentLang !== 'zh') setLang(currentLang);
+
+// ---- Guide Data & Rendering ----
+const guides = [
+  { group:'ARM', tags:['arm'], domestic:false, links:[
+    {t:'Oracle Linux 8.10(aarch64) 一键安装 Oracle 19C ARM 单机',u:'https://www.modb.pro/db/1806196541144256512',v:'19c'},
+    {t:'Oracle Linux 8.10(aarch64) 一键安装 Oracle 19C ARM 单机 ASM 带补丁',u:'https://www.modb.pro/db/1806213304271589376',v:'19c',asm:1,patch:1},
+    {t:'Oracle Linux 8.10(aarch64) 一键安装 Oracle 19C RAC ARM',u:'https://www.modb.pro/db/1806253755574325248',v:'19c',rac:1},
+    {t:'Oracle Linux 9.4(aarch64) 一键安装 Oracle 19C ARM 单机',u:'https://www.modb.pro/db/1807751993395605504',v:'19c'},
+    {t:'华为欧拉 openEuler 22.03 LTS SP3(aarch64) 一键安装 Oracle 19C ARM 单机',u:'https://www.modb.pro/db/1807763827868667904',v:'19c'},
+    {t:'华为欧拉 openEuler 22.03 LTS SP3(aarch64) 一键安装 Oracle 19C ARM 单机 ASM',u:'https://www.modb.pro/db/1810866661793218560',v:'19c',asm:1},
+    {t:'阿里龙蜥 Anolis 8.9(aarch64) 一键安装 Oracle 19C ARM 单机',u:'https://www.modb.pro/db/1808144566678294528',v:'19c'},
+    {t:'RedHat 9.4(aarch64) 一键安装 Oracle 19C ARM 单机',u:'https://www.modb.pro/db/1808343014549499904',v:'19c'},
+    {t:'Ubuntu 24.04(aarch64) 一键安装 Oracle 19C ARM 单机',u:'https://www.modb.pro/db/1845717922109554688',v:'19c'},
+  ]},
+  { group:'RedHat/CentOS/OracleLinux 6', tags:[], domestic:false, links:[
+    {t:'Oracle Linux 6.10 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1793905982145368064',v:'11g'},
+    {t:'Oracle Linux 6.10 一键安装 Oracle 11GR2 单机 ASM',u:'https://www.modb.pro/db/1793906147014561792',v:'11g',asm:1},
+    {t:'Oracle Linux 6.10 一键安装 Oracle 11GR2 RAC',u:'https://www.modb.pro/db/1793906602780217344',v:'11g',rac:1},
+    {t:'Oracle Linux 6.10 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1793906816815550464',v:'12c'},
+    {t:'Oracle Linux 6.10 一键安装 Oracle 12CR2 单机 ASM',u:'https://www.modb.pro/db/1793907072823283712',v:'12c',asm:1},
+    {t:'Oracle Linux 6.10 一键安装 Oracle 12CR2 RAC',u:'https://www.modb.pro/db/1793907312532459520',v:'12c',rac:1},
+    {t:'CentOS 7.9 一键安装 Oracle 12CR2（240116）单机 PDB',u:'https://www.modb.pro/db/1780125753588420608',v:'12c'},
+    {t:'RedHat 6.10 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802971206927867904',v:'11g'},
+    {t:'RedHat 6.10 一键安装 Oracle 11GR2 单机 ASM',u:'https://www.modb.pro/db/1802970780069355520',v:'11g',asm:1},
+    {t:'RedHat 6.10 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1802971374104436736',v:'12c'},
+  ]},
+  { group:'RedHat/CentOS/OracleLinux 7', tags:[], domestic:false, links:[
+    {t:'CentOS 7.9 一键安装 Oracle 12CR2（240116）单机 NON-CDB 多实例',u:'https://www.modb.pro/db/1780126269282291712',v:'12c'},
+    {t:'Oracle Linux 7.9 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1793914360695427072',v:'11g'},
+    {t:'Oracle Linux 7.9 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1793914562089127936',v:'12c'},
+    {t:'Oracle Linux 7.9 一键安装 Oracle 19C 单机（19.22）',u:'https://www.modb.pro/db/1783040588504977408',v:'19c'},
+    {t:'Oracle Linux 7.9 一键安装 Oracle 21C（21.14）单机',u:'https://www.modb.pro/db/1783041124776611840',v:'21c'},
+    {t:'RedHat 7.9 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802973775511248896',v:'11g'},
+    {t:'RedHat 7.9 一键安装 Oracle 11GR2 单机 ASM',u:'https://www.modb.pro/db/1793915540619743232',v:'11g',asm:1},
+    {t:'RedHat 7.9 一键安装 Oracle 11GR2 RAC',u:'https://www.modb.pro/db/1793915831289712640',v:'11g',rac:1},
+    {t:'RedHat 7.9 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1802973513615216640',v:'12c'},
+    {t:'RedHat 7.9 一键安装 Oracle 12C 单机 ASM',u:'https://www.modb.pro/db/1793915997920514048',v:'12c',asm:1},
+    {t:'RedHat 7.9 一键安装 Oracle 12CR2 RAC',u:'https://www.modb.pro/db/1793917155330822144',v:'12c',rac:1},
+    {t:'RedHat 7.9 一键安装 Oracle 19C 单机 ASM',u:'https://www.modb.pro/db/1793917518913556480',v:'19c',asm:1},
+    {t:'RedHat 7.9 一键安装 Oracle 19C RAC',u:'https://www.modb.pro/db/1793920116656246784',v:'19c',rac:1},
+    {t:'RedHat 7.9 一键安装 Oracle 21C 单机 ASM',u:'https://www.modb.pro/db/1793926285512232960',v:'21c',asm:1},
+    {t:'RedHat 7.9 一键安装 Oracle 21C RAC',u:'https://www.modb.pro/db/1793926470929829888',v:'21c',rac:1},
+  ]},
+  { group:'CentOS/RedHat/OracleLinux 8', tags:[], domestic:false, links:[
+    {t:'Oracle Linux 8.9 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1793935213155913728',v:'11g'},
+    {t:'Oracle Linux 8.9 一键安装 Oracle 11GR2 单机 ASM',u:'https://www.modb.pro/db/1793935437593120768',v:'11g',asm:1},
+    {t:'Oracle Linux 8.8 一键安装 Oracle 11GR2 RAC（231017）',u:'https://www.modb.pro/db/1775440580130181120',v:'11g',rac:1},
+    {t:'Oracle Linux 8.9 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1793935629566414848',v:'12c'},
+    {t:'Oracle Linux 8.9 一键安装 Oracle 12CR2 单机 ASM',u:'https://www.modb.pro/db/1793935871946346496',v:'12c',asm:1},
+    {t:'Oracle Linux 8.9 一键安装 Oracle 12CR2 RAC',u:'https://www.modb.pro/db/1793936038271979520',v:'12c',rac:1},
+    {t:'Oracle Linux 8.9 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1793936251111936000',v:'19c'},
+    {t:'Oracle Linux 8.9 一键安装 Oracle 19C 单机 ASM',u:'https://www.modb.pro/db/1793936447476158464',v:'19c',asm:1},
+    {t:'Oracle Linux 8.9 一键安装 Oracle 19C RAC（19.22）',u:'https://www.modb.pro/db/1780107297712312320',v:'19c',rac:1},
+    {t:'Oracle Linux 8.9 一键安装 Oracle 21C 单机',u:'https://www.modb.pro/db/1793936618667184128',v:'21c'},
+    {t:'Oracle Linux 8.9 一键安装 Oracle 21C 单机 ASM',u:'https://www.modb.pro/db/1793936819758387200',v:'21c',asm:1},
+    {t:'Oracle Linux 8.9 一键安装 Oracle 21C RAC',u:'https://www.modb.pro/db/1793936998859362304',v:'21c',rac:1},
+    {t:'RedHat 8.9 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802974836133793792',v:'11g'},
+    {t:'RedHat 8.9 一键安装 Oracle 11GR2 单机 ASM',u:'https://www.modb.pro/db/1802974574446972928',v:'11g',asm:1},
+    {t:'RedHat 8.9 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1802975427685343232',v:'12c'},
+  ]},
+  { group:'RockyLinux', tags:[], domestic:false, links:[
+    {t:'Rocky Linux 8.9 一键安装 Oracle 11GR2（231017）单机',u:'https://www.modb.pro/db/1783028205124407296',v:'11g'},
+    {t:'Rocky Linux 8.9 一键安装 Oracle 11GR2（231017）单机 ASM',u:'https://www.modb.pro/db/1783028470599192576',v:'11g',asm:1},
+    {t:'Rocky Linux 8.9 一键安装 Oracle 12CR2（220118）单机',u:'https://www.modb.pro/db/1783028742196645888',v:'12c'},
+    {t:'Rocky Linux 8.9 一键安装 Oracle 12CR2 单机 ASM（231017）',u:'https://www.modb.pro/db/1783028879615135744',v:'12c',asm:1},
+    {t:'Rocky Linux 8.9 一键安装 Oracle 19C（19.22）单机',u:'https://www.modb.pro/db/1783030084206661632',v:'19c'},
+    {t:'Rocky Linux 8.9 一键安装 Oracle 21C（21.14）单机',u:'https://www.modb.pro/db/1783030261734264832',v:'21c'},
+    {t:'Rocky Linux 9.4 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1818868354532335616',v:'11g'},
+    {t:'Rocky Linux 9.4 一键安装 Oracle 11GR2 RAC',u:'https://www.modb.pro/db/1824009073648017408',v:'11g',rac:1},
+  ]},
+  { group:'RedHat/OracleLinux 9', tags:[], domestic:false, links:[
+    {t:'RedHat 9.3 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1801521277945057280',v:'11g'},
+    {t:'RedHat 9.3 一键安装 Oracle 11GR2 单机 ASM',u:'https://www.modb.pro/db/1802555406249185280',v:'11g',asm:1},
+    {t:'RedHat 9.3 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1793908393215856640',v:'19c'},
+  ]},
+  { group:'华为欧拉 openEuler', tags:[], domestic:true, links:[
+    {t:'EulerOS V2.0 SP5 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1797802338438156288',v:'11g'},
+    {t:'EulerOS V2.0 SP5 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1797802943315513344',v:'19c'},
+    {t:'EulerOS V2.0 SP9 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1798217938012540928',v:'11g'},
+    {t:'EulerOS V2.0 SP9 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1798226009048813568',v:'19c'},
+    {t:'openEuler 20.03 LTS SP4 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1790259228505624576',v:'11g'},
+    {t:'openEuler 20.03 LTS SP4 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1790282518884339712',v:'12c'},
+    {t:'openEuler 20.03 LTS SP4 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1802976639168110592',v:'19c'},
+    {t:'openEuler 22.03 LTS 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802978228654137344',v:'11g'},
+    {t:'openEuler 22.03 LTS 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1802978002220945408',v:'12c'},
+    {t:'openEuler 22.03 LTS 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1802977575714250752',v:'19c'},
+    {t:'openEuler 22.03 LTS SP3 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1769591803778535424',v:'11g'},
+    {t:'openEuler 22.03 LTS SP3 一键安装 Oracle 11GR2 单机 ASM',u:'https://www.modb.pro/db/1777194208734023680',v:'11g',asm:1},
+    {t:'openEuler 22.03 LTS SP3 一键安装 Oracle 11GR2 RAC',u:'https://www.modb.pro/db/1775333967880851456',v:'11g',rac:1},
+    {t:'openEuler 22.03 LTS SP3 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1772864352247451648',v:'12c'},
+    {t:'openEuler 22.03 LTS SP3 一键安装 Oracle 12CR2 单机 ASM',u:'https://www.modb.pro/db/1793927984923086848',v:'12c',asm:1},
+    {t:'openEuler 22.03 LTS SP3 一键安装 Oracle 12CR2 RAC',u:'https://www.modb.pro/db/1793928166137991168',v:'12c',rac:1},
+    {t:'openEuler 22.03 LTS SP3 一键安装 Oracle 19C（19.22）单机',u:'https://www.modb.pro/db/1769539674624823296',v:'19c'},
+    {t:'openEuler 22.03 LTS SP3 一键安装 Oracle 19C 单机 ASM',u:'https://www.modb.pro/db/1793928424351928320',v:'19c',asm:1},
+    {t:'openEuler 22.03 LTS SP3 一键安装 Oracle 19C RAC',u:'https://www.modb.pro/db/1770329115010338816',v:'19c',rac:1},
+    {t:'openEuler 22.03 LTS SP3 一键安装 Oracle 21C 单机',u:'https://www.modb.pro/db/1793928644552888320',v:'21c'},
+    {t:'openEuler 22.03 LTS SP3 一键安装 Oracle 21C 单机 ASM',u:'https://www.modb.pro/db/1793928896764268544',v:'21c',asm:1},
+    {t:'openEuler 22.03 LTS SP3 一键安装 Oracle 21C RAC',u:'https://www.modb.pro/db/1793929070127943680',v:'21c',rac:1},
+    {t:'openEuler 23.09 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1795379669730136064',v:'11g'},
+    {t:'openEuler 23.09 一键安装 Oracle 11GR2 单机 ASM',u:'https://www.modb.pro/db/1797252790082424832',v:'11g',asm:1},
+    {t:'openEuler 23.09 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1796749511502155776',v:'12c'},
+    {t:'openEuler 23.09 一键安装 Oracle 12CR2 单机 ASM',u:'https://www.modb.pro/db/1797253140105990144',v:'12c',asm:1},
+    {t:'openEuler 23.09 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1788099172318646272',v:'19c'},
+    {t:'openEuler 23.09 一键安装 Oracle 19C 单机 ASM',u:'https://www.modb.pro/db/1802979108816248832',v:'19c',asm:1},
+    {t:'openEuler 23.09 一键安装 Oracle 21C 单机',u:'https://www.modb.pro/db/1788135687241404416',v:'21c'},
+    {t:'openEuler 23.09 一键安装 Oracle 21C 单机 ASM',u:'https://www.modb.pro/db/1797457412151660544',v:'21c',asm:1},
+    {t:'openEuler 24.03 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1798960607357128704',v:'11g'},
+    {t:'openEuler 24.03 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1798960934320410624',v:'19c'},
+  ]},
+  { group:'中标麒麟 NeoKylin V7', tags:[], domestic:true, links:[
+    {t:'NeoKylin V7 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1788034069762215936',v:'11g'},
+    {t:'NeoKylin V7 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1788049381332701184',v:'12c'},
+    {t:'NeoKylin V7 一键安装 Oracle 12CR2 ASM',u:'https://www.modb.pro/db/1793908806362681344',v:'12c',asm:1},
+    {t:'NeoKylin V7 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1788065065177534464',v:'19c'},
+    {t:'NeoKylin V7 一键安装 Oracle 21C 单机',u:'https://www.modb.pro/db/1788071636108906496',v:'21c'},
+  ]},
+  { group:'银河麒麟 Kylin V10 SP3', tags:[], domestic:true, links:[
+    {t:'Kylin V10 SP3 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1762008192972820480',v:'11g'},
+    {t:'Kylin V10 SP3 一键安装 Oracle 11GR2 单机 ASM',u:'https://www.modb.pro/db/1777195134348791808',v:'11g',asm:1},
+    {t:'Kylin V10 SP3 一键安装 Oracle 11GR2 RAC',u:'https://www.modb.pro/db/1793909705512914944',v:'11g',rac:1},
+    {t:'Kylin V10 SP3 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1773265001669824512',v:'12c'},
+    {t:'Kylin V10 SP3 一键安装 Oracle 12CR2 单机 ASM',u:'https://www.modb.pro/db/1793909960702758912',v:'12c',asm:1},
+    {t:'Kylin V10 SP3 一键安装 Oracle 12CR2 RAC',u:'https://www.modb.pro/db/1793910233696915456',v:'12c',rac:1},
+    {t:'Kylin V10 SP3 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1761982554933587968',v:'19c'},
+    {t:'Kylin V10 SP3 一键安装 Oracle 19C 单机 ASM',u:'https://www.modb.pro/db/1793910481097936896',v:'19c',asm:1},
+    {t:'Kylin V10 SP3 一键安装 Oracle 19C RAC',u:'https://www.modb.pro/db/1793910774132985856',v:'19c',rac:1},
+    {t:'Kylin V10 SP3 一键安装 Oracle 21C 单机',u:'https://www.modb.pro/db/1793910943792582656',v:'21c'},
+  ]},
+  { group:'阿里龙蜥 Anolis 7.9', tags:[], domestic:true, links:[
+    {t:'Anolis 7.9 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1772081728022188032',v:'11g'},
+    {t:'Anolis 7.9 一键安装 Oracle 11GR2 单机 ASM',u:'https://www.modb.pro/db/1793930803591843840',v:'11g',asm:1},
+    {t:'Anolis 7.9 一键安装 Oracle 11GR2 RAC',u:'https://www.modb.pro/db/1793930996185387008',v:'11g',rac:1},
+    {t:'Anolis 7.9 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1772845918450159616',v:'12c'},
+    {t:'Anolis 7.9 一键安装 Oracle 12CR2 单机 ASM',u:'https://www.modb.pro/db/1793931203413872640',v:'12c',asm:1},
+    {t:'Anolis 7.9 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1772105823525900288',v:'19c'},
+    {t:'Anolis 7.9 一键安装 Oracle 19C 单机 ASM',u:'https://www.modb.pro/db/1793931404605739008',v:'19c',asm:1},
+    {t:'Anolis 7.9 一键安装 Oracle 21C 单机',u:'https://www.modb.pro/db/1793931632868659200',v:'21c'},
+    {t:'Anolis 7.9 一键安装 Oracle 21C 单机 ASM',u:'https://www.modb.pro/db/1793931827177672704',v:'21c',asm:1},
+  ]},
+  { group:'阿里龙蜥 Anolis 8.8', tags:[], domestic:true, links:[
+    {t:'Anolis 8.8 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1772131084879368192',v:'11g'},
+    {t:'Anolis 8.8 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1772858229067943936',v:'12c'},
+    {t:'Anolis 8.8 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1772107172300820480',v:'19c'},
+    {t:'Anolis 8.8 一键安装 Oracle 21C 单机',u:'https://www.modb.pro/db/1793929929884766208',v:'21c'},
+  ]},
+  { group:'浪潮云峦 KeyarchOS', tags:[], domestic:true, links:[
+    {t:'KeyarchOS 5.8 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1844973396726218752',v:'11g'},
+    {t:'KeyarchOS 5.8 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1844973698737078272',v:'19c'},
+  ]},
+  { group:'腾讯 TencentOS', tags:[], domestic:true, links:[
+    {t:'TencentOS 2.4 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1845702905129697280',v:'11g'},
+    {t:'TencentOS 2.4 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1845710355635470336',v:'19c'},
+  ]},
+  { group:'统信 UOS V20', tags:[], domestic:true, links:[
+    {t:'UOS V20 1060(a) 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1773552274713972736',v:'11g'},
+    {t:'UOS V20 1060(a) 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1773270182230855680',v:'12c'},
+    {t:'UOS V20 1060(a) 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1773564096011669504',v:'19c'},
+    {t:'UOS V20 1060(a) 一键安装 Oracle 21C 单机',u:'https://www.modb.pro/db/1793911355459325952',v:'21c'},
+    {t:'UOS V20 1070(a) 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1793904413970599936',v:'11g'},
+    {t:'UOS V20 1070(a) 一键安装 Oracle 11GR2 单机 ASM',u:'https://www.modb.pro/db/1802981700972122112',v:'11g',asm:1},
+    {t:'UOS V20 1070(a) 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1794067752356499456',v:'19c'},
+    {t:'UOS V20 1070(a) 一键安装 Oracle 19C 单机 ASM',u:'https://www.modb.pro/db/1802981973908066304',v:'19c',asm:1},
+    {t:'UOS V20 1001(c) 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802982213939191808',v:'11g'},
+    {t:'UOS V20 1001(c) 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1802982817210634240',v:'12c'},
+    {t:'UOS V20 1001(c) 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1802982999268089856',v:'19c'},
+    {t:'UOS V20 1001(c) 一键安装 Oracle 21C 单机',u:'https://www.modb.pro/db/1804748461286969344',v:'21c'},
+    {t:'UOS V20 1050(d) 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802983271830740992',v:'11g'},
+    {t:'UOS V20 1050(d) 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1802983534524194816',v:'19c'},
+    {t:'UOS V20 1070(e) 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802983914390228992',v:'11g'},
+    {t:'UOS V20 1070(e) 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1802984177263534080',v:'12c'},
+    {t:'UOS V20 1070(e) 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1802984371195568128',v:'19c'},
+    {t:'UOS V20 1070(e) 一键安装 Oracle 21C 单机',u:'https://www.modb.pro/db/1805413187604008961',v:'21c'},
+  ]},
+  { group:'SUSE 12 SP5', tags:[], domestic:false, links:[
+    {t:'SUSE 12 SP5 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1793913032371425280',v:'11g'},
+    {t:'SUSE 12 SP5 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1793913331848925184',v:'12c'},
+    {t:'SUSE 12 SP5 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1793913538661666816',v:'19c'},
+    {t:'SUSE 12 SP5 一键安装 Oracle 21C 单机',u:'https://www.modb.pro/db/1793913756317192192',v:'21c'},
+  ]},
+  { group:'SUSE 15 SP5', tags:[], domestic:false, links:[
+    {t:'SUSE 15 SP5 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1773547168497995776',v:'11g'},
+    {t:'SUSE 15 SP5 一键安装 Oracle 12CR2 单机',u:'https://www.modb.pro/db/1772860821603979264',v:'12c'},
+    {t:'SUSE 15 SP5 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1772452639086809088',v:'19c'},
+    {t:'SUSE 15 SP5 一键安装 Oracle 21C 单机',u:'https://www.modb.pro/db/1793912152419536896',v:'21c'},
+  ]},
+  { group:'Debian', tags:[], domestic:false, links:[
+    {t:'Debian 8 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802986709222756352',v:'11g'},
+    {t:'Debian 8 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1802986945965547520',v:'19c'},
+    {t:'Debian 10 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1800364511256989696',v:'11g'},
+    {t:'Debian 10 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1800364805253042176',v:'19c'},
+    {t:'Debian 12.5 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1798254412749164544',v:'11g'},
+    {t:'Debian 12.5 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1800363910775263232',v:'19c'},
+  ]},
+  { group:'Deepin', tags:[], domestic:true, links:[
+    {t:'Deepin 20.9 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1811656162154209280',v:'11g'},
+    {t:'Deepin 20.9 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1811644872132222976',v:'19c'},
+  ]},
+  { group:'Ubuntu', tags:[], domestic:false, links:[
+    {t:'Ubuntu 14.04 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802989256016728064',v:'11g'},
+    {t:'Ubuntu 14.04 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1802989449265090560',v:'19c'},
+    {t:'Ubuntu 22.04 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802989641758478336',v:'11g'},
+    {t:'Ubuntu 22.04 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1802989841113243648',v:'19c'},
+    {t:'Ubuntu 22.04 一键安装 Oracle 11G RAC',u:'https://www.modb.pro/db/1827336820795912192',v:'11g',rac:1},
+    {t:'Ubuntu 24.04 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1845718325990617088',v:'11g'},
+    {t:'Ubuntu 24.04 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1852240619073277952',v:'19c'},
+  ]},
+  { group:'NingOS', tags:[], domestic:true, links:[
+    {t:'NingOS V3 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802987948953657344',v:'11g'},
+    {t:'NingOS V3 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1802988134820548608',v:'19c'},
+  ]},
+  { group:'OpenCloudOS', tags:[], domestic:true, links:[
+    {t:'OpenCloudOS 8.8 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802988347576115200',v:'11g'},
+    {t:'OpenCloudOS 8.8 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1802988513608142848',v:'19c'},
+  ]},
+  { group:'AlmaLinux', tags:[], domestic:false, links:[
+    {t:'AlmaLinux 8.10 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802987710444560384',v:'11g'},
+  ]},
+  { group:'中科方德 NFSChina', tags:[], domestic:true, links:[
+    {t:'NFSChina 4.0 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802987276800167936',v:'11g'},
+    {t:'NFSChina 4.0 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1802987487937236992',v:'19c'},
+  ]},
+  { group:'红旗 Asianux', tags:[], domestic:true, links:[
+    {t:'Asianux 8 一键安装 Oracle 11GR2 单机',u:'https://www.modb.pro/db/1802988734878650368',v:'11g'},
+    {t:'Asianux 8 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1802988958702985216',v:'19c'},
+  ]},
+  { group:'Fedora', tags:[], domestic:false, links:[
+    {t:'Fedora 39（需联网）一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1780125152361123840',v:'19c'},
+    {t:'Fedora 40 一键安装 Oracle 19C 单机',u:'https://www.modb.pro/db/1845719755091705856',v:'19c'},
+    {t:'Fedora 40 一键安装 Oracle 19C 单机 ASM',u:'https://www.modb.pro/db/1845719677073457152',v:'19c',asm:1},
+  ]},
+  { group:'其他', tags:[], domestic:false, links:[
+    {t:'Redhat 8.4 一键安装 Oracle 11GR2 单机版',u:'https://www.modb.pro/db/627155',v:'11g'},
+    {t:'11GR2 RAC 2 节点一键安装演示',u:'https://www.modb.pro/db/1767103571552702464',v:'11g',rac:1},
+    {t:'11GR2 RAC 5 节点一键安装演示',u:'https://www.modb.pro/db/626761',v:'11g',rac:1},
+    {t:'Redhat 9.3 一键安装 Oracle 19C 19.21 单机版',u:'https://www.modb.pro/db/1722500845915430912',v:'19c'},
+    {t:'19C 19.22 RAC 2 节点一键安装演示',u:'https://www.modb.pro/db/1767425920041848832',v:'19c',rac:1},
+  ]},
+];
+
+// Tag helpers
+function linkTags(lk) {
+  let h = '';
+  if (lk.rac) h += '<span class="gd-tag gd-tag-rac">RAC</span>';
+  if (lk.asm) h += '<span class="gd-tag gd-tag-asm">ASM</span>';
+  if (lk.patch) h += '<span class="gd-tag gd-tag-patch">PATCH</span>';
+  return h;
+}
+
+function matchFilter(g, lk, filter) {
+  if (filter === 'all') return true;
+  if (filter === 'arm') return g.tags.includes('arm') || lk.t.toLowerCase().includes('arm') || lk.t.includes('aarch64');
+  if (filter === 'rac') return !!lk.rac;
+  if (filter === 'asm') return !!lk.asm;
+  if (filter === '11g') return lk.v === '11g';
+  if (filter === '19c') return lk.v === '19c';
+  if (filter === 'domestic') return g.domestic;
+  return true;
+}
+
+function renderGuides(filter) {
+  const container = document.getElementById('gdList');
+  let html = '';
+  guides.forEach((g, gi) => {
+    const filtered = g.links.filter(lk => matchFilter(g, lk, filter));
+    if (filtered.length === 0) return;
+    const isOpen = filter !== 'all' ? ' open' : '';
+    html += `<div class="gd-group${isOpen} reveal">
+      <div class="gd-group-hd" onclick="this.parentElement.classList.toggle('open')">
+        <span>${g.group}</span>
+        <span class="gd-count">${filtered.length}</span>
+        <span class="gd-arrow">&#9660;</span>
+      </div>
+      <div class="gd-group-bd"><div class="gd-links">`;
+    filtered.forEach(lk => {
+      const armTag = (lk.t.includes('ARM') || lk.t.includes('aarch64')) ? '<span class="gd-tag gd-tag-arm">ARM</span>' : '';
+      html += `<a href="${lk.u}" target="_blank" rel="noopener noreferrer" class="gd-link">${lk.t}${armTag}${linkTags(lk)}</a>`;
+    });
+    html += '</div></div></div>';
+  });
+  container.innerHTML = html;
+}
+
+// Initial render
+renderGuides('all');
+
+// Filter buttons
+document.getElementById('gdFilter').addEventListener('click', e => {
+  const btn = e.target.closest('.gd-filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.gd-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGuides(btn.dataset.filter);
+});
+</script>
+</body>
+</html>
