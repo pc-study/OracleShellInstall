@@ -201,6 +201,44 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
+  // --- Counter animation for stat numbers ---
+  const counterObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        counterObs.unobserve(el);
+        const target = parseInt(el.dataset.target, 10);
+        const suffix = el.dataset.suffix || '';
+        const duration = 1200;
+        const start = performance.now();
+        function step(now) {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+          el.textContent = Math.round(eased * target) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+          else el.classList.add('counted');
+        }
+        requestAnimationFrame(step);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObs.observe(el));
+
+  // --- Button ripple effect ---
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'btn-ripple';
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      this.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+    });
+  });
+
   // macOS terminal wrapper for pre blocks (skip hero terminal and already-wrapped)
   document.querySelectorAll('pre').forEach(pre => {
     if (pre.closest('.hero-terminal') || pre.closest('.mac-term') || pre.closest('.hero-term-body')) return;
@@ -212,8 +250,19 @@ document.addEventListener('DOMContentLoaded', () => {
     pre.parentNode.insertBefore(wrapper, pre);
     wrapper.appendChild(bar);
     wrapper.appendChild(pre);
+    // Add line numbers to code blocks (>1 line)
+    const codeEl = pre.querySelector('code') || pre;
+    const rawText = codeEl.textContent;
+    const lineCount = rawText.split('\n').length;
+    if (lineCount > 1) {
+      pre.classList.add('has-lines');
+      // Wrap each line in a span for numbering
+      const codeContent = codeEl.innerHTML;
+      const codeLines = codeContent.split('\n');
+      codeEl.innerHTML = codeLines.map(l => '<span class="code-line">' + l + '</span>').join('\n');
+    }
     // Auto-collapse long code blocks (>15 lines)
-    const lines = pre.textContent.split('\n').length;
+    const lines = rawText.split('\n').length;
     if (lines > 15) {
       wrapper.classList.add('collapsible');
       const btn = document.createElement('div');

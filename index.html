@@ -91,9 +91,6 @@
 /* FEATURES */
 .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:36px}
 .feat-card{display:flex;gap:18px;align-items:flex-start}
-.feat-card .feat-icon{width:44px;height:44px;min-width:44px;background:rgba(199,70,52,.08);
-  border:1px solid rgba(199,70,52,.15);border-radius:10px;display:flex;align-items:center;
-  justify-content:center;font-size:1.2rem}
 .feat-card h4{font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:4px}
 .feat-card p{font-size:.8rem;color:var(--text-muted);line-height:1.5}
 
@@ -188,6 +185,9 @@ var _hmt = _hmt || [];
 
 <!-- HERO -->
 <section class="hero bg-grid">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
   <div class="container">
     <div class="hero-inner">
       <div class="hero-left">
@@ -217,10 +217,10 @@ var _hmt = _hmt || [];
 <section class="stats">
   <div class="container">
     <div class="stats-grid">
-      <div class="stat-card reveal"><div class="stat-num">5</div><div class="stat-label" data-i18n="statV">Oracle 版本支持</div></div>
-      <div class="stat-card reveal"><div class="stat-num">20+</div><div class="stat-label" data-i18n="statO">Linux 发行版</div></div>
-      <div class="stat-card reveal"><div class="stat-num">3</div><div class="stat-label" data-i18n="statM">部署架构模式</div></div>
-      <div class="stat-card reveal"><div class="stat-num">100%</div><div class="stat-label" data-i18n="statA">全自动化安装</div></div>
+      <div class="stat-card reveal"><div class="stat-num" data-target="5" data-suffix="">0</div><div class="stat-label" data-i18n="statV">Oracle 版本支持</div></div>
+      <div class="stat-card reveal"><div class="stat-num" data-target="20" data-suffix="+">0</div><div class="stat-label" data-i18n="statO">Linux 发行版</div></div>
+      <div class="stat-card reveal"><div class="stat-num" data-target="3" data-suffix="">0</div><div class="stat-label" data-i18n="statM">部署架构模式</div></div>
+      <div class="stat-card reveal"><div class="stat-num" data-target="100" data-suffix="%">0</div><div class="stat-label" data-i18n="statA">全自动化安装</div></div>
     </div>
   </div>
 </section>
@@ -261,14 +261,14 @@ var _hmt = _hmt || [];
     <div class="section-title reveal grad-text" data-i18n="featTitle">为什么选择 OracleShellInstall</div>
     <p class="section-desc reveal" data-i18n="featSub">经过数百次生产环境验证，专为 DBA 打造的自动化安装方案</p>
     <div class="feat-grid">
-      <div class="card feat-card reveal"><div class="feat-icon">&#9889;</div><div><h4 data-i18n="feat1t">全自动化安装</h4><p data-i18n="feat1d">一条命令完成 OS 参数配置、依赖安装、用户创建、软件安装、数据库创建全流程</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon">&#128230;</div><div><h4 data-i18n="feat2t">多版本全覆盖</h4><p data-i18n="feat2d">支持 Oracle 11gR2、12cR2、19c、21c、26ai 全版本安装</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon">&#128421;</div><div><h4 data-i18n="feat3t">广泛系统兼容</h4><p data-i18n="feat3d">CentOS、RHEL、OracleLinux、Rocky、openEuler、麒麟、统信等 20+ 发行版</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon">&#128279;</div><div><h4 data-i18n="feat4t">RAC 集群支持</h4><p data-i18n="feat4d">自动化 SSH 互信、Grid 安装、ASM 磁盘组配置、集群节点搭建</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon">&#128190;</div><div><h4 data-i18n="feat5t">ASM 存储管理</h4><p data-i18n="feat5d">自动配置 UDEV 绑盘、multipath 多路径、ASM 磁盘组及冗余</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon">&#128296;</div><div><h4 data-i18n="feat6t">一键补丁升级</h4><p data-i18n="feat6d">支持 Grid/Oracle PSU、RU、OJVM 补丁自动应用</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon">&#9989;</div><div><h4 data-i18n="feat7t">智能参数校验</h4><p data-i18n="feat7d">安装前自动校验所有参数合法性，避免配置错误导致安装失败</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon">&#128196;</div><div><h4 data-i18n="feat8t">完整日志追踪</h4><p data-i18n="feat8d">安装全过程日志输出，支持断点排查和问题定位</p></div></div>
+      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><h4 data-i18n="feat1t">全自动化安装</h4><p data-i18n="feat1d">一条命令完成 OS 参数配置、依赖安装、用户创建、软件安装、数据库创建全流程</p></div></div>
+      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div><h4 data-i18n="feat2t">多版本全覆盖</h4><p data-i18n="feat2d">支持 Oracle 11gR2、12cR2、19c、21c、26ai 全版本安装</p></div></div>
+      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div><h4 data-i18n="feat3t">广泛系统兼容</h4><p data-i18n="feat3d">CentOS、RHEL、OracleLinux、Rocky、openEuler、麒麟、统信等 20+ 发行版</p></div></div>
+      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M12 8v3M9.5 13.5L6.5 16.5M14.5 13.5L17.5 16.5"/></svg></div><div><h4 data-i18n="feat4t">RAC 集群支持</h4><p data-i18n="feat4d">自动化 SSH 互信、Grid 安装、ASM 磁盘组配置、集群节点搭建</p></div></div>
+      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div><div><h4 data-i18n="feat5t">ASM 存储管理</h4><p data-i18n="feat5d">自动配置 UDEV 绑盘、multipath 多路径、ASM 磁盘组及冗余</p></div></div>
+      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><div><h4 data-i18n="feat6t">一键补丁升级</h4><p data-i18n="feat6d">支持 Grid/Oracle PSU、RU、OJVM 补丁自动应用</p></div></div>
+      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><div><h4 data-i18n="feat7t">智能参数校验</h4><p data-i18n="feat7d">安装前自动校验所有参数合法性，避免配置错误导致安装失败</p></div></div>
+      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8l4 4-4 4M12 16h6"/></svg></div><div><h4 data-i18n="feat8t">完整日志追踪</h4><p data-i18n="feat8d">安装全过程日志输出，支持断点排查和问题定位</p></div></div>
     </div>
   </div>
 </section>

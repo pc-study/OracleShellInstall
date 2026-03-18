@@ -46,7 +46,8 @@
 [data-theme="light"] .hero-terminal{background:#1a1a24;border-color:#2a2a38}
 [data-theme="light"] .hero-term-bar{background:#2a2a34;border-color:#2a2a38}
 [data-theme="light"] .hero-term-title{color:#5a5a6e}
-[data-theme="light"] .nav{background:rgba(244,244,247,.82);border-bottom-color:var(--border)}
+[data-theme="light"] .nav{background:rgba(244,244,247,.72);backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);border-bottom-color:rgba(0,0,0,.06)}
+[data-theme="light"] .nav.scrolled{background:rgba(244,244,247,.92);box-shadow:0 4px 30px rgba(0,0,0,.06)}
 [data-theme="light"] .nav-links a:hover{color:var(--text)}
 [data-theme="light"] .nav-cta{color:#fff}
 [data-theme="light"] .noise-overlay{opacity:.03}
@@ -70,9 +71,10 @@ img{max-width:100%;display:block}
 
 /* === NAV === */
 .nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:1000;
-  background:rgba(10,10,14,.75);backdrop-filter:blur(20px) saturate(1.8);-webkit-backdrop-filter:blur(20px) saturate(1.8);
-  border-bottom:1px solid rgba(255,255,255,.06);transition:box-shadow .3s,border-color .3s}
-.nav.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.4);border-bottom-color:var(--border)}
+  background:rgba(10,10,14,.72);backdrop-filter:blur(24px) saturate(1.8);-webkit-backdrop-filter:blur(24px) saturate(1.8);
+  border-bottom:1px solid rgba(255,255,255,.06);transition:box-shadow .3s,border-color .3s,background .3s}
+.nav.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.4),0 1px 0 rgba(199,70,52,.08);border-bottom-color:var(--border);
+  background:rgba(10,10,14,.88)}
 .nav-inner{max-width:var(--max-w);margin:0 auto;padding:0 24px;height:100%;
   display:flex;align-items:center;justify-content:space-between}
 .nav-logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.05rem;
@@ -131,20 +133,29 @@ img{max-width:100%;display:block}
 /* === BUTTONS === */
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:10px;
   font-size:.9rem;font-weight:600;cursor:pointer;transition:all .3s;border:none;
-  font-family:var(--font);text-decoration:none;position:relative}
+  font-family:var(--font);text-decoration:none;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--ripple-x,50%) var(--ripple-y,50%),rgba(255,255,255,.25) 0%,transparent 60%);
+  opacity:0;transition:opacity .4s;pointer-events:none}
+.btn:active::after{opacity:1;transition:opacity 0s}
 .btn-primary{background:var(--red);color:#fff;box-shadow:0 4px 20px rgba(199,70,52,.2)}
-.btn-primary:hover{background:var(--red-glow);color:#fff;transform:translateY(-2px);
+.btn-primary:hover{background:var(--red-glow);color:#fff;transform:translateY(-2px) scale(1.02);
   box-shadow:0 8px 30px rgba(199,70,52,.35)}
+.btn-primary:active{transform:translateY(0) scale(.98)}
 .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border-light)}
 .btn-ghost:hover{border-color:var(--red);color:var(--text);transform:translateY(-2px);
   box-shadow:var(--glow-sm)}
+.btn-ghost:active{transform:translateY(0) scale(.98)}
 .btn-sm{padding:8px 18px;font-size:.82rem;border-radius:8px}
 
 /* === CARDS === */
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);
-  padding:28px 24px;transition:all .35s cubic-bezier(.4,0,.2,1);position:relative}
+  padding:28px 24px;transition:all .35s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(199,70,52,.06) 0%,transparent 50%,rgba(199,70,52,.03) 100%);
+  opacity:0;transition:opacity .35s;pointer-events:none}
 .card:hover{border-color:rgba(199,70,52,.3);transform:translateY(-3px);
   box-shadow:0 12px 40px rgba(0,0,0,.15),var(--glow-sm)}
+.card:hover::before{opacity:1}
 [data-theme="light"] .card:hover{box-shadow:0 12px 40px rgba(0,0,0,.08),0 0 20px rgba(199,70,52,.06)}
 
 /* === TAGS === */
@@ -168,8 +179,11 @@ img{max-width:100%;display:block}
   pointer-events:none}
 
 /* === SECTION DIVIDER === */
-.section-divider{height:1px;border:none;margin:0;
+.section-divider{height:1px;border:none;margin:0;position:relative;
   background:linear-gradient(90deg,transparent,var(--border-light) 20%,var(--border) 50%,var(--border-light) 80%,transparent)}
+.section-divider::after{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+  width:120px;height:3px;background:linear-gradient(90deg,transparent,var(--red) 40%,var(--red-glow) 50%,var(--red) 60%,transparent);
+  border-radius:2px;filter:blur(1px);opacity:.6}
 
 /* === FOOTER === */
 .footer{border-top:none;padding:50px 0 40px;position:relative}
@@ -306,10 +320,49 @@ img{max-width:100%;display:block}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
     transition-duration:.01ms!important;scroll-behavior:auto!important}
   .anim-up{animation:none;opacity:1;transform:none}
+  .hero-orb{animation:none!important}
 }
 
 /* === PERFORMANCE HINTS === */
 .card:hover,.back-to-top,.wechat-fab,.wechat-popup{will-change:transform}
+
+/* === HERO FLOATING ORBS === */
+@keyframes floatOrb1{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(30px,-20px) scale(1.1)}50%{transform:translate(-15px,-40px) scale(.95)}75%{transform:translate(-30px,-10px) scale(1.05)}}
+@keyframes floatOrb2{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(-25px,15px) scale(.9)}50%{transform:translate(20px,30px) scale(1.1)}75%{transform:translate(35px,-15px) scale(.95)}}
+.hero-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(60px);z-index:0}
+.hero-orb-1{width:300px;height:300px;background:rgba(199,70,52,.12);top:-50px;right:10%;animation:floatOrb1 12s ease-in-out infinite}
+.hero-orb-2{width:200px;height:200px;background:rgba(232,147,74,.08);bottom:0;left:5%;animation:floatOrb2 15s ease-in-out infinite}
+.hero-orb-3{width:150px;height:150px;background:rgba(74,143,232,.06);top:30%;left:35%;animation:floatOrb1 18s ease-in-out infinite reverse}
+
+/* === FEATURE ICON SVG UPGRADE === */
+.feat-icon{width:48px;height:48px;min-width:48px;
+  background:linear-gradient(135deg,rgba(199,70,52,.12),rgba(232,147,74,.08));
+  border:1px solid rgba(199,70,52,.2);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(199,70,52,.08);transition:all .3s}
+.feat-icon svg{width:22px;height:22px;color:var(--red-glow);stroke-width:1.8;transition:transform .3s}
+.card.feat-card:hover .feat-icon{border-color:var(--red);box-shadow:0 4px 20px rgba(199,70,52,.2);
+  background:linear-gradient(135deg,rgba(199,70,52,.2),rgba(232,147,74,.12))}
+.card.feat-card:hover .feat-icon svg{transform:scale(1.1)}
+
+/* === STAT COUNTER ANIMATION === */
+.stat-num[data-target]{transition:color .3s}
+@keyframes countPulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+.stat-num.counted{animation:countPulse .4s ease-out}
+
+/* === CODE LINE NUMBERS === */
+.mac-term pre.has-lines{counter-reset:line;padding-left:0}
+.mac-term pre.has-lines code{display:block}
+.mac-term pre.has-lines .code-line{display:block;padding-left:52px;position:relative;min-height:1.7em}
+.mac-term pre.has-lines .code-line::before{counter-increment:line;content:counter(line);
+  position:absolute;left:0;width:36px;text-align:right;color:var(--text-muted);opacity:.4;
+  font-size:.75rem;padding-right:12px;border-right:1px solid rgba(255,255,255,.06);
+  user-select:none;-webkit-user-select:none}
+
+/* === BUTTON RIPPLE TRACKING === */
+.btn-ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);
+  transform:scale(0);animation:rippleOut .6s ease-out;pointer-events:none}
+@keyframes rippleOut{to{transform:scale(4);opacity:0}}
 
 /* === SEARCH OVERLAY === */
 .search-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding-top:min(20vh,120px);opacity:0;pointer-events:none;transition:opacity .2s}
