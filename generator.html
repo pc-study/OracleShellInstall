@@ -18,6 +18,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="OracleShellInstall">
+<meta name="twitter:description" content="OracleShellInstall 命令生成器 - 可视化配置Oracle安装参数">
 <meta name="twitter:image" content="https://www.oracleshellinstall.com/img/og-cover.jpg">
 <link rel="canonical" href="https://www.oracleshellinstall.com/generator.html">
 <link rel="alternate" hreflang="zh-CN" href="https://www.oracleshellinstall.com/generator.html">
@@ -27,11 +28,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.json?v=20260318">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20260318">
 <style>
 .gen-hero{padding:50px 0 20px;text-align:center}
 .gen-hero h1{font-size:1.8rem;font-weight:900;color:var(--text);margin-bottom:8px}
@@ -173,7 +174,7 @@ var _hmt = _hmt || [];
 </section>
 </div>
 <div id="footer"></div>
-<script src="js/shared.js"></script>
+<script src="js/shared.js?v=20260318"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('generator');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -299,14 +300,14 @@ function renderForm(m){
       const rb=f.req?`<span class="fl fl-r">${isEn?'Required':'必填'}</span>`:`<span class="fl fl-o">${isEn?'Optional':'选填'}</span>`;
       const label = isEn ? (f.lbe || f.lb) : f.lb;
       const placeholder = isEn ? (f.phe || f.ph || '') : (f.ph || '');
-      h+=`<div class="field"><label>${rb} <span class="fp">${f.fl}</span> ${label}</label>`;
+      h+=`<div class="field"><label for="${id}">${rb} <span class="fp">${f.fl}</span> ${label}</label>`;
       if(f.t==='select'){
-        h+=`<select id="${id}" onchange="genCmd()">`;
+        h+=`<select id="${id}"${f.req?' aria-required="true"':''} onchange="genCmd()">`;
         f.opts.forEach(o=>{h+=`<option value="${o}"${o===f.def?' selected':''}>${o}</option>`;});
         h+='</select>';
       }else{
         const tp=f.t==='password'?'password':'text';
-        h+=`<input type="${tp}" id="${id}" value="${f.def||''}" placeholder="${placeholder}" oninput="genCmd()">`;
+        h+=`<input type="${tp}" id="${id}" value="${f.def||''}" placeholder="${placeholder}"${f.req?' aria-required="true"':''} oninput="genCmd()">`;
       }
       h+='</div>';
     });
@@ -411,6 +412,6 @@ renderForm('single');
 if (currentLang !== 'zh') setLang(currentLang);
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js"></script>
+<script src="js/search.js?v=20260318"></script>
 </body>
 </html>

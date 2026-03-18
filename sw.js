@@ -1,4 +1,4 @@
-const CACHE_NAME = 'os-v2';
+const CACHE_NAME = 'os-v3';
 const STATIC_EXTS = /\.(css|js|json|woff2?|ttf|eot|svg|png|jpg|jpeg|webp|ico)$/i;
 
 self.addEventListener('install', event => {
@@ -29,6 +29,9 @@ self.addEventListener('fetch', event => {
             caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
           }
           return response;
+        }).catch(() => {
+          // Return a basic offline response for failed static asset fetches
+          return new Response('', { status: 503, statusText: 'Offline' });
         })
       )
     );

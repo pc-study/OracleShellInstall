@@ -3,9 +3,16 @@
    ============================ */
 (function () {
   let searchIndex = null;
+  let indexLoading = false;
   let overlay, input, results, closeBtn;
   const isGuide = location.pathname.includes('/guides/');
   const prefix = isGuide ? '../' : '';
+
+  // --- HTML entity escaping for XSS prevention ---
+  function escapeHTML(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
 
   // --- Build DOM ---
   function createSearchUI() {
@@ -60,15 +67,24 @@
     }
   });
 
-  // --- Load index lazily ---
+  // --- Load index lazily (with race condition guard) ---
   async function loadIndex() {
     if (searchIndex) return;
+    if (indexLoading) {
+      // Wait for in-flight load to finish
+      while (indexLoading) await new Promise(r => setTimeout(r, 50));
+      return;
+    }
+    indexLoading = true;
     try {
       const res = await fetch(prefix + 'search-index.json');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       searchIndex = await res.json();
     } catch (e) {
       console.error('Failed to load search index', e);
       searchIndex = [];
+    } finally {
+      indexLoading = false;
     }
   }
 
@@ -98,7 +114,7 @@
 
   function highlight(text, terms) {
     if (!text) return '';
-    let out = text;
+    let out = escapeHTML(text);
     terms.forEach(t => {
       const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
       out = out.replace(re, '<mark>$1</mark>');
@@ -112,7 +128,7 @@
       return;
     }
     results.innerHTML = items.map((item, i) => {
-      const url = prefix + item.url;
+      const url = escapeHTML(prefix + item.url);
       const title = highlight(item.title || item.url, terms);
       const desc = highlight((item.desc || item.text || '').substring(0, 120), terms);
       return `<a class="search-item${i === 0 ? ' active' : ''}" href="${url}">
@@ -127,7 +143,8 @@
     const items = results.querySelectorAll('.search-item');
     if (!items.length) return;
     const cur = results.querySelector('.search-item.active');
-    let idx = Array.from(items).indexOf(cur);
+    let idx = cur ? Array.from(items).indexOf(cur) : 0;
+    if (idx < 0) idx = 0;
 
     if (e.key === 'ArrowDown') {
       e.preventDefault();

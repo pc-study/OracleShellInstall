@@ -18,6 +18,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="OracleShellInstall">
+<meta name="twitter:description" content="OracleShellInstall 版本对比 - 开源版与付费版功能对比">
 <meta name="twitter:image" content="https://www.oracleshellinstall.com/img/og-cover.jpg">
 <link rel="canonical" href="https://www.oracleshellinstall.com/pricing.html">
 <link rel="alternate" hreflang="zh-CN" href="https://www.oracleshellinstall.com/pricing.html">
@@ -27,11 +28,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.json?v=20260318">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20260318">
 <style>
 /* HERO */
 .pr-hero{padding:80px 0 20px;text-align:center}
@@ -332,17 +333,23 @@ var _hmt = _hmt || [];
 <section class="pr-cta" id="contact"><div class="container">
   <div class="pr-cta-box reveal">
     <h2 data-i18n="prCtaTitle">获取付费版完整功能</h2>
-    <p data-i18n="prCtaDesc">添加作者微信咨询订阅详情，解锁 RAC 集群、国产化系统、一键补丁等全部高级功能</p>
+    <p data-i18n="prCtaDesc">添加作者微信或 Telegram 咨询订阅详情，解锁 RAC 集群、国产化系统、一键补丁等全部高级功能</p>
     <div class="qr-wrap">
-      <img src="img/wechat-qr.jpg" alt="WeChat QR Code - Lucifer-0622" class="qr-img">
+      <img src="img/wechat-qr.webp" alt="WeChat QR Code - Lucifer-0622" class="qr-img" loading="lazy">
       <div class="qr-label" data-i18n="qrLabel">微信扫码添加作者</div>
     </div>
-    <div class="wechat-id">&#128241; Lucifer-0622</div>
+    <div class="pr-contact-methods">
+      <div class="wechat-id">&#128241; WeChat: Lucifer-0622</div>
+      <a class="tg-contact-btn" href="https://t.me/LUCIFERLPC" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        Telegram: @LUCIFERLPC
+      </a>
+    </div>
   </div>
 </div></section>
 
 <div id="footer"></div>
-<script src="js/shared.js"></script>
+<script src="js/shared.js?v=20260318"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('pricing');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -378,7 +385,7 @@ Object.assign(i18n.zh, {
   fq1:'开源版和付费版的核心区别是什么？',
   fa1:'开源版支持单机和单机 ASM 模式，适用于 X86 架构和红帽系列系统，满足基础安装需求。付费版在此基础上增加了 RAC 集群（不限节点数）、ARM 架构、20+ 国产化操作系统、非官方认证组合安装、一键安装补丁、安装介质提供以及专属技术支持。',
   fq2:'付费版如何获取和付款？',
-  fa2:'请添加作者微信 Lucifer-0622 咨询订阅详情，包括定价、授权方式和付款流程等。',
+  fa2:'请添加作者微信 Lucifer-0622 或 Telegram @LUCIFERLPC 咨询订阅详情，包括定价、授权方式和付款流程等。',
   fq3:'付费版包含哪些技术支持？',
   fa3:'付费版包含专属微信群支持，群直播答疑，安装日志排错指导等。遇到安装问题可以直接在群内获得作者的技术支持。',
   fq4:'安装介质包含哪些内容？',
@@ -386,7 +393,7 @@ Object.assign(i18n.zh, {
   fq5:'开源版可以免费用于生产环境吗？',
   fa5:'开源版可免费使用，但仅支持单机/单机 ASM、X86 架构和红帽系列系统。如果生产环境需要 RAC 集群、ARM 架构或国产化系统支持，建议使用付费版。',
   prCtaTitle:'获取付费版完整功能',
-  prCtaDesc:'添加作者微信咨询订阅详情，解锁 RAC 集群、国产化系统、一键补丁等全部高级功能',
+  prCtaDesc:'添加作者微信或 Telegram 咨询订阅详情，解锁 RAC 集群、国产化系统、一键补丁等全部高级功能',
   qrLabel:'微信扫码添加作者',
 });
 Object.assign(i18n.en, {
@@ -395,7 +402,7 @@ Object.assign(i18n.en, {
   planFreeName:'Open Source', planFreeDesc:'For development and testing environments, covering standard Oracle installation scenarios',
   planFreePrice:'Free', planFreeSub:'Forever free \u00b7 Open source on Gitee', planFreeBtn:'Download on Gitee',
   planPaidBadge:'Recommended', planPaidName:'Paid Edition', planPaidDesc:'For production environments, unlocking all advanced features and dedicated support',
-  planPaidPrice:'\u00a599', planPaidSub:'One-time payment \u00b7 Contact via WeChat', planPaidBtn:'Get in Touch \u2193',
+  planPaidPrice:'\u00a599', planPaidSub:'One-time payment \u00b7 Contact via WeChat / Telegram', planPaidBtn:'Get in Touch \u2193',
   pf1:'Single Instance / Standalone ASM', pf2:'NON-CDB / CDB (PDB) architecture', pf3:'X86 architecture support',
   pf4:'RHEL / OracleLinux / CentOS', pf5:'Oracle certified combinations', pf6:'Fully automated \u00b7 No manual intervention',
   pf7:'RAC cluster deployment', pf8:'ARM architecture \u00b7 Domestic OS', pf9:'One-click patching',
@@ -419,7 +426,7 @@ Object.assign(i18n.en, {
   fq1:'What are the key differences between open-source and paid editions?',
   fa1:'The open-source edition supports Single Instance and Standalone ASM on X86 with RHEL-family systems. The paid edition adds RAC clusters (unlimited nodes), ARM architecture, 20+ domestic operating systems, non-certified combination support, one-click patching, installation media, and dedicated technical support.',
   fq2:'How do I get the paid edition?',
-  fa2:'Add the author on WeChat (Lucifer-0622) to inquire about subscription details, including pricing, licensing, and payment.',
+  fa2:'Add the author on WeChat (Lucifer-0622) or Telegram (@LUCIFERLPC) to inquire about subscription details, including pricing, licensing, and payment.',
   fq3:'What technical support is included?',
   fa3:'The paid edition includes a dedicated WeChat support group, live Q&A sessions, and installation log troubleshooting guidance with direct access to the author.',
   fq4:'What installation media is provided?',
@@ -427,7 +434,7 @@ Object.assign(i18n.en, {
   fq5:'Can the open-source edition be used in production?',
   fa5:'Yes, but it only supports Single/Standalone ASM on X86 with RHEL-family systems. For production environments requiring RAC, ARM, or domestic OS support, the paid edition is recommended.',
   prCtaTitle:'Get Full Paid Edition Features',
-  prCtaDesc:'Contact via WeChat for subscription details. Unlock RAC clusters, domestic OS support, one-click patching, and all advanced features.',
+  prCtaDesc:'Contact via WeChat or Telegram for subscription details. Unlock RAC clusters, domestic OS support, one-click patching, and all advanced features.',
   qrLabel:'Scan to add author on WeChat',
 });
 
@@ -446,6 +453,6 @@ document.querySelectorAll('.faq-q').forEach(q => {
 if (currentLang !== 'zh') setLang(currentLang);
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js"></script>
+<script src="js/search.js?v=20260318"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@ const i18n = {
     nav: '快速导航', versions: '支持版本', contact: '联系方式',
     wechat: '微信', email: '邮箱',
     expandAll: '展开全部', collapse: '收起', lines: '行',
-    consultTitle: '扫码咨询适配需求', consultHint: '如需新的 OS / Oracle 版本适配，欢迎扫码添加微信咨询',
+    consultTitle: '扫码咨询适配需求', consultHint: '微信扫码添加或通过 Telegram 联系，咨询新 OS / Oracle 版本适配',
     footerDesc: 'Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC 三种部署模式，覆盖 20+ Linux 发行版。',
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
   },
@@ -20,7 +20,7 @@ const i18n = {
     nav: 'Navigation', versions: 'Versions', contact: 'Contact',
     wechat: 'WeChat', email: 'Email',
     expandAll: 'Expand All', collapse: 'Collapse', lines: 'lines',
-    consultTitle: 'Scan to Consult', consultHint: 'Need a new OS / Oracle version adaptation? Scan to add WeChat for consultation',
+    consultTitle: 'Scan to Consult', consultHint: 'Add via WeChat or contact on Telegram for new OS / Oracle version adaptation',
     footerDesc: 'One-click automated Oracle Database installation script. Supports Single/ASM/RAC modes across 20+ Linux distributions.',
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
   }
@@ -122,6 +122,7 @@ function footerHTML() {
     <div class="footer-col"><h4 data-i18n="contact">${t('contact')}</h4>
       <a href="mailto:pc1107750981@163.com">\u2709 pc1107750981@163.com</a>
       <a>\uD83D\uDCF1 WeChat: Lucifer-0622</a>
+      <a href="https://t.me/LUCIFERLPC" target="_blank" rel="noopener noreferrer">\u2708\uFE0F Telegram: @LUCIFERLPC</a>
       <a href="https://gitee.com/luciferlpc/OracleShellInstall" target="_blank" rel="noopener noreferrer">\u2B50 Gitee</a>
       <a href="https://github.com/pc-study/OracleShellInstall" target="_blank" rel="noopener noreferrer">\u2B50 GitHub</a>
     </div>
@@ -163,6 +164,10 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="wechat-popup-title" data-i18n="consultTitle">${t('consultTitle')}</div>
     <img class="wechat-popup-qr" src="${qrPath}" alt="WeChat QR" width="200" height="262" loading="lazy">
     <div class="wechat-popup-id">WeChat: Lucifer-0622</div>
+    <a class="consult-tg-link" href="https://t.me/LUCIFERLPC" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0h-.056zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+      Telegram: @LUCIFERLPC
+    </a>
     <div class="wechat-popup-hint" data-i18n="consultHint">${t('consultHint')}</div>`;
   document.body.appendChild(popup);
 
@@ -171,7 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
     popup.classList.toggle('show');
     fab.classList.toggle('active');
   });
-  popup.querySelector('.wechat-popup-close').addEventListener('click', () => {
+  const popupCloseBtn = popup.querySelector('.wechat-popup-close');
+  if (popupCloseBtn) popupCloseBtn.addEventListener('click', () => {
     popup.classList.remove('show');
     fab.classList.remove('active');
   });
