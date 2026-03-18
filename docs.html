@@ -86,10 +86,21 @@
 .doc-table-wrap table{margin:0}
 
 @media(max-width:768px){
-  .doc-layout{grid-template-columns:1fr;gap:20px}
-  .doc-sidebar{position:static;display:flex;flex-wrap:wrap;gap:4px}
-  .doc-sidebar a{border-left:none;border-bottom:2px solid var(--border);padding:6px 12px}
+  .doc-layout{grid-template-columns:1fr;gap:12px;padding:50px 0 80px}
+  .doc-sidebar{position:static;display:flex;flex-wrap:nowrap;gap:0;overflow-x:auto;
+    -webkit-overflow-scrolling:touch;border-bottom:1px solid var(--border);
+    padding-bottom:8px;margin:0 -16px;padding-left:16px;padding-right:16px}
+  .doc-sidebar a{border-left:none;border-bottom:2px solid transparent;padding:6px 12px;
+    white-space:nowrap;flex-shrink:0;font-size:.78rem}
+  .doc-sidebar a.active{border-bottom-color:var(--red)}
   .doc-sidebar .sb-title{display:none}
+  .doc-content{overflow-x:hidden}
+  .doc-content h2{font-size:1.15rem;margin:32px 0 12px}
+  .doc-content h3{font-size:.95rem}
+  .doc-content p{font-size:.84rem}
+  .doc-content ul,.doc-content ol{font-size:.84rem}
+  .doc-content pre{font-size:.76rem;padding:12px 14px;word-break:break-all}
+  .doc-content code{font-size:.76rem;word-break:break-all}
 
   .doc-content table.resp-cards{border:none}
   .doc-content table.resp-cards thead{display:none}
