@@ -7,7 +7,7 @@ let currentLang = localStorage.getItem('lang') || 'zh';
 
 const i18n = {
   zh: {
-    home: '首页', generator: '命令生成器', docs: '使用文档', compat: '安装合集', pricing: '脚本订阅', start: '开始使用',
+    home: '首页', generator: '命令生成器', docs: '使用文档', compat: '安装合集', pricing: '脚本订阅', download: '下载中心', start: '开始使用',
     nav: '快速导航', versions: '支持版本', contact: '联系方式',
     wechat: '微信', email: '邮箱',
     consultTitle: '扫码咨询适配需求', consultHint: '如需新的 OS / Oracle 版本适配，欢迎扫码添加微信咨询',
@@ -15,7 +15,7 @@ const i18n = {
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
   },
   en: {
-    home: 'Home', generator: 'Generator', docs: 'Docs', compat: 'Guides', pricing: 'Subscribe', start: 'Get Started',
+    home: 'Home', generator: 'Generator', docs: 'Docs', compat: 'Guides', pricing: 'Subscribe', download: 'Download', start: 'Get Started',
     nav: 'Navigation', versions: 'Versions', contact: 'Contact',
     wechat: 'WeChat', email: 'Email',
     consultTitle: 'Scan to Consult', consultHint: 'Need a new OS / Oracle version adaptation? Scan to add WeChat for consultation',
@@ -69,6 +69,7 @@ function navHTML(active) {
     { href: 'docs.html', key: 'docs', id: 'docs' },
     { href: 'compat.html', key: 'compat', id: 'compat' },
     { href: 'pricing.html', key: 'pricing', id: 'pricing' },
+    { href: 'download.html', key: 'download', id: 'download' },
   ];
   const themeIcon = currentTheme === 'dark' ? '\u2600' : '\u263E';
   const langLabel = currentLang === 'zh' ? 'EN' : '\u4E2D';
@@ -98,6 +99,7 @@ function footerHTML() {
       <a href="docs.html" data-i18n="docs">${t('docs')}</a>
       <a href="compat.html" data-i18n="compat">${t('compat')}</a>
       <a href="pricing.html" data-i18n="pricing">${t('pricing')}</a>
+      <a href="download.html" data-i18n="download">${t('download')}</a>
     </div>
     <div class="footer-col"><h4 data-i18n="versions">${t('versions')}</h4>
       <a href="docs.html">Oracle 26ai</a>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>下载中心 - OracleShellInstall</title>
+<meta name="description" content="OracleShellInstall 脚本下载、使用须知及常见问题解答。已订阅用户专属服务页面。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* HERO */
+.dl-hero{padding:80px 0 30px;text-align:center}
+.dl-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:12px}
+.dl-hero p{color:var(--text-dim);font-size:1rem;max-width:600px;margin:0 auto;line-height:1.7;font-weight:300}
+
+/* NOTICE BANNER */
+.dl-notice{max-width:800px;margin:0 auto 40px;background:rgba(199,70,52,.06);border:1px solid var(--border-red);
+  border-radius:var(--r-lg);padding:20px 28px;display:flex;gap:14px;align-items:flex-start}
+.dl-notice-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px}
+.dl-notice-text{font-size:.88rem;color:var(--text-dim);line-height:1.8}
+.dl-notice-text strong{color:var(--red-glow)}
+
+/* SECTION */
+.dl-section{padding:30px 0}
+.dl-section-title{font-size:1.3rem;font-weight:900;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.dl-section-title .icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;flex-shrink:0}
+.dl-section-sub{font-size:.85rem;color:var(--text-muted);margin-bottom:28px}
+
+/* CARDS GRID */
+.dl-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;margin-bottom:20px}
+.dl-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px 28px;
+  transition:all .3s;position:relative;overflow:hidden}
+.dl-card:hover{border-color:var(--border-light);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.dl-card-num{position:absolute;top:16px;right:20px;font-family:var(--display);font-size:2.2rem;font-weight:900;
+  color:var(--border);opacity:.5;line-height:1}
+.dl-card h3{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:10px;padding-right:40px}
+.dl-card p{font-size:.85rem;color:var(--text-dim);line-height:1.8;margin:0}
+.dl-card a{color:var(--red);text-decoration:none}
+.dl-card a:hover{text-decoration:underline}
+
+/* STEPS */
+.dl-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:24px 0}
+.dl-step{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;text-align:center;
+  transition:all .3s}
+.dl-step:hover{border-color:var(--border-light)}
+.dl-step-num{width:36px;height:36px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 12px;
+  font-family:var(--display);font-size:.85rem;font-weight:700;color:var(--red-glow)}
+.dl-step-title{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.dl-step-desc{font-size:.8rem;color:var(--text-dim);line-height:1.6}
+
+/* DOWNLOAD BUTTONS */
+.dl-btns{display:flex;gap:16px;flex-wrap:wrap;margin:28px 0}
+.dl-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:var(--r);
+  font-size:.9rem;font-weight:600;text-decoration:none;transition:all .3s;font-family:var(--font)}
+.dl-btn-primary{background:var(--red);color:#fff;border:1.5px solid var(--red);box-shadow:0 4px 20px rgba(199,70,52,.25)}
+.dl-btn-primary:hover{background:var(--red-glow);color:#fff;transform:translateY(-2px);box-shadow:0 8px 30px rgba(199,70,52,.35)}
+.dl-btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border-light)}
+.dl-btn-outline:hover{border-color:var(--red);color:var(--text);transform:translateY(-2px)}
+.dl-btn svg{width:18px;height:18px;fill:currentColor}
+
+/* DIVIDER */
+.dl-divider{border:none;border-top:1px solid var(--border);margin:40px 0}
+
+/* FAQ ACCORDION */
+.dl-faq{margin:20px 0}
+.dl-faq-item{border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;
+  background:var(--card);transition:border-color .3s}
+.dl-faq-item:hover{border-color:var(--border-light)}
+.dl-faq-q{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;
+  font-size:.9rem;font-weight:600;color:var(--text);transition:background .2s;user-select:none}
+.dl-faq-q:hover{background:rgba(199,70,52,.03)}
+.dl-faq-q .arrow{margin-left:auto;font-size:.7rem;color:var(--text-muted);transition:transform .3s}
+.dl-faq-item.open .arrow{transform:rotate(180deg)}
+.dl-faq-q .q-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;flex-shrink:0}
+.dl-faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.dl-faq-item.open .dl-faq-a{max-height:600px}
+.dl-faq-a-inner{padding:0 20px 18px 56px;font-size:.85rem;color:var(--text-dim);line-height:1.85}
+.dl-faq-a-inner a{color:var(--red);text-decoration:none}
+.dl-faq-a-inner a:hover{text-decoration:underline}
+.dl-faq-a-inner ol{margin:8px 0 8px 20px}
+.dl-faq-a-inner li{margin-bottom:6px}
+
+@media(max-width:768px){
+  .dl-hero{padding:70px 0 20px}
+  .dl-notice{flex-direction:column;gap:8px;padding:16px 20px}
+  .dl-cards{grid-template-columns:1fr}
+  .dl-btns{flex-direction:column}
+  .dl-btn{justify-content:center}
+  .dl-steps{grid-template-columns:1fr 1fr}
+  .dl-faq-a-inner{padding-left:20px}
+}
+</style>
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+
+<!-- Hero -->
+<section class="dl-hero"><div class="container">
+  <h1 data-i18n="dlTitle">下载中心</h1>
+  <p data-i18n="dlDesc">感谢您订阅 OracleShellInstall 脚本。以下是脚本的使用须知、下载方式及常见问题，请在使用前仔细阅读。</p>
+</div></section>
+
+<div class="container">
+
+<!-- Important Notice -->
+<div class="dl-notice">
+  <div class="dl-notice-icon">&#x1F4E2;</div>
+  <div class="dl-notice-text">
+    <strong>温馨提示：</strong>为了帮助您更好地使用脚本，作者投入了大量时间编写了详细的使用说明和手把手教程。建议在使用前先阅读
+    <a href="docs.html">使用文档</a> 和 <a href="compat.html">安装合集</a>，大部分常见问题都已涵盖其中。
+  </div>
+</div>
+
+<!-- Download Section -->
+<section class="dl-section">
+  <div class="dl-section-title">
+    <span class="icon" style="background:rgba(199,70,52,.1);color:var(--red)">&#x2B07;</span>
+    脚本下载
+  </div>
+  <div class="dl-section-sub">脚本托管在 GitHub 私有仓库，订阅后可获得访问权限</div>
+
+  <div class="dl-btns">
+    <a href="https://github.com/DBAutoTask/OracleShellInstall" target="_blank" rel="noopener noreferrer" class="dl-btn dl-btn-primary">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.49.5.09.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      GitHub 下载脚本
+    </a>
+    <a href="https://pan.baidu.com/s/1Eof4UreHPgAo3KhkC543Ng?pwd=6666" target="_blank" rel="noopener noreferrer" class="dl-btn dl-btn-outline">
+      <svg viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+      百度网盘下载安装包
+    </a>
+  </div>
+  <p style="font-size:.8rem;color:var(--text-muted);margin-top:4px">百度网盘提取码：6666 &nbsp;|&nbsp; Oracle 安装包为友情提供，非义务资源</p>
+</section>
+
+<hr class="dl-divider">
+
+<!-- How to Get Access -->
+<section class="dl-section">
+  <div class="dl-section-title">
+    <span class="icon" style="background:rgba(58,186,106,.1);color:var(--green)">&#x1F511;</span>
+    如何获取脚本权限
+  </div>
+  <div class="dl-section-sub">购买订阅后，按以下步骤开通 GitHub 仓库访问权限</div>
+
+  <div class="dl-steps">
+    <div class="dl-step">
+      <div class="dl-step-num">1</div>
+      <div class="dl-step-title">购买脚本课程</div>
+      <div class="dl-step-desc">前往 <a href="https://www.modb.pro/course/148" target="_blank" rel="noopener noreferrer" style="color:var(--red)">墨天轮课程页</a> 完成订阅</div>
+    </div>
+    <div class="dl-step">
+      <div class="dl-step-num">2</div>
+      <div class="dl-step-title">联系客服开通</div>
+      <div class="dl-step-desc">凭付款凭证联系客服<br><span style="font-family:var(--mono);font-size:.75rem;color:var(--accent2)">微信：enmoedu03</span></div>
+    </div>
+    <div class="dl-step">
+      <div class="dl-step-num">3</div>
+      <div class="dl-step-title">提供 GitHub 账号</div>
+      <div class="dl-step-desc">提供您的 GitHub 用户名或注册邮箱，没有账号可前往 <a href="https://github.com" target="_blank" rel="noopener noreferrer" style="color:var(--red)">github.com</a> 免费注册</div>
+    </div>
+    <div class="dl-step">
+      <div class="dl-step-num">4</div>
+      <div class="dl-step-title">确认邀请下载</div>
+      <div class="dl-step-desc">到注册邮箱确认仓库邀请（7天有效期），然后登录 GitHub 访问仓库下载 ZIP 包</div>
+    </div>
+  </div>
+</section>
+
+<hr class="dl-divider">
+
+<!-- Usage Guidelines -->
+<section class="dl-section">
+  <div class="dl-section-title">
+    <span class="icon" style="background:rgba(74,143,232,.1);color:var(--blue)">&#x1F4CB;</span>
+    使用须知
+  </div>
+  <div class="dl-section-sub">使用脚本前请了解以下事项，有助于您获得更好的使用体验</div>
+
+  <div class="dl-cards">
+    <div class="dl-card">
+      <div class="dl-card-num">01</div>
+      <h3>脚本通用，无需区分系统版本</h3>
+      <p>脚本执行命令是通用的，不区分操作系统和 Oracle 版本。只需根据 <a href="generator.html">命令生成器</a> 配置好参数即可一键执行。</p>
+    </div>
+    <div class="dl-card">
+      <div class="dl-card-num">02</div>
+      <h3>先阅读文档，再使用脚本</h3>
+      <p>作者编写了详细的 <a href="docs.html">使用文档</a> 和 170+ 篇 <a href="compat.html">实战教程</a>，覆盖了绝大多数使用场景。遇到问题时请先查阅文档，大部分问题都能找到答案。</p>
+    </div>
+    <div class="dl-card">
+      <div class="dl-card-num">03</div>
+      <h3>问题反馈请走群聊沟通</h3>
+      <p>安装过程遇到问题，请在工作日时间在用户群内沟通，并附上脚本生成的安装日志（<code style="font-family:var(--mono);font-size:.78rem;background:var(--bg3);padding:2px 6px;border-radius:3px;color:var(--accent2)">print*.log</code> 和 <code style="font-family:var(--mono);font-size:.78rem;background:var(--bg3);padding:2px 6px;border-radius:3px;color:var(--accent2)">shell*.log</code> 文件）。未提供日志的问题将无法得到有效排查。</p>
+    </div>
+    <div class="dl-card">
+      <div class="dl-card-num">04</div>
+      <h3>订阅费用说明</h3>
+      <p>脚本订阅费用仅包含脚本本身的使用授权（已是福利价），不包含一对一使用指导、远程协助以及后续运维答疑。群内帮助排查问题是作者利用空闲时间的友情支持，请保持友好沟通、互相尊重。</p>
+    </div>
+    <div class="dl-card">
+      <div class="dl-card-num">05</div>
+      <h3>定制需求欢迎咨询</h3>
+      <p>如果您有特殊的适配需求或功能建议，欢迎联系作者沟通。较为复杂的定制开发需求可能会产生额外费用，具体请沟通确认。</p>
+    </div>
+    <div class="dl-card">
+      <div class="dl-card-num">06</div>
+      <h3>请尊重休息时间</h3>
+      <p>工作日时间欢迎在群内交流，周末及节假日请尽量避免私聊咨询，让大家都有充足的休息时间。感谢您的理解与配合。</p>
+    </div>
+  </div>
+</section>
+
+<hr class="dl-divider">
+
+<!-- FAQ -->
+<section class="dl-section" style="padding-bottom:60px">
+  <div class="dl-section-title">
+    <span class="icon" style="background:rgba(154,106,238,.1);color:var(--purple)">&#x2753;</span>
+    常见问题
+  </div>
+  <div class="dl-section-sub">以下是用户最常遇到的几个问题</div>
+
+  <div class="dl-faq">
+    <div class="dl-faq-item open">
+      <div class="dl-faq-q">
+        <span class="q-icon" style="background:rgba(199,70,52,.1);color:var(--red)">Q</span>
+        安装过程报错了怎么办？
+        <span class="arrow">&#x25BC;</span>
+      </div>
+      <div class="dl-faq-a"><div class="dl-faq-a-inner">
+        <ol>
+          <li>首先查阅 <a href="docs.html">使用文档</a> 和 <a href="compat.html">安装合集</a> 中的教程，大部分问题已有详细说明。</li>
+          <li>如果文档中没有找到解决方案，请在用户群中反馈，并<strong style="color:var(--red-glow)">务必提供安装日志</strong>：脚本执行后会在当前目录生成 <code>print*.log</code> 和 <code>shell*.log</code> 日志文件，请一并提供。</li>
+          <li>没有提供日志的问题反馈将难以定位原因，无法给出有效帮助。</li>
+          <li>由于订阅用户较多，个人精力有限，暂不通过私聊处理问题，请统一在群内沟通。</li>
+        </ol>
+      </div></div>
+    </div>
+
+    <div class="dl-faq-item">
+      <div class="dl-faq-q">
+        <span class="q-icon" style="background:rgba(58,186,106,.1);color:var(--green)">Q</span>
+        Oracle 安装包从哪里下载？
+        <span class="arrow">&#x25BC;</span>
+      </div>
+      <div class="dl-faq-a"><div class="dl-faq-a-inner">
+        Oracle 安装包可以通过百度网盘下载：<a href="https://pan.baidu.com/s/1Eof4UreHPgAo3KhkC543Ng?pwd=6666" target="_blank" rel="noopener noreferrer">点击前往</a>（提取码：6666）。<br>
+        下载后将安装包上传至服务器的 <code>/soft</code> 目录即可。此资源为友情提供，非义务分享，请勿有额外要求，感谢配合。
+      </div></div>
+    </div>
+
+    <div class="dl-faq-item">
+      <div class="dl-faq-q">
+        <span class="q-icon" style="background:rgba(74,143,232,.1);color:var(--blue)">Q</span>
+        脚本如何下载？
+        <span class="arrow">&#x25BC;</span>
+      </div>
+      <div class="dl-faq-a"><div class="dl-faq-a-inner">
+        <ol>
+          <li>脚本托管在 GitHub 私有仓库：<a href="https://github.com/DBAutoTask/OracleShellInstall" target="_blank" rel="noopener noreferrer">DBAutoTask/OracleShellInstall</a>，获得权限后即可访问。</li>
+          <li>访问仓库页面后，点击绿色的 <strong style="color:var(--green)">&lt;&gt; Code</strong> 按钮，选择 <strong>Download ZIP</strong> 即可下载。</li>
+          <li>请确保已登录拥有权限的 GitHub 账号，否则将无法看到仓库内容。</li>
+          <li>如需开通权限，请参考上方「如何获取脚本权限」的步骤操作。</li>
+        </ol>
+      </div></div>
+    </div>
+
+    <div class="dl-faq-item">
+      <div class="dl-faq-q">
+        <span class="q-icon" style="background:rgba(232,147,74,.1);color:var(--accent2)">Q</span>
+        GitHub 邀请过期了怎么办？
+        <span class="arrow">&#x25BC;</span>
+      </div>
+      <div class="dl-faq-a"><div class="dl-faq-a-inner">
+        GitHub 仓库邀请的有效期为 <strong style="color:var(--accent2)">7 天</strong>，请在收到邀请邮件后及时前往注册邮箱确认接受。如果邀请已过期，请联系客服（微信：enmoedu03）重新发送邀请。
+      </div></div>
+    </div>
+
+    <div class="dl-faq-item">
+      <div class="dl-faq-q">
+        <span class="q-icon" style="background:rgba(154,106,238,.1);color:var(--purple)">Q</span>
+        有新系统/版本的适配需求怎么办？
+        <span class="arrow">&#x25BC;</span>
+      </div>
+      <div class="dl-faq-a"><div class="dl-faq-a-inner">
+        如果您需要脚本支持新的操作系统或 Oracle 版本，欢迎通过以下方式联系作者：
+        <ol>
+          <li>点击页面右下角的微信图标，扫码添加作者微信咨询。</li>
+          <li>在用户群内提出需求，作者会评估并纳入后续更新计划。</li>
+          <li>较复杂的定制需求可能需要额外付费，具体请沟通确认。</li>
+        </ol>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /container -->
+<div id="footer"></div>
+<script src="js/shared.js"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('download');
+document.getElementById('footer').innerHTML = footerHTML();
+
+// FAQ accordion
+document.querySelectorAll('.dl-faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    item.classList.toggle('open');
+  });
+});
+
+// Page i18n
+const pageI18n = {
+  zh: { dlTitle:'下载中心', dlDesc:'感谢您订阅 OracleShellInstall 脚本。以下是脚本的使用须知、下载方式及常见问题，请在使用前仔细阅读。' },
+  en: { dlTitle:'Download Center', dlDesc:'Thank you for subscribing to OracleShellInstall. Please read the usage guidelines, download instructions, and FAQ below before getting started.' }
+};
+Object.assign(i18n.zh, pageI18n.zh);
+Object.assign(i18n.en, pageI18n.en);
+if (currentLang !== 'zh') setLang(currentLang);
+</script>
+</body>
+</html>
