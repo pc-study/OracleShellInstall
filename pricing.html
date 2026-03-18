@@ -91,11 +91,11 @@
 .pr-cta-box .wechat-id{display:inline-flex;align-items:center;gap:8px;background:var(--bg3);
   border:1px solid var(--border);border-radius:var(--r);padding:12px 24px;font-family:var(--mono);
   font-size:1.1rem;font-weight:700;color:var(--red-glow);position:relative;letter-spacing:.5px}
-.qr-wrap{margin-bottom:24px;position:relative}
-.qr-img{width:200px;height:200px;border-radius:var(--r-lg);border:2px solid var(--border);
-  box-shadow:0 8px 32px rgba(0,0,0,.2);transition:transform .3s;object-fit:cover}
+.qr-wrap{margin-bottom:24px;position:relative;display:flex;flex-direction:column;align-items:center}
+.qr-img{max-width:200px;width:100%;height:auto;border-radius:var(--r-lg);border:2px solid var(--border);
+  box-shadow:0 8px 32px rgba(0,0,0,.2);transition:transform .3s}
 .qr-img:hover{transform:scale(1.05)}
-.qr-label{font-size:.82rem;color:var(--text-muted);margin-top:10px}
+.qr-label{font-size:.82rem;color:var(--text-muted);margin-top:10px;text-align:center}
 
 @media(max-width:768px){
   .plans-grid{grid-template-columns:1fr}
@@ -268,7 +268,7 @@
     <h2 data-i18n="prCtaTitle">获取付费版完整功能</h2>
     <p data-i18n="prCtaDesc">添加作者微信咨询订阅详情，解锁 RAC 集群、国产化系统、一键补丁等全部高级功能</p>
     <div class="qr-wrap">
-      <img src="img/wechat-qr.jpg" alt="WeChat QR Code - Lucifer-0622" class="qr-img" width="200" height="200">
+      <img src="img/wechat-qr.jpg" alt="WeChat QR Code - Lucifer-0622" class="qr-img">
       <div class="qr-label" data-i18n="qrLabel">微信扫码添加作者</div>
     </div>
     <div class="wechat-id">&#128241; Lucifer-0622</div>
