@@ -122,6 +122,7 @@ function footerHTML() {
     <div class="footer-col"><h4 data-i18n="contact">${t('contact')}</h4>
       <a href="mailto:pc1107750981@163.com">\u2709 pc1107750981@163.com</a>
       <a>\uD83D\uDCF1 WeChat: Lucifer-0622</a>
+      <a href="https://gitee.com/luciferlpc/OracleShellInstall" target="_blank" rel="noopener noreferrer">\u2B50 Gitee</a>
       <a href="https://github.com/pc-study/OracleShellInstall" target="_blank" rel="noopener noreferrer">\u2B50 GitHub</a>
     </div>
   </div>
@@ -148,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // WeChat consult floating widget
   const isGuide = location.pathname.includes('/guides/');
-  const qrPath = isGuide ? '../img/wechat-qr.jpg' : 'img/wechat-qr.jpg';
+  const qrPath = isGuide ? '../img/wechat-qr.webp' : 'img/wechat-qr.webp';
   const fab = document.createElement('button');
   fab.className = 'wechat-fab';
   fab.title = t('consultTitle');
@@ -160,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
   popup.className = 'wechat-popup';
   popup.innerHTML = `<button class="wechat-popup-close" aria-label="Close">&times;</button>
     <div class="wechat-popup-title" data-i18n="consultTitle">${t('consultTitle')}</div>
-    <img class="wechat-popup-qr" src="${qrPath}" alt="WeChat QR">
+    <img class="wechat-popup-qr" src="${qrPath}" alt="WeChat QR" width="200" height="262" loading="lazy">
     <div class="wechat-popup-id">WeChat: Lucifer-0622</div>
     <div class="wechat-popup-hint" data-i18n="consultHint">${t('consultHint')}</div>`;
   document.body.appendChild(popup);
