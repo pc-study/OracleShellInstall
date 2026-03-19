@@ -11,7 +11,7 @@ const i18n = {
     nav: '快速导航', versions: '支持版本', contact: '联系方式',
     wechat: '微信', email: '邮箱',
     expandAll: '展开全部', collapse: '收起', lines: '行',
-    consultTitle: '扫码咨询适配需求', consultHint: '微信扫码添加，或通过 Telegram / Discord 联系',
+    consultTitle: '扫码咨询适配需求', consultHint: '微信扫码添加，或通过 Telegram / Discord / WhatsApp 联系',
     footerDesc: 'Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC 三种部署模式，覆盖 20+ Linux 发行版。',
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
   },
@@ -20,7 +20,7 @@ const i18n = {
     nav: 'Navigation', versions: 'Versions', contact: 'Contact',
     wechat: 'WeChat', email: 'Email',
     expandAll: 'Expand All', collapse: 'Collapse', lines: 'lines',
-    consultTitle: 'Scan to Consult', consultHint: 'Add via WeChat, Telegram, or join our Discord community',
+    consultTitle: 'Scan to Consult', consultHint: 'Add via WeChat, Telegram, Discord, or WhatsApp',
     footerDesc: 'One-click automated Oracle Database installation script. Supports Single/ASM/RAC modes across 20+ Linux distributions.',
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
   }

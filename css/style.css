@@ -12,7 +12,7 @@
   --font:'Noto Sans SC',system-ui,sans-serif;
   --mono:'JetBrains Mono','Fira Code',monospace;
   --display:'Orbitron',sans-serif;
-  --r:10px;--r-lg:14px;--r-xl:20px;
+  --r:10px;--r-sm:6px;--r-lg:14px;--r-xl:20px;
   --max-w:1160px;
   --nav-h:64px;
   --term-bg:#1a1a24;
