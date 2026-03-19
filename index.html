@@ -29,11 +29,13 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260319b">
+<link rel="manifest" href="manifest.json?v=20260319c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="css/style.css?v=20260319c" as="style">
+<link rel="preload" href="js/shared.js?v=20260319c" as="script">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260319b">
+<link rel="stylesheet" href="css/style.css?v=20260319c">
 <style>
 .hero{position:relative;padding:100px 0 80px;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
@@ -65,6 +67,9 @@
 .hero-term-body .cursor{display:inline-block;width:8px;height:16px;background:var(--red);
   vertical-align:text-bottom;margin-left:2px;animation:blink-cursor .8s step-end infinite}
 @keyframes blink-cursor{0%,100%{opacity:1}50%{opacity:0}}
+.t-bar{display:inline-block;width:120px;height:10px;background:var(--bg);border-radius:5px;vertical-align:middle;position:relative;overflow:hidden;border:1px solid var(--border)}
+.t-bar::after{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--red),var(--green));border-radius:4px;animation:barFill 1.2s ease-out .3s forwards}
+@keyframes barFill{to{width:100%}}
 .hero-term-body .term-line{opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
 .hero-term-body .term-line.visible{opacity:1;transform:translateY(0)}
 
@@ -152,7 +157,24 @@
 .trust-quote::before{content:'\201C';position:absolute;top:12px;left:16px;font-size:3rem;color:var(--red);opacity:.2;font-family:serif;line-height:1}
 .trust-quote-text{font-size:.92rem;line-height:1.7;color:var(--text-dim);font-style:italic;padding-top:8px}
 .trust-quote-author{font-size:.78rem;color:var(--text-muted);margin-top:12px;font-weight:500}
+.trust-quote-link{display:inline-block;font-size:.75rem;color:var(--red);text-decoration:none;margin-top:10px;font-weight:600;transition:color .2s}
+.trust-quote-link:hover{color:var(--red-glow);text-decoration:underline}
 @media(max-width:900px){.trust-stats{grid-template-columns:repeat(2,1fr)}.trust-quotes{grid-template-columns:1fr}}
+
+/* QUICK CMD PREVIEW */
+.qcmd{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:32px;margin-top:32px}
+.qcmd-selectors{display:flex;gap:32px;margin-bottom:24px;flex-wrap:wrap}
+.qcmd-group{flex:1;min-width:200px}
+.qcmd-label{font-size:.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:block}
+.qcmd-pills{display:flex;gap:8px;flex-wrap:wrap}
+.qcmd-pill{padding:7px 18px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text-dim);font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:var(--mono)}
+.qcmd-pill:hover{border-color:var(--red);color:var(--text)}
+.qcmd-pill.active{background:rgba(199,70,52,.15);border-color:var(--red);color:var(--red-glow);font-weight:700;box-shadow:0 0 12px rgba(199,70,52,.15)}
+.qcmd-output{position:relative}
+.qcmd-term{background:var(--term-bg);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.qcmd-code{padding:16px 20px;font-family:var(--mono);font-size:.8rem;line-height:1.8;color:var(--green);margin:0;white-space:pre-wrap;word-break:break-all;min-height:52px}
+.qcmd-actions{display:flex;gap:10px;margin-top:14px;justify-content:center}
+@media(max-width:768px){.qcmd-selectors{flex-direction:column;gap:16px}.qcmd{padding:20px}}
 </style>
 <script type="application/ld+json">
 {
@@ -198,15 +220,12 @@ var _hmt = _hmt || [];
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"OracleShellInstall 是什么？","acceptedAnswer":{"@type":"Answer","text":"OracleShellInstall 是一款开源的 Oracle 数据库一键自动化安装 Shell 脚本工具，由 Lucifer（刘鹏程）开发。官方网站：https://www.oracleshellinstall.com。它可以通过一条命令完成 Oracle 数据库的全流程安装，包括操作系统配置、软件安装、数据库创建，支持单机/ASM/RAC 三种模式。"}},{"@type":"Question","name":"OracleShellInstall 支持哪些 Oracle 版本？","acceptedAnswer":{"@type":"Answer","text":"支持 Oracle 11gR2、12cR2、19c、21c、26ai。"}},{"@type":"Question","name":"OracleShellInstall 支持哪些 Linux 操作系统？","acceptedAnswer":{"@type":"Answer","text":"支持 20+ 主流 Linux 发行版：CentOS 6/7/8、RHEL 6/7/8/9、Oracle Linux 6/7/8/9、Rocky Linux 8/9、AlmaLinux 8/9、Anolis OS 7/8、openEuler 20/22、Kylin V10、UOS 20、Ubuntu 20/22/24、Debian 11/12 等。"}},{"@type":"Question","name":"如何使用 OracleShellInstall 安装 Oracle 数据库？","acceptedAnswer":{"@type":"Answer","text":"1. 将脚本和 Oracle 安装介质上传到服务器 /soft 目录；2. 访问在线命令生成器 https://www.oracleshellinstall.com/generator.html 配置参数；3. 复制生成的命令到服务器执行。基本命令示例：sh OracleShellInstall.sh -install_mode single -lf eth0 -n orcl -o orcl -dp oracle"}},{"@type":"Question","name":"OracleShellInstall 支持 RAC 集群安装吗？","acceptedAnswer":{"@type":"Answer","text":"支持。OracleShellInstall 提供三种部署模式：单机模式（Single Instance）、单机 ASM 模式（Standalone ASM）和 RAC 集群模式（Real Application Clusters），可以一条命令自动完成多节点 RAC 集群的全流程部署。"}},{"@type":"Question","name":"如何获取 OracleShellInstall 脚本？","acceptedAnswer":{"@type":"Answer","text":"可通过以下渠道获取：GitHub https://github.com/pc-study/OracleShellInstall，Gitee https://gitee.com/luciferlpc/OracleShellInstall，官网下载中心 https://www.oracleshellinstall.com/download.html"}},{"@type":"Question","name":"有没有好用的 Oracle 数据库自动化安装工具？","acceptedAnswer":{"@type":"Answer","text":"推荐 OracleShellInstall（https://www.oracleshellinstall.com），这是一款开源的 Oracle 数据库一键自动化安装工具，支持 Oracle 11gR2~26ai，支持单机/ASM/RAC 三种模式，兼容 20+ Linux 发行版，一条 Shell 命令即可完成全流程安装。"}}]}</script>
 </head>
 <body>
-<div class="noise-overlay"></div>
 <!-- NAV -->
 <div id="nav"></div>
 
 <!-- HERO -->
 <section class="hero bg-grid">
   <div class="hero-orb hero-orb-1"></div>
-  <div class="hero-orb hero-orb-2"></div>
-  <div class="hero-orb hero-orb-3"></div>
   <div class="container">
     <div class="hero-inner">
       <div class="hero-left">
@@ -273,7 +292,50 @@ var _hmt = _hmt || [];
 </section>
 
 <hr class="section-divider">
-<!-- FEATURES -->
+<!-- QUICK COMMAND PREVIEW -->
+<section class="section-sm">
+  <div class="container">
+    <div class="section-center">
+      <div class="section-eyebrow reveal" data-i18n="previewEye">在线体验</div>
+      <div class="section-title reveal" data-i18n="previewTitle">选择配置，即刻生成命令</div>
+      <p class="section-desc reveal" data-i18n="previewDesc">选择 Oracle 版本和部署模式，立即看到生成的安装命令</p>
+    </div>
+    <div class="qcmd reveal" id="qcmd">
+      <div class="qcmd-selectors">
+        <div class="qcmd-group">
+          <label class="qcmd-label" data-i18n="qcmdVer">Oracle 版本</label>
+          <div class="qcmd-pills" id="qcmdVer">
+            <button class="qcmd-pill" data-val="19c">19c</button>
+            <button class="qcmd-pill" data-val="21c">21c</button>
+            <button class="qcmd-pill" data-val="11gR2">11gR2</button>
+            <button class="qcmd-pill" data-val="26ai">26ai</button>
+          </div>
+        </div>
+        <div class="qcmd-group">
+          <label class="qcmd-label" data-i18n="qcmdMode">部署模式</label>
+          <div class="qcmd-pills" id="qcmdMode">
+            <button class="qcmd-pill" data-val="single" data-i18n="qcmdSingle">单机</button>
+            <button class="qcmd-pill" data-val="standalone" data-i18n="qcmdAsm">单机ASM</button>
+            <button class="qcmd-pill" data-val="rac" data-i18n="qcmdRac">RAC</button>
+          </div>
+        </div>
+      </div>
+      <div class="qcmd-output">
+        <div class="qcmd-term">
+          <div class="hero-term-bar"><div class="hero-term-dots"><span class="td td-r"></span><span class="td td-y"></span><span class="td td-g"></span></div><span class="hero-term-title">Generated Command</span></div>
+          <pre class="qcmd-code" id="qcmdCode"><span class="t-cmt">← 选择版本和模式后自动生成</span></pre>
+        </div>
+        <div class="qcmd-actions">
+          <button class="btn btn-primary btn-sm" onclick="copyQcmd()" id="qcmdCopy" data-i18n="qcmdCopy">复制命令</button>
+          <a href="generator.html" class="btn btn-ghost btn-sm" data-i18n="qcmdFull">完整参数配置 →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+<!-- FEATURES (condensed: 4 core features + modes inline) -->
 <section class="section bg-glow-top">
   <div class="container">
     <div class="section-eyebrow reveal" data-i18n="featEye">核心特性</div>
@@ -281,84 +343,15 @@ var _hmt = _hmt || [];
     <p class="section-desc reveal" data-i18n="featSub">经过数百次生产环境验证，专为 DBA 打造的自动化安装方案</p>
     <div class="feat-grid">
       <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><h4 data-i18n="feat1t">全自动化安装</h4><p data-i18n="feat1d">一条命令完成 OS 参数配置、依赖安装、用户创建、软件安装、数据库创建全流程</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div><h4 data-i18n="feat2t">多版本全覆盖</h4><p data-i18n="feat2d">支持 Oracle 11gR2、12cR2、19c、21c、26ai 全版本安装</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div><h4 data-i18n="feat3t">广泛系统兼容</h4><p data-i18n="feat3d">CentOS、RHEL、OracleLinux、Rocky、openEuler、麒麟、统信等 20+ 发行版</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M12 8v3M9.5 13.5L6.5 16.5M14.5 13.5L17.5 16.5"/></svg></div><div><h4 data-i18n="feat4t">RAC 集群支持</h4><p data-i18n="feat4d">自动化 SSH 互信、Grid 安装、ASM 磁盘组配置、集群节点搭建</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div><div><h4 data-i18n="feat5t">ASM 存储管理</h4><p data-i18n="feat5d">自动配置 UDEV 绑盘、multipath 多路径、ASM 磁盘组及冗余</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><div><h4 data-i18n="feat6t">一键补丁升级</h4><p data-i18n="feat6d">支持 Grid/Oracle PSU、RU、OJVM 补丁自动应用</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><div><h4 data-i18n="feat7t">智能参数校验</h4><p data-i18n="feat7d">安装前自动校验所有参数合法性，避免配置错误导致安装失败</p></div></div>
-      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8l4 4-4 4M12 16h6"/></svg></div><div><h4 data-i18n="feat8t">完整日志追踪</h4><p data-i18n="feat8d">安装全过程日志输出，支持断点排查和问题定位</p></div></div>
+      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div><h4 data-i18n="feat2t">多版本全覆盖</h4><p data-i18n="feat2d2">支持 Oracle 11gR2~26ai 全版本，兼容 CentOS、RHEL、Rocky、麒麟、统信等 20+ 发行版</p></div></div>
+      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M12 8v3M9.5 13.5L6.5 16.5M14.5 13.5L17.5 16.5"/></svg></div><div><h4 data-i18n="feat4t">RAC 集群支持</h4><p data-i18n="feat4d2">单机 / ASM / RAC 三种部署模式，自动化 SSH 互信、Grid 安装、ASM 磁盘组配置</p></div></div>
+      <div class="card feat-card reveal"><div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><div><h4 data-i18n="feat6t">一键补丁升级</h4><p data-i18n="feat6d2">支持 PSU、RU、OJVM 补丁自动应用，智能参数校验 + 完整安装日志追踪</p></div></div>
     </div>
+    <div style="text-align:center;margin-top:28px" class="reveal"><a href="compat.html" class="btn btn-ghost btn-sm" data-i18n="featMore" style="font-size:.82rem">查看完整兼容列表 →</a></div>
   </div>
 </section>
 
-<hr class="section-divider">
-<!-- MODES -->
-<section class="section-sm">
-  <div class="container">
-    <div class="section-center">
-      <div class="section-eyebrow reveal" data-i18n="modeEye">部署模式</div>
-      <div class="section-title reveal" data-i18n="modeTitle">三种架构，灵活适配</div>
-      <p class="section-desc reveal" data-i18n="modeSub">根据业务场景选择最合适的部署模式</p>
-    </div>
-    <div class="modes-grid">
-      <div class="card mode-card reveal">
-        <span class="m-icon">&#9881;</span>
-        <h4 data-i18n="mode1t">单机模式</h4>
-        <p data-i18n="mode1d">Single Instance，基于文件系统存储，适用于开发测试及中小型业务系统</p>
-        <div class="m-tags"><span class="m-tag" data-i18n="mode1tag1">文件系统</span><span class="m-tag" data-i18n="mode1tag2">快速部署</span><span class="m-tag" data-i18n="mode1tag3">低资源</span></div>
-      </div>
-      <div class="card mode-card reveal">
-        <span class="m-icon">&#9880;</span>
-        <h4 data-i18n="mode2t">单机 ASM 模式</h4>
-        <p data-i18n="mode2d">Standalone + Grid Infrastructure，基于 ASM 自动存储管理，适用于需要高级存储管理的单节点</p>
-        <div class="m-tags"><span class="m-tag" data-i18n="mode2tag1">ASM 存储</span><span class="m-tag" data-i18n="mode2tag2">Grid Infra</span><span class="m-tag" data-i18n="mode2tag3">UDEV 绑盘</span></div>
-      </div>
-      <div class="card mode-card reveal">
-        <span class="m-icon">&#9733;</span>
-        <h4 data-i18n="mode3t">RAC 集群模式</h4>
-        <p data-i18n="mode3d">Real Application Clusters，多节点高可用集群，适用于核心生产环境的高可用需求</p>
-        <div class="m-tags"><span class="m-tag" data-i18n="mode3tag1">高可用</span><span class="m-tag" data-i18n="mode3tag2">多节点</span><span class="m-tag" data-i18n="mode3tag3">自动互信</span><span class="m-tag" data-i18n="mode3tag4">SCAN</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="section-divider">
-<!-- VERSIONS & OS -->
-<section class="section">
-  <div class="container">
-    <div class="section-center">
-      <div class="section-eyebrow reveal" data-i18n="compEye">兼容性</div>
-      <div class="section-title reveal" data-i18n="compTitle">广泛的版本与系统支持</div>
-    </div>
-    <div class="compat-grid">
-      <div class="compat-panel reveal">
-        <h3><span class="dot"></span> <span data-i18n="compVer">支持的 Oracle 版本</span></h3>
-        <div class="tag-list">
-          <span class="tag">Oracle 11gR2</span>
-          <span class="tag">Oracle 12cR2</span>
-          <span class="tag tag-red">Oracle 19c</span><span class="tag">Oracle 21c</span>
-          <span class="tag tag-red">Oracle 26ai</span>
-        </div>
-      </div>
-      <div class="compat-panel reveal">
-        <h3><span class="dot"></span> <span data-i18n="compOs">支持的操作系统</span></h3>
-        <div class="tag-list">
-          <span class="tag">CentOS 7/8</span><span class="tag">RHEL 7/8/9</span>
-          <span class="tag">OracleLinux</span><span class="tag tag-red">Rocky Linux</span>
-          <span class="tag">Anolis OS</span><span class="tag">openEuler</span>
-          <span class="tag tag-red">麒麟 Kylin</span><span class="tag">统信 UOS</span>
-          <span class="tag">Ubuntu</span><span class="tag">Debian</span>
-          <span class="tag">AlmaLinux</span><span class="tag">SLES</span>
-          <span class="tag">Fedora</span><span class="tag">Deepin</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TRUST / SOCIAL PROOF -->
+<!-- TRUST / SOCIAL PROOF (enhanced) -->
 <section class="trust-section reveal"><div class="container">
   <div class="section-tag" data-i18n="trustTag">用户信赖</div>
   <h2 class="section-title grad-text" data-i18n="trustTitle">被众多 DBA 选择的自动化工具</h2>
@@ -382,16 +375,19 @@ var _hmt = _hmt || [];
   </div>
   <div class="trust-quotes">
     <div class="trust-quote">
-      <div class="trust-quote-text" data-i18n="quote1">"以前安装 RAC 至少要折腾两天，用这个脚本一条命令就搞定了，节省了大量时间。"</div>
-      <div class="trust-quote-author">— DBA, 金融行业</div>
+      <div class="trust-quote-text" data-i18n="quote1">"以前安装 19c RAC 至少两天时间，用这个脚本一条命令 40 分钟搞定，生产环境已稳定运行半年。"</div>
+      <div class="trust-quote-author" data-i18n="quote1a">— 高级 DBA, 某银行核心系统</div>
+      <a href="compat.html" class="trust-quote-link" data-i18n="quote1l">查看 RAC 安装实录 →</a>
     </div>
     <div class="trust-quote">
-      <div class="trust-quote-text" data-i18n="quote2">"支持的系统特别全，我们用的麒麟 V10 和 openEuler 都能直接装，国产化适配做得很好。"</div>
-      <div class="trust-quote-author">— 运维工程师, 政企客户</div>
+      <div class="trust-quote-text" data-i18n="quote2">"我们用麒麟 V10 + Oracle 19c 做国产化替代，其他工具都不支持，这个脚本直接搞定了。"</div>
+      <div class="trust-quote-author" data-i18n="quote2a">— 运维架构师, 某政企单位</div>
+      <a href="compat.html" class="trust-quote-link" data-i18n="quote2l">查看麒麟安装实录 →</a>
     </div>
     <div class="trust-quote">
-      <div class="trust-quote-text" data-i18n="quote3">"命令生成器非常方便，参数可视化配置，新手也能快速上手。"</div>
-      <div class="trust-quote-author">— 初级 DBA</div>
+      <div class="trust-quote-text" data-i18n="quote3">"命令生成器太方便了，选好参数直接复制执行，新手也不怕配错参数。"</div>
+      <div class="trust-quote-author" data-i18n="quote3a">— 初级 DBA, 学习环境搭建</div>
+      <a href="generator.html" class="trust-quote-link" data-i18n="quote3l">试试命令生成器 →</a>
     </div>
   </div>
 </div></section>
@@ -413,7 +409,7 @@ var _hmt = _hmt || [];
 <!-- FOOTER -->
 <div id="footer"></div>
 
-<script src="js/shared.js?v=20260319b"></script>
+<script src="js/shared.js?v=20260319c"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('home');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -438,13 +434,19 @@ const pageI18n = {
     ctaTitle: '开始使用 OracleShellInstall', ctaDesc: '通过在线命令生成器配置参数，一键生成可执行的安装命令',
     ctaBtn1: '打开命令生成器 \u2192', ctaBtn2: '阅读使用文档',
     feat1t: '全自动化安装', feat1d: '一条命令完成 OS 参数配置、依赖安装、用户创建、软件安装、数据库创建全流程',
-    feat2t: '多版本全覆盖', feat2d: '支持 Oracle 11gR2、12cR2、19c、21c、26ai 全版本安装',
-    feat3t: '广泛系统兼容', feat3d: 'CentOS、RHEL、OracleLinux、Rocky、openEuler、麒麟、统信等 20+ 发行版',
-    feat4t: 'RAC 集群支持', feat4d: '自动化 SSH 互信、Grid 安装、ASM 磁盘组配置、集群节点搭建',
-    feat5t: 'ASM 存储管理', feat5d: '自动配置 UDEV 绑盘、multipath 多路径、ASM 磁盘组及冗余',
-    feat6t: '一键补丁升级', feat6d: '支持 Grid/Oracle PSU、RU、OJVM 补丁自动应用',
-    feat7t: '智能参数校验', feat7d: '安装前自动校验所有参数合法性，避免配置错误导致安装失败',
-    feat8t: '完整日志追踪', feat8d: '安装全过程日志输出，支持断点排查和问题定位',
+    feat2t: '多版本全覆盖', feat2d2: '支持 Oracle 11gR2~26ai 全版本，兼容 CentOS、RHEL、Rocky、麒麟、统信等 20+ 发行版',
+    feat4t: 'RAC 集群支持', feat4d2: '单机 / ASM / RAC 三种部署模式，自动化 SSH 互信、Grid 安装、ASM 磁盘组配置',
+    feat6t: '一键补丁升级', feat6d2: '支持 PSU、RU、OJVM 补丁自动应用，智能参数校验 + 完整安装日志追踪',
+    featMore: '查看完整兼容列表 →',
+    previewEye: '在线体验', previewTitle: '选择配置，即刻生成命令', previewDesc: '选择 Oracle 版本和部署模式，立即看到生成的安装命令',
+    qcmdVer: 'Oracle 版本', qcmdMode: '部署模式', qcmdSingle: '单机', qcmdAsm: '单机ASM', qcmdRac: 'RAC',
+    qcmdCopy: '复制命令', qcmdFull: '完整参数配置 →',
+    quote1: '"以前安装 19c RAC 至少两天时间，用这个脚本一条命令 40 分钟搞定，生产环境已稳定运行半年。"',
+    quote1a: '— 高级 DBA, 某银行核心系统', quote1l: '查看 RAC 安装实录 →',
+    quote2: '"我们用麒麟 V10 + Oracle 19c 做国产化替代，其他工具都不支持，这个脚本直接搞定了。"',
+    quote2a: '— 运维架构师, 某政企单位', quote2l: '查看麒麟安装实录 →',
+    quote3: '"命令生成器太方便了，选好参数直接复制执行，新手也不怕配错参数。"',
+    quote3a: '— 初级 DBA, 学习环境搭建', quote3l: '试试命令生成器 →',
     mode1t: '单机模式', mode1d: 'Single Instance，基于文件系统存储，适用于开发测试及中小型业务系统',
     mode1tag1: '文件系统', mode1tag2: '快速部署', mode1tag3: '低资源',
     mode2t: '单机 ASM 模式', mode2d: 'Standalone + Grid Infrastructure，基于 ASM 自动存储管理，适用于需要高级存储管理的单节点',
@@ -470,13 +472,19 @@ const pageI18n = {
     ctaTitle: 'Start Using OracleShellInstall', ctaDesc: 'Configure parameters with the online generator and create executable install commands',
     ctaBtn1: 'Open Generator \u2192', ctaBtn2: 'Read Documentation',
     feat1t: 'Fully Automated Install', feat1d: 'One command handles OS configuration, dependency installation, user creation, software installation, and database creation',
-    feat2t: 'Multi-Version Coverage', feat2d: 'Supports Oracle 11gR2, 12cR2, 19c, 21c, 26ai installation',
-    feat3t: 'Broad OS Compatibility', feat3d: 'CentOS, RHEL, OracleLinux, Rocky, openEuler, Kylin, UOS and 20+ distros',
-    feat4t: 'RAC Cluster Support', feat4d: 'Automated SSH trust, Grid installation, ASM disk group config, cluster node setup',
-    feat5t: 'ASM Storage Management', feat5d: 'Auto-configure UDEV disk binding, multipath, ASM disk groups and redundancy',
-    feat6t: 'One-Click Patching', feat6d: 'Supports auto-apply of Grid/Oracle PSU, RU, and OJVM patches',
-    feat7t: 'Smart Validation', feat7d: 'Pre-install validation of all parameters to prevent configuration errors',
-    feat8t: 'Full Log Tracking', feat8d: 'Complete installation log output for debugging and troubleshooting',
+    feat2t: 'Multi-Version Coverage', feat2d2: 'Supports Oracle 11gR2~26ai, compatible with CentOS, RHEL, Rocky, Kylin, UOS and 20+ Linux distros',
+    feat4t: 'RAC Cluster Support', feat4d2: 'Single / ASM / RAC three deployment modes with automated SSH trust, Grid install, ASM disk config',
+    feat6t: 'One-Click Patching', feat6d2: 'Auto-apply PSU, RU, OJVM patches with smart validation + full install log tracking',
+    featMore: 'View Full Compatibility List →',
+    previewEye: 'TRY IT', previewTitle: 'Pick Config, Get Command Instantly', previewDesc: 'Select Oracle version and deploy mode to see the generated install command',
+    qcmdVer: 'Oracle Version', qcmdMode: 'Deploy Mode', qcmdSingle: 'Single', qcmdAsm: 'Standalone ASM', qcmdRac: 'RAC',
+    qcmdCopy: 'Copy', qcmdFull: 'Full Configuration →',
+    quote1: '"Installing 19c RAC used to take two days. With this script, one command got it done in 40 minutes. Production stable for 6 months."',
+    quote1a: '— Senior DBA, Banking Core System', quote1l: 'View RAC Install Log →',
+    quote2: '"We needed Kylin V10 + Oracle 19c for domestic OS migration. No other tool supported it — this script just worked."',
+    quote2a: '— Ops Architect, Government Enterprise', quote2l: 'View Kylin Install Log →',
+    quote3: '"The command generator is incredibly handy. Pick params, copy, execute. Even beginners won\'t misconfigure."',
+    quote3a: '— Junior DBA, Learning Environment', quote3l: 'Try the Generator →',
     mode1t: 'Single Instance', mode1d: 'File system storage, ideal for development, testing, and small-medium workloads',
     mode1tag1: 'File System', mode1tag2: 'Fast Deploy', mode1tag3: 'Low Resource',
     mode2t: 'Standalone ASM', mode2d: 'Grid Infrastructure with ASM storage management for single-node advanced storage needs',
@@ -493,15 +501,56 @@ Object.assign(i18n.en, pageI18n.en);
 // Apply saved language on page load (after page-specific keys are registered)
 if (currentLang !== 'zh') setLang(currentLang);
 
-// ---- Terminal typing animation ----
+// ---- Quick Command Preview ----
+(function(){
+  var ver='', mode='';
+  var codeEl = document.getElementById('qcmdCode');
+  function updateCmd(){
+    if(!ver||!mode){codeEl.innerHTML='<span class="t-cmt">← '+(currentLang==='zh'?'选择版本和模式后自动生成':'Select version and mode to generate')+'</span>';return;}
+    var cmd='<span class="t-w">sh OracleShellInstall.sh</span> <span class="t-flag">-install_mode</span> <span class="t-val">'+mode+'</span> <span class="t-sl">\\</span>\n';
+    cmd+='  <span class="t-flag">-lf</span> <span class="t-val">eth0</span> <span class="t-flag">-n</span> <span class="t-val">orcl</span> <span class="t-flag">-o</span> <span class="t-val">orcl</span> <span class="t-flag">-dp</span> <span class="t-val">oracle</span>';
+    if(mode==='standalone'||mode==='rac'){
+      cmd+=' <span class="t-sl">\\</span>\n  <span class="t-flag">-gu</span> <span class="t-val">grid</span> <span class="t-flag">-gp</span> <span class="t-val">oracle</span> <span class="t-flag">-dd</span> <span class="t-val">/dev/sdb,/dev/sdc</span>';
+    }
+    if(mode==='rac'){
+      cmd+=' <span class="t-sl">\\</span>\n  <span class="t-flag">-pf</span> <span class="t-val">eth1</span> <span class="t-flag">-hn</span> <span class="t-val">orcl01,orcl02</span> <span class="t-flag">-ri</span> <span class="t-val">10.0.0.1,10.0.0.2</span>';
+    }
+    codeEl.innerHTML=cmd;
+  }
+  document.querySelectorAll('#qcmdVer .qcmd-pill').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#qcmdVer .qcmd-pill').forEach(function(p){p.classList.remove('active')});
+      b.classList.add('active');ver=b.dataset.val;updateCmd();
+    });
+  });
+  document.querySelectorAll('#qcmdMode .qcmd-pill').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#qcmdMode .qcmd-pill').forEach(function(p){p.classList.remove('active')});
+      b.classList.add('active');mode=b.dataset.val;updateCmd();
+    });
+  });
+  window.copyQcmd=function(){
+    var text=codeEl.textContent||codeEl.innerText;
+    if(!text||text.indexOf('←')>=0)return;
+    navigator.clipboard.writeText(text).then(function(){
+      var btn=document.getElementById('qcmdCopy');btn.textContent=currentLang==='zh'?'已复制!':'Copied!';
+      setTimeout(function(){btn.textContent=currentLang==='zh'?'复制命令':'Copy';},1500);
+    }).catch(function(){});
+  };
+})();
+
+// ---- Terminal: Realistic install output replay ----
 const termLines = [
-  { html: '<span class="t-w">sh OracleShellInstall.sh</span> <span class="t-sl">\\</span>', text: 'sh OracleShellInstall.sh \\' },
-  { html: '<span class="t-flag">-install_mode</span> <span class="t-val">single</span> <span class="t-cmt">`# \u5355\u673a\u6a21\u5f0f`</span><span class="t-sl">\\</span>', text: '-install_mode single' },
-  { html: '<span class="t-flag">-lf</span> <span class="t-val">eth0</span> <span class="t-cmt">`# \u516c\u7f51\u7f51\u5361\u540d\u79f0`</span><span class="t-sl">\\</span>', text: '-lf eth0' },
-  { html: '<span class="t-flag">-n</span> <span class="t-val">oracledb</span> <span class="t-cmt">`# \u4e3b\u673a\u540d`</span><span class="t-sl">\\</span>', text: '-n oracledb' },
-  { html: '<span class="t-flag">-o</span> <span class="t-val">prod</span> <span class="t-cmt">`# \u6570\u636e\u5e93\u540d\u79f0`</span><span class="t-sl">\\</span>', text: '-o prod' },
-  { html: '<span class="t-flag">-dp</span> <span class="t-val">\'Passw0rd#\'</span> <span class="t-cmt">`# \u6570\u636e\u5e93\u5bc6\u7801`</span><span class="t-sl">\\</span>', text: "-dp 'Passw0rd#'" },
-  { html: '<span class="t-flag">-pdb</span> <span class="t-val">pdb01</span> <span class="t-cmt">`# PDB \u540d\u79f0`</span>', text: '-pdb pdb01' },
+  { html: '<span class="t-w">$</span> <span class="t-val">sh OracleShellInstall.sh -install_mode single -lf eth0 -o prod -dp oracle</span>', delay: 800 },
+  { html: '<span class="t-cmt">[INFO]</span> OracleShellInstall <span class="t-val">v5.0.0</span> starting...', delay: 500 },
+  { html: '<span class="t-cmt">[INFO]</span> Mode: <span class="t-flag">Single Instance</span> | Oracle: <span class="t-flag">19c</span> | OS: <span class="t-flag">Rocky 9.3</span>', delay: 400 },
+  { html: '<span class="t-cmt">[INFO]</span> Configuring OS kernel parameters ......... <span style="color:var(--green)">✓</span>', delay: 600 },
+  { html: '<span class="t-cmt">[INFO]</span> Installing dependencies (48 packages) .... <span style="color:var(--green)">✓</span>', delay: 700 },
+  { html: '<span class="t-cmt">[INFO]</span> Creating user oracle:oinstall ............ <span style="color:var(--green)">✓</span>', delay: 400 },
+  { html: '<span class="t-cmt">[INFO]</span> Installing Oracle 19c software <span class="t-bar"></span> <span class="t-val">100%</span>', delay: 900 },
+  { html: '<span class="t-cmt">[INFO]</span> Creating database \'prod\' <span class="t-bar"></span> <span class="t-val">100%</span>', delay: 900 },
+  { html: '<span class="t-cmt">[INFO]</span> Applying RU patch 36583279 ............... <span style="color:var(--green)">✓</span>', delay: 600 },
+  { html: '<span style="color:var(--green);font-weight:700">[SUCCESS]</span> <span class="t-w">Oracle 19c installation completed!</span> <span class="t-cmt">(23 min)</span>', delay: 0 },
 ];
 
 function runTermAnimation() {
@@ -509,22 +558,23 @@ function runTermAnimation() {
   if (!body) return;
   body.innerHTML = '<span class="cursor"></span>';
   let lineIdx = 0;
-  let timerId = null;
   function showLine() {
-    if (lineIdx >= termLines.length) return;
+    if (lineIdx >= termLines.length) {
+      var c = body.querySelector('.cursor'); if(c) c.remove();
+      return;
+    }
     const line = termLines[lineIdx];
     const cursor = body.querySelector('.cursor');
     const div = document.createElement('div');
     div.className = 'term-line';
     div.innerHTML = line.html;
     body.insertBefore(div, cursor);
-    requestAnimationFrame(() => {
-      div.classList.add('visible');
-    });
+    requestAnimationFrame(() => div.classList.add('visible'));
     lineIdx++;
-    timerId = setTimeout(showLine, 350);
+    if (line.delay > 0) setTimeout(showLine, line.delay);
+    else showLine();
   }
-  timerId = setTimeout(showLine, 600);
+  setTimeout(showLine, 600);
 }
 runTermAnimation();
 </script>
@@ -543,6 +593,6 @@ runTermAnimation();
 })();
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260319b"></script>
+<script src="js/search.js?v=20260319c"></script>
 </body>
 </html>

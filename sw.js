@@ -1,4 +1,4 @@
-const CACHE_NAME = 'os-v6';
+const CACHE_NAME = 'os-v7';
 const STATIC_EXTS = /\.(css|js|json|woff2?|ttf|eot|svg|png|jpg|jpeg|webp|ico)$/i;
 const MAX_CACHE_ITEMS = 200;
 
