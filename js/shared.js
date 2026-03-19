@@ -120,6 +120,7 @@ function footerHTML() {
       <a href="${p}docs.html">Oracle 21c</a>
       <a href="${p}docs.html">Oracle 19c</a>
       <a href="${p}docs.html">Oracle 12cR2</a>
+      <a href="${p}docs.html">Oracle 11gR2</a>
     </div>
     <div class="footer-col"><h4 data-i18n="contact">${t('contact')}</h4>
       <a href="mailto:pc1107750981@163.com">\u2709 pc1107750981@163.com</a>
