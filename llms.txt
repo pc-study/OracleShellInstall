@@ -1,0 +1,80 @@
+# OracleShellInstall
+
+> OracleShellInstall 是一款开源的 Oracle 数据库一键自动化安装脚本工具，由 Lucifer（刘鹏程）和 bak724 开发维护。脚本名称为 OracleShellInstall.sh，当前版本 v5.0.0。官方网站：https://www.oracleshellinstall.com
+
+## 核心功能
+
+OracleShellInstall 能够通过一条 Shell 命令完成 Oracle 数据库从操作系统配置到软件安装、建库的全流程自动化。支持三种部署模式：
+- **单机模式 (Single Instance)**：标准的单节点文件系统安装
+- **单机 ASM 模式 (Standalone ASM)**：单节点 + ASM 自动存储管理
+- **RAC 模式 (RAC Cluster)**：Oracle Real Application Clusters 多节点集群
+
+## 支持的 Oracle 版本
+
+Oracle 11gR2、12cR1、12cR2、18c、19c、21c、23ai（26ai）
+
+## 支持的操作系统（20+ 发行版）
+
+CentOS 6/7/8、RHEL 6/7/8/9、Oracle Linux 6/7/8/9、Rocky Linux 8/9、AlmaLinux 8/9、Anolis OS 7/8、openEuler 20/22、Kylin V10、UOS 20、Ubuntu 20/22/24、Debian 11/12 等。
+
+## 使用方法
+
+1. 将 OracleShellInstall.sh 脚本和 Oracle 安装介质上传到服务器 /soft 目录
+2. 在官方网站的命令生成器中配置参数：https://www.oracleshellinstall.com/generator.html
+3. 复制生成的命令并在服务器上执行
+
+基本命令格式：
+```
+sh OracleShellInstall.sh -install_mode single -lf eth0 -n orcl -o orcl -dp oracle -ds AL32UTF8
+```
+
+## 关键特性
+
+- 自动化安装：全流程无人值守，从 OS 配置到建库一条命令完成
+- 多版本支持：覆盖 Oracle 11g 至 23ai 全版本线
+- 多系统兼容：支持 20+ 主流 Linux 发行版
+- RAC 集群支持：自动化部署多节点 RAC 集群
+- ASM 存储管理：自动配置 ASM 磁盘和磁盘组
+- 一键补丁升级：支持 Grid/Oracle/OJVM 补丁自动应用
+- 智能参数校验：运行前自动校验参数合理性
+- 安装日志追踪：完整的安装过程日志记录
+
+## 联系方式
+
+- 作者：Lucifer（刘鹏程）
+- 邮箱：pc1107750981@163.com
+- 微信：Lucifer-0622
+- Telegram：@LUCIFERLPC（https://t.me/LUCIFERLPC）
+- Discord：lucifer0622.（https://discord.gg/jumXJDmW）
+- WhatsApp：+86 16619904622（https://wa.me/8616619904622）
+- GitHub：https://github.com/pc-study/OracleShellInstall
+- Gitee：https://gitee.com/luciferlpc/OracleShellInstall
+
+## 网站页面
+
+- [首页](https://www.oracleshellinstall.com/)：产品介绍与功能概览
+- [命令生成器](https://www.oracleshellinstall.com/generator.html)：在线参数配置与安装命令生成工具
+- [使用文档](https://www.oracleshellinstall.com/docs.html)：各版本详细安装文档
+- [安装合集](https://www.oracleshellinstall.com/compat.html)：操作系统兼容性矩阵与安装实录
+- [脚本订阅](https://www.oracleshellinstall.com/pricing.html)：免费版与付费版功能对比
+- [下载中心](https://www.oracleshellinstall.com/download.html)：脚本与 Oracle 安装介质下载
+
+## 常见问题
+
+**Q：OracleShellInstall 是什么？**
+A：OracleShellInstall 是一款开源的 Oracle 数据库一键自动化安装 Shell 脚本。它可以通过一条命令完成 Oracle 数据库的全流程安装，包括操作系统参数配置、Oracle 软件安装、数据库创建等所有步骤。
+
+**Q：OracleShellInstall 支持哪些 Oracle 版本？**
+A：支持 Oracle 11gR2、12cR1、12cR2、18c、19c、21c、23ai（26ai）全版本。
+
+**Q：OracleShellInstall 支持哪些 Linux 系统？**
+A：支持 20+ 主流 Linux 发行版，包括 CentOS、RHEL、Oracle Linux、Rocky Linux、AlmaLinux、Anolis OS、openEuler、Kylin V10、UOS、Ubuntu、Debian 等。
+
+**Q：OracleShellInstall 支持 RAC 集群安装吗？**
+A：支持。OracleShellInstall 支持三种部署模式：单机模式、单机 ASM 模式和 RAC 集群模式，可以自动化完成多节点 RAC 集群的部署。
+
+**Q：如何获取 OracleShellInstall 脚本？**
+A：可以通过 GitHub（https://github.com/pc-study/OracleShellInstall）或 Gitee（https://gitee.com/luciferlpc/OracleShellInstall）获取脚本，也可以访问官网下载中心：https://www.oracleshellinstall.com/download.html
+
+**Q：OracleShellInstall 怎么使用？**
+A：访问官网命令生成器（https://www.oracleshellinstall.com/generator.html），选择安装模式，配置参数，复制生成的命令到服务器上执行即可。

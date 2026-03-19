@@ -3,3 +3,8 @@ Allow: /
 Disallow: /img/
 
 Sitemap: https://www.oracleshellinstall.com/sitemap.xml
+
+# AI/LLM Context Files
+# See https://llmstxt.org for specification
+# llms.txt: concise project summary for AI assistants
+# llms-full.txt: comprehensive technical reference with all parameters and examples
