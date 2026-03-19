@@ -13,15 +13,19 @@
   <a href="https://www.oracleshellinstall.com/generator.html"><img src="https://img.shields.io/badge/命令生成器-Online-blue?style=flat-square" alt="Generator"></a>
   <a href="https://gitee.com/luciferlpc/OracleShellInstall"><img src="https://img.shields.io/badge/Gitee-Mirror-red?style=flat-square&logo=gitee" alt="Gitee"></a>
   <img src="https://img.shields.io/badge/version-v5.0.0-green?style=flat-square" alt="Version">
-  <img src="https://img.shields.io/badge/Oracle-11g~23ai-orange?style=flat-square&logo=oracle" alt="Oracle">
+  <img src="https://img.shields.io/badge/Oracle-11g~21c%2F26ai-orange?style=flat-square&logo=oracle" alt="Oracle">
   <img src="https://img.shields.io/badge/Linux-20%2B%20distros-blue?style=flat-square&logo=linux" alt="Linux">
+</p>
+
+<p align="center">
+  <a href="README.md">🇨🇳 中文</a> | <a href="README_EN.md">🇺🇸 English</a>
 </p>
 
 ---
 
 一条 Shell 命令完成 Oracle 数据库全流程安装 —— 从操作系统配置、内核优化、用户创建、软件安装、数据库创建到补丁应用，全程无人值守。
 
-支持 **单机 / ASM / RAC** 三种部署模式，覆盖 Oracle 11gR2 ~ 23ai（26ai）全版本，兼容 **20+ 主流 Linux 发行版**。
+支持 **单机 / ASM / RAC** 三种部署模式，覆盖 Oracle 11gR2、12cR2、19c、21c、26ai 全版本，兼容 **20+ 主流 Linux 发行版**。
 
 🔗 **官方网站：** [https://www.oracleshellinstall.com](https://www.oracleshellinstall.com/)
 🛠 **在线命令生成器：** [https://www.oracleshellinstall.com/generator.html](https://www.oracleshellinstall.com/generator.html)
@@ -33,7 +37,7 @@
 | | OracleShellInstall | 手动安装 |
 |---|---|---|
 | **安装耗时** | 20~40 分钟 | 4~8 小时（RAC 1~2 天） |
-| **Oracle 版本** | 11gR2 / 12cR1 / 12cR2 / 18c / 19c / 21c / 23ai 全覆盖 | 每个版本步骤不同 |
+| **Oracle 版本** | 11gR2 / 12cR2 / 19c / 21c / 26ai 全覆盖 | 每个版本步骤不同 |
 | **Linux 系统** | 20+ 发行版自动适配 | 每种系统手动调整 |
 | **RAC 集群** | 一条命令搞定 | 手动配置 1~2 天 |
 | **补丁应用** | 安装时自动集成 | 安装后手动操作 |
@@ -45,7 +49,7 @@
 ## 功能特性
 
 - **全自动化** — 一条命令完成 OS 参数配置、依赖安装、用户创建、软件安装、数据库创建全流程
-- **多版本支持** — Oracle 11gR2、12cR1、12cR2、18c、19c、21c、23ai（26ai）
+- **多版本支持** — Oracle 11gR2、12cR2、19c、21c、26ai
 - **广泛兼容** — CentOS、RHEL、Oracle Linux、Rocky、AlmaLinux、Anolis OS、openEuler、麒麟 Kylin、统信 UOS、Ubuntu、Debian 等 20+ 发行版
 - **三种模式** — 单机 (Single)、单机 ASM (Standalone)、RAC 集群
 - **ASM 存储** — 自动配置 UDEV 绑盘、multipath 多路径、磁盘组及冗余
@@ -131,12 +135,10 @@ sh OracleShellInstall.sh \
 | 版本 | Release | 支持模式 |
 |------|---------|---------|
 | **Oracle 11gR2** | 11.2.0.4 | Single / Standalone ASM / RAC |
-| **Oracle 12cR1** | 12.1.0.2 | Single / Standalone ASM / RAC |
 | **Oracle 12cR2** | 12.2.0.1 | Single / Standalone ASM / RAC |
-| **Oracle 18c** | 18.0.0.0 | Single / Standalone ASM / RAC |
 | **Oracle 19c** | 19.3.0.0 | Single / Standalone ASM / RAC |
 | **Oracle 21c** | 21.0.0.0 | Single / Standalone ASM / RAC |
-| **Oracle 23ai** | 23.0.0.0 | Single / Standalone ASM / RAC |
+| **Oracle 26ai** | 26.0.0.0 | Single / Standalone ASM / RAC |
 
 ### 操作系统
 
@@ -260,7 +262,7 @@ OracleShellInstall 是一款开源的 Oracle 数据库一键自动化安装 Shel
 <details>
 <summary><b>支持哪些 Oracle 版本？</b></summary>
 
-支持 Oracle 11gR2、12cR1、12cR2、18c、19c、21c、23ai（26ai）全版本线。
+支持 Oracle 11gR2、12cR2、19c、21c、26ai。
 </details>
 
 <details>
@@ -319,52 +321,3 @@ Copyright © 2022-2099 Pengcheng Liu. All rights reserved.
     <a href="https://gitee.com/luciferlpc/OracleShellInstall">Gitee 镜像</a>
   </b>
 </p>
-
----
-
-<details>
-<summary><h2>English</h2></summary>
-
-### OracleShellInstall — One-Click Oracle Database Automated Installation
-
-OracleShellInstall is an open-source Shell script tool for automated Oracle Database installation. It completes the entire installation process with a single command — from OS configuration, kernel tuning, user creation, software installation, database creation, to patch application.
-
-**Website:** [https://www.oracleshellinstall.com](https://www.oracleshellinstall.com/)
-**Command Generator:** [https://www.oracleshellinstall.com/generator.html](https://www.oracleshellinstall.com/generator.html)
-
-#### Supported Oracle Versions
-Oracle 11gR2, 12cR1, 12cR2, 18c, 19c, 21c, 23ai (26ai)
-
-#### Supported Linux Distributions (20+)
-CentOS 6/7/8, RHEL 6/7/8/9, Oracle Linux 6/7/8/9, Rocky Linux 8/9, AlmaLinux 8/9, Anolis OS 7/8, openEuler 20.03/22.03, Kylin V10, UOS 20, Ubuntu 20.04/22.04/24.04, Debian 11/12, and more.
-
-#### Deployment Modes
-- **Single Instance** — Standard single-node installation with filesystem storage
-- **Standalone ASM** — Single node with Oracle ASM (Automatic Storage Management)
-- **RAC Cluster** — Oracle Real Application Clusters for high availability
-
-#### Quick Start
-
-```bash
-# Upload script and Oracle media to /soft directory, then:
-
-# Single Instance
-sh OracleShellInstall.sh -install_mode single -lf eth0
-
-# Standalone ASM
-sh OracleShellInstall.sh -install_mode standalone -lf eth0 -dd /dev/sdb,/dev/sdc
-
-# RAC Cluster
-sh OracleShellInstall.sh -install_mode rac -lf eth0 -pf eth1 \
-  -hn orcl01,orcl02 -ri 10.0.0.101,10.0.0.102 \
-  -vi 10.0.0.103,10.0.0.104 -si 10.0.0.105 \
-  -rp rootpass -od /dev/sdb -dd /dev/sdc
-```
-
-#### Contact
-- Email: pc1107750981@163.com
-- Telegram: [@LUCIFERLPC](https://t.me/LUCIFERLPC)
-- Discord: [lucifer0622.](https://discord.gg/jumXJDmW)
-- WhatsApp: [+86 16619904622](https://wa.me/8616619904622)
-
-</details>
