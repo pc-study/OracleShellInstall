@@ -209,13 +209,19 @@ img{max-width:100%;display:block}
 .anim-up{animation:fadeUp .7s cubic-bezier(.4,0,.2,1) both}
 .anim-d1{animation-delay:.1s}.anim-d2{animation-delay:.2s}.anim-d3{animation-delay:.3s}.anim-d4{animation-delay:.4s}
 
-/* === BACK TO TOP === */
+/* === BACK TO TOP WITH PROGRESS RING === */
 .back-to-top{position:fixed;bottom:32px;right:32px;width:42px;height:42px;border-radius:50%;
   background:var(--red);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;
   justify-content:center;font-size:1.1rem;box-shadow:0 4px 20px rgba(199,70,52,.3);
   opacity:0;visibility:hidden;transform:translateY(10px);transition:all .3s;z-index:900}
 .back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
 .back-to-top:hover{background:var(--red-glow);transform:translateY(-2px);box-shadow:0 6px 30px rgba(199,70,52,.4)}
+.btt-progress{position:fixed;bottom:27px;right:27px;width:52px;height:52px;z-index:899;
+  pointer-events:none;opacity:0;visibility:hidden;transition:all .3s}
+.btt-progress.visible{opacity:1;visibility:visible}
+.btt-progress svg{transform:rotate(-90deg)}
+.btt-progress circle{fill:none;stroke:var(--red);stroke-width:2;stroke-linecap:round;
+  transition:stroke-dashoffset .15s}
 
 /* === WECHAT CONSULT WIDGET === */
 .wechat-fab{position:fixed;bottom:86px;right:32px;width:42px;height:42px;border-radius:50%;
@@ -438,6 +444,43 @@ img{max-width:100%;display:block}
 .nav-search-btn:hover{border-color:var(--red);color:var(--text)}
 .nav-search-btn kbd{font-size:.7rem;background:var(--border);padding:1px 5px;border-radius:3px;font-family:inherit}
 @media(max-width:768px){.nav-search-btn kbd{display:none}.nav-search-btn{padding:4px 8px}}
+
+/* === PAGE LOAD PROGRESS BAR === */
+.page-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--red),var(--red-glow),var(--accent2));
+  z-index:9999;transition:width .15s ease-out;border-radius:0 2px 2px 0;
+  box-shadow:0 0 10px rgba(199,70,52,.5)}
+
+/* === CODE COPY BUTTON === */
+.mac-term{position:relative}
+.code-copy-btn{position:absolute;top:38px;right:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);
+  color:var(--text-muted);padding:4px 10px;border-radius:6px;font-size:.7rem;cursor:pointer;
+  font-family:var(--mono);opacity:0;transition:all .2s;z-index:5;display:flex;align-items:center;gap:4px}
+.mac-term:hover .code-copy-btn{opacity:1}
+.code-copy-btn:hover{background:rgba(199,70,52,.15);border-color:var(--red);color:var(--red-glow)}
+.code-copy-btn.copied{background:rgba(58,186,106,.15);border-color:var(--green);color:var(--green)}
+
+/* === THEME TRANSITION ANIMATION === */
+.theme-transitioning *{transition:background-color .4s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease!important}
+
+/* === FOOTER SOCIAL ICONS === */
+.footer-social{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.footer-social a{display:flex;align-items:center;justify-content:center;width:36px;height:36px;
+  border-radius:8px;background:var(--bg3);border:1px solid var(--border);color:var(--text-dim);
+  transition:all .25s;text-decoration:none}
+.footer-social a:hover{border-color:var(--red);color:var(--red-glow);transform:translateY(-2px);
+  box-shadow:var(--glow-sm)}
+.footer-social a svg{width:18px;height:18px;fill:currentColor}
+.footer-social a.tg-icon:hover{border-color:#2aabee;color:#2aabee;box-shadow:0 4px 16px rgba(42,171,238,.2)}
+.footer-social a.dc-icon:hover{border-color:#5865f2;color:#5865f2;box-shadow:0 4px 16px rgba(88,101,242,.2)}
+.footer-social a.wa-icon:hover{border-color:#25d366;color:#25d366;box-shadow:0 4px 16px rgba(37,211,102,.2)}
+.footer-social a.gh-icon:hover{border-color:var(--text-dim);color:var(--text);box-shadow:0 4px 16px rgba(255,255,255,.08)}
+.footer-social a.gt-icon:hover{border-color:#c71d23;color:#c71d23;box-shadow:0 4px 16px rgba(199,29,35,.2)}
+.footer-social a.em-icon:hover{border-color:var(--accent2);color:var(--accent2);box-shadow:0 4px 16px rgba(232,147,74,.2)}
+
+/* === VIEW TRANSITIONS === */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:fadeOut .2s ease-out}
+::view-transition-new(root){animation:fadeIn .3s ease-in}
 
 /* === PRINT STYLES === */
 @media print{

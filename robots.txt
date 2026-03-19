@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /img/
 
 Sitemap: https://www.oracleshellinstall.com/sitemap.xml
