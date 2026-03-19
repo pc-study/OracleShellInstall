@@ -349,7 +349,7 @@ function genCmd(){
     lines.push(`<span class="cm-flag">${p.fl}</span> <span class="cm-val">${ev}</span> <span class="cm-cmt">\`# ${currentLang==='en'?p.lbe:p.lb}\`</span>${sl}`);
   });
   if(missingReq){
-    const warn=currentLang==='en'?'# ⚠ Please fill in all required fields':'# ⚠ 请填写所有必填参数';
+    const warn=currentLang==='en'?'# ⚠ Fill in the required fields above, and the install command will be generated here in real time':'# ⚠ 填写上方必填参数后，安装命令将在此实时生成';
     lines.push(`\n<span class="cm-cmt">${warn}</span>`);
   }
   document.getElementById('cmdOutput').innerHTML=lines.join('\n');

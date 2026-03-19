@@ -119,6 +119,25 @@
   .dl-steps{grid-template-columns:1fr 1fr}
   .dl-faq-a-inner{padding-left:20px}
 }
+
+/* CHANGELOG */
+.dl-changelog{max-width:700px;margin:0 auto;position:relative;padding-left:24px;border-left:2px solid var(--border)}
+.dl-cl-item{position:relative;margin-bottom:28px;padding-left:20px}
+.dl-cl-item::before{content:'';position:absolute;left:-29px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--red);border:2px solid var(--bg)}
+.dl-cl-ver{font-weight:700;font-size:1rem;color:var(--text);display:inline-flex;align-items:center;gap:8px}
+.dl-cl-tag{font-size:.65rem;padding:2px 8px;background:var(--red);color:#fff;border-radius:4px;font-weight:600;text-transform:uppercase}
+.dl-cl-date{font-size:.78rem;color:var(--text-muted);margin:2px 0 8px}
+.dl-cl-list{list-style:none;padding:0;margin:0}
+.dl-cl-list li{position:relative;padding-left:16px;font-size:.88rem;color:var(--text-dim);line-height:1.8}
+.dl-cl-list li::before{content:'+';position:absolute;left:0;color:var(--green);font-weight:700}
+
+/* SYSTEM REQUIREMENTS */
+.dl-req-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:800px;margin:0 auto}
+.dl-req-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:16px 20px}
+.dl-req-label{font-size:.78rem;color:var(--text-muted);margin-bottom:4px;font-weight:500}
+.dl-req-val{font-size:.9rem;color:var(--text);font-weight:500}
+@media(max-width:700px){.dl-req-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.dl-req-grid{grid-template-columns:1fr}}
 </style>
 <script>
 var _hmt = _hmt || [];
@@ -136,6 +155,33 @@ var _hmt = _hmt || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-GNDHG1PZLG');
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "下载中心 - OracleShellInstall",
+  "description": "OracleShellInstall 脚本下载、使用须知及常见问题解答。",
+  "url": "https://www.oracleshellinstall.com/download.html",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "OracleShellInstall",
+    "url": "https://www.oracleshellinstall.com/"
+  },
+  "mainEntity": {
+    "@type": "SoftwareApplication",
+    "name": "OracleShellInstall",
+    "operatingSystem": "Linux",
+    "applicationCategory": "DeveloperApplication",
+    "downloadUrl": "https://www.oracleshellinstall.com/download.html",
+    "softwareVersion": "5.0.0",
+    "author": {
+      "@type": "Person",
+      "name": "Pengcheng Liu",
+      "alternateName": "Lucifer"
+    }
+  }
+}
 </script>
 </head>
 <body>
@@ -254,6 +300,87 @@ var _hmt = _hmt || [];
       <div class="dl-card-num">06</div>
       <h3 data-i18n="dlG6T">请尊重休息时间</h3>
       <p data-i18n="dlG6D">工作日时间欢迎在群内交流，周末及节假日请尽量避免私聊咨询，让大家都有充足的休息时间。感谢您的理解与配合。</p>
+    </div>
+  </div>
+</section>
+
+<hr class="dl-divider">
+
+<!-- Version History -->
+<section class="dl-section">
+  <div class="dl-section-title">
+    <span class="icon" style="background:rgba(168,134,235,.1);color:var(--accent2)">&#x1F4C4;</span>
+    <span data-i18n="dlSecChangelog">版本更新日志</span>
+  </div>
+  <div class="dl-section-sub" data-i18n="dlSecChangelogSub">OracleShellInstall 主要版本更新记录</div>
+
+  <div class="dl-changelog">
+    <div class="dl-cl-item">
+      <div class="dl-cl-ver">v5.0.0 <span class="dl-cl-tag">Latest</span></div>
+      <div class="dl-cl-date">2025</div>
+      <ul class="dl-cl-list">
+        <li data-i18n="cl50a">新增 Oracle 26ai 版本支持</li>
+        <li data-i18n="cl50b">新增 Ubuntu 24.04 / Debian 12 支持</li>
+        <li data-i18n="cl50c">优化 RAC 集群安装流程</li>
+        <li data-i18n="cl50d">新增在线命令生成器</li>
+      </ul>
+    </div>
+    <div class="dl-cl-item">
+      <div class="dl-cl-ver">v4.0.0</div>
+      <div class="dl-cl-date">2024</div>
+      <ul class="dl-cl-list">
+        <li data-i18n="cl40a">新增 Oracle 21c 版本支持</li>
+        <li data-i18n="cl40b">新增 openEuler / Kylin V10 / UOS 等国产系统支持</li>
+        <li data-i18n="cl40c">新增 Rocky Linux / AlmaLinux 支持</li>
+        <li data-i18n="cl40d">优化 ASM 磁盘自动配置逻辑</li>
+      </ul>
+    </div>
+    <div class="dl-cl-item">
+      <div class="dl-cl-ver">v3.0.0</div>
+      <div class="dl-cl-date">2023</div>
+      <ul class="dl-cl-list">
+        <li data-i18n="cl30a">新增 RHEL 9 / Oracle Linux 9 支持</li>
+        <li data-i18n="cl30b">新增 ARM 架构支持</li>
+        <li data-i18n="cl30c">优化补丁自动应用机制</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="dl-divider">
+
+<!-- System Requirements -->
+<section class="dl-section">
+  <div class="dl-section-title">
+    <span class="icon" style="background:rgba(243,186,47,.1);color:var(--yellow)">&#x1F5A5;</span>
+    <span data-i18n="dlSecReq">系统要求</span>
+  </div>
+  <div class="dl-section-sub" data-i18n="dlSecReqSub">运行脚本前请确认服务器满足以下最低要求</div>
+
+  <div class="dl-req-grid">
+    <div class="dl-req-card">
+      <div class="dl-req-label" data-i18n="dlReqOs">操作系统</div>
+      <div class="dl-req-val" data-i18n="dlReqOsVal">Linux x86_64 / ARM64（最小化安装即可）</div>
+    </div>
+    <div class="dl-req-card">
+      <div class="dl-req-label" data-i18n="dlReqMem">内存</div>
+      <div class="dl-req-val" data-i18n="dlReqMemVal">最低 2GB（生产环境建议 8GB+）</div>
+    </div>
+    <div class="dl-req-card">
+      <div class="dl-req-label" data-i18n="dlReqDisk">磁盘空间</div>
+      <div class="dl-req-val" data-i18n="dlReqDiskVal">最低 30GB（建议 50GB+）</div>
+    </div>
+    <div class="dl-req-card">
+      <div class="dl-req-label" data-i18n="dlReqBash">Bash 版本</div>
+      <div class="dl-req-val">&ge; 4.0</div>
+    </div>
+    <div class="dl-req-card">
+      <div class="dl-req-label" data-i18n="dlReqUser">执行用户</div>
+      <div class="dl-req-val">root</div>
+    </div>
+    <div class="dl-req-card">
+      <div class="dl-req-label" data-i18n="dlReqNet">网络</div>
+      <div class="dl-req-val" data-i18n="dlReqNetVal">可配置本地 YUM/APT 源离线安装</div>
     </div>
   </div>
 </section>

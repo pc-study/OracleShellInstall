@@ -1,4 +1,4 @@
-const CACHE_NAME = 'os-v4';
+const CACHE_NAME = 'os-v5';
 const STATIC_EXTS = /\.(css|js|json|woff2?|ttf|eot|svg|png|jpg|jpeg|webp|ico)$/i;
 
 self.addEventListener('install', event => {

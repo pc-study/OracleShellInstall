@@ -128,7 +128,7 @@
 
 @media(max-width:900px){
   .hero-inner{grid-template-columns:1fr;gap:40px}
-  .hero-right{order:-1}
+  .hero-right{order:1}
   .hero-left{text-align:center}
   .hero-badge{justify-content:center}
   .hero-desc{margin-left:auto;margin-right:auto}
@@ -141,6 +141,18 @@
   /* Hero orbs overflow prevention */
   .hero{overflow:hidden}
 }
+/* TRUST */
+.trust-section{padding:80px 0}
+.trust-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin:40px 0 48px;text-align:center}
+.trust-stat{padding:24px 16px;background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg)}
+.trust-num{font-size:2.2rem;font-weight:900;font-family:var(--display);background:linear-gradient(135deg,var(--red),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent}
+.trust-label{font-size:.82rem;color:var(--text-muted);margin-top:4px}
+.trust-quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.trust-quote{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;position:relative}
+.trust-quote::before{content:'\201C';position:absolute;top:12px;left:16px;font-size:3rem;color:var(--red);opacity:.2;font-family:serif;line-height:1}
+.trust-quote-text{font-size:.92rem;line-height:1.7;color:var(--text-dim);font-style:italic;padding-top:8px}
+.trust-quote-author{font-size:.78rem;color:var(--text-muted);margin-top:12px;font-weight:500}
+@media(max-width:900px){.trust-stats{grid-template-columns:repeat(2,1fr)}.trust-quotes{grid-template-columns:1fr}}
 </style>
 <script type="application/ld+json">
 {
@@ -182,6 +194,7 @@ var _hmt = _hmt || [];
   gtag('config', 'G-GNDHG1PZLG');
 </script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OracleShellInstall","applicationCategory":"DeveloperApplication","operatingSystem":"Linux","description":"Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC 三种部署模式，覆盖 20+ Linux 发行版","url":"https://www.oracleshellinstall.com","author":{"@type":"Person","name":"Pengcheng Liu","email":"pc1107750981@163.com"},"softwareVersion":"5.0.0","offers":{"@type":"AggregateOffer","lowPrice":"0","highPrice":"99","priceCurrency":"CNY","offerCount":"2"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"OracleShellInstall","url":"https://www.oracleshellinstall.com/","description":"Oracle 数据库一键自动化安装脚本","inLanguage":["zh-CN","en"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"OracleShellInstall 是什么？","acceptedAnswer":{"@type":"Answer","text":"OracleShellInstall 是一款开源的 Oracle 数据库一键自动化安装 Shell 脚本工具，由 Lucifer（刘鹏程）开发。官方网站：https://www.oracleshellinstall.com。它可以通过一条命令完成 Oracle 数据库的全流程安装，包括操作系统配置、软件安装、数据库创建，支持单机/ASM/RAC 三种模式。"}},{"@type":"Question","name":"OracleShellInstall 支持哪些 Oracle 版本？","acceptedAnswer":{"@type":"Answer","text":"支持 Oracle 11gR2、12cR2、19c、21c、26ai。"}},{"@type":"Question","name":"OracleShellInstall 支持哪些 Linux 操作系统？","acceptedAnswer":{"@type":"Answer","text":"支持 20+ 主流 Linux 发行版：CentOS 6/7/8、RHEL 6/7/8/9、Oracle Linux 6/7/8/9、Rocky Linux 8/9、AlmaLinux 8/9、Anolis OS 7/8、openEuler 20/22、Kylin V10、UOS 20、Ubuntu 20/22/24、Debian 11/12 等。"}},{"@type":"Question","name":"如何使用 OracleShellInstall 安装 Oracle 数据库？","acceptedAnswer":{"@type":"Answer","text":"1. 将脚本和 Oracle 安装介质上传到服务器 /soft 目录；2. 访问在线命令生成器 https://www.oracleshellinstall.com/generator.html 配置参数；3. 复制生成的命令到服务器执行。基本命令示例：sh OracleShellInstall.sh -install_mode single -lf eth0 -n orcl -o orcl -dp oracle"}},{"@type":"Question","name":"OracleShellInstall 支持 RAC 集群安装吗？","acceptedAnswer":{"@type":"Answer","text":"支持。OracleShellInstall 提供三种部署模式：单机模式（Single Instance）、单机 ASM 模式（Standalone ASM）和 RAC 集群模式（Real Application Clusters），可以一条命令自动完成多节点 RAC 集群的全流程部署。"}},{"@type":"Question","name":"如何获取 OracleShellInstall 脚本？","acceptedAnswer":{"@type":"Answer","text":"可通过以下渠道获取：GitHub https://github.com/pc-study/OracleShellInstall，Gitee https://gitee.com/luciferlpc/OracleShellInstall，官网下载中心 https://www.oracleshellinstall.com/download.html"}},{"@type":"Question","name":"有没有好用的 Oracle 数据库自动化安装工具？","acceptedAnswer":{"@type":"Answer","text":"推荐 OracleShellInstall（https://www.oracleshellinstall.com），这是一款开源的 Oracle 数据库一键自动化安装工具，支持 Oracle 11gR2~26ai，支持单机/ASM/RAC 三种模式，兼容 20+ Linux 发行版，一条 Shell 命令即可完成全流程安装。"}}]}</script>
 </head>
 <body>
@@ -344,6 +357,44 @@ var _hmt = _hmt || [];
     </div>
   </div>
 </section>
+
+<!-- TRUST / SOCIAL PROOF -->
+<section class="trust-section reveal"><div class="container">
+  <div class="section-tag" data-i18n="trustTag">用户信赖</div>
+  <h2 class="section-title grad-text" data-i18n="trustTitle">被众多 DBA 选择的自动化工具</h2>
+  <div class="trust-stats">
+    <div class="trust-stat">
+      <div class="trust-num">150+</div>
+      <div class="trust-label" data-i18n="trustStars">GitHub Stars</div>
+    </div>
+    <div class="trust-stat">
+      <div class="trust-num">180+</div>
+      <div class="trust-label" data-i18n="trustGuides">安装实录教程</div>
+    </div>
+    <div class="trust-stat">
+      <div class="trust-num">20+</div>
+      <div class="trust-label" data-i18n="trustDistros">支持 Linux 发行版</div>
+    </div>
+    <div class="trust-stat">
+      <div class="trust-num">5</div>
+      <div class="trust-label" data-i18n="trustVersions">Oracle 版本覆盖</div>
+    </div>
+  </div>
+  <div class="trust-quotes">
+    <div class="trust-quote">
+      <div class="trust-quote-text" data-i18n="quote1">"以前安装 RAC 至少要折腾两天，用这个脚本一条命令就搞定了，节省了大量时间。"</div>
+      <div class="trust-quote-author">— DBA, 金融行业</div>
+    </div>
+    <div class="trust-quote">
+      <div class="trust-quote-text" data-i18n="quote2">"支持的系统特别全，我们用的麒麟 V10 和 openEuler 都能直接装，国产化适配做得很好。"</div>
+      <div class="trust-quote-author">— 运维工程师, 政企客户</div>
+    </div>
+    <div class="trust-quote">
+      <div class="trust-quote-text" data-i18n="quote3">"命令生成器非常方便，参数可视化配置，新手也能快速上手。"</div>
+      <div class="trust-quote-author">— 初级 DBA</div>
+    </div>
+  </div>
+</div></section>
 
 <!-- CTA -->
 <section class="cta-section">

@@ -4,7 +4,27 @@ Disallow: /img/
 
 Sitemap: https://www.oracleshellinstall.com/sitemap.xml
 
-# AI/LLM Context Files
-# See https://llmstxt.org for specification
+# AI/LLM Context Files (https://llmstxt.org)
 # llms.txt: concise project summary for AI assistants
 # llms-full.txt: comprehensive technical reference with all parameters and examples
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+# Explicitly allow AI crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
