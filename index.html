@@ -29,11 +29,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260319">
+<link rel="manifest" href="manifest.json?v=20260319b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260319">
+<link rel="stylesheet" href="css/style.css?v=20260319b">
 <style>
 .hero{position:relative;padding:100px 0 80px;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
@@ -217,7 +217,7 @@ var _hmt = _hmt || [];
           <a href="generator.html" class="btn btn-primary" data-i18n="btnGen">命令生成器 &rarr;</a>
           <a href="docs.html" class="btn btn-ghost" data-i18n="btnDoc">查看文档</a>
           <a href="https://gitee.com/luciferlpc/OracleShellInstall" target="_blank" rel="noopener noreferrer" class="github-stars" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;color:var(--text-dim);font-size:.85rem;text-decoration:none;transition:all .2s;font-weight:500">
-<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25z"/></svg>
 <span id="starCount">Star</span>
 </a>
         </div>
@@ -413,7 +413,7 @@ var _hmt = _hmt || [];
 <!-- FOOTER -->
 <div id="footer"></div>
 
-<script src="js/shared.js?v=20260319"></script>
+<script src="js/shared.js?v=20260319b"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('home');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -529,12 +529,20 @@ function runTermAnimation() {
 runTermAnimation();
 </script>
 <script>
-fetch('https://gitee.com/api/v5/repos/luciferlpc/OracleShellInstall')
-  .then(r=>r.json())
-  .then(d=>{if(d.stargazers_count){document.getElementById('starCount').textContent=d.stargazers_count+' Stars'}})
-  .catch(()=>{});
+// Fetch Gitee stars with timeout and session caching
+(function(){
+  var KEY='gitee_stars',cached;
+  try{cached=sessionStorage.getItem(KEY)}catch(e){}
+  if(cached){var el=document.getElementById('starCount');if(el)el.textContent=cached+' Stars';return}
+  var ctrl=new AbortController();
+  setTimeout(function(){ctrl.abort()},5000);
+  fetch('https://gitee.com/api/v5/repos/luciferlpc/OracleShellInstall',{signal:ctrl.signal})
+    .then(function(r){return r.json()})
+    .then(function(d){if(d.stargazers_count){var el=document.getElementById('starCount');if(el)el.textContent=d.stargazers_count+' Stars';try{sessionStorage.setItem(KEY,d.stargazers_count)}catch(e){}}})
+    .catch(function(){});
+})();
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260319"></script>
+<script src="js/search.js?v=20260319b"></script>
 </body>
 </html>

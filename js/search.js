@@ -3,7 +3,7 @@
    ============================ */
 (function () {
   let searchIndex = null;
-  let indexLoading = false;
+  let indexPromise = null;
   let overlay, input, results, closeBtn;
   const isGuide = location.pathname.includes('/guides/');
   const prefix = isGuide ? '../' : '';
@@ -70,22 +70,20 @@
   // --- Load index lazily (with race condition guard) ---
   async function loadIndex() {
     if (searchIndex) return;
-    if (indexLoading) {
-      // Wait for in-flight load to finish
-      while (indexLoading) await new Promise(r => setTimeout(r, 50));
-      return;
-    }
-    indexLoading = true;
-    try {
-      const res = await fetch(prefix + 'search-index.json');
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      searchIndex = await res.json();
-    } catch (e) {
-      console.error('Failed to load search index', e);
-      searchIndex = [];
-    } finally {
-      indexLoading = false;
-    }
+    if (indexPromise) return indexPromise;
+    indexPromise = (async () => {
+      try {
+        const res = await fetch(prefix + 'search-index.json');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        searchIndex = await res.json();
+      } catch (e) {
+        console.error('Failed to load search index', e);
+        searchIndex = [];
+      } finally {
+        indexPromise = null;
+      }
+    })();
+    return indexPromise;
   }
 
   // --- Search logic ---

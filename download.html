@@ -29,11 +29,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260319">
+<link rel="manifest" href="manifest.json?v=20260319b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260319">
+<link rel="stylesheet" href="css/style.css?v=20260319b">
 <style>
 /* HERO */
 .dl-hero{padding:80px 0 30px;text-align:center}
@@ -121,21 +121,41 @@
 }
 
 /* CHANGELOG */
-.dl-changelog{max-width:700px;margin:0 auto;position:relative;padding-left:24px;border-left:2px solid var(--border)}
-.dl-cl-item{position:relative;margin-bottom:28px;padding-left:20px}
-.dl-cl-item::before{content:'';position:absolute;left:-29px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--red);border:2px solid var(--bg)}
-.dl-cl-ver{font-weight:700;font-size:1rem;color:var(--text);display:inline-flex;align-items:center;gap:8px}
-.dl-cl-tag{font-size:.65rem;padding:2px 8px;background:var(--red);color:#fff;border-radius:4px;font-weight:600;text-transform:uppercase}
-.dl-cl-date{font-size:.78rem;color:var(--text-muted);margin:2px 0 8px}
-.dl-cl-list{list-style:none;padding:0;margin:0}
-.dl-cl-list li{position:relative;padding-left:16px;font-size:.88rem;color:var(--text-dim);line-height:1.8}
-.dl-cl-list li::before{content:'+';position:absolute;left:0;color:var(--green);font-weight:700}
+.dl-changelog{max-width:740px;position:relative;padding-left:32px}
+.dl-changelog::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--red),var(--border) 70%,transparent)}
+.dl-cl-item{position:relative;margin-bottom:36px;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:24px 28px;transition:all .3s}
+.dl-cl-item:hover{border-color:rgba(199,70,52,.3);box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.dl-cl-item::before{content:'';position:absolute;left:-27px;top:28px;width:14px;height:14px;border-radius:50%;
+  background:var(--red);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--red),0 0 12px rgba(199,70,52,.4);z-index:1}
+.dl-cl-item::after{content:'';position:absolute;left:-13px;top:33px;width:12px;height:2px;background:var(--border)}
+.dl-cl-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.dl-cl-ver{font-weight:800;font-size:1.2rem;color:var(--text);font-family:var(--mono);letter-spacing:-.5px}
+.dl-cl-tag{font-size:.6rem;padding:3px 10px;background:linear-gradient(135deg,var(--red),var(--red-glow));
+  color:#fff;border-radius:20px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  box-shadow:0 2px 8px rgba(199,70,52,.3)}
+.dl-cl-date{font-size:.75rem;color:var(--text-muted);font-weight:500;margin-left:auto;
+  background:var(--bg3);padding:2px 10px;border-radius:4px;font-family:var(--mono)}
+.dl-cl-list{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.dl-cl-list li{position:relative;padding-left:22px;font-size:.88rem;color:var(--text-dim);line-height:1.7}
+.dl-cl-list li::before{content:'';position:absolute;left:2px;top:9px;width:8px;height:8px;border-radius:2px;
+  background:var(--green);opacity:.7}
 
 /* SYSTEM REQUIREMENTS */
-.dl-req-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:800px;margin:0 auto}
-.dl-req-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:16px 20px}
-.dl-req-label{font-size:.78rem;color:var(--text-muted);margin-bottom:4px;font-weight:500}
-.dl-req-val{font-size:.9rem;color:var(--text);font-weight:500}
+.dl-req-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:820px}
+.dl-req-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:22px 24px;transition:all .3s;position:relative;overflow:hidden}
+.dl-req-card:hover{border-color:rgba(199,70,52,.25);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.1)}
+.dl-req-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--red),var(--accent2));opacity:0;transition:opacity .3s}
+.dl-req-card:hover::before{opacity:1}
+.dl-req-icon{font-size:1.3rem;margin-bottom:10px;display:block;width:36px;height:36px;
+  background:rgba(199,70,52,.08);border:1px solid rgba(199,70,52,.15);border-radius:10px;
+  display:flex;align-items:center;justify-content:center}
+.dl-req-label{font-size:.72rem;color:var(--text-muted);margin-bottom:6px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.5px}
+.dl-req-val{font-size:.92rem;color:var(--text);font-weight:600;line-height:1.5}
 @media(max-width:700px){.dl-req-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.dl-req-grid{grid-template-columns:1fr}}
 </style>
@@ -215,11 +235,11 @@ var _hmt = _hmt || [];
 
   <div class="dl-btns" style="justify-content:center">
     <a href="https://github.com/DBAutoTask/OracleShellInstall" target="_blank" rel="noopener noreferrer" class="dl-btn dl-btn-primary">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.49.5.09.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.49.5.09.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
       <span data-i18n="dlBtnGithub">GitHub 下载脚本</span>
     </a>
     <a href="https://pan.baidu.com/s/1Eof4UreHPgAo3KhkC543Ng?pwd=6666" target="_blank" rel="noopener noreferrer" class="dl-btn dl-btn-outline">
-      <svg viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
       <span data-i18n="dlBtnBaidu">百度网盘下载安装包</span>
     </a>
   </div>
@@ -316,8 +336,11 @@ var _hmt = _hmt || [];
 
   <div class="dl-changelog">
     <div class="dl-cl-item">
-      <div class="dl-cl-ver">v5.0.0 <span class="dl-cl-tag">Latest</span></div>
-      <div class="dl-cl-date">2025</div>
+      <div class="dl-cl-header">
+        <div class="dl-cl-ver">v5.0.0</div>
+        <span class="dl-cl-tag">Latest</span>
+        <div class="dl-cl-date">2025</div>
+      </div>
       <ul class="dl-cl-list">
         <li data-i18n="cl50a">新增 Oracle 26ai 版本支持</li>
         <li data-i18n="cl50b">新增 Ubuntu 24.04 / Debian 12 支持</li>
@@ -326,8 +349,10 @@ var _hmt = _hmt || [];
       </ul>
     </div>
     <div class="dl-cl-item">
-      <div class="dl-cl-ver">v4.0.0</div>
-      <div class="dl-cl-date">2024</div>
+      <div class="dl-cl-header">
+        <div class="dl-cl-ver">v4.0.0</div>
+        <div class="dl-cl-date">2024</div>
+      </div>
       <ul class="dl-cl-list">
         <li data-i18n="cl40a">新增 Oracle 21c 版本支持</li>
         <li data-i18n="cl40b">新增 openEuler / Kylin V10 / UOS 等国产系统支持</li>
@@ -336,8 +361,10 @@ var _hmt = _hmt || [];
       </ul>
     </div>
     <div class="dl-cl-item">
-      <div class="dl-cl-ver">v3.0.0</div>
-      <div class="dl-cl-date">2023</div>
+      <div class="dl-cl-header">
+        <div class="dl-cl-ver">v3.0.0</div>
+        <div class="dl-cl-date">2023</div>
+      </div>
       <ul class="dl-cl-list">
         <li data-i18n="cl30a">新增 RHEL 9 / Oracle Linux 9 支持</li>
         <li data-i18n="cl30b">新增 ARM 架构支持</li>
@@ -359,26 +386,32 @@ var _hmt = _hmt || [];
 
   <div class="dl-req-grid">
     <div class="dl-req-card">
+      <div class="dl-req-icon">&#x1F4BB;</div>
       <div class="dl-req-label" data-i18n="dlReqOs">操作系统</div>
       <div class="dl-req-val" data-i18n="dlReqOsVal">Linux x86_64 / ARM64（最小化安装即可）</div>
     </div>
     <div class="dl-req-card">
+      <div class="dl-req-icon">&#x1F9E0;</div>
       <div class="dl-req-label" data-i18n="dlReqMem">内存</div>
       <div class="dl-req-val" data-i18n="dlReqMemVal">最低 2GB（生产环境建议 8GB+）</div>
     </div>
     <div class="dl-req-card">
+      <div class="dl-req-icon">&#x1F4BE;</div>
       <div class="dl-req-label" data-i18n="dlReqDisk">磁盘空间</div>
       <div class="dl-req-val" data-i18n="dlReqDiskVal">最低 30GB（建议 50GB+）</div>
     </div>
     <div class="dl-req-card">
+      <div class="dl-req-icon">&#x1F4DC;</div>
       <div class="dl-req-label" data-i18n="dlReqBash">Bash 版本</div>
       <div class="dl-req-val">&ge; 4.0</div>
     </div>
     <div class="dl-req-card">
+      <div class="dl-req-icon">&#x1F464;</div>
       <div class="dl-req-label" data-i18n="dlReqUser">执行用户</div>
       <div class="dl-req-val">root</div>
     </div>
     <div class="dl-req-card">
+      <div class="dl-req-icon">&#x1F310;</div>
       <div class="dl-req-label" data-i18n="dlReqNet">网络</div>
       <div class="dl-req-val" data-i18n="dlReqNetVal">可配置本地 YUM/APT 源离线安装</div>
     </div>
@@ -471,7 +504,7 @@ var _hmt = _hmt || [];
 
 </div><!-- /container -->
 <div id="footer"></div>
-<script src="js/shared.js?v=20260319"></script>
+<script src="js/shared.js?v=20260319b"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('download');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -590,6 +623,6 @@ Object.assign(i18n.en, pageI18n.en);
 if (currentLang !== 'zh') setLang(currentLang);
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260319"></script>
+<script src="js/search.js?v=20260319b"></script>
 </body>
 </html>
