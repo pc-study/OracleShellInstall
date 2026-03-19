@@ -161,19 +161,6 @@
 .trust-quote-link:hover{color:var(--red-glow);text-decoration:underline}
 @media(max-width:900px){.trust-stats{grid-template-columns:repeat(2,1fr)}.trust-quotes{grid-template-columns:1fr}}
 
-/* QUICK CMD PREVIEW */
-.qcmd{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:32px;margin-top:32px}
-.qcmd-selectors{display:flex;gap:32px;margin-bottom:24px;flex-wrap:wrap}
-.qcmd-group{flex:1;min-width:200px}
-.qcmd-label{font-size:.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:block}
-.qcmd-pills{display:flex;gap:8px;flex-wrap:wrap}
-.qcmd-pill{padding:7px 18px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text-dim);font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:var(--mono)}
-.qcmd-pill:hover{border-color:var(--red);color:var(--text)}
-.qcmd-pill.active{background:rgba(199,70,52,.15);border-color:var(--red);color:var(--red-glow);font-weight:700;box-shadow:0 0 12px rgba(199,70,52,.15)}
-.qcmd-output{position:relative}
-.qcmd-term{background:var(--term-bg);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.qcmd-code{padding:16px 20px;font-family:var(--mono);font-size:.8rem;line-height:1.8;color:var(--green);margin:0;white-space:pre-wrap;word-break:break-all;min-height:52px}
-.qcmd-actions{display:flex;gap:10px;margin-top:14px;justify-content:center}
 @media(max-width:768px){.qcmd-selectors{flex-direction:column;gap:16px}.qcmd{padding:20px}}
 </style>
 <script type="application/ld+json">
@@ -286,49 +273,6 @@ var _hmt = _hmt || [];
         <div class="step-num">3</div>
         <h4 data-i18n="step3t">执行命令</h4>
         <p data-i18n="step3d">复制生成的命令，以 root 用户在服务器上执行即可</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="section-divider">
-<!-- QUICK COMMAND PREVIEW -->
-<section class="section-sm">
-  <div class="container">
-    <div class="section-center">
-      <div class="section-eyebrow reveal" data-i18n="previewEye">在线体验</div>
-      <div class="section-title reveal" data-i18n="previewTitle">选择配置，即刻生成命令</div>
-      <p class="section-desc reveal" data-i18n="previewDesc">选择 Oracle 版本和部署模式，立即看到生成的安装命令</p>
-    </div>
-    <div class="qcmd reveal" id="qcmd">
-      <div class="qcmd-selectors">
-        <div class="qcmd-group">
-          <label class="qcmd-label" data-i18n="qcmdVer">Oracle 版本</label>
-          <div class="qcmd-pills" id="qcmdVer">
-            <button class="qcmd-pill" data-val="19c">19c</button>
-            <button class="qcmd-pill" data-val="21c">21c</button>
-            <button class="qcmd-pill" data-val="11gR2">11gR2</button>
-            <button class="qcmd-pill" data-val="26ai">26ai</button>
-          </div>
-        </div>
-        <div class="qcmd-group">
-          <label class="qcmd-label" data-i18n="qcmdMode">部署模式</label>
-          <div class="qcmd-pills" id="qcmdMode">
-            <button class="qcmd-pill" data-val="single" data-i18n="qcmdSingle">单机</button>
-            <button class="qcmd-pill" data-val="standalone" data-i18n="qcmdAsm">单机ASM</button>
-            <button class="qcmd-pill" data-val="rac" data-i18n="qcmdRac">RAC</button>
-          </div>
-        </div>
-      </div>
-      <div class="qcmd-output">
-        <div class="qcmd-term">
-          <div class="hero-term-bar"><div class="hero-term-dots"><span class="td td-r"></span><span class="td td-y"></span><span class="td td-g"></span></div><span class="hero-term-title">Generated Command</span></div>
-          <pre class="qcmd-code" id="qcmdCode"><span class="t-cmt">← 选择版本和模式后自动生成</span></pre>
-        </div>
-        <div class="qcmd-actions">
-          <button class="btn btn-primary btn-sm" onclick="copyQcmd()" id="qcmdCopy" data-i18n="qcmdCopy">复制命令</button>
-          <a href="generator.html" class="btn btn-ghost btn-sm" data-i18n="qcmdFull">完整参数配置 →</a>
-        </div>
       </div>
     </div>
   </div>
@@ -500,44 +444,6 @@ Object.assign(i18n.en, pageI18n.en);
 
 // Apply saved language on page load (after page-specific keys are registered)
 if (currentLang !== 'zh') setLang(currentLang);
-
-// ---- Quick Command Preview ----
-(function(){
-  var ver='', mode='';
-  var codeEl = document.getElementById('qcmdCode');
-  function updateCmd(){
-    if(!ver||!mode){codeEl.innerHTML='<span class="t-cmt">← '+(currentLang==='zh'?'选择版本和模式后自动生成':'Select version and mode to generate')+'</span>';return;}
-    var cmd='<span class="t-w">sh OracleShellInstall.sh</span> <span class="t-flag">-install_mode</span> <span class="t-val">'+mode+'</span> <span class="t-sl">\\</span>\n';
-    cmd+='  <span class="t-flag">-lf</span> <span class="t-val">eth0</span> <span class="t-flag">-n</span> <span class="t-val">orcl</span> <span class="t-flag">-o</span> <span class="t-val">orcl</span> <span class="t-flag">-dp</span> <span class="t-val">oracle</span>';
-    if(mode==='standalone'||mode==='rac'){
-      cmd+=' <span class="t-sl">\\</span>\n  <span class="t-flag">-gu</span> <span class="t-val">grid</span> <span class="t-flag">-gp</span> <span class="t-val">oracle</span> <span class="t-flag">-dd</span> <span class="t-val">/dev/sdb,/dev/sdc</span>';
-    }
-    if(mode==='rac'){
-      cmd+=' <span class="t-sl">\\</span>\n  <span class="t-flag">-pf</span> <span class="t-val">eth1</span> <span class="t-flag">-hn</span> <span class="t-val">orcl01,orcl02</span> <span class="t-flag">-ri</span> <span class="t-val">10.0.0.1,10.0.0.2</span>';
-    }
-    codeEl.innerHTML=cmd;
-  }
-  document.querySelectorAll('#qcmdVer .qcmd-pill').forEach(function(b){
-    b.addEventListener('click',function(){
-      document.querySelectorAll('#qcmdVer .qcmd-pill').forEach(function(p){p.classList.remove('active')});
-      b.classList.add('active');ver=b.dataset.val;updateCmd();
-    });
-  });
-  document.querySelectorAll('#qcmdMode .qcmd-pill').forEach(function(b){
-    b.addEventListener('click',function(){
-      document.querySelectorAll('#qcmdMode .qcmd-pill').forEach(function(p){p.classList.remove('active')});
-      b.classList.add('active');mode=b.dataset.val;updateCmd();
-    });
-  });
-  window.copyQcmd=function(){
-    var text=codeEl.textContent||codeEl.innerText;
-    if(!text||text.indexOf('←')>=0)return;
-    navigator.clipboard.writeText(text).then(function(){
-      var btn=document.getElementById('qcmdCopy');btn.textContent=currentLang==='zh'?'已复制!':'Copied!';
-      setTimeout(function(){btn.textContent=currentLang==='zh'?'复制命令':'Copy';},1500);
-    }).catch(function(){});
-  };
-})();
 
 // ---- Terminal: Realistic install output replay ----
 const termLines = [
