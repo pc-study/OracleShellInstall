@@ -29,17 +29,18 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260320f">
+<link rel="manifest" href="manifest.json?v=20260320g">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260320f">
+<link rel="stylesheet" href="css/style.css?v=20260320g">
 <style>
 .doc-layout{display:grid;grid-template-columns:220px 1fr;gap:40px;padding:50px 0 80px;align-items:start}
 .doc-sidebar{position:sticky;top:calc(var(--nav-h) + 24px)}
 .doc-sidebar a{display:block;padding:8px 14px;font-size:.82rem;color:var(--text-dim);border-left:2px solid var(--border);
   transition:all .2s;text-decoration:none}
 .doc-sidebar a:hover{color:var(--text);border-color:var(--border-light)}
+.doc-sidebar a:focus-visible{color:var(--red-glow);border-color:var(--red);outline:none}
 .doc-sidebar a.active{color:var(--red-glow);border-color:var(--red);background:rgba(199,70,52,.04)}
 .doc-sidebar .sb-title{font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-muted);
   font-weight:600;padding:0 14px;margin-bottom:8px;margin-top:16px}
@@ -48,25 +49,27 @@
 .doc-content h2{font-size:1.4rem;font-weight:900;color:var(--text);margin:48px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 .doc-content h2:first-child{margin-top:0}
 .doc-content h3{font-size:1.05rem;font-weight:700;color:var(--text);margin:28px 0 12px}
-.doc-content p{font-size:.9rem;color:var(--text-dim);line-height:1.8;margin-bottom:14px}
-.doc-content ul,.doc-content ol{margin:0 0 16px 20px;color:var(--text-dim);font-size:.88rem;line-height:1.9}
+.doc-content p{font-size:.92rem;color:var(--text-dim);line-height:1.8;margin-bottom:14px}
+.doc-content ul,.doc-content ol{margin:0 0 16px 20px;color:var(--text-dim);font-size:.9rem;line-height:1.9}
 .doc-content li{margin-bottom:4px}
 .doc-content code{font-family:var(--mono);font-size:.82rem;background:var(--bg3);border:1px solid var(--border);
   border-radius:4px;padding:2px 7px;color:var(--accent2)}
 .doc-content pre{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:18px 20px;font-family:var(--mono);font-size:.82rem;line-height:1.8;color:var(--green);
+  padding:18px 20px;font-family:var(--mono);font-size:.85rem;line-height:1.8;color:var(--green);
   overflow-x:auto;margin-bottom:18px}
 .doc-content pre .pf{color:var(--accent2)}
 .doc-content pre .pv{color:var(--blue)}
-.doc-content pre .pc{color:var(--text-muted);font-style:italic;opacity:.55}
+.doc-content pre .pc{color:var(--text-muted);font-style:italic;opacity:.7}
 .doc-content pre .pw{color:#fff}
 
-.doc-content .param-table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:.82rem}
+.doc-content .param-table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:.85rem}
 .doc-content .param-table th{text-align:left;padding:10px 14px;background:var(--card);border:1px solid var(--border);
   color:var(--text-dim);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:1px}
 .doc-content .param-table td{padding:10px 14px;border:1px solid var(--border);color:var(--text-dim);vertical-align:top}
-.doc-content .param-table td:first-child{font-family:var(--mono);color:var(--accent2);white-space:nowrap;font-size:.8rem}
-.doc-content .param-table tr:hover td{background:rgba(199,70,52,.02)}
+.doc-content .param-table td:first-child{font-family:var(--mono);color:var(--accent2);white-space:nowrap;font-size:.82rem}
+.doc-content .param-table tbody tr:nth-child(odd) td{background:rgba(255,255,255,.015)}
+[data-theme="light"] .doc-content .param-table tbody tr:nth-child(odd) td{background:rgba(0,0,0,.02)}
+.doc-content .param-table tr:hover td{background:rgba(199,70,52,.06)}
 .doc-content .note{background:rgba(199,70,52,.05);border:1px solid var(--border-red);border-radius:var(--r);
   padding:16px 20px;margin:16px 0;font-size:.85rem;color:var(--text-dim);line-height:1.7}
 .doc-content .note strong{color:var(--red-glow)}
@@ -85,7 +88,16 @@
   color:var(--text-dim);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:1px}
 .doc-content .media-table td{padding:10px 14px;border:1px solid var(--border);color:var(--text-dim);vertical-align:top;font-size:.82rem}
 .doc-content .media-table td code{font-size:.78rem}
-.doc-content .media-table tr:hover td{background:rgba(199,70,52,.02)}
+.doc-content .media-table tbody tr:nth-child(odd) td{background:rgba(255,255,255,.015)}
+[data-theme="light"] .doc-content .media-table tbody tr:nth-child(odd) td{background:rgba(0,0,0,.02)}
+.doc-content .media-table tr:hover td{background:rgba(199,70,52,.06)}
+
+.param-filter{margin-bottom:8px}
+.param-filter input{width:100%;max-width:320px;padding:7px 12px;font-size:.82rem;border:1px solid var(--border);
+  border-radius:var(--r-sm);background:var(--bg2);color:var(--text);outline:none;transition:border .2s;
+  font-family:var(--mono)}
+.param-filter input:focus{border-color:var(--red)}
+.param-filter input::placeholder{color:var(--text-muted);opacity:.5}
 
 .doc-zh{display:block}.doc-en{display:none}
 
@@ -130,7 +142,9 @@
   .doc-sidebar a{border-left:none;border-bottom:2px solid transparent;padding:6px 12px;
     white-space:nowrap;flex-shrink:0;font-size:.78rem}
   .doc-sidebar a.active{border-bottom-color:var(--red)}
-  .doc-sidebar .sb-title{display:none}
+  .doc-sidebar .sb-title{display:flex;align-items:center;font-size:.6rem;padding:6px 8px;
+    margin:0;white-space:nowrap;flex-shrink:0;color:var(--text-muted);opacity:.7;
+    border-left:1px solid var(--border);margin-left:4px;letter-spacing:1px}
   .doc-search{margin-bottom:0;flex-shrink:0;min-width:160px}
   .doc-search input{padding:6px 10px 6px 28px;font-size:.78rem}
   .doc-search svg{width:12px;height:12px;left:8px}
@@ -138,10 +152,10 @@
   .doc-content{overflow-x:hidden}
   .doc-content h2{font-size:1.15rem;margin:32px 0 12px}
   .doc-content h3{font-size:.95rem}
-  .doc-content p{font-size:.84rem}
-  .doc-content ul,.doc-content ol{font-size:.84rem}
-  .doc-content pre{font-size:.76rem;padding:12px 14px;word-break:break-all}
-  .doc-content code{font-size:.76rem;word-break:break-all}
+  .doc-content p{font-size:.86rem}
+  .doc-content ul,.doc-content ol{font-size:.86rem}
+  .doc-content pre{font-size:.78rem;padding:12px 14px}
+  .doc-content code{font-size:.78rem}
 
   .doc-content table.resp-cards{border:none}
   .doc-content table.resp-cards thead{display:none}
@@ -196,9 +210,9 @@ var _hmt = _hmt || [];
 <!-- SIDEBAR -->
 <nav class="doc-sidebar">
   <div class="doc-search">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-    <input type="text" id="docSearch" placeholder="搜索文档..." data-i18n-placeholder-zh="搜索文档..." data-i18n-placeholder-en="Search docs...">
-    <button class="search-clear" id="searchClear">&times;</button>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <input type="text" id="docSearch" aria-label="搜索文档" placeholder="搜索文档..." data-i18n-placeholder-zh="搜索文档..." data-i18n-placeholder-en="Search docs...">
+    <button class="search-clear" id="searchClear" aria-label="清除搜索">&times;</button>
   </div>
   <div class="sb-title" data-i18n="sbQuick">快速入门</div>
   <a href="#quickstart" class="active" data-i18n="sbQuickstart">快速开始</a>
@@ -262,7 +276,7 @@ var _hmt = _hmt || [];
 
 <div class="doc-table-wrap">
 <table class="media-table resp-cards">
-<tr><th>Oracle 版本</th><th>数据库安装介质</th><th>Grid 安装介质 (ASM/RAC)</th></tr>
+<tr><th scope="col">Oracle 版本</th><th scope="col">数据库安装介质</th><th scope="col">Grid 安装介质 (ASM/RAC)</th></tr>
 <tr><td>11gR2</td><td><code>p13390677_112040_Linux-x86-64_1of7.zip</code><br><code>p13390677_112040_Linux-x86-64_2of7.zip</code></td><td><code>p13390677_112040_Linux-x86-64_3of7.zip</code></td></tr>
 <tr><td>12cR2</td><td><code>linuxx64_12201_database.zip</code></td><td><code>linuxx64_12201_grid_home.zip</code></td></tr>
 <tr><td>19c</td><td><code>LINUX.X64_193000_db_home.zip</code></td><td><code>LINUX.X64_193000_grid_home.zip</code></td></tr>
@@ -493,7 +507,7 @@ var _hmt = _hmt || [];
 <h2 id="params-common">通用参数</h2>
 <div class="doc-table-wrap">
 <table class="param-table resp-cards">
-<tr><th>参数</th><th>说明</th><th>默认值</th></tr>
+<tr><th scope="col">参数</th><th scope="col">说明</th><th scope="col">默认值</th></tr>
 <tr><td>-lf</td><td>公网 IP 的网卡名称（必填）</td><td>-</td></tr>
 <tr><td>-n</td><td>主机名（单机为主机名，RAC 为主机名前缀）</td><td>orcl</td></tr>
 <tr><td>-o</td><td>数据库名称，支持多实例：orcl,oradb</td><td>orcl</td></tr>
@@ -524,7 +538,7 @@ var _hmt = _hmt || [];
 <h2 id="params-asm">ASM 相关参数</h2>
 <div class="doc-table-wrap">
 <table class="param-table resp-cards">
-<tr><th>参数</th><th>说明</th><th>默认值</th></tr>
+<tr><th scope="col">参数</th><th scope="col">说明</th><th scope="col">默认值</th></tr>
 <tr><td>-gu</td><td>系统 grid 用户名称</td><td>grid</td></tr>
 <tr><td>-gp</td><td>系统 grid 用户密码</td><td>oracle</td></tr>
 <tr><td>-adc</td><td>是否由脚本配置 ASM 磁盘（Y/N）</td><td>Y</td></tr>
@@ -540,7 +554,7 @@ var _hmt = _hmt || [];
 <h2 id="params-rac">RAC 专属参数</h2>
 <div class="doc-table-wrap">
 <table class="param-table resp-cards">
-<tr><th>参数</th><th>说明</th><th>默认值</th></tr>
+<tr><th scope="col">参数</th><th scope="col">说明</th><th scope="col">默认值</th></tr>
 <tr><td>-pf</td><td>心跳网卡名称，多组逗号分隔（必填）</td><td>-</td></tr>
 <tr><td>-hn</td><td>所有节点主机名，按顺序逗号分隔（必填）</td><td>-</td></tr>
 <tr><td>-ri</td><td>所有节点公网 IP（必填）</td><td>-</td></tr>
@@ -743,7 +757,7 @@ var _hmt = _hmt || [];
 
 <div class="doc-table-wrap">
 <table class="media-table resp-cards">
-<tr><th>Oracle Version</th><th>Database Media</th><th>Grid Media (ASM/RAC)</th></tr>
+<tr><th scope="col">Oracle Version</th><th scope="col">Database Media</th><th scope="col">Grid Media (ASM/RAC)</th></tr>
 <tr><td>11gR2</td><td><code>p13390677_112040_Linux-x86-64_1of7.zip</code><br><code>p13390677_112040_Linux-x86-64_2of7.zip</code></td><td><code>p13390677_112040_Linux-x86-64_3of7.zip</code></td></tr>
 <tr><td>12cR2</td><td><code>linuxx64_12201_database.zip</code></td><td><code>linuxx64_12201_grid_home.zip</code></td></tr>
 <tr><td>19c</td><td><code>LINUX.X64_193000_db_home.zip</code></td><td><code>LINUX.X64_193000_grid_home.zip</code></td></tr>
@@ -883,7 +897,7 @@ var _hmt = _hmt || [];
 <h2 id="en-params-common">Common Parameters</h2>
 <div class="doc-table-wrap">
 <table class="param-table resp-cards">
-<tr><th>Param</th><th>Description</th><th>Default</th></tr>
+<tr><th scope="col">Param</th><th scope="col">Description</th><th scope="col">Default</th></tr>
 <tr><td>-lf</td><td>Public IP network interface name (required)</td><td>-</td></tr>
 <tr><td>-n</td><td>Hostname (single) or hostname prefix (RAC)</td><td>orcl</td></tr>
 <tr><td>-o</td><td>Database name, supports multiple: orcl,oradb</td><td>orcl</td></tr>
@@ -914,7 +928,7 @@ var _hmt = _hmt || [];
 <h2 id="en-params-asm">ASM Parameters</h2>
 <div class="doc-table-wrap">
 <table class="param-table resp-cards">
-<tr><th>Param</th><th>Description</th><th>Default</th></tr>
+<tr><th scope="col">Param</th><th scope="col">Description</th><th scope="col">Default</th></tr>
 <tr><td>-gu</td><td>System grid username</td><td>grid</td></tr>
 <tr><td>-gp</td><td>System grid user password</td><td>oracle</td></tr>
 <tr><td>-adc</td><td>Script configures ASM disks (Y/N)</td><td>Y</td></tr>
@@ -930,7 +944,7 @@ var _hmt = _hmt || [];
 <h2 id="en-params-rac">RAC Parameters</h2>
 <div class="doc-table-wrap">
 <table class="param-table resp-cards">
-<tr><th>Param</th><th>Description</th><th>Default</th></tr>
+<tr><th scope="col">Param</th><th scope="col">Description</th><th scope="col">Default</th></tr>
 <tr><td>-pf</td><td>Heartbeat NIC names, comma-separated (required)</td><td>-</td></tr>
 <tr><td>-hn</td><td>All node hostnames, comma-separated in order (required)</td><td>-</td></tr>
 <tr><td>-ri</td><td>All node public IPs (required)</td><td>-</td></tr>
@@ -1189,7 +1203,7 @@ var _hmt = _hmt || [];
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
 <div id="footer"></div>
-<script src="js/shared.js?v=20260320f"></script>
+<script src="js/shared.js?v=20260320g"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('docs');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -1366,8 +1380,28 @@ document.querySelectorAll('table.resp-cards').forEach(table => {
     tds.forEach((td, i) => { if(headers[i]) td.setAttribute('data-label', headers[i]); });
   });
 });
+
+// ── Parameter Table Filter ──
+document.querySelectorAll('.param-table').forEach(table => {
+  const wrapper = table.closest('.doc-table-wrap') || table.parentElement;
+  const filterBox = document.createElement('div');
+  filterBox.className = 'param-filter';
+  const isEn = !!table.closest('.doc-en');
+  filterBox.innerHTML = '<input type="text" placeholder="' + (isEn ? 'Filter parameters...' : '过滤参数...') +
+    '" aria-label="' + (isEn ? 'Filter parameters' : '过滤参数') + '">';
+  wrapper.insertBefore(filterBox, table);
+  const filterInput = filterBox.querySelector('input');
+  filterInput.addEventListener('input', function(){
+    const q = this.value.trim().toLowerCase();
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      if (!q) { tr.style.display = ''; return; }
+      const text = tr.textContent.toLowerCase();
+      tr.style.display = text.includes(q) ? '' : 'none';
+    });
+  });
+});
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260320f"></script>
+<script src="js/search.js?v=20260320g"></script>
 </body>
 </html>
