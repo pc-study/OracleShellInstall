@@ -29,13 +29,13 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260319c">
+<link rel="manifest" href="manifest.json?v=20260319d">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="css/style.css?v=20260319c" as="style">
-<link rel="preload" href="js/shared.js?v=20260319c" as="script">
+<link rel="preload" href="css/style.css?v=20260319d" as="style">
+<link rel="preload" href="js/shared.js?v=20260319d" as="script">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260319c">
+<link rel="stylesheet" href="css/style.css?v=20260319d">
 <style>
 .hero{position:relative;padding:100px 0 80px;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
@@ -58,7 +58,7 @@
 .td-r{background:#ff5f57}.td-y{background:#febc2e}.td-g{background:#28c840}
 .td-r:hover{background:#e04a42}.td-y:hover{background:#e5a91f}.td-g:hover{background:#1fb835}
 .hero-term-title{position:absolute;left:0;right:0;text-align:center;font-size:.72rem;color:var(--text-muted);font-family:var(--mono);pointer-events:none}
-.hero-term-body{padding:20px;font-family:var(--mono);font-size:.8rem;line-height:2;color:var(--green)}
+.hero-term-body{padding:20px;font-family:var(--mono);font-size:.75rem;line-height:1.85;color:var(--green);max-height:420px;overflow-y:auto}
 .hero-term-body .t-flag{color:var(--accent2)}.hero-term-body .t-val{color:var(--blue)}
 .hero-term-body .t-cmt{color:var(--text-muted);font-style:italic;opacity:.6}
 .hero-term-body .t-w{color:#fff}.hero-term-body .t-sl{color:var(--text-muted);opacity:.5}
@@ -67,9 +67,6 @@
 .hero-term-body .cursor{display:inline-block;width:8px;height:16px;background:var(--red);
   vertical-align:text-bottom;margin-left:2px;animation:blink-cursor .8s step-end infinite}
 @keyframes blink-cursor{0%,100%{opacity:1}50%{opacity:0}}
-.t-bar{display:inline-block;width:120px;height:10px;background:var(--bg);border-radius:5px;vertical-align:middle;position:relative;overflow:hidden;border:1px solid var(--border)}
-.t-bar::after{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--red),var(--green));border-radius:4px;animation:barFill 1.2s ease-out .3s forwards}
-@keyframes barFill{to{width:100%}}
 .hero-term-body .term-line{opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
 .hero-term-body .term-line.visible{opacity:1;transform:translateY(0)}
 
@@ -353,7 +350,7 @@ var _hmt = _hmt || [];
 <!-- FOOTER -->
 <div id="footer"></div>
 
-<script src="js/shared.js?v=20260319c"></script>
+<script src="js/shared.js?v=20260319d"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('home');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -445,18 +442,40 @@ Object.assign(i18n.en, pageI18n.en);
 // Apply saved language on page load (after page-specific keys are registered)
 if (currentLang !== 'zh') setLang(currentLang);
 
-// ---- Terminal: Realistic install output replay ----
+// ---- Terminal: Realistic install output replay (matches actual OracleShellInstall script) ----
+const G='color:var(--green)', B='color:var(--blue)', Y='color:#e5c07b', W='color:#fff', M='color:var(--text-muted)';
+function s(c,t){return '<span style="'+c+'">'+t+'</span>';}
+function done(t,sec){return s(B,t)+'......'+s(G,'已完成 (耗时: '+sec+' 秒)');}
 const termLines = [
-  { html: '<span class="t-w">$</span> <span class="t-val">sh OracleShellInstall.sh -install_mode single -lf eth0 -o prod -dp oracle</span>', delay: 800 },
-  { html: '<span class="t-cmt">[INFO]</span> OracleShellInstall <span class="t-val">v5.0.0</span> starting...', delay: 500 },
-  { html: '<span class="t-cmt">[INFO]</span> Mode: <span class="t-flag">Single Instance</span> | Oracle: <span class="t-flag">19c</span> | OS: <span class="t-flag">Rocky 9.3</span>', delay: 400 },
-  { html: '<span class="t-cmt">[INFO]</span> Configuring OS kernel parameters ......... <span style="color:var(--green)">✓</span>', delay: 600 },
-  { html: '<span class="t-cmt">[INFO]</span> Installing dependencies (48 packages) .... <span style="color:var(--green)">✓</span>', delay: 700 },
-  { html: '<span class="t-cmt">[INFO]</span> Creating user oracle:oinstall ............ <span style="color:var(--green)">✓</span>', delay: 400 },
-  { html: '<span class="t-cmt">[INFO]</span> Installing Oracle 19c software <span class="t-bar"></span> <span class="t-val">100%</span>', delay: 900 },
-  { html: '<span class="t-cmt">[INFO]</span> Creating database \'prod\' <span class="t-bar"></span> <span class="t-val">100%</span>', delay: 900 },
-  { html: '<span class="t-cmt">[INFO]</span> Applying RU patch 36583279 ............... <span style="color:var(--green)">✓</span>', delay: 600 },
-  { html: '<span style="color:var(--green);font-weight:700">[SUCCESS]</span> <span class="t-w">Oracle 19c installation completed!</span> <span class="t-cmt">(23 min)</span>', delay: 0 },
+  { html: s(W,'$')+' '+s(Y,'sh OracleShellInstall -install_mode single -lf eth0 -o orcl -dp oracle -opd Y'), delay: 900 },
+  { html: '', delay: 100 },
+  { html: s(Y,'注意：本脚本仅用于新服务器上实施部署数据库使用，严禁在已运行数据库的主机上执行！'), delay: 400 },
+  { html: '', delay: 100 },
+  { html: s(G,'OracleShellInstall 开始安装，详细安装过程可查看日志： tail -2000f print_shell_install.log'), delay: 500 },
+  { html: s(B,'正在进行安装前检查，请稍等......'), delay: 400 },
+  { html: done('正在配置本地软件源',3), delay: 500 },
+  { html: done('正在获取操作系统信息',1), delay: 400 },
+  { html: done('正在安装依赖包',36), delay: 600 },
+  { html: done('正在配置 Swap',2), delay: 350 },
+  { html: done('正在禁用防火墙',1), delay: 300 },
+  { html: done('正在禁用 selinux',1), delay: 300 },
+  { html: done('正在配置主机名和 hosts 文件',1), delay: 300 },
+  { html: done('正在创建用户和组',1), delay: 300 },
+  { html: done('正在创建安装目录',1), delay: 250 },
+  { html: done('正在配置透明大页 && NUMA && 磁盘 IO 调度器',2), delay: 350 },
+  { html: done('正在配置操作系统参数 sysctl',1), delay: 300 },
+  { html: done('正在配置 RemoveIPC',1), delay: 250 },
+  { html: done('正在配置用户限制 limit',1), delay: 250 },
+  { html: done('正在配置 shm 目录',1), delay: 250 },
+  { html: done('正在安装 rlwrap 插件',5), delay: 400 },
+  { html: done('正在配置用户环境变量',1), delay: 300 },
+  { html: done('正在解压 Oracle 安装包',28), delay: 700 },
+  { html: done('正在安装 Oracle 软件',186), delay: 900 },
+  { html: done('正在创建监听',8), delay: 500 },
+  { html: done('正在创建数据库',562), delay: 1000 },
+  { html: done('正在优化数据库',15), delay: 600 },
+  { html: '', delay: 100 },
+  { html: s(G+'font-weight:700','恭喜！Oracle 一键安装执行完成 (耗时: 868 秒)，现在是否重启主机：[Y/N]'), delay: 0 },
 ];
 
 function runTermAnimation() {
@@ -499,6 +518,6 @@ runTermAnimation();
 })();
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260319c"></script>
+<script src="js/search.js?v=20260319d"></script>
 </body>
 </html>
