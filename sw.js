@@ -1,6 +1,6 @@
-const CACHE_NAME = 'os-v7';
+const CACHE_NAME = 'os-v9';
 const STATIC_EXTS = /\.(css|js|json|woff2?|ttf|eot|svg|png|jpg|jpeg|webp|ico)$/i;
-const MAX_CACHE_ITEMS = 200;
+const MAX_CACHE_ITEMS = 80;
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -14,7 +14,7 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Trim cache to MAX_CACHE_ITEMS (LRU-style: delete oldest entries)
+// Trim cache to MAX_CACHE_ITEMS (FIFO: delete oldest entries first)
 async function trimCache(cacheName, max) {
   const cache = await caches.open(cacheName);
   const keys = await cache.keys();
@@ -59,7 +59,7 @@ self.addEventListener('fetch', event => {
         .catch(() =>
           caches.match(request).then(cached =>
             cached || new Response(
-              '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>离线 - OracleShellInstall</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,sans-serif;background:#0a0a0e;color:#e8e6e3;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:24px}.wrap{max-width:400px}.icon{font-size:3rem;margin-bottom:16px}.title{font-size:1.5rem;font-weight:700;margin-bottom:8px}.desc{color:#9a9aaa;margin-bottom:24px;line-height:1.6}.btn{display:inline-block;padding:10px 24px;background:#C74634;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;transition:background .2s}.btn:hover{background:#e05a48}</style></head><body><div class="wrap"><div class="icon">&#128268;</div><div class="title">当前离线</div><div class="desc">无法连接到服务器，请检查网络连接后重试。</div><a href="." class="btn" onclick="location.reload();return false">重新加载</a></div></body></html>',
+              '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>离线 / Offline - OracleShellInstall</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,sans-serif;background:#0a0a0e;color:#e8e6e3;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:24px}.wrap{max-width:400px}.icon{font-size:3rem;margin-bottom:16px}.title{font-size:1.5rem;font-weight:700;margin-bottom:8px}.desc{color:#9a9aaa;margin-bottom:24px;line-height:1.6}.btn{display:inline-block;padding:10px 24px;background:#C74634;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;transition:background .2s}.btn:hover{background:#e05a48}</style></head><body><div class="wrap"><div class="icon">&#128268;</div><div class="title">当前离线 / Offline</div><div class="desc">无法连接到服务器，请检查网络连接后重试。<br>Unable to connect to the server. Please check your network and try again.</div><a href="." class="btn" onclick="location.reload();return false">重新加载 / Reload</a></div></body></html>',
               { status: 503, headers: { 'Content-Type': 'text/html;charset=UTF-8' } }
             )
           )

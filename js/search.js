@@ -106,7 +106,7 @@
         if (score > 0) scored.push({ ...item, score });
       });
       scored.sort((a, b) => b.score - a.score);
-      renderResults(scored.slice(0, 20), terms);
+      renderResults(scored.slice(0, 20), terms, scored.length);
     });
   }
 
@@ -120,12 +120,23 @@
     return out;
   }
 
-  function renderResults(items, terms) {
+  function renderResults(items, terms, totalCount) {
     if (items.length === 0) {
       results.innerHTML = `<div class="search-empty">${currentLang === 'zh' ? '没有找到相关结果' : 'No results found'}</div>`;
       return;
     }
-    results.innerHTML = items.map((item, i) => {
+    let countText;
+    if (totalCount > 20) {
+      countText = currentLang === 'zh'
+        ? `显示前 20 条，共 ${totalCount} 条`
+        : `Showing 20 of ${totalCount} results`;
+    } else {
+      countText = currentLang === 'zh'
+        ? `显示 ${totalCount} 条结果`
+        : `Showing ${totalCount} results`;
+    }
+    const countHTML = `<div class="search-result-count">${countText}</div>`;
+    results.innerHTML = countHTML + items.map((item, i) => {
       const url = escapeHTML(prefix + item.url);
       const title = highlight(item.title || item.url, terms);
       const desc = highlight((item.desc || item.text || '').substring(0, 120), terms);

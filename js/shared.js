@@ -48,45 +48,12 @@ const i18n = {
     feat1t: 'Fully Automated',
     feat1d: 'One command handles everything: OS config, dependency install, user creation, software install, DB creation',
     feat2t: 'Multi-Version',
-    feat2d: 'Oracle 11gR2, 12cR2, 19c, 21c, 26ai \u2014 all supported',
-    feat3t: 'Broad Compatibility',
-    feat3d: 'CentOS, RHEL, Ubuntu, Debian, openEuler, Kylin, and 20+ more distributions',
     feat4t: 'RAC Cluster',
-    feat4d: 'Automated multi-node RAC cluster deployment with one command',
-    feat5t: 'ASM Storage',
-    feat5d: 'Auto UDEV binding, multipath, disk group and redundancy configuration',
     feat6t: 'Patch Upgrade',
-    feat6d: 'Grid, Oracle PSU/RU, OJVM patches automatically applied during install',
-    feat7t: 'Smart Validation',
-    feat7d: 'Pre-install parameter checking to prevent configuration errors',
-    feat8t: 'Install Logging',
-    feat8d: 'Complete installation logs for troubleshooting and audit',
-
-    // index - modes
-    modeEye: 'Deployment Modes',
-    modeTitle: 'Three Deployment Modes',
-    modeSub: 'Choose the deployment mode that best fits your scenario',
-    mode1t: 'Single Instance',
-    mode1d: 'Standard single-node filesystem install, ideal for dev/test and small production',
-    mode1tag1: 'Filesystem',
-    mode1tag2: 'Quick Deploy',
-    mode1tag3: 'Low Resource',
-    mode2t: 'Standalone ASM',
-    mode2d: 'Single-node with ASM storage management, auto disk group configuration',
-    mode2tag1: 'ASM Storage',
-    mode2tag2: 'Grid Infra',
-    mode2tag3: 'UDEV Binding',
-    mode3t: 'RAC Cluster',
-    mode3d: 'Multi-node cluster, auto SSH trust, Grid, ASM, and cluster DB creation',
-    mode3tag1: 'High Availability',
-    mode3tag2: 'Multi-Node',
-    mode3tag3: 'Auto SSH Trust',
-    mode3tag4: 'SCAN',
 
     // index - steps
     stepsEye: 'Quick Start',
     stepsTitle: 'Get Started in 3 Steps',
-    stepTitle: 'Get Started in 3 Steps',
     step1t: 'Upload Files',
     step1d: 'Upload OracleShellInstall.sh and Oracle installation media to /soft directory',
     step2t: 'Configure Parameters',
@@ -110,12 +77,6 @@ const i18n = {
     quote1: '\u201cRAC installation used to take two days. With this script, one command gets it done, saving tremendous time.\u201d',
     quote2: '\u201cGreat system coverage \u2014 our Kylin V10 and openEuler work out of the box. Excellent domestic OS support.\u201d',
     quote3: '\u201cThe command generator is incredibly convenient. Visual parameter configuration makes it easy even for beginners.\u201d',
-
-    // index - compat preview
-    compEye: 'Compatibility',
-    compTitle: 'Broad Version & OS Support',
-    compVer: 'Supported Oracle Versions',
-    compOs: 'Supported Operating Systems',
 
     // generator
     genTitle: 'Installation Command Generator',
@@ -434,15 +395,15 @@ function navHTML(active) {
   const themeIcon = currentTheme === 'dark' ? '\u2600' : '\u263E';
   const langLabel = currentLang === 'zh' ? 'EN' : '\u4E2D';
   // Desktop nav
-  const nav = `<nav class="nav"><div class="nav-inner">
+  const nav = `<nav class="nav"><a href="#main-content" class="skip-link">跳转到主内容</a><div class="nav-inner">
     <a href="${prefix}index.html" class="nav-logo"><div class="logo-icon">OS</div>Oracle<span>Shell</span>Install</a>
     <div class="nav-links">${pages.map(p =>
       `<a href="${prefix}${p.href}" class="${active===p.id?'active':''}" data-i18n="${p.key}"><span class="nav-icon">${p.icon}</span>${t(p.key)}</a>`
     ).join('')}<a href="${prefix}pricing.html" class="nav-cta" data-i18n="start">${t('start')}</a></div>
     <div class="nav-actions">
-      <button class="nav-search-btn" onclick="openSearch()" title="Search" aria-label="Search"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><kbd>\u2318K</kbd></button>
-      <button class="nav-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">${themeIcon}</button>
-      <button class="nav-toggle" id="langToggle" onclick="toggleLang()" title="Language" aria-label="Toggle language">${langLabel}</button>
+      <button class="nav-search-btn" onclick="openSearch()" title="Search" aria-label="搜索"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><kbd>\u2318K</kbd></button>
+      <button class="nav-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme" aria-label="切换主题">${themeIcon}</button>
+      <button class="nav-toggle" id="langToggle" onclick="toggleLang()" title="Language" aria-label="切换语言">${langLabel}</button>
     </div>
   </div></nav>`;
   // Mobile bottom tab bar
@@ -517,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btt.className = 'back-to-top';
   btt.innerHTML = '\u2191';
   btt.title = 'Back to top';
-  btt.setAttribute('aria-label', 'Back to top');
+  btt.setAttribute('aria-label', '返回顶部');
   btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   document.body.appendChild(btt);
 
@@ -535,13 +496,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const fab = document.createElement('button');
   fab.className = 'wechat-fab';
   fab.title = t('consultTitle');
-  fab.setAttribute('aria-label', t('consultTitle'));
+  fab.setAttribute('aria-label', '联系咨询');
   fab.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 4C5.36 4 2 6.69 2 10c0 1.89 1.08 3.56 2.78 4.66L4 17l2.5-1.5c.89.31 1.87.5 2.89.5h.27A6.48 6.48 0 0 1 9.5 15c0-3.59 3.36-6.5 7.5-6.5.17 0 .33.01.5.02C16.46 5.88 13.27 4 9.5 4zm-2 3.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm5 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM17 10c-3.31 0-6 2.24-6 5s2.69 5 6 5c.67 0 1.31-.1 1.92-.28L21 21l-.62-2.12C21.94 17.79 23 16.47 23 15c0-2.76-2.69-5-6-5zm-2 3.5a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5zm4 0a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5z"/></svg>';
   document.body.appendChild(fab);
 
   const popup = document.createElement('div');
   popup.className = 'wechat-popup';
-  popup.innerHTML = `<button class="wechat-popup-close" aria-label="Close">&times;</button>
+  popup.innerHTML = `<button class="wechat-popup-close" aria-label="关闭">&times;</button>
     <div class="wechat-popup-title" data-i18n="consultTitle">${t('consultTitle')}</div>
     <img class="wechat-popup-qr" src="${qrPath}" alt="WeChat QR" width="200" height="262" loading="lazy">
     <div class="wechat-popup-id">WeChat: Lucifer-0622</div>

@@ -22,12 +22,12 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="manifest" href="../manifest.json?v=20260319c">
+<link rel="manifest" href="../manifest.json?v=20260320a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=20260319c">
-<link rel="stylesheet" href="guide.css?v=20260319c">
+<link rel="stylesheet" href="../css/style.css?v=20260320a">
+<link rel="stylesheet" href="guide.css?v=20260320a">
 <script>
 var _hmt = _hmt || [];
 (function() {
@@ -59,15 +59,15 @@ var _hmt = _hmt || [];
     </div>
   </div>
   <div class="guide-body markdown-body">
-<div class="guide-cta" style="background:linear-gradient(135deg,rgba(199,70,52,.06),rgba(199,70,52,.02));border:1px solid var(--border-red,rgba(199,70,52,.2));border-radius:12px;padding:28px 32px;margin:0 0 20px;text-align:center">
-  <div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px">🚀 获取 OracleShellInstall 一键安装脚本</div>
-  <div style="font-size:.85rem;color:var(--text-dim);line-height:1.7;margin-bottom:18px;max-width:520px;margin-left:auto;margin-right:auto">支持 Oracle 11gR2 ~ 26ai 全版本，覆盖 20+ 操作系统，单机 / ASM / RAC 三种模式一键部署。告别繁琐手动配置，让安装效率提升 10 倍。</div>
-  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-    <a href="../pricing.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:var(--red,#C74634);color:#fff;border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s">立即订阅</a>
-    <a href="../generator.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:transparent;color:var(--text);border:1px solid var(--border-light,#444);border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s">命令生成器</a>
+<div class="guide-cta">
+  <div class="guide-cta-title">🚀 获取 OracleShellInstall 一键安装脚本</div>
+  <div class="guide-cta-desc">支持 Oracle 11gR2 ~ 26ai 全版本，覆盖 20+ 操作系统，单机 / ASM / RAC 三种模式一键部署。告别繁琐手动配置，让安装效率提升 10 倍。</div>
+  <div class="guide-cta-btns">
+    <a href="../pricing.html" class="guide-cta-btn guide-cta-btn-primary">立即订阅</a>
+    <a href="../generator.html" class="guide-cta-btn guide-cta-btn-ghost">命令生成器</a>
   </div>
 </div>
-<hr style="margin:20px 0 30px;border:none;border-top:1px solid var(--border)">
+<hr class="guide-cta-hr">
 
 <blockquote>
 <p>大家好，这里是 <strong>Lucifer三思而后行</strong>，专注于提升数据库运维效率。</p>
@@ -92,7 +92,7 @@ A <span class="hljs-built_in">log</span> of this session is currently saved as: 
 <li>9.x 版本 <code>+ -T -O</code></li>
 </ul>
 <p>按理说不会出现问题，查看 <code>Rocky Linux 9.4</code> 的 openssh 版本为：<code>OpenSSH_8.7p1</code>，脚本也确实进行了 <code>+ -T</code> 处理，按理说没有问题才对。经过深入专研分析之后发现，其实 <code>-O</code> 选项是从 8.7 版本就已经出现的，因此从 8.7 版本开始就需要进行 <code>+ -T -O</code> 处理，验证后确实如此：</p>
-<p><img loading="lazy" src="img/20240815-c8e041e3-52f0-4577-879e-699b9042bcae.png" alt="Installation screenshot" /></p>
+<p><img loading="lazy" src="img/20240815-c8e041e3-52f0-4577-879e-699b9042bcae.webp" alt="Installation screenshot" /></p>
 <p>后续，在建库时遇到了监听没有创建成功的问题，装 Grid 时后续创建监听报错：</p>
 <pre><div class="hljs"><code class="lang-bash">[grid@rocky9-01:/u01/app/grid/cfgtoollogs/netca]$ cat netca_Ora11g_gridinfrahome1-2408152PM1111.log
 ...
@@ -522,12 +522,12 @@ lucifer2         OPEN
 </div>
 </article>
 <div id="footer"></div>
-<script src="../js/shared.js?v=20260319c"></script>
+<script src="../js/shared.js?v=20260320a"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('compat');
 document.getElementById('footer').innerHTML = footerHTML();
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
-<script src="../js/search.js?v=20260319c"></script>
+<script src="../js/search.js?v=20260320a"></script>
 </body>
 </html>

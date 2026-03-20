@@ -22,12 +22,12 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="manifest" href="../manifest.json?v=20260319c">
+<link rel="manifest" href="../manifest.json?v=20260320a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=20260319c">
-<link rel="stylesheet" href="guide.css?v=20260319c">
+<link rel="stylesheet" href="../css/style.css?v=20260320a">
+<link rel="stylesheet" href="guide.css?v=20260320a">
 <script>
 var _hmt = _hmt || [];
 (function() {
@@ -59,20 +59,20 @@ var _hmt = _hmt || [];
     </div>
   </div>
   <div class="guide-body markdown-body">
-<div class="guide-cta" style="background:linear-gradient(135deg,rgba(199,70,52,.06),rgba(199,70,52,.02));border:1px solid var(--border-red,rgba(199,70,52,.2));border-radius:12px;padding:28px 32px;margin:0 0 20px;text-align:center">
-  <div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px">🚀 获取 OracleShellInstall 一键安装脚本</div>
-  <div style="font-size:.85rem;color:var(--text-dim);line-height:1.7;margin-bottom:18px;max-width:520px;margin-left:auto;margin-right:auto">支持 Oracle 11gR2 ~ 26ai 全版本，覆盖 20+ 操作系统，单机 / ASM / RAC 三种模式一键部署。告别繁琐手动配置，让安装效率提升 10 倍。</div>
-  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-    <a href="../pricing.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:var(--red,#C74634);color:#fff;border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s">立即订阅</a>
-    <a href="../generator.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:transparent;color:var(--text);border:1px solid var(--border-light,#444);border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s">命令生成器</a>
+<div class="guide-cta">
+  <div class="guide-cta-title">🚀 获取 OracleShellInstall 一键安装脚本</div>
+  <div class="guide-cta-desc">支持 Oracle 11gR2 ~ 26ai 全版本，覆盖 20+ 操作系统，单机 / ASM / RAC 三种模式一键部署。告别繁琐手动配置，让安装效率提升 10 倍。</div>
+  <div class="guide-cta-btns">
+    <a href="../pricing.html" class="guide-cta-btn guide-cta-btn-primary">立即订阅</a>
+    <a href="../generator.html" class="guide-cta-btn guide-cta-btn-ghost">命令生成器</a>
   </div>
 </div>
-<hr style="margin:20px 0 30px;border:none;border-top:1px solid var(--border)">
+<hr class="guide-cta-hr">
 
 <h2><a id="_0"></a>前言</h2>
 <p><strong>Oracle 一键安装脚本，演示 龙蜥 Anolis OS 7.9 一键安装 Oracle 11GR2（231017）单机版过程（全程无需人工干预）：（脚本包括 <span style="color:var(--red,#C74634)">ORALCE PSU/OJVM 等补丁自动安装</span>）</strong></p>
 <p>脚本第三代支持 N 节点一键安装，不限制节点数！</p>
-<p><img loading="lazy" src="img/20230505-1847efab-b5e0-4f66-93f5-79b6e108980e.png" alt="Installation screenshot" /></p>
+<p><img loading="lazy" src="img/20230505-1847efab-b5e0-4f66-93f5-79b6e108980e.webp" alt="Installation screenshot" /></p>
 <h2><a id="_9"></a>安装准备</h2>
 <ul>
 <li>1、安装好操作系统，建议安装图形化</li>
@@ -86,22 +86,22 @@ var _hmt = _hmt || [];
 <p>开启启动安装，进入安装界面：</p>
 <p><img loading="lazy" src="img/20240325-bd5013e9-c89a-440d-9ec1-5b56ce3cedbf.png" alt="Installation screenshot" /></p>
 <p>选择英文语言：</p>
-<p><img loading="lazy" src="img/20240325-7ef4a954-d88a-4855-90d9-bc3211b4f087.png" alt="Installation screenshot" /></p>
+<p><img loading="lazy" src="img/20240325-7ef4a954-d88a-4855-90d9-bc3211b4f087.webp" alt="Installation screenshot" /></p>
 <p>配置时区为上海：</p>
-<p><img loading="lazy" src="img/20240325-4aef4796-e6a8-46cc-a93e-4eabd927bf87.png" alt="Installation screenshot" /></p>
-<p><img loading="lazy" src="img/20240325-5ba3e95c-8468-49c3-acf0-0aab6e562a38.png" alt="Installation screenshot" /></p>
+<p><img loading="lazy" src="img/20240325-4aef4796-e6a8-46cc-a93e-4eabd927bf87.webp" alt="Installation screenshot" /></p>
+<p><img loading="lazy" src="img/20240325-5ba3e95c-8468-49c3-acf0-0aab6e562a38.webp" alt="Installation screenshot" /></p>
 <p>选择对应内核版本以及图形化安装：</p>
-<p><img loading="lazy" src="img/20240325-e656fdad-edda-41d2-8fe9-87205bda818a.png" alt="Installation screenshot" /></p>
+<p><img loading="lazy" src="img/20240325-e656fdad-edda-41d2-8fe9-87205bda818a.webp" alt="Installation screenshot" /></p>
 <p>配置磁盘分区：</p>
-<p><img loading="lazy" src="img/20240325-679d1cd9-5030-4d6c-8a03-198a94e169fc.png" alt="Installation screenshot" /></p>
+<p><img loading="lazy" src="img/20240325-679d1cd9-5030-4d6c-8a03-198a94e169fc.webp" alt="Installation screenshot" /></p>
 <p><img loading="lazy" src="img/20240325-c5548fbe-7a39-489e-abd8-b6b4e850fc89.png" alt="Installation screenshot" /></p>
-<p><img loading="lazy" src="img/20240325-2753f0f3-11dd-49c7-97a8-2430d4bd9536.png" alt="Installation screenshot" /></p>
+<p><img loading="lazy" src="img/20240325-2753f0f3-11dd-49c7-97a8-2430d4bd9536.webp" alt="Installation screenshot" /></p>
 <p>配置主机名和网络：</p>
-<p><img loading="lazy" src="img/20240325-4c34c163-856e-4e7f-a020-0602331899d7.png" alt="Installation screenshot" /></p>
+<p><img loading="lazy" src="img/20240325-4c34c163-856e-4e7f-a020-0602331899d7.webp" alt="Installation screenshot" /></p>
 <p>开始安装：</p>
-<p><img loading="lazy" src="img/20240325-b09841a9-a912-4db3-a12d-e7b755f3aeb2.png" alt="Installation screenshot" /></p>
+<p><img loading="lazy" src="img/20240325-b09841a9-a912-4db3-a12d-e7b755f3aeb2.webp" alt="Installation screenshot" /></p>
 <p>配置 root 密码：</p>
-<p><img loading="lazy" src="img/20240325-d6ec18cb-60a7-43e0-9949-c57fc77eca89.png" alt="Installation screenshot" /></p>
+<p><img loading="lazy" src="img/20240325-d6ec18cb-60a7-43e0-9949-c57fc77eca89.webp" alt="Installation screenshot" /></p>
 <h2><a id="_58"></a>演示环境信息</h2>
 <pre><div class="hljs"><code class="lang-bash"><span class="hljs-comment"># 主机版本</span>
 [root@anolis7 soft]<span class="hljs-comment"># cat /etc/anolis-release </span>
@@ -1932,12 +1932,12 @@ undo_retention                                     *          10800             
 </div>
 </article>
 <div id="footer"></div>
-<script src="../js/shared.js?v=20260319c"></script>
+<script src="../js/shared.js?v=20260320a"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('compat');
 document.getElementById('footer').innerHTML = footerHTML();
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
-<script src="../js/search.js?v=20260319c"></script>
+<script src="../js/search.js?v=20260320a"></script>
 </body>
 </html>

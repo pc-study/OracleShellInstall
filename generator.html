@@ -29,85 +29,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260319c">
+<link rel="manifest" href="manifest.json?v=20260320a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260319c">
-<style>
-.gen-hero{padding:50px 0 20px;text-align:center}
-.gen-hero h1{font-size:1.8rem;font-weight:900;color:var(--text);margin-bottom:8px}
-.gen-hero p{color:var(--text-dim);font-size:.95rem;font-weight:300}
-
-.mode-section{padding:20px 0 30px}
-.mode-label{font-size:.72rem;text-transform:uppercase;letter-spacing:2.5px;color:var(--text-muted);font-weight:600;margin-bottom:14px}
-.mode-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.mode-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r-lg);
-  padding:22px 18px;cursor:pointer;transition:all .3s;text-align:center;position:relative;overflow:hidden}
-.mode-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);transform:scaleX(0);transition:transform .3s}
-.mode-card:hover{border-color:var(--border-light);background:var(--card-hover);transform:translateY(-2px)}
-.mode-card.active{border-color:var(--red);background:rgba(199,70,52,.05)}
-.mode-card.active::before{transform:scaleX(1)}
-.mode-card .mi{font-size:1.6rem;margin-bottom:8px;display:block}
-.mode-card .mt{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:3px}
-.mode-card .md{font-size:.72rem;color:var(--text-muted);line-height:1.5}
-
-.form-area{padding:10px 0 20px}
-.fg-title{font-size:.9rem;font-weight:700;color:var(--text);padding:12px 0 10px;border-bottom:1px solid var(--border);
-  margin-bottom:16px;display:flex;align-items:center;gap:10px}
-.fg-title .ico{color:var(--red);font-size:1rem}
-.fg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;margin-bottom:24px}
-.field{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;transition:all .25s}
-.field:hover{border-color:var(--border-light)}
-.field:focus-within{border-color:var(--red);box-shadow:0 0 0 2px rgba(199,70,52,.08)}
-.field-error{border-color:rgba(199,70,52,.5);background:rgba(199,70,52,.03)}
-.field-error label .fl{background:rgba(199,70,52,.25);color:var(--red-glow);animation:pulse-error 1.5s ease infinite}
-@keyframes pulse-error{0%,100%{opacity:1}50%{opacity:.5}}
-.field label{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-dim);margin-bottom:8px;font-weight:500}
-.field label .fl{font-size:.62rem;padding:1px 6px;border-radius:3px;font-weight:700}
-.field label .fl-r{background:rgba(199,70,52,.18);color:var(--red-glow)}
-.field label .fl-o{background:rgba(90,90,106,.18);color:var(--text-muted)}
-.field label .fp{color:var(--accent2);font-family:var(--mono);font-size:.7rem}
-.field input,.field select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:6px;
-  padding:9px 12px;color:var(--text);font-size:.85rem;font-family:var(--mono);outline:none;transition:border .2s}
-.field input::placeholder{color:var(--text-muted);font-family:var(--font)}
-.field input:focus,.field select:focus{border-color:var(--red)}
-.field select{cursor:pointer;appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238a8a9a' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 12px center}
-.field select option{background:var(--bg2);color:var(--text)}
-
-.cmd-section{padding:10px 0 50px}
-.cmd-box{background:var(--term-bg,var(--bg2));border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
-.cmd-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;
-  border-bottom:1px solid var(--border);background:#2a2a34;position:relative}
-.cmd-header .cmd-dots{display:flex;gap:8px}
-.cmd-header .cmd-dots .sd{width:12px;height:12px;border-radius:50%;display:inline-block}
-.cmd-header .cmd-title{position:absolute;left:0;right:0;text-align:center;font-size:.75rem;font-weight:500;color:var(--text-muted);font-family:var(--mono);pointer-events:none}
-.sd-r{background:#ff5f57}.sd-y{background:#febc2e}.sd-g{background:#28c840}
-.cmd-btns{display:flex;gap:8px;position:relative;z-index:1}
-.cmd-btn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:7px 16px;
-  font-size:.78rem;color:var(--text-dim);cursor:pointer;transition:all .2s;font-family:var(--font);font-weight:500}
-.cmd-btn:hover{border-color:var(--red);color:var(--text)}
-.cmd-btn.copy-btn{background:rgba(199,70,52,.1);border-color:rgba(199,70,52,.25);color:var(--red-glow)}
-.cmd-btn.copy-btn:hover{background:rgba(199,70,52,.18)}
-.cmd-btn.copied{background:rgba(58,186,106,.12);border-color:rgba(58,186,106,.25);color:var(--green)}
-.cmd-code{padding:20px;font-family:var(--mono);font-size:.82rem;line-height:1.9;color:var(--green);
-  white-space:pre-wrap;word-break:break-all;min-height:60px;max-height:400px;overflow-y:auto}
-.cmd-code .cm-flag{color:var(--accent2)}
-.cmd-code .cm-val{color:var(--blue)}
-.cmd-code .cm-w{color:#fff}
-.cmd-code .cm-sl{color:var(--text-muted);opacity:.5}
-.cmd-code .cm-cmt{color:var(--text-muted);font-style:italic;opacity:.5}
-
-@media(max-width:768px){
-  .mode-cards{grid-template-columns:1fr}
-  .fg-grid{grid-template-columns:1fr}
-  .cmd-header{flex-wrap:wrap;gap:10px}
-  .cmd-header .cmd-title{position:static;text-align:left;order:-1;width:100%}
-  .cmd-header .cmd-dots{order:-2}
-}
-</style>
+<link rel="stylesheet" href="css/style.css?v=20260320a">
 <script>
 var _hmt = _hmt || [];
 (function() {
@@ -176,7 +102,7 @@ var _hmt = _hmt || [];
 </section>
 </div>
 <div id="footer"></div>
-<script src="js/shared.js?v=20260319c"></script>
+<script src="js/shared.js?v=20260320a"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('generator');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -414,6 +340,6 @@ renderForm('single');
 if (currentLang !== 'zh') setLang(currentLang);
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260319c"></script>
+<script src="js/search.js?v=20260320a"></script>
 </body>
 </html>
