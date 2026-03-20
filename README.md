@@ -28,6 +28,7 @@
 支持 **单机 / ASM / RAC** 三种部署模式，覆盖 Oracle 11gR2、12cR2、19c、21c、26ai 全版本，兼容 **20+ 主流 Linux 发行版**。
 
 🔗 **官方网站：** [https://www.oracleshellinstall.com](https://www.oracleshellinstall.com/)
+
 🛠 **在线命令生成器：** [https://www.oracleshellinstall.com/generator.html](https://www.oracleshellinstall.com/generator.html)
 
 ---
