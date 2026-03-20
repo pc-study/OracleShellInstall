@@ -333,8 +333,13 @@ img{max-width:100%;display:block}
   .feat-icon svg{width:20px;height:20px}
 
   /* Code line numbers - compact on mobile */
-  .mac-term pre.has-lines .code-line{padding-left:40px}
-  .mac-term pre.has-lines .code-line::before{width:28px;font-size:.68rem;padding-right:8px}
+  .mac-term pre{padding:12px 14px;font-size:.78rem;line-height:1.5}
+  .mac-term pre.has-lines .code-line{padding-left:34px;min-height:1.5em}
+  .mac-term pre.has-lines .code-line::before{width:24px;font-size:.65rem;padding-right:6px}
+  .mac-term-bar{padding:8px 12px}
+  .mac-term-bar .mac-term-title{font-size:.68rem;margin-right:0}
+  .code-copy-btn{top:auto;bottom:auto;right:6px;top:8px;padding:5px 8px;font-size:.65rem;
+    position:sticky;float:right;margin-top:-28px;margin-right:-6px;margin-bottom:4px}
 
   /* Stats grid - 2 col on mobile */
   .stat-num{font-size:1.6rem}
@@ -367,6 +372,10 @@ img{max-width:100%;display:block}
   .mode-card{padding:16px 14px}
   .cmd-btns{gap:6px}
   .cmd-btn{padding:6px 12px;font-size:.75rem}
+  .mac-term pre{padding:10px 12px;font-size:.74rem}
+  .mac-term pre.has-lines .code-line{padding-left:30px}
+  .mac-term pre.has-lines .code-line::before{width:20px;padding-right:5px}
+  .mac-term-bar .dot{width:10px;height:10px}
 }
 /* === MOBILE LANDSCAPE === */
 @media(max-width:900px) and (orientation:landscape){
@@ -400,6 +409,14 @@ img{max-width:100%;display:block}
 .mac-term pre .cmt{color:#5c6370;font-style:italic}.mac-term pre .num{color:#d19a66}
 .mac-term pre .fn{color:#61afef}.mac-term pre .flag{color:var(--accent2,#e8934a)}
 .mac-term pre .val{color:var(--blue,#4a8fe8)}
+
+/* Horizontal scroll fade hint for code blocks on mobile */
+@media(max-width:768px){
+  .mac-term{position:relative}
+  .mac-term::after{content:'';position:absolute;top:38px;right:0;bottom:0;width:28px;
+    background:linear-gradient(to right,transparent,var(--term-bg,#1a1a2e));
+    pointer-events:none;border-radius:0 0 var(--r-lg) 0;z-index:2;opacity:.8}
+}
 
 /* === REDUCED MOTION === */
 @media(prefers-reduced-motion:reduce){
@@ -635,6 +652,7 @@ img{max-width:100%;display:block}
 @media(max-width:768px){
   .mode-cards{grid-template-columns:1fr}
   .fg-grid{grid-template-columns:1fr}
+  .cmd-code{padding:14px;font-size:.78rem;line-height:1.6}
   .cmd-header{flex-wrap:wrap;gap:10px}
   .cmd-header .cmd-title{position:static;text-align:left;order:-1;width:100%}
   .cmd-header .cmd-dots{order:-2}
