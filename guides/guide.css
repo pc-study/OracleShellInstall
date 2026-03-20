@@ -35,7 +35,7 @@
 .guide-body hr{border:none;border-top:1px solid var(--border);margin:24px 0}
 
 /* CTA banner */
-.guide-cta{background:linear-gradient(135deg,rgba(199,70,52,.06),rgba(199,70,52,.02));border:1px solid var(--border-red,rgba(199,70,52,.2));border-radius:12px;padding:28px 32px;margin:0 0 20px;text-align:center;transition:all .3s}
+.guide-cta{background:linear-gradient(135deg,rgba(199,70,52,.06),rgba(199,70,52,.02));border:1px solid var(--border-red,rgba(199,70,52,.2));border-radius:var(--r-lg,14px);padding:28px 32px;margin:0 0 20px;text-align:center;transition:all .3s}
 .guide-cta:hover{border-color:var(--red,#C74634)!important;box-shadow:0 4px 20px rgba(199,70,52,.1)}
 .guide-cta-title{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px}
 .guide-cta-desc{font-size:.85rem;color:var(--text-dim);line-height:1.7;margin-bottom:18px;max-width:520px;margin-left:auto;margin-right:auto}

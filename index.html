@@ -29,13 +29,13 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260320g">
+<link rel="manifest" href="manifest.json?v=20260320l">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="css/style.css?v=20260320g" as="style">
-<link rel="preload" href="js/shared.js?v=20260320g" as="script">
+<link rel="preload" href="css/style.css?v=20260320l" as="style">
+<link rel="preload" href="js/shared.js?v=20260320l" as="script">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260320g">
+<link rel="stylesheet" href="css/style.css?v=20260320l">
 <style>
 .hero{position:relative;padding:100px 0 80px;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
@@ -324,11 +324,11 @@ var _hmt = _hmt || [];
 <section class="cta-section">
   <div class="container">
     <div class="cta-box reveal">
-      <h2 data-i18n="ctaTitle">开始使用 OracleShellInstall</h2>
-      <p data-i18n="ctaDesc">通过在线命令生成器配置参数，一键生成可执行的安装命令</p>
+      <h2 data-i18n="ctaTitle">告别手动安装，从现在开始</h2>
+      <p data-i18n="ctaDesc">加入数百位 DBA 的行列，用一条命令完成 Oracle 数据库部署</p>
       <div class="cta-btns">
-        <a href="generator.html" class="btn btn-primary" data-i18n="ctaBtn1">打开命令生成器 &rarr;</a>
-        <a href="docs.html" class="btn btn-ghost" data-i18n="ctaBtn2">阅读使用文档</a>
+        <a href="download.html" class="btn btn-primary" data-i18n="ctaBtn1">获取脚本 &rarr;</a>
+        <a href="compat.html" class="btn btn-ghost" data-i18n="ctaBtn2">查看兼容列表</a>
       </div>
     </div>
   </div>
@@ -337,7 +337,7 @@ var _hmt = _hmt || [];
 <!-- FOOTER -->
 <div id="footer"></div>
 
-<script src="js/shared.js?v=20260320g"></script>
+<script src="js/shared.js?v=20260320l"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('home');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -356,8 +356,8 @@ const pageI18n = {
     step1t: '上传软件包', step1d: '将脚本和 Oracle 安装介质上传至服务器 /soft 目录',
     step2t: '配置参数', step2d: '使用在线命令生成器选择模式并配置安装参数',
     step3t: '执行命令', step3d: '复制生成的命令，以 root 用户在服务器上执行即可',
-    ctaTitle: '开始使用 OracleShellInstall', ctaDesc: '通过在线命令生成器配置参数，一键生成可执行的安装命令',
-    ctaBtn1: '打开命令生成器 \u2192', ctaBtn2: '阅读使用文档',
+    ctaTitle: '告别手动安装，从现在开始', ctaDesc: '加入数百位 DBA 的行列，用一条命令完成 Oracle 数据库部署',
+    ctaBtn1: '获取脚本 \u2192', ctaBtn2: '查看兼容列表',
     feat1t: '全自动化安装', feat1d: '一条命令完成 OS 参数配置、依赖安装、用户创建、软件安装、数据库创建全流程',
     feat2t: '多版本全覆盖', feat2d2: '支持 Oracle 11gR2~26ai 全版本，兼容 CentOS、RHEL、Rocky、麒麟、统信等 20+ 发行版',
     feat4t: 'RAC 集群支持', feat4d2: '单机 / ASM / RAC 三种部署模式，自动化 SSH 互信、Grid 安装、ASM 磁盘组配置',
@@ -382,8 +382,8 @@ const pageI18n = {
     step1t: 'Upload Package', step1d: 'Upload the script and Oracle installation media to /soft on your server',
     step2t: 'Configure', step2d: 'Use the online generator to select mode and configure parameters',
     step3t: 'Execute', step3d: 'Copy the generated command and run it as root on the server',
-    ctaTitle: 'Start Using OracleShellInstall', ctaDesc: 'Configure parameters with the online generator and create executable install commands',
-    ctaBtn1: 'Open Generator \u2192', ctaBtn2: 'Read Documentation',
+    ctaTitle: 'Say Goodbye to Manual Installation', ctaDesc: 'Join hundreds of DBAs deploying Oracle databases with a single command',
+    ctaBtn1: 'Get the Script \u2192', ctaBtn2: 'View Compatibility',
     feat1t: 'Fully Automated Install', feat1d: 'One command handles OS configuration, dependency installation, user creation, software installation, and database creation',
     feat2t: 'Multi-Version Coverage', feat2d2: 'Supports Oracle 11gR2~26ai, compatible with CentOS, RHEL, Rocky, Kylin, UOS and 20+ Linux distros',
     feat4t: 'RAC Cluster Support', feat4d2: 'Single / ASM / RAC three deployment modes with automated SSH trust, Grid install, ASM disk config',
@@ -481,6 +481,6 @@ runTermAnimation();
 })();
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260320g"></script>
+<script src="js/search.js?v=20260320l"></script>
 </body>
 </html>

@@ -20,11 +20,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260320g">
+<link rel="manifest" href="manifest.json?v=20260320l">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260320g">
+<link rel="stylesheet" href="css/style.css?v=20260320l">
 <style>
 .err-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;min-height:calc(100vh - 200px);padding:100px 20px 80px}
@@ -37,15 +37,35 @@
 @keyframes err-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes err-shadow{0%,100%{width:120px;opacity:1}50%{width:80px;opacity:.5}}
 .err-title{font-size:clamp(1.4rem,3vw,1.8rem);font-weight:900;color:var(--text);margin-bottom:12px}
-.err-desc{font-size:1rem;color:var(--text-dim);max-width:440px;line-height:1.7;font-weight:300;margin-bottom:36px}
+.err-desc{font-size:1rem;color:var(--text-dim);max-width:440px;line-height:1.7;font-weight:300;margin-bottom:28px}
 .err-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:var(--r);
   font-size:.9rem;font-weight:600;text-decoration:none;transition:all .3s;font-family:var(--font);
   background:var(--red);color:#fff;border:1.5px solid var(--red);box-shadow:0 4px 20px rgba(199,70,52,.25)}
 .err-btn:hover{background:var(--red-glow);color:#fff;transform:translateY(-2px);box-shadow:0 8px 30px rgba(199,70,52,.35)}
 .err-btn svg{width:16px;height:16px;fill:currentColor}
+.err-suggest{margin-top:36px;max-width:480px;width:100%}
+.err-suggest-title{font-size:.82rem;color:var(--text-muted);margin-bottom:14px;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.err-suggest-links{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.err-suggest-link{display:flex;align-items:center;gap:8px;padding:12px 16px;background:var(--card);
+  border:1px solid var(--border);border-radius:var(--r);text-decoration:none;color:var(--text-dim);
+  font-size:.85rem;font-weight:500;transition:all .2s}
+.err-suggest-link:hover{border-color:var(--red);color:var(--text);transform:translateY(-1px);box-shadow:var(--glow-sm)}
+.err-suggest-link svg{width:16px;height:16px;flex-shrink:0;color:var(--red);fill:none;stroke:currentColor;stroke-width:2}
 @media(max-width:768px){
   .err-code{font-size:5rem}
   .err-wrap{padding:80px 20px 60px}
+  .err-suggest-links{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .err-code{font-size:3.5rem}
+  .err-wrap{padding:70px 16px 50px}
+  .err-title{font-size:1.2rem}
+  .err-desc{font-size:.9rem}
+  .err-btn{padding:12px 24px;font-size:.85rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .err-code{animation:none}
+  .err-code::after{animation:none}
 }
 </style>
 <script>
@@ -79,10 +99,19 @@ var _hmt = _hmt || [];
     <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     <span data-i18n="err404Back">返回首页</span>
   </a>
+  <div class="err-suggest">
+    <div class="err-suggest-title" data-i18n="err404Suggest">也许你想找的是</div>
+    <div class="err-suggest-links">
+      <a href="docs.html" class="err-suggest-link"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span data-i18n="err404Doc">使用文档</span></a>
+      <a href="generator.html" class="err-suggest-link"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span data-i18n="err404Gen">命令生成器</span></a>
+      <a href="compat.html" class="err-suggest-link"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><span data-i18n="err404Compat">安装合集</span></a>
+      <a href="download.html" class="err-suggest-link"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span data-i18n="err404Dl">下载中心</span></a>
+    </div>
+  </div>
 </section>
 
 <div id="footer"></div>
-<script src="js/shared.js?v=20260320g"></script>
+<script src="js/shared.js?v=20260320l"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -91,12 +120,22 @@ const pageI18n = {
   zh: {
     err404Title:'页面未找到',
     err404Desc:'您访问的页面不存在或已被移动',
-    err404Back:'返回首页'
+    err404Back:'返回首页',
+    err404Suggest:'也许你想找的是',
+    err404Doc:'使用文档',
+    err404Gen:'命令生成器',
+    err404Compat:'安装合集',
+    err404Dl:'下载中心'
   },
   en: {
     err404Title:'Page Not Found',
     err404Desc:'The page you are looking for does not exist or has been moved.',
-    err404Back:'Back to Home'
+    err404Back:'Back to Home',
+    err404Suggest:'You might be looking for',
+    err404Doc:'Documentation',
+    err404Gen:'Command Generator',
+    err404Compat:'Install Guides',
+    err404Dl:'Download Center'
   }
 };
 Object.assign(i18n.zh, pageI18n.zh);
@@ -104,6 +143,6 @@ Object.assign(i18n.en, pageI18n.en);
 if (currentLang !== 'zh') setLang(currentLang);
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260320g"></script>
+<script src="js/search.js?v=20260320l"></script>
 </body>
 </html>
