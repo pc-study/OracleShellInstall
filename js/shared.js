@@ -348,12 +348,11 @@ function setLang(lang) {
   // Update toggle button text
   const btn = document.getElementById('langToggle');
   if (btn) btn.textContent = lang === 'zh' ? 'EN' : '中';
-  // Update all i18n elements (use innerHTML to preserve HTML tags in translations)
-  // Only overwrite if translation exists — avoids flashing raw key names when zh keys are
-  // defined per-page rather than in shared i18n
+  // Update all i18n elements — save original zh HTML on first visit so we can restore it
   document.querySelectorAll('[data-i18n]').forEach(el => {
+    if (!el.dataset.i18nZh) el.dataset.i18nZh = el.innerHTML;
     const val = (i18n[lang] || i18n.zh)[el.dataset.i18n];
-    if (val) el.innerHTML = val;
+    el.innerHTML = val || el.dataset.i18nZh;
   });
   // Fire custom event for page-specific i18n (after shared updates)
   document.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
