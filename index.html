@@ -29,13 +29,13 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260320c">
+<link rel="manifest" href="manifest.json?v=20260320d">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="css/style.css?v=20260320c" as="style">
-<link rel="preload" href="js/shared.js?v=20260320c" as="script">
+<link rel="preload" href="css/style.css?v=20260320d" as="style">
+<link rel="preload" href="js/shared.js?v=20260320d" as="script">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260320c">
+<link rel="stylesheet" href="css/style.css?v=20260320d">
 <style>
 .hero{position:relative;padding:100px 0 80px;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
@@ -109,7 +109,7 @@
 .cta-box .cta-btns{position:relative;display:flex;gap:12px;justify-content:center}
 
 @media(max-width:900px){
-  .hero-inner{grid-template-columns:1fr;gap:40px}
+  .hero-inner{grid-template-columns:1fr;gap:30px}
   .hero-right{order:1}
   .hero-left{text-align:center}
   .hero-badge{justify-content:center}
@@ -135,6 +135,17 @@
 .trust-quote-link{display:inline-block;font-size:.75rem;color:var(--red);text-decoration:none;margin-top:10px;font-weight:600;transition:color .2s}
 .trust-quote-link:hover{color:var(--red-glow);text-decoration:underline}
 @media(max-width:900px){.trust-stats{grid-template-columns:repeat(2,1fr)}.trust-quotes{grid-template-columns:1fr}}
+@media(max-width:480px){
+  .hero{padding:80px 0 50px}
+  .hero h1{margin-bottom:12px}
+  .hero-desc{font-size:.92rem;margin-bottom:24px}
+  .hero-term-body{font-size:.7rem;padding:14px;max-height:300px}
+  .stats{padding:20px 0 40px}
+  .stats-grid{gap:10px}
+  .trust-stats{grid-template-columns:repeat(2,1fr);gap:16px}
+  .trust-quotes{gap:16px}
+  .cta-section{padding:50px 0}
+}
 </style>
 <script type="application/ld+json">
 {
@@ -326,7 +337,7 @@ var _hmt = _hmt || [];
 <!-- FOOTER -->
 <div id="footer"></div>
 
-<script src="js/shared.js?v=20260320c"></script>
+<script src="js/shared.js?v=20260320d"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('home');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -470,6 +481,6 @@ runTermAnimation();
 })();
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260320c"></script>
+<script src="js/search.js?v=20260320d"></script>
 </body>
 </html>

@@ -80,3 +80,13 @@
   .guide-cta-btns{flex-direction:column}
   .guide-cta-btn{justify-content:center}
 }
+@media(max-width:480px){
+  .guide-article{padding:65px 0 30px}
+  .guide-header{margin-bottom:24px}
+  .guide-header h1{font-size:1.2rem}
+  .guide-body{font-size:.84rem}
+  .guide-body pre{font-size:.74rem;padding:10px}
+  .guide-body blockquote{padding:10px 14px}
+  .guide-cta-title{font-size:1rem}
+  .guide-cta-desc{font-size:.82rem}
+}
