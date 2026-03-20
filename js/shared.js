@@ -1,3 +1,6 @@
+(function() {
+'use strict';
+
 /* ============================
    Shared JS - Theme, i18n, Nav
    ============================ */
@@ -338,7 +341,13 @@ const i18n = {
   }
 };
 
-function t(key) { return (i18n[currentLang] || i18n.zh)[key] || key; }
+function t(key) {
+  const val = (i18n[currentLang] || i18n.zh)[key];
+  if (val === undefined && location.hostname === 'localhost') {
+    console.warn('[i18n] Missing key:', key, 'for lang:', currentLang);
+  }
+  return val || key;
+}
 
 function setLang(lang) {
   currentLang = lang;
@@ -366,6 +375,7 @@ function toggleLang() {
 let currentTheme; try { currentTheme = localStorage.getItem('theme'); } catch(e) {} currentTheme = currentTheme || 'dark';
 
 function setTheme(theme) {
+  if (theme !== 'dark' && theme !== 'light') theme = 'dark';
   currentTheme = theme;
   document.documentElement.setAttribute('data-theme', theme);
   try { localStorage.setItem('theme', theme); } catch(e) {}
@@ -592,12 +602,14 @@ document.addEventListener('DOMContentLoaded', () => {
       ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
       this.appendChild(ripple);
       ripple.addEventListener('animationend', () => ripple.remove());
+      // Fallback: remove ripple after 1s in case animationend never fires
+      setTimeout(() => { if (ripple.parentNode) ripple.remove(); }, 1000);
     });
   });
 
   // macOS terminal wrapper for pre blocks (skip hero terminal and already-wrapped)
   document.querySelectorAll('pre').forEach(pre => {
-    if (pre.closest('.hero-terminal') || pre.closest('.mac-term') || pre.closest('.hero-term-body')) return;
+    if (pre.closest('.hero-terminal, .mac-term, .hero-term-body')) return;
     const wrapper = document.createElement('div');
     wrapper.className = 'mac-term';
     const bar = document.createElement('div');
@@ -637,16 +649,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const lineCount = rawText.split('\n').length;
     if (lineCount > 1) {
       pre.classList.add('has-lines');
-      // Wrap each line in a span for numbering (use textContent to prevent XSS)
+      // Wrap each line in a span for numbering (use DocumentFragment to batch DOM ops)
       const textLines = rawText.split('\n');
-      codeEl.textContent = '';
+      const frag = document.createDocumentFragment();
       textLines.forEach(line => {
         const span = document.createElement('span');
         span.className = 'code-line';
         span.textContent = line;
-        codeEl.appendChild(span);
-        codeEl.appendChild(document.createTextNode('\n'));
+        frag.appendChild(span);
+        frag.appendChild(document.createTextNode('\n'));
       });
+      codeEl.textContent = '';
+      codeEl.appendChild(frag);
     }
     // Auto-collapse long code blocks (>15 lines)
     const lines = rawText.split('\n').length;
@@ -716,3 +730,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('langchange', setupScrollSpy);
   }
 });
+
+// Expose public API to window
+Object.defineProperty(window, 'currentLang', {
+  get: function() { return currentLang; },
+  set: function(v) { currentLang = v; }
+});
+Object.defineProperty(window, 'currentTheme', {
+  get: function() { return currentTheme; },
+  set: function(v) { currentTheme = v; }
+});
+window.i18n = i18n;
+window.t = t;
+window.setLang = setLang;
+window.toggleLang = toggleLang;
+window.setTheme = setTheme;
+window.toggleTheme = toggleTheme;
+window.navHTML = navHTML;
+window.footerHTML = footerHTML;
+})();

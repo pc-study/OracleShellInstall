@@ -79,7 +79,7 @@
       } catch (e) {
         console.error('Failed to load search index', e);
         searchIndex = [];
-      } finally {
+        // Reset so next attempt retries the fetch instead of reusing failure
         indexPromise = null;
       }
     })();
@@ -89,9 +89,11 @@
   // --- Search logic ---
   function doSearch() {
     const q = input.value.trim().toLowerCase();
-    if (!q) { results.innerHTML = ''; return; }
+    if (!q || q.length < 2) { results.innerHTML = ''; return; }
     loadIndex().then(() => {
-      const terms = q.split(/\s+/);
+      if (!searchIndex || !searchIndex.length) return;
+      const terms = q.split(/\s+/).filter(t => t.length >= 1);
+      if (!terms.length) return;
       const scored = [];
       searchIndex.forEach((item) => {
         let score = 0;

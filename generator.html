@@ -29,11 +29,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260320b">
+<link rel="manifest" href="manifest.json?v=20260320c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260320b">
+<link rel="stylesheet" href="css/style.css?v=20260320c">
 <script>
 var _hmt = _hmt || [];
 (function() {
@@ -67,18 +67,18 @@ var _hmt = _hmt || [];
 <section class="mode-section">
   <div class="mode-label" data-i18n="selectMode">选择安装模式</div>
   <div class="mode-cards">
-    <div class="mode-card active" data-mode="single" onclick="switchMode('single')" tabindex="0" role="button" aria-label="选择单机模式" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchMode('single')}">
+    <button class="mode-card active" data-mode="single" onclick="switchMode('single')" aria-label="选择单机模式" type="button">
       <span class="mi">&#9881;</span><div class="mt" data-i18n="modeSingle">单机模式</div>
       <div class="md" data-i18n="modeSingleDesc">Single Instance &middot; 文件系统存储<br>适用于开发测试及中小型业务</div>
-    </div>
-    <div class="mode-card" data-mode="standalone" onclick="switchMode('standalone')" tabindex="0" role="button" aria-label="选择单机ASM模式" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchMode('standalone')}">
+    </button>
+    <button class="mode-card" data-mode="standalone" onclick="switchMode('standalone')" aria-label="选择单机ASM模式" type="button">
       <span class="mi">&#9880;</span><div class="mt" data-i18n="modeStandalone">单机 ASM 模式</div>
       <div class="md" data-i18n="modeStandaloneDesc">Standalone + ASM &middot; Grid Infra<br>适用于 ASM 存储管理的单节点</div>
-    </div>
-    <div class="mode-card" data-mode="rac" onclick="switchMode('rac')" tabindex="0" role="button" aria-label="选择RAC集群模式" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchMode('rac')}">
+    </button>
+    <button class="mode-card" data-mode="rac" onclick="switchMode('rac')" aria-label="选择RAC集群模式" type="button">
       <span class="mi">&#9733;</span><div class="mt" data-i18n="modeRac">RAC 集群模式</div>
       <div class="md" data-i18n="modeRacDesc">Real Application Clusters<br>适用于高可用生产环境</div>
-    </div>
+    </button>
   </div>
 </section>
 
@@ -102,7 +102,7 @@ var _hmt = _hmt || [];
 </section>
 </div>
 <div id="footer"></div>
-<script src="js/shared.js?v=20260320b"></script>
+<script src="js/shared.js?v=20260320c"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('generator');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -340,6 +340,6 @@ renderForm('single');
 if (currentLang !== 'zh') setLang(currentLang);
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260320b"></script>
+<script src="js/search.js?v=20260320c"></script>
 </body>
 </html>
