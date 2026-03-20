@@ -91,8 +91,8 @@
 **缓存策略 (Service Worker)**:
 - 静态资源 (CSS/JS/图片/字体): Cache-First — 优先从缓存读取
 - HTML 页面: Network-First — 优先从网络获取，失败后回退缓存
-- LRU 淘汰: 缓存上限 200 条，自动清理最旧条目
-- 离线回退: 网络不可用时显示中文离线提示页
+- LRU 淘汰: 缓存上限 80 条，自动清理最旧条目
+- 离线回退: 网络不可用时显示中英双语离线提示页
 
 ### 2.3 CSS 设计系统
 
@@ -366,8 +366,8 @@ OracleShellInstall/
 **功能**: 产品着陆页，展示脚本核心卖点，引导用户使用。
 
 **区块结构**:
-1. **Hero 区域**: 标题 + 副标题 + 终端动画 (打字效果展示安装命令语法)
-2. **统计栏**: 4 个数字 (版本数/系统数/安装模式数/教程数)，带滚动计数器动画
+1. **Hero 区域**: 标题 + 副标题 + 终端动画 (真实脚本输出，模拟 19c 单机 + 优化模式)
+2. **信任栏**: 统计数字 (Stars/教程数/发行版数/Oracle 版本数)
 3. **快速开始**: 3 步引导 (上传脚本 → 配置参数 → 执行命令)
 4. **核心功能**: 8 宫格功能展示 (自动化安装/多版本/多系统/RAC/ASM/补丁/校验/日志)
 5. **部署模式**: 3 张卡片 (单机/ASM/RAC) 对比
@@ -377,7 +377,7 @@ OracleShellInstall/
 
 **特殊实现**:
 - Gitee API 星标获取: AbortController 5 秒超时 + sessionStorage 缓存
-- 终端打字动画: 7 行命令逐字显示，带语法高亮
+- 终端动画: 使用 `execute_and_log` 格式逐行显示真实脚本输出 (系统检测→内核参数→用户创建→软件安装→建库→优化)
 - IntersectionObserver 触发数字滚动动画
 
 ### 5.2 命令生成器 (generator.html)
@@ -516,10 +516,13 @@ Object.keys(pageI18n).forEach(lang => {
 
 **语言切换流程**:
 1. 用户点击语言按钮 → `setLang('en'|'zh')`
-2. 遍历所有 `[data-i18n]` 元素，查找对应翻译
-3. 仅当翻译存在时才替换内容 (防止清空无翻译的元素)
-4. 保存到 `localStorage.setItem('lang', lang)`
-5. 派发 `CustomEvent('langchange')` 通知搜索等模块更新
+2. 遍历所有 `[data-i18n]` 元素
+3. 首次遇到时，将原始中文 HTML 保存到 `data-i18n-zh` 属性 (仅一次)
+4. 查找对应翻译: 优先用 `i18n[lang][key]`，若不存在则回退 `data-i18n-zh` (即 HTML 默认中文)
+5. 保存到 `localStorage.setItem('lang', lang)`
+6. 派发 `CustomEvent('langchange')` 通知搜索等模块更新
+
+**重要**: HTML 默认内容即为中文翻译源。`pageI18n.zh` 中的值必须与 HTML 默认 innerHTML 完全一致 (包括空格/换行)，否则 EN→ZH 往返切换时会出现文本差异。
 
 **语言检测优先级**:
 1. localStorage 存储的用户选择
@@ -558,7 +561,7 @@ Object.keys(pageI18n).forEach(lang => {
 
 ### 6.3 Service Worker 缓存策略 (sw.js)
 
-**缓存版本**: `os-v6` — 每次大版本更新递增版本号
+**缓存版本**: `os-v9` — 每次大版本更新递增版本号
 
 **策略分类**:
 
@@ -584,7 +587,7 @@ async function trimCache(cacheName, max) {
 }
 ```
 
-**离线回退页**: 内联 HTML，中文提示 "当前离线"，带重新加载按钮。
+**离线回退页**: 内联 HTML，中英双语提示 "当前离线 / Offline"，带重新加载按钮。
 
 ### 6.4 代码块增强 (shared.js)
 
@@ -797,13 +800,13 @@ grep -rl "G-旧ID" . | xargs sed -i 's/G-旧ID/G-新ID/g'
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>教程标题 - OracleShellInstall</title>
-  <link rel="stylesheet" href="../css/style.css?v=20260319b">
-  <link rel="stylesheet" href="guide.css?v=20260319b">
+  <link rel="stylesheet" href="../css/style.css?v=20260320b">
+  <link rel="stylesheet" href="guide.css?v=20260320b">
   <!-- 其他 meta 标签参考现有教程 -->
 </head>
 <body>
   <!-- 使用现有教程作为模板 -->
-  <script src="../js/shared.js?v=20260319b"></script>
+  <script src="../js/shared.js?v=20260320b"></script>
 </body>
 </html>
 ```
@@ -874,14 +877,14 @@ grep -rl "v5.0.0" --include="*.html" --include="*.md" --include="*.txt" . | head
 
 1. **更新查询参数**: 全局替换版本号
 ```bash
-# 将 v=20260319b 替换为新版本号 v=20260320
-grep -rl "v=20260319b" --include="*.html" . | xargs sed -i 's/v=20260319b/v=20260320/g'
+# 将 v=20260320b 替换为新版本号 v=20260321
+grep -rl "v=20260320b" --include="*.html" . | xargs sed -i 's/v=20260320b/v=20260321/g'
 ```
 
 2. **更新 Service Worker 缓存名**:
 编辑 `sw.js` 第 1 行:
 ```javascript
-const CACHE_NAME = 'os-v7';  // 递增版本号
+const CACHE_NAME = 'os-v10';  // 递增版本号
 ```
 用户下次访问时，新 SW 会激活并清理旧缓存。
 
@@ -939,7 +942,7 @@ gh api repos/pc-study/OracleShellInstall/pages/builds --jq '.[0]'
 
 **Service Worker 调试**:
 - Chrome DevTools → Application → Service Workers
-- 查看缓存内容: Application → Cache Storage → os-v6
+- 查看缓存内容: Application → Cache Storage → os-v9
 - 强制更新: 勾选 "Update on reload"
 
 **搜索功能调试**:
@@ -949,7 +952,9 @@ gh api repos/pc-study/OracleShellInstall/pages/builds --jq '.[0]'
 **i18n 问题排查**:
 - 检查元素是否有 `data-i18n` 属性
 - 检查对应键在 `i18n.zh` 和 `i18n.en` 中是否都存在
+- 如果是 HTML 默认即中文的元素，确保 `pageI18n.zh` 中的值与 HTML innerHTML 完全一致
 - 控制台执行 `localStorage.getItem('lang')` 查看当前语言
+- 测试 EN→ZH 往返: 切换到英文再切回中文，确认内容恢复无差异
 
 ## 9. 常见问题
 
@@ -1039,7 +1044,64 @@ grep -rl "旧邮箱" --include="*.html" . | xargs sed -i 's/旧邮箱/新邮箱/
 | `72e20de` | 2026-03-19 | AI/LLM 索引文件 |
 | `4e4f7a6` | 2026-03-19 | 全站 i18n/SEO/UX 优化 |
 | `a96086b` | 2026-03-19 | 代码审计 (28 项) + 下载页重设计 |
+| `18282f6` ~ `40dcb07` | 2026-03-20 | 首页重设计: 终端动画、布局简化 |
+| `a05784c` | 2026-03-20 | 终端动画修正为真实脚本输出 |
+| `57e2f99` | 2026-03-20 | 全面代码审计修复 (P0/P1/P2, 12 项) |
+| `af767f1` | 2026-03-20 | i18n 语言切换往返修复 |
+
+### 4.7 第七阶段：首页重设计与终端动画 (2026-03-20 上午)
+
+**首页重设计 `18282f6` ~ `40dcb07`**:
+- 重新设计首页布局: 移除旧的功能区块，简化为更聚焦的结构
+- 添加真实终端动画: 模拟 OracleShellInstall 脚本实际执行输出
+- 新增命令预览区块 (后移除以精简页面)
+
+**终端动画修正 `a05784c`**:
+- 将终端动画内容更新为脚本真实输出 (单机 19c + `-opd Y` 优化模式)
+- 使用 `execute_and_log` 函数调用格式，匹配实际脚本执行流程
+- 动画包含: 系统检测 → 内核参数 → 用户创建 → 软件安装 → 建库 → 优化
+
+**全面代码审计 `57e2f99`** (12 项 P0/P1/P2 修复):
+
+**P0 安全与功能**:
+- 移除 36 个废弃 i18n 键 (首页重设计后遗留的死翻译)
+- 教程页内联样式提取到 `guide.css` (CTA 组件)
+
+**P1 性能与可访问性**:
+- 28 张大 PNG 教程截图转换为 WebP 格式
+- 添加跳过导航链接 (skip-nav) 便于屏幕阅读器用户
+- 导航按钮添加 aria-label (返回顶部/联系咨询/关闭/切换主题/切换语言/搜索)
+- 生成器页面 73 行内联样式迁移到 `style.css`
+
+**P2 体验增强**:
+- 搜索结果添加数量指示器 ("显示 X 条结果" / "显示前 20 条，共 X 条")
+- 联系按钮 CSS 类名重构: 统一为 `.social-contact-btn` + `.tg/.dc/.wa` 修饰符
+
+### 4.8 第八阶段：i18n 语言切换修复 (2026-03-20 下午)
+
+**i18n 往返切换修复 `af767f1`**:
+
+修复中英文切换后，部分元素无法正确恢复中文的 Bug。
+
+**问题根因**: 204 个翻译键仅存在于 `i18n.en` 中，中文依赖 HTML 默认内容。切换到英文后，原始中文 HTML 被覆盖，再切回中文时因 `i18n.zh[key]` 不存在导致无法恢复。
+
+**核心修复** (`js/shared.js` — `setLang` 函数):
+```javascript
+document.querySelectorAll('[data-i18n]').forEach(el => {
+  if (!el.dataset.i18nZh) el.dataset.i18nZh = el.innerHTML;  // 首次保存原始中文
+  const val = (i18n[lang] || i18n.zh)[el.dataset.i18n];
+  el.innerHTML = val || el.dataset.i18nZh;  // 无翻译时回退原始中文
+});
+```
+
+**配套修复**:
+- `pricing.html`: `fa2` HTML 默认内容与 `pageI18n.zh` 对齐 (补充 TG/Discord/WhatsApp 联系方式)
+- `compat.html`: `mxNote` Unicode 字符修正 (`&#9432;` → `&#8505;`, `&#10005;` → `&#10007;`)
+- `download.html`: 6 个 FAQ HTML 默认内容从多行格式改为单行，与 `pageI18n.zh` 完全一致
+- 全站 190 个 HTML 文件缓存版本号统一升级到 `v=20260320b`
+
+**验证方法**: Playwright 自动化测试，对 6 个主页面执行 EN→ZH 往返切换，比较所有 `[data-i18n]` 元素的 innerHTML，确认零差异。
 
 ---
 
-*文档版本: 2026-03-19 | 维护者: Lucifer (pc1107750981@163.com)*
+*文档版本: 2026-03-20 | 维护者: Lucifer (pc1107750981@163.com)*

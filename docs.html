@@ -89,6 +89,34 @@
 
 .doc-zh{display:block}.doc-en{display:none}
 
+/* Search box */
+.doc-search{position:relative;margin-bottom:12px}
+.doc-search input{width:100%;padding:8px 12px 8px 32px;font-size:.82rem;border:1px solid var(--border);
+  border-radius:var(--r);background:var(--bg2);color:var(--text);outline:none;transition:border .2s;
+  font-family:var(--body)}
+.doc-search input:focus{border-color:var(--red)}
+.doc-search input::placeholder{color:var(--text-muted);opacity:.6}
+.doc-search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;
+  color:var(--text-muted);pointer-events:none}
+.doc-search .search-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:16px;height:16px;
+  cursor:pointer;color:var(--text-muted);opacity:0;transition:opacity .2s;background:none;border:none;padding:0;font-size:1rem;line-height:1}
+.doc-search .search-clear.visible{opacity:.6}
+.doc-search .search-clear:hover{opacity:1}
+.doc-no-results{display:none;padding:16px 14px;font-size:.82rem;color:var(--text-muted);font-style:italic}
+
+/* Back to top */
+.doc-btt{position:fixed;bottom:32px;right:32px;width:40px;height:40px;border-radius:50%;
+  background:var(--red);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;
+  transform:translateY(8px);box-shadow:0 4px 12px rgba(199,70,52,.35);z-index:90}
+.doc-btt.visible{opacity:1;pointer-events:auto;transform:translateY(0)}
+.doc-btt:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(199,70,52,.45)}
+.doc-btt svg{width:18px;height:18px}
+
+/* Section highlight animation */
+.doc-content h2.search-highlight{animation:highlight-pulse .8s ease}
+@keyframes highlight-pulse{0%{background:rgba(199,70,52,.12);border-radius:4px}100%{background:transparent}}
+
 /* Responsive table wrapper */
 .doc-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0 24px;
   border-radius:var(--r);position:relative}
@@ -103,6 +131,10 @@
     white-space:nowrap;flex-shrink:0;font-size:.78rem}
   .doc-sidebar a.active{border-bottom-color:var(--red)}
   .doc-sidebar .sb-title{display:none}
+  .doc-search{margin-bottom:0;flex-shrink:0;min-width:160px}
+  .doc-search input{padding:6px 10px 6px 28px;font-size:.78rem}
+  .doc-search svg{width:12px;height:12px;left:8px}
+  .doc-btt{bottom:20px;right:20px;width:36px;height:36px}
   .doc-content{overflow-x:hidden}
   .doc-content h2{font-size:1.15rem;margin:32px 0 12px}
   .doc-content h3{font-size:.95rem}
@@ -163,6 +195,11 @@ var _hmt = _hmt || [];
 
 <!-- SIDEBAR -->
 <nav class="doc-sidebar">
+  <div class="doc-search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <input type="text" id="docSearch" placeholder="搜索文档..." data-i18n-placeholder-zh="搜索文档..." data-i18n-placeholder-en="Search docs...">
+    <button class="search-clear" id="searchClear">&times;</button>
+  </div>
   <div class="sb-title" data-i18n="sbQuick">快速入门</div>
   <a href="#quickstart" class="active" data-i18n="sbQuickstart">快速开始</a>
   <a href="#prepare" data-i18n="sbPrepare">环境准备</a>
@@ -223,7 +260,8 @@ var _hmt = _hmt || [];
 <h2 id="media">安装介质</h2>
 <p>不同 Oracle 版本需要的安装介质文件不同，请根据目标版本准备对应的安装包。脚本会自动识别 <code>/soft</code> 目录下的 ZIP 文件。</p>
 
-<table class="media-table">
+<div class="doc-table-wrap">
+<table class="media-table resp-cards">
 <tr><th>Oracle 版本</th><th>数据库安装介质</th><th>Grid 安装介质 (ASM/RAC)</th></tr>
 <tr><td>11gR2</td><td><code>p13390677_112040_Linux-x86-64_1of7.zip</code><br><code>p13390677_112040_Linux-x86-64_2of7.zip</code></td><td><code>p13390677_112040_Linux-x86-64_3of7.zip</code></td></tr>
 <tr><td>12cR2</td><td><code>linuxx64_12201_database.zip</code></td><td><code>linuxx64_12201_grid_home.zip</code></td></tr>
@@ -231,6 +269,7 @@ var _hmt = _hmt || [];
 <tr><td>21c</td><td><code>LINUX.X64_213000_db_home.zip</code></td><td><code>LINUX.X64_213000_grid_home.zip</code></td></tr>
 <tr><td>26ai</td><td><code>LINUX.X64_260000_db_home.zip</code></td><td><code>LINUX.X64_260000_grid_home.zip</code></td></tr>
 </table>
+</div>
 
 <div class="tip"><strong>提示：</strong>19c 及以上版本安装包只需一个 ZIP 文件。11gR2 需要多个分卷文件。补丁文件（PSU/RU/OJVM）和 OPatch 工具放置在同一目录即可，脚本会自动识别。</div>
 
@@ -452,7 +491,8 @@ var _hmt = _hmt || [];
 <div class="tip"><strong>提示：</strong>如果安装中使用了 <code>-opd Y</code> 优化参数，可通过 <code>SHOW PARAMETER</code> 确认 SGA/PGA 等参数已按预期配置。</div>
 
 <h2 id="params-common">通用参数</h2>
-<table class="param-table">
+<div class="doc-table-wrap">
+<table class="param-table resp-cards">
 <tr><th>参数</th><th>说明</th><th>默认值</th></tr>
 <tr><td>-lf</td><td>公网 IP 的网卡名称（必填）</td><td>-</td></tr>
 <tr><td>-n</td><td>主机名（单机为主机名，RAC 为主机名前缀）</td><td>orcl</td></tr>
@@ -479,9 +519,11 @@ var _hmt = _hmt || [];
 <tr><td>-opa</td><td>Oracle PSU/RU 补丁编号</td><td>-</td></tr>
 <tr><td>-jpa</td><td>OJVM PSU/RU 补丁编号</td><td>-</td></tr>
 </table>
+</div>
 
 <h2 id="params-asm">ASM 相关参数</h2>
-<table class="param-table">
+<div class="doc-table-wrap">
+<table class="param-table resp-cards">
 <tr><th>参数</th><th>说明</th><th>默认值</th></tr>
 <tr><td>-gu</td><td>系统 grid 用户名称</td><td>grid</td></tr>
 <tr><td>-gp</td><td>系统 grid 用户密码</td><td>oracle</td></tr>
@@ -493,9 +535,11 @@ var _hmt = _hmt || [];
 <tr><td>-gpa</td><td>Grid PSU/RU 补丁编号</td><td>-</td></tr>
 <tr><td>-vbox</td><td>VirtualBox 环境修复（Y/N）</td><td>N</td></tr>
 </table>
+</div>
 
 <h2 id="params-rac">RAC 专属参数</h2>
-<table class="param-table">
+<div class="doc-table-wrap">
+<table class="param-table resp-cards">
 <tr><th>参数</th><th>说明</th><th>默认值</th></tr>
 <tr><td>-pf</td><td>心跳网卡名称，多组逗号分隔（必填）</td><td>-</td></tr>
 <tr><td>-hn</td><td>所有节点主机名，按顺序逗号分隔（必填）</td><td>-</td></tr>
@@ -515,6 +559,7 @@ var _hmt = _hmt || [];
 <tr><td>-dnsi</td><td>DNS 服务器 IP</td><td>-</td></tr>
 <tr><td>-ug</td><td>安装到 Grid 软件结束（Y/N）</td><td>N</td></tr>
 </table>
+</div>
 
 <h2 id="troubleshoot">故障排查</h2>
 
@@ -696,7 +741,8 @@ var _hmt = _hmt || [];
 <h2 id="en-media">Installation Media</h2>
 <p>Different Oracle versions require different installation media files. Prepare the corresponding packages for your target version. The script automatically identifies ZIP files in the <code>/soft</code> directory.</p>
 
-<table class="media-table">
+<div class="doc-table-wrap">
+<table class="media-table resp-cards">
 <tr><th>Oracle Version</th><th>Database Media</th><th>Grid Media (ASM/RAC)</th></tr>
 <tr><td>11gR2</td><td><code>p13390677_112040_Linux-x86-64_1of7.zip</code><br><code>p13390677_112040_Linux-x86-64_2of7.zip</code></td><td><code>p13390677_112040_Linux-x86-64_3of7.zip</code></td></tr>
 <tr><td>12cR2</td><td><code>linuxx64_12201_database.zip</code></td><td><code>linuxx64_12201_grid_home.zip</code></td></tr>
@@ -704,6 +750,7 @@ var _hmt = _hmt || [];
 <tr><td>21c</td><td><code>LINUX.X64_213000_db_home.zip</code></td><td><code>LINUX.X64_213000_grid_home.zip</code></td></tr>
 <tr><td>26ai</td><td><code>LINUX.X64_260000_db_home.zip</code></td><td><code>LINUX.X64_260000_grid_home.zip</code></td></tr>
 </table>
+</div>
 
 <div class="tip"><strong>Tip:</strong> Oracle 19c and above only require a single ZIP file. 11gR2 requires multiple volume files. Patch files (PSU/RU/OJVM) and the OPatch tool should be placed in the same directory; the script identifies them automatically.</div>
 
@@ -834,7 +881,8 @@ var _hmt = _hmt || [];
 <div class="tip"><strong>Tip:</strong> For production environments, use NORMAL redundancy for the OCR diskgroup (at least 3 disks) and configure a separate ARCH diskgroup for archive logs.</div>
 
 <h2 id="en-params-common">Common Parameters</h2>
-<table class="param-table">
+<div class="doc-table-wrap">
+<table class="param-table resp-cards">
 <tr><th>Param</th><th>Description</th><th>Default</th></tr>
 <tr><td>-lf</td><td>Public IP network interface name (required)</td><td>-</td></tr>
 <tr><td>-n</td><td>Hostname (single) or hostname prefix (RAC)</td><td>orcl</td></tr>
@@ -861,9 +909,11 @@ var _hmt = _hmt || [];
 <tr><td>-opa</td><td>Oracle PSU/RU patch ID</td><td>-</td></tr>
 <tr><td>-jpa</td><td>OJVM PSU/RU patch ID</td><td>-</td></tr>
 </table>
+</div>
 
 <h2 id="en-params-asm">ASM Parameters</h2>
-<table class="param-table">
+<div class="doc-table-wrap">
+<table class="param-table resp-cards">
 <tr><th>Param</th><th>Description</th><th>Default</th></tr>
 <tr><td>-gu</td><td>System grid username</td><td>grid</td></tr>
 <tr><td>-gp</td><td>System grid user password</td><td>oracle</td></tr>
@@ -875,9 +925,11 @@ var _hmt = _hmt || [];
 <tr><td>-gpa</td><td>Grid PSU/RU patch ID</td><td>-</td></tr>
 <tr><td>-vbox</td><td>VirtualBox environment fix (Y/N)</td><td>N</td></tr>
 </table>
+</div>
 
 <h2 id="en-params-rac">RAC Parameters</h2>
-<table class="param-table">
+<div class="doc-table-wrap">
+<table class="param-table resp-cards">
 <tr><th>Param</th><th>Description</th><th>Default</th></tr>
 <tr><td>-pf</td><td>Heartbeat NIC names, comma-separated (required)</td><td>-</td></tr>
 <tr><td>-hn</td><td>All node hostnames, comma-separated in order (required)</td><td>-</td></tr>
@@ -897,6 +949,7 @@ var _hmt = _hmt || [];
 <tr><td>-dnsi</td><td>DNS server IP</td><td>-</td></tr>
 <tr><td>-ug</td><td>Install to Grid software only (Y/N)</td><td>N</td></tr>
 </table>
+</div>
 
 <h2 id="en-advanced">Advanced Usage</h2>
 
@@ -1132,6 +1185,9 @@ var _hmt = _hmt || [];
 </div>
 </div>
 </div>
+<button class="doc-btt" id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
 <div id="footer"></div>
 <script src="js/shared.js?v=20260320b"></script>
 <script>
@@ -1162,6 +1218,9 @@ document.addEventListener('langchange', (e) => {
   document.querySelectorAll('.doc-sidebar [data-i18n]').forEach(el => {
     el.innerHTML = (i18n[lang] || i18n.zh)[el.dataset.i18n] || el.innerHTML;
   });
+  // Update search placeholder
+  const si = document.getElementById('docSearch');
+  if (si) si.placeholder = lang === 'en' ? 'Search docs...' : '搜索文档...';
 });
 
 // Sidebar click: scroll to correct section based on language
@@ -1174,8 +1233,139 @@ document.querySelectorAll('.doc-sidebar a[href^="#"]').forEach(a => {
   });
 });
 
+// ── Scroll Spy ──
+(function(){
+  const sidebar = document.querySelector('.doc-sidebar');
+  const links = sidebar.querySelectorAll('a[href^="#"]');
+  const sectionIds = Array.from(links).map(a => a.getAttribute('href').slice(1));
+
+  function getVisibleSections(){
+    const lang = currentLang || 'zh';
+    return sectionIds.map(id => {
+      const targetId = (lang === 'en') ? ('en-' + id) : id;
+      return document.getElementById(targetId) || document.getElementById(id);
+    });
+  }
+
+  let ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(()=>{
+      const scrollY = window.scrollY + 120;
+      const sections = getVisibleSections();
+      let activeIdx = 0;
+      for(let i = sections.length - 1; i >= 0; i--){
+        if(sections[i] && sections[i].offsetTop <= scrollY){ activeIdx = i; break; }
+      }
+      links.forEach((a,i) => a.classList.toggle('active', i === activeIdx));
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+
+// ── Back to Top ──
+(function(){
+  const btn = document.getElementById('backToTop');
+  if(!btn) return;
+  window.addEventListener('scroll', ()=>{
+    btn.classList.toggle('visible', window.scrollY > 400);
+  }, {passive:true});
+  btn.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+})();
+
+// ── Doc Search ──
+(function(){
+  const input = document.getElementById('docSearch');
+  const clearBtn = document.getElementById('searchClear');
+  if(!input) return;
+
+  const sidebarLinks = document.querySelectorAll('.doc-sidebar a[href^="#"]');
+
+  function getSectionElements(baseId, lang){
+    const prefix = (lang === 'en') ? 'en-' : '';
+    const h2 = document.getElementById(prefix + baseId) || document.getElementById(baseId);
+    if(!h2) return [];
+    const els = [h2];
+    let next = h2.nextElementSibling;
+    while(next && next.tagName !== 'H2'){
+      els.push(next);
+      next = next.nextElementSibling;
+    }
+    return els;
+  }
+
+  function getTextContent(elements){
+    return elements.map(el => el.textContent || '').join(' ').toLowerCase();
+  }
+
+  let debounceTimer;
+  input.addEventListener('input', function(){
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(doSearch, 200);
+    clearBtn.classList.toggle('visible', input.value.length > 0);
+  });
+
+  clearBtn.addEventListener('click', ()=>{
+    input.value = '';
+    clearBtn.classList.remove('visible');
+    doSearch();
+    input.focus();
+  });
+
+  function doSearch(){
+    const q = input.value.trim().toLowerCase();
+    const lang = currentLang || 'zh';
+    const contentBlock = document.querySelector(lang === 'en' ? '.doc-en' : '.doc-zh');
+
+    if(!q){
+      // Show all sections and sidebar links
+      contentBlock.querySelectorAll('h2, h3, h4, p, ul, ol, pre, div, table').forEach(el => el.style.display = '');
+      sidebarLinks.forEach(a => a.style.display = '');
+      document.querySelectorAll('.doc-sidebar .sb-title').forEach(t => t.style.display = '');
+      return;
+    }
+
+    // Check each sidebar section
+    sidebarLinks.forEach(a => {
+      const baseId = a.getAttribute('href').slice(1);
+      const sectionEls = getSectionElements(baseId, lang);
+      const text = getTextContent(sectionEls);
+      const linkText = a.textContent.toLowerCase();
+      const match = text.includes(q) || linkText.includes(q);
+
+      a.style.display = match ? '' : 'none';
+
+      // Show/hide the corresponding content section
+      sectionEls.forEach(el => el.style.display = match ? '' : 'none');
+    });
+
+    // Show sb-titles if any following link is visible
+    document.querySelectorAll('.doc-sidebar .sb-title').forEach(title => {
+      let next = title.nextElementSibling;
+      let anyVisible = false;
+      while(next && !next.classList.contains('sb-title')){
+        if(next.tagName === 'A' && next.style.display !== 'none') anyVisible = true;
+        next = next.nextElementSibling;
+      }
+      title.style.display = anyVisible ? '' : 'none';
+    });
+  }
+})();
+
 // Apply saved language on page load (after page-specific keys are registered)
 if (currentLang !== 'zh') setLang(currentLang);
+
+// ── Auto data-label for responsive cards ──
+document.querySelectorAll('table.resp-cards').forEach(table => {
+  const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent.trim());
+  table.querySelectorAll('tr').forEach(tr => {
+    const tds = tr.querySelectorAll('td');
+    tds.forEach((td, i) => { if(headers[i]) td.setAttribute('data-label', headers[i]); });
+  });
+});
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
 <script src="js/search.js?v=20260320b"></script>
