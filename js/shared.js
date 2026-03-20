@@ -651,13 +651,14 @@ document.addEventListener('DOMContentLoaded', () => {
       pre.classList.add('has-lines');
       // Wrap each line in a span for numbering (use DocumentFragment to batch DOM ops)
       const textLines = rawText.split('\n');
+      // Remove trailing empty line from split
+      if (textLines.length && textLines[textLines.length - 1] === '') textLines.pop();
       const frag = document.createDocumentFragment();
       textLines.forEach(line => {
         const span = document.createElement('span');
         span.className = 'code-line';
         span.textContent = line;
         frag.appendChild(span);
-        frag.appendChild(document.createTextNode('\n'));
       });
       codeEl.textContent = '';
       codeEl.appendChild(frag);
