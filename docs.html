@@ -29,11 +29,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260320i">
+<link rel="manifest" href="manifest.json?v=20260320j">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260320i">
+<link rel="stylesheet" href="css/style.css?v=20260320j">
 <style>
 .doc-layout{display:grid;grid-template-columns:220px 1fr;gap:40px;padding:50px 0 80px;align-items:start}
 .doc-sidebar{position:sticky;top:calc(var(--nav-h) + 24px)}
@@ -176,6 +176,16 @@
     padding:10px 14px;font-family:var(--mono);color:var(--accent2);font-size:.9rem;font-weight:700;
     letter-spacing:1px}
   .doc-content table.resp-cards td:first-child::before{display:none}
+
+  .doc-content .param-table{font-size:.78rem}
+  .doc-content .param-table th{padding:8px 10px;font-size:.68rem}
+  .doc-content .param-table td{padding:8px 10px;font-size:.78rem}
+  .doc-content .param-table td:first-child{white-space:nowrap}
+  .doc-table-wrap{border:1px solid var(--border);border-radius:var(--r);margin:16px 0 24px}
+  .doc-table-wrap table{margin:0;border:none}
+  .doc-table-wrap table th:first-child,.doc-table-wrap table td:first-child{position:sticky;left:0;
+    z-index:1;background:var(--card)}
+  .doc-table-wrap table th:first-child{background:var(--bg3)}
 }
 </style>
 <script type="application/ld+json">
@@ -516,7 +526,7 @@ var _hmt = _hmt || [];
 
 <h2 id="params-common">通用参数</h2>
 <div class="doc-table-wrap">
-<table class="param-table resp-cards">
+<table class="param-table">
 <tr><th scope="col">参数</th><th scope="col">说明</th><th scope="col">默认值</th></tr>
 <tr><td>-lf</td><td>公网 IP 的网卡名称（必填）</td><td>-</td></tr>
 <tr><td>-n</td><td>主机名（单机为主机名，RAC 为主机名前缀）</td><td>orcl</td></tr>
@@ -547,7 +557,7 @@ var _hmt = _hmt || [];
 
 <h2 id="params-asm">ASM 相关参数</h2>
 <div class="doc-table-wrap">
-<table class="param-table resp-cards">
+<table class="param-table">
 <tr><th scope="col">参数</th><th scope="col">说明</th><th scope="col">默认值</th></tr>
 <tr><td>-gu</td><td>系统 grid 用户名称</td><td>grid</td></tr>
 <tr><td>-gp</td><td>系统 grid 用户密码</td><td>oracle</td></tr>
@@ -563,7 +573,7 @@ var _hmt = _hmt || [];
 
 <h2 id="params-rac">RAC 专属参数</h2>
 <div class="doc-table-wrap">
-<table class="param-table resp-cards">
+<table class="param-table">
 <tr><th scope="col">参数</th><th scope="col">说明</th><th scope="col">默认值</th></tr>
 <tr><td>-pf</td><td>心跳网卡名称，多组逗号分隔（必填）</td><td>-</td></tr>
 <tr><td>-hn</td><td>所有节点主机名，按顺序逗号分隔（必填）</td><td>-</td></tr>
@@ -908,7 +918,7 @@ var _hmt = _hmt || [];
 
 <h2 id="en-params-common">Common Parameters</h2>
 <div class="doc-table-wrap">
-<table class="param-table resp-cards">
+<table class="param-table">
 <tr><th scope="col">Param</th><th scope="col">Description</th><th scope="col">Default</th></tr>
 <tr><td>-lf</td><td>Public IP network interface name (required)</td><td>-</td></tr>
 <tr><td>-n</td><td>Hostname (single) or hostname prefix (RAC)</td><td>orcl</td></tr>
@@ -939,7 +949,7 @@ var _hmt = _hmt || [];
 
 <h2 id="en-params-asm">ASM Parameters</h2>
 <div class="doc-table-wrap">
-<table class="param-table resp-cards">
+<table class="param-table">
 <tr><th scope="col">Param</th><th scope="col">Description</th><th scope="col">Default</th></tr>
 <tr><td>-gu</td><td>System grid username</td><td>grid</td></tr>
 <tr><td>-gp</td><td>System grid user password</td><td>oracle</td></tr>
@@ -955,7 +965,7 @@ var _hmt = _hmt || [];
 
 <h2 id="en-params-rac">RAC Parameters</h2>
 <div class="doc-table-wrap">
-<table class="param-table resp-cards">
+<table class="param-table">
 <tr><th scope="col">Param</th><th scope="col">Description</th><th scope="col">Default</th></tr>
 <tr><td>-pf</td><td>Heartbeat NIC names, comma-separated (required)</td><td>-</td></tr>
 <tr><td>-hn</td><td>All node hostnames, comma-separated in order (required)</td><td>-</td></tr>
@@ -1215,7 +1225,7 @@ var _hmt = _hmt || [];
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
 <div id="footer"></div>
-<script src="js/shared.js?v=20260320i"></script>
+<script src="js/shared.js?v=20260320j"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('docs');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -1414,6 +1424,6 @@ document.querySelectorAll('.param-table').forEach(table => {
 });
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260320i"></script>
+<script src="js/search.js?v=20260320j"></script>
 </body>
 </html>
