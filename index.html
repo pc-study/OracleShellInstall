@@ -98,26 +98,6 @@
 .feat-card h4{font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:4px}
 .feat-card p{font-size:.8rem;color:var(--text-muted);line-height:1.5}
 
-/* MODES */
-.modes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
-.mode-card{text-align:center;position:relative;overflow:hidden}
-.mode-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);
-  transform:scaleX(0);transition:transform .3s}
-.mode-card:hover::before{transform:scaleX(1)}
-.mode-card .m-icon{font-size:2.2rem;margin-bottom:12px;display:block}
-.mode-card h4{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px}
-.mode-card p{font-size:.78rem;color:var(--text-muted);line-height:1.6}
-.mode-card .m-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px}
-.mode-card .m-tag{font-size:.68rem;padding:3px 10px;background:var(--bg3);border:1px solid var(--border);
-  border-radius:4px;color:var(--text-dim)}
-
-/* COMPAT */
-.compat-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:36px}
-.compat-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px}
-.compat-panel h3{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.compat-panel h3 .dot{width:8px;height:8px;border-radius:50%;background:var(--red)}
-.compat-panel .tag-list{display:flex;flex-wrap:wrap;gap:8px}
-
 /* CTA */
 .cta-section{text-align:center;padding:80px 0}
 .cta-box{background:linear-gradient(135deg,rgba(199,70,52,.08),rgba(199,70,52,.02));
@@ -137,7 +117,6 @@
   .hero-btns{justify-content:center}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .feat-grid{grid-template-columns:1fr}
-  .modes-grid{grid-template-columns:1fr}
   .compat-grid{grid-template-columns:1fr}
   .steps-grid{grid-template-columns:1fr;gap:16px}
   /* Hero orbs overflow prevention */
@@ -365,9 +344,6 @@ const pageI18n = {
     statV: 'Oracle 版本支持', statO: 'Linux 发行版', statM: '部署架构模式', statA: '全自动化安装',
     featEye: '核心特性', featTitle: '为什么选择 OracleShellInstall',
     featSub: '经过数百次生产环境验证，专为 DBA 打造的自动化安装方案',
-    modeEye: '部署模式', modeTitle: '三种架构，灵活适配', modeSub: '根据业务场景选择最合适的部署模式',
-    compEye: '兼容性', compTitle: '广泛的版本与系统支持',
-    compVer: '支持的 Oracle 版本', compOs: '支持的操作系统',
     stepsEye: '快速上手', stepsTitle: '三步完成安装',
     step1t: '上传软件包', step1d: '将脚本和 Oracle 安装介质上传至服务器 /soft 目录',
     step2t: '配置参数', step2d: '使用在线命令生成器选择模式并配置安装参数',
@@ -379,21 +355,12 @@ const pageI18n = {
     feat4t: 'RAC 集群支持', feat4d2: '单机 / ASM / RAC 三种部署模式，自动化 SSH 互信、Grid 安装、ASM 磁盘组配置',
     feat6t: '一键补丁升级', feat6d2: '支持 PSU、RU、OJVM 补丁自动应用，智能参数校验 + 完整安装日志追踪',
     featMore: '查看完整兼容列表 →',
-    previewEye: '在线体验', previewTitle: '选择配置，即刻生成命令', previewDesc: '选择 Oracle 版本和部署模式，立即看到生成的安装命令',
-    qcmdVer: 'Oracle 版本', qcmdMode: '部署模式', qcmdSingle: '单机', qcmdAsm: '单机ASM', qcmdRac: 'RAC',
-    qcmdCopy: '复制命令', qcmdFull: '完整参数配置 →',
     quote1: '"以前安装 19c RAC 至少两天时间，用这个脚本一条命令 40 分钟搞定，生产环境已稳定运行半年。"',
     quote1a: '— 高级 DBA, 某银行核心系统', quote1l: '查看 RAC 安装实录 →',
     quote2: '"我们用麒麟 V10 + Oracle 19c 做国产化替代，其他工具都不支持，这个脚本直接搞定了。"',
     quote2a: '— 运维架构师, 某政企单位', quote2l: '查看麒麟安装实录 →',
     quote3: '"命令生成器太方便了，选好参数直接复制执行，新手也不怕配错参数。"',
     quote3a: '— 初级 DBA, 学习环境搭建', quote3l: '试试命令生成器 →',
-    mode1t: '单机模式', mode1d: 'Single Instance，基于文件系统存储，适用于开发测试及中小型业务系统',
-    mode1tag1: '文件系统', mode1tag2: '快速部署', mode1tag3: '低资源',
-    mode2t: '单机 ASM 模式', mode2d: 'Standalone + Grid Infrastructure，基于 ASM 自动存储管理，适用于需要高级存储管理的单节点',
-    mode2tag1: 'ASM 存储', mode2tag2: 'Grid Infra', mode2tag3: 'UDEV 绑盘',
-    mode3t: 'RAC 集群模式', mode3d: 'Real Application Clusters，多节点高可用集群，适用于核心生产环境的高可用需求',
-    mode3tag1: '高可用', mode3tag2: '多节点', mode3tag3: '自动互信', mode3tag4: 'SCAN',
   },
   en: {
     heroBadge: 'One-Click Install \u00b7 Production Ready',
@@ -403,9 +370,6 @@ const pageI18n = {
     statV: 'Oracle Versions', statO: 'Linux Distros', statM: 'Deploy Modes', statA: 'Fully Automated',
     featEye: 'FEATURES', featTitle: 'Why OracleShellInstall',
     featSub: 'Battle-tested automation solution built for DBAs, verified across hundreds of production deployments',
-    modeEye: 'DEPLOY MODES', modeTitle: 'Three Architectures, Flexible Fit', modeSub: 'Choose the best deployment mode for your scenario',
-    compEye: 'COMPATIBILITY', compTitle: 'Broad Version & OS Support',
-    compVer: 'Supported Oracle Versions', compOs: 'Supported Operating Systems',
     stepsEye: 'GET STARTED', stepsTitle: 'Install in 3 Steps',
     step1t: 'Upload Package', step1d: 'Upload the script and Oracle installation media to /soft on your server',
     step2t: 'Configure', step2d: 'Use the online generator to select mode and configure parameters',
@@ -417,21 +381,12 @@ const pageI18n = {
     feat4t: 'RAC Cluster Support', feat4d2: 'Single / ASM / RAC three deployment modes with automated SSH trust, Grid install, ASM disk config',
     feat6t: 'One-Click Patching', feat6d2: 'Auto-apply PSU, RU, OJVM patches with smart validation + full install log tracking',
     featMore: 'View Full Compatibility List →',
-    previewEye: 'TRY IT', previewTitle: 'Pick Config, Get Command Instantly', previewDesc: 'Select Oracle version and deploy mode to see the generated install command',
-    qcmdVer: 'Oracle Version', qcmdMode: 'Deploy Mode', qcmdSingle: 'Single', qcmdAsm: 'Standalone ASM', qcmdRac: 'RAC',
-    qcmdCopy: 'Copy', qcmdFull: 'Full Configuration →',
     quote1: '"Installing 19c RAC used to take two days. With this script, one command got it done in 40 minutes. Production stable for 6 months."',
     quote1a: '— Senior DBA, Banking Core System', quote1l: 'View RAC Install Log →',
     quote2: '"We needed Kylin V10 + Oracle 19c for domestic OS migration. No other tool supported it — this script just worked."',
     quote2a: '— Ops Architect, Government Enterprise', quote2l: 'View Kylin Install Log →',
     quote3: '"The command generator is incredibly handy. Pick params, copy, execute. Even beginners won\'t misconfigure."',
     quote3a: '— Junior DBA, Learning Environment', quote3l: 'Try the Generator →',
-    mode1t: 'Single Instance', mode1d: 'File system storage, ideal for development, testing, and small-medium workloads',
-    mode1tag1: 'File System', mode1tag2: 'Fast Deploy', mode1tag3: 'Low Resource',
-    mode2t: 'Standalone ASM', mode2d: 'Grid Infrastructure with ASM storage management for single-node advanced storage needs',
-    mode2tag1: 'ASM Storage', mode2tag2: 'Grid Infra', mode2tag3: 'UDEV Binding',
-    mode3t: 'RAC Cluster', mode3d: 'Multi-node high availability cluster for mission-critical production environments',
-    mode3tag1: 'HA', mode3tag2: 'Multi-Node', mode3tag3: 'Auto SSH Trust', mode3tag4: 'SCAN',
   }
 };
 
