@@ -29,11 +29,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260321a">
+<link rel="manifest" href="manifest.json?v=20260321b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260321a">
+<link rel="stylesheet" href="css/style.css?v=20260321b">
 <style>
 /* HERO */
 .pr-hero{padding:80px 0 20px;text-align:center}
@@ -42,9 +42,10 @@
 
 /* PLAN CARDS */
 .pr-plans{padding:40px 0 30px}
-.plans-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:820px;margin:0 auto}
+.plans-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:820px;margin:0 auto;align-items:stretch}
 .plan{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r-xl);padding:36px 32px;
-  position:relative;overflow:hidden;transition:all .35s cubic-bezier(.4,0,.2,1)}
+  position:relative;overflow:hidden;transition:all .35s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column}
 .plan:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.15)}
 .plan-pop{border-color:var(--red);box-shadow:var(--glow-md)}
 .plan-pop::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--accent2))}
@@ -55,7 +56,7 @@
 .plan-price{font-size:2.4rem;font-weight:900;color:var(--text);margin-bottom:4px;font-family:var(--display)}
 .plan-price-sub{font-size:.78rem;color:var(--text-muted);margin-bottom:24px}
 .plan-divider{height:1px;background:var(--border);margin:0 0 20px}
-.plan-features{list-style:none;padding:0;margin:0 0 28px}
+.plan-features{list-style:none;padding:0;margin:0 0 28px;flex:1}
 .plan-features li{padding:8px 0;font-size:.85rem;color:var(--text-dim);display:flex;align-items:flex-start;gap:10px;line-height:1.5}
 .plan-features .ck{color:var(--green);font-size:1rem;flex-shrink:0;margin-top:1px}
 .plan-features .xk{color:var(--text-muted);font-size:.9rem;flex-shrink:0;margin-top:2px;opacity:.5;font-weight:300}
@@ -199,13 +200,13 @@ var _hmt = _hmt || [];
 <div class="pr-stats reveal">
   <div class="container">
     <div class="stats-row">
-      <div class="stat-item"><span class="stat-num">1000+</span><span class="stat-label" data-i18n="prStat1">付费用户</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="1000" data-suffix="+">0</span><span class="stat-label" data-i18n="prStat1">付费用户</span></div>
       <div class="stat-sep"></div>
-      <div class="stat-item"><span class="stat-num">10000+</span><span class="stat-label" data-i18n="prStat2">生产环境部署</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="10000" data-suffix="+">0</span><span class="stat-label" data-i18n="prStat2">生产环境部署</span></div>
       <div class="stat-sep"></div>
-      <div class="stat-item"><span class="stat-num">20+</span><span class="stat-label" data-i18n="prStat3">支持操作系统</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="20" data-suffix="+">0</span><span class="stat-label" data-i18n="prStat3">支持操作系统</span></div>
       <div class="stat-sep"></div>
-      <div class="stat-item"><span class="stat-num">4</span><span class="stat-label" data-i18n="prStat4">年持续维护</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="4" data-suffix="">0</span><span class="stat-label" data-i18n="prStat4">年持续维护</span></div>
     </div>
   </div>
 </div>
@@ -271,7 +272,7 @@ var _hmt = _hmt || [];
   <p class="cmp-shared" data-i18n="cmpShared">两版本均包含：全自动化安装、脚本帮助、安装日志、参数配置与校验、多实例创建、ASM 绑盘、可重复执行、安装后数据库优化、Oracle 11gR2~26ai 全版本支持</p>
   <div class="cmp-hint">← 左右滑动查看 →</div>
   <div class="cmp-wrap" style="margin-top:24px">
-    <table class="cmp-table">
+    <table class="cmp-table resp-cards">
       <thead>
         <tr>
           <th data-i18n="cmpCol1">功能描述</th>
@@ -280,13 +281,19 @@ var _hmt = _hmt || [];
         </tr>
       </thead>
       <tbody>
-        <tr><td data-i18n="r12">RAC（不限节点数）</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td>ARM</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r17">国产化系统（麒麟、欧拉、统信、龙蜥等 20+）</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r20">非 Oracle 官方认证组合安装</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r21">Grid/DB/OJVM 一键安装打补丁</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r22">提供系统镜像 ISO、Oracle 安装包/补丁等</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r23">安装日志排错、专属付费群、群直播答疑等</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catArch">架构</td></tr>
+        <tr><td data-i18n="r12">RAC（不限节点数）</td><td data-label="社区版" class="cmp-no">&mdash;</td><td data-label="专业版" class="cmp-yes">&#10003;</td></tr>
+        <tr><td>ARM</td><td data-label="社区版" class="cmp-no">&mdash;</td><td data-label="专业版" class="cmp-yes">&#10003;</td></tr>
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catOs">操作系统</td></tr>
+        <tr><td data-i18n="r17">国产化系统（麒麟、欧拉、统信、龙蜥等 20+）</td><td data-label="社区版" class="cmp-no">&mdash;</td><td data-label="专业版" class="cmp-yes">&#10003;</td></tr>
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catCompat">兼容性</td></tr>
+        <tr><td data-i18n="r20">非 Oracle 官方认证组合安装</td><td data-label="社区版" class="cmp-no">&mdash;</td><td data-label="专业版" class="cmp-yes">&#10003;</td></tr>
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catPatch">安装补丁</td></tr>
+        <tr><td data-i18n="r21">Grid/DB/OJVM 一键安装打补丁</td><td data-label="社区版" class="cmp-no">&mdash;</td><td data-label="专业版" class="cmp-yes">&#10003;</td></tr>
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catMedia">安装介质</td></tr>
+        <tr><td data-i18n="r22">提供系统镜像 ISO、Oracle 安装包/补丁等</td><td data-label="社区版" class="cmp-no">&mdash;</td><td data-label="专业版" class="cmp-yes">&#10003;</td></tr>
+        <tr class="cmp-cat"><td colspan="3" data-i18n="catSupport">技术支持</td></tr>
+        <tr><td data-i18n="r23">安装日志排错、专属付费群、群直播答疑等</td><td data-label="社区版" class="cmp-no">&mdash;</td><td data-label="专业版" class="cmp-yes">&#10003;</td></tr>
       </tbody>
     </table>
   </div>
@@ -399,7 +406,7 @@ var _hmt = _hmt || [];
 </div></section>
 
 <div id="footer"></div>
-<script src="js/shared.js?v=20260321a"></script>
+<script src="js/shared.js?v=20260321b"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('pricing');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -545,6 +552,6 @@ document.querySelectorAll('.faq-q').forEach(q => {
 if (currentLang !== 'zh') setLang(currentLang);
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260321a"></script>
+<script src="js/search.js?v=20260321b"></script>
 </body>
 </html>
