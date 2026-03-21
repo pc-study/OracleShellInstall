@@ -485,7 +485,8 @@ function runTermAnimation() {
     div.className = 'term-line';
     div.innerHTML = line.html;
     body.insertBefore(div, cursor);
-    requestAnimationFrame(() => div.classList.add('visible'));
+    requestAnimationFrame(() => { div.classList.add('visible'); });
+    setTimeout(() => { body.scrollTop = body.scrollHeight; }, 50);
     lineIdx++;
     if (line.delay > 0) setTimeout(showLine, line.delay);
     else showLine();
