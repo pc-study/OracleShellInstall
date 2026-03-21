@@ -540,7 +540,17 @@ const pageI18n = {
     dlFaq4Q:'GitHub 邀请过期了怎么办？',
     dlFaq4A:'GitHub 仓库邀请的有效期为 <strong style="color:var(--accent2)">7 天</strong>，请在收到邀请邮件后及时前往注册邮箱确认接受。如果邀请已过期，请添加作者微信（Lucifer-0622）重新发送邀请。',
     dlFaq5Q:'有新系统/版本的适配需求怎么办？',
-    dlFaq5A:'如果您需要脚本支持新的操作系统或 Oracle 版本，欢迎通过以下方式联系作者：<ol><li>点击页面右下角的微信图标，扫码添加作者微信咨询。</li><li>在用户群内提出需求，作者会评估并纳入后续更新计划。</li><li>较复杂的定制需求可能需要额外付费，具体请沟通确认。</li></ol>'
+    dlFaq5A:'如果您需要脚本支持新的操作系统或 Oracle 版本，欢迎通过以下方式联系作者：<ol><li>点击页面右下角的微信图标，扫码添加作者微信咨询。</li><li>在用户群内提出需求，作者会评估并纳入后续更新计划。</li><li>较复杂的定制需求可能需要额外付费，具体请沟通确认。</li></ol>',
+    dlSecChangelog:'版本更新日志', dlSecChangelogSub:'OracleShellInstall 主要版本更新记录',
+    cl50a:'新增 Oracle 26ai 版本支持', cl50b:'新增 Ubuntu 24.04 / Debian 12 支持', cl50c:'优化 RAC 集群安装流程', cl50d:'新增在线命令生成器',
+    cl40a:'新增 Oracle 21c 版本支持', cl40b:'新增 openEuler / Kylin V10 / UOS 等国产系统支持', cl40c:'新增 Rocky Linux / AlmaLinux 支持', cl40d:'优化 ASM 磁盘自动配置逻辑',
+    cl30a:'新增 RHEL 9 / Oracle Linux 9 支持', cl30b:'新增 ARM 架构支持', cl30c:'优化补丁自动应用机制',
+    dlSecReq:'系统要求', dlSecReqSub:'运行脚本前请确认服务器满足以下最低要求',
+    dlReqOs:'操作系统', dlReqOsVal:'Linux x86_64 / ARM64（最小化安装即可）',
+    dlReqMem:'内存', dlReqMemVal:'最低 2GB（生产环境建议 8GB+）',
+    dlReqDisk:'磁盘空间', dlReqDiskVal:'最低 30GB（建议 50GB+）',
+    dlReqBash:'Bash 版本', dlReqUser:'执行用户',
+    dlReqNet:'网络', dlReqNetVal:'可配置本地 YUM/APT 源离线安装'
   },
   en: {
     dlTitle:'Download Center',
@@ -586,7 +596,17 @@ const pageI18n = {
     dlFaq4Q:'What if my GitHub invitation has expired?',
     dlFaq4A:'GitHub repository invitations are valid for <strong style="color:var(--accent2)">7 days</strong>. Please check your registered email and accept promptly after receiving the invitation. If the invitation has expired, contact the author via WeChat (Lucifer-0622) to have it resent.',
     dlFaq5Q:'What if I need support for a new OS/version?',
-    dlFaq5A:'If you need the script to support a new operating system or Oracle version, feel free to contact the author:<ol><li>Click the WeChat icon at the bottom-right of the page to scan and add the author on WeChat.</li><li>Post your request in the user group — the author will evaluate and include it in future update plans.</li><li>More complex custom requests may require additional fees — please discuss for details.</li></ol>'
+    dlFaq5A:'If you need the script to support a new operating system or Oracle version, feel free to contact the author:<ol><li>Click the WeChat icon at the bottom-right of the page to scan and add the author on WeChat.</li><li>Post your request in the user group — the author will evaluate and include it in future update plans.</li><li>More complex custom requests may require additional fees — please discuss for details.</li></ol>',
+    dlSecChangelog:'Version History', dlSecChangelogSub:'Major version updates of OracleShellInstall',
+    cl50a:'Added Oracle 26ai support', cl50b:'Added Ubuntu 24.04 / Debian 12 support', cl50c:'Optimized RAC cluster installation workflow', cl50d:'Added online command generator',
+    cl40a:'Added Oracle 21c support', cl40b:'Added openEuler / Kylin V10 / UOS domestic OS support', cl40c:'Added Rocky Linux / AlmaLinux support', cl40d:'Optimized ASM disk auto-configuration logic',
+    cl30a:'Added RHEL 9 / Oracle Linux 9 support', cl30b:'Added ARM architecture support', cl30c:'Optimized automatic patch application',
+    dlSecReq:'System Requirements', dlSecReqSub:'Ensure your server meets the following minimum requirements before running the script',
+    dlReqOs:'Operating System', dlReqOsVal:'Linux x86_64 / ARM64 (minimal install is sufficient)',
+    dlReqMem:'Memory', dlReqMemVal:'Minimum 2GB (8GB+ recommended for production)',
+    dlReqDisk:'Disk Space', dlReqDiskVal:'Minimum 30GB (50GB+ recommended)',
+    dlReqBash:'Bash Version', dlReqUser:'Run As',
+    dlReqNet:'Network', dlReqNetVal:'Supports offline install with local YUM/APT repos'
   }
 };
 Object.assign(i18n.zh, pageI18n.zh);
