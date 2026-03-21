@@ -536,6 +536,7 @@ img{max-width:100%;display:block}
 
 /* === PRICING EXTRAS === */
 .plan-anchor{font-size:.75rem;color:var(--text-muted);margin-top:4px;font-style:italic}
+.pay-guide{margin-top:20px;padding:12px 20px;background:linear-gradient(135deg,rgba(58,186,106,.08),rgba(58,186,106,.02));border:1px solid rgba(58,186,106,.2);border-radius:var(--r);font-size:.92rem;color:var(--green);font-weight:600;text-align:center}
 .pay-flow{margin-top:16px;padding:14px 20px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);font-size:.85rem;color:var(--text-dim);line-height:1.7;text-align:center}
 .pay-flow strong{color:var(--text)}
 .pr-download{padding:30px 0 20px}
