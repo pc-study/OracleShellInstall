@@ -1,0 +1,386 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - link "跳转到主内容" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - generic [ref=e4]:
+      - link "OS Oracle Shell Install" [ref=e5] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=e6]: OS
+        - text: Oracle
+        - generic [ref=e7]: Shell
+        - text: Install
+      - generic [ref=e8]:
+        - link "首页" [ref=e9] [cursor=pointer]:
+          - /url: index.html
+        - link "命令生成器" [ref=e10] [cursor=pointer]:
+          - /url: generator.html
+        - link "使用文档" [ref=e11] [cursor=pointer]:
+          - /url: docs.html
+        - link "安装合集" [ref=e12] [cursor=pointer]:
+          - /url: compat.html
+        - link "脚本订阅" [ref=e13] [cursor=pointer]:
+          - /url: pricing.html
+        - link "开始使用" [ref=e14] [cursor=pointer]:
+          - /url: docs.html#quickstart
+      - generic [ref=e15]:
+        - button "搜索" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+          - generic [ref=e20]: ⌘K
+        - button "切换主题" [ref=e21] [cursor=pointer]: ☀
+        - button "切换语言" [ref=e22] [cursor=pointer]: EN
+  - generic [ref=e24]:
+    - generic [ref=e25]: 脚本对比
+    - heading "选择适合您的版本" [level=1] [ref=e26]
+    - paragraph [ref=e27]: 社区版满足基础安装需求，专业版解锁 RAC 集群、ARM 架构、国产化系统、一键补丁等全部高级功能
+  - generic [ref=e30]:
+    - generic [ref=e31]:
+      - generic [ref=e32]: 1000+
+      - text: 付费用户
+    - generic [ref=e34]:
+      - generic [ref=e35]: 10000+
+      - text: 生产环境部署
+    - generic [ref=e37]:
+      - generic [ref=e38]: 20+
+      - text: 支持操作系统
+    - generic [ref=e40]:
+      - generic [ref=e41]: "4"
+      - text: 年持续维护
+  - generic [ref=e44]:
+    - generic [ref=e45]:
+      - generic [ref=e46]: 社区版
+      - generic [ref=e47]: 适用于开发测试环境，覆盖常规 Oracle 安装场景
+      - generic [ref=e48]: 免费
+      - generic [ref=e49]: 永久免费 · Gitee 开源
+      - list [ref=e51]:
+        - listitem [ref=e52]:
+          - generic [ref=e53]: ✓
+          - generic [ref=e54]: 单机 / 单机 ASM 安装
+        - listitem [ref=e55]:
+          - generic [ref=e56]: ✓
+          - generic [ref=e57]: NON-CDB / CDB (PDB) 架构
+        - listitem [ref=e58]:
+          - generic [ref=e59]: ✓
+          - generic [ref=e60]: X86 架构支持
+        - listitem [ref=e61]:
+          - generic [ref=e62]: ✓
+          - generic [ref=e63]: RHEL / OracleLinux / CentOS
+        - listitem [ref=e64]:
+          - generic [ref=e65]: ✓
+          - generic [ref=e66]: Oracle 官方认证组合
+        - listitem [ref=e67]:
+          - generic [ref=e68]: ✓
+          - generic [ref=e69]: 全自动化安装 · 无需人工干预
+        - listitem [ref=e70]:
+          - generic [ref=e71]: —
+          - generic [ref=e72]: RAC 集群部署
+        - listitem [ref=e73]:
+          - generic [ref=e74]: —
+          - generic [ref=e75]: ARM 架构 · 国产化系统
+        - listitem [ref=e76]:
+          - generic [ref=e77]: —
+          - generic [ref=e78]: 一键安装补丁
+      - link "前往 Gitee 下载" [ref=e79] [cursor=pointer]:
+        - /url: https://gitee.com/luciferlpc/OracleShellInstall
+    - generic [ref=e80]:
+      - generic [ref=e81]: 推荐
+      - generic [ref=e82]: 专业版
+      - generic [ref=e83]: 面向生产环境，解锁全部高级功能与专属技术支持
+      - generic [ref=e84]: ¥99
+      - generic [ref=e85]: 一次付费 · 微信/TG/Discord/WhatsApp 联系获取
+      - generic [ref=e86]: 相当于一次 RAC 部署外包费的 1/50
+      - generic [ref=e87]:
+        - generic [ref=e88]: ✓ 一次付费 · 永久使用
+        - generic [ref=e89]: ✓ 1000+ 用户已订阅
+        - generic [ref=e90]: ✓ 专属群 · 作者亲自答疑
+      - list [ref=e92]:
+        - listitem [ref=e93]:
+          - generic [ref=e94]: ✓
+          - generic [ref=e95]: 包含社区版全部功能
+        - listitem [ref=e96]:
+          - generic [ref=e97]: ✓
+          - generic [ref=e98]: RAC 集群部署（不限节点数）
+        - listitem [ref=e99]:
+          - generic [ref=e100]: ✓
+          - generic [ref=e101]: ARM 架构全面支持
+        - listitem [ref=e102]:
+          - generic [ref=e103]: ✓
+          - generic [ref=e104]: 国产化系统（麒麟、欧拉、统信等 20+）
+        - listitem [ref=e105]:
+          - generic [ref=e106]: ✓
+          - generic [ref=e107]: 非官方认证组合安装
+        - listitem [ref=e108]:
+          - generic [ref=e109]: ✓
+          - generic [ref=e110]: Grid/DB/OJVM 一键安装补丁
+        - listitem [ref=e111]:
+          - generic [ref=e112]: ✓
+          - generic [ref=e113]: 安装介质提供（ISO、安装包、补丁）
+        - listitem [ref=e114]:
+          - generic [ref=e115]: ✓
+          - generic [ref=e116]: 专属付费群 · 直播答疑 · 日志排错
+      - link "联系获取 ↓" [ref=e117] [cursor=pointer]:
+        - /url: "#contact"
+  - generic [ref=e119]:
+    - generic [ref=e120]:
+      - generic [ref=e121]: 详细对比
+      - generic [ref=e122]: 功能点完整对比
+    - table [ref=e124]:
+      - rowgroup [ref=e125]:
+        - row "功能描述 社区版 专业版" [ref=e126]:
+          - columnheader "功能描述" [ref=e127]
+          - columnheader "社区版" [ref=e128]
+          - columnheader "专业版" [ref=e129]
+      - rowgroup [ref=e130]:
+        - row "功能" [ref=e131]:
+          - cell "功能" [ref=e132]
+        - row "脚本帮助 help ✓ ✓" [ref=e133]:
+          - cell "脚本帮助 help" [ref=e134]
+          - cell "✓" [ref=e135]
+          - cell "✓" [ref=e136]
+        - row "脚本安装日志 ✓ ✓" [ref=e137]:
+          - cell "脚本安装日志" [ref=e138]
+          - cell "✓" [ref=e139]
+          - cell "✓" [ref=e140]
+        - row "脚本参数配置 ✓ ✓" [ref=e141]:
+          - cell "脚本参数配置" [ref=e142]
+          - cell "✓" [ref=e143]
+          - cell "✓" [ref=e144]
+        - row "脚本参数检查 ✓ ✓" [ref=e145]:
+          - cell "脚本参数检查" [ref=e146]
+          - cell "✓" [ref=e147]
+          - cell "✓" [ref=e148]
+        - row "创建多个实例 ✓ ✓" [ref=e149]:
+          - cell "创建多个实例" [ref=e150]
+          - cell "✓" [ref=e151]
+          - cell "✓" [ref=e152]
+        - row "配置多路径、UDEV、ASM 绑盘 ✓ ✓" [ref=e153]:
+          - cell "配置多路径、UDEV、ASM 绑盘" [ref=e154]
+          - cell "✓" [ref=e155]
+          - cell "✓" [ref=e156]
+        - row "可重复执行 ✓ ✓" [ref=e157]:
+          - cell "可重复执行" [ref=e158]
+          - cell "✓" [ref=e159]
+          - cell "✓" [ref=e160]
+        - row "全程无需人工干预 ✓ ✓" [ref=e161]:
+          - cell "全程无需人工干预" [ref=e162]
+          - cell "✓" [ref=e163]
+          - cell "✓" [ref=e164]
+        - row "安装后优化数据库 ✓ ✓" [ref=e165]:
+          - cell "安装后优化数据库" [ref=e166]
+          - cell "✓" [ref=e167]
+          - cell "✓" [ref=e168]
+        - row "架构" [ref=e169]:
+          - cell "架构" [ref=e170]
+        - row "单机 / 单机 ASM ✓ ✓" [ref=e171]:
+          - cell "单机 / 单机 ASM" [ref=e172]
+          - cell "✓" [ref=e173]
+          - cell "✓" [ref=e174]
+        - row "NON-CDB / CDB (PDB) ✓ ✓" [ref=e175]:
+          - cell "NON-CDB / CDB (PDB)" [ref=e176]
+          - cell "✓" [ref=e177]
+          - cell "✓" [ref=e178]
+        - row "RAC（不限节点数） — ✓" [ref=e179]:
+          - cell "RAC（不限节点数）" [ref=e180]
+          - cell "—" [ref=e181]
+          - cell "✓" [ref=e182]
+        - row "CPU" [ref=e183]:
+          - cell "CPU" [ref=e184]
+        - row "X86 ✓ ✓" [ref=e185]:
+          - cell "X86" [ref=e186]
+          - cell "✓" [ref=e187]
+          - cell "✓" [ref=e188]
+        - row "ARM — ✓" [ref=e189]:
+          - cell "ARM" [ref=e190]
+          - cell "—" [ref=e191]
+          - cell "✓" [ref=e192]
+        - row "操作系统" [ref=e193]:
+          - cell "操作系统" [ref=e194]
+        - row "红帽 RHEL / Oracle Linux / CentOS ✓ ✓" [ref=e195]:
+          - cell "红帽 RHEL / Oracle Linux / CentOS" [ref=e196]
+          - cell "✓" [ref=e197]
+          - cell "✓" [ref=e198]
+        - row "国产化系统（麒麟、欧拉、统信、龙蜥等 20+） — ✓" [ref=e199]:
+          - cell "国产化系统（麒麟、欧拉、统信、龙蜥等 20+）" [ref=e200]
+          - cell "—" [ref=e201]
+          - cell "✓" [ref=e202]
+        - row "Oracle 版本" [ref=e203]:
+          - cell "Oracle 版本" [ref=e204]
+        - row "11gR2 / 12cR2 / 19c / 21c / 26ai ✓ ✓" [ref=e205]:
+          - cell "11gR2 / 12cR2 / 19c / 21c / 26ai" [ref=e206]
+          - cell "✓" [ref=e207]
+          - cell "✓" [ref=e208]
+        - row "兼容性" [ref=e209]:
+          - cell "兼容性" [ref=e210]
+        - row "Oracle 官方认证组合安装 ✓ ✓" [ref=e211]:
+          - cell "Oracle 官方认证组合安装" [ref=e212]
+          - cell "✓" [ref=e213]
+          - cell "✓" [ref=e214]
+        - row "非 Oracle 官方认证组合安装 — ✓" [ref=e215]:
+          - cell "非 Oracle 官方认证组合安装" [ref=e216]
+          - cell "—" [ref=e217]
+          - cell "✓" [ref=e218]
+        - row "安装补丁" [ref=e219]:
+          - cell "安装补丁" [ref=e220]
+        - row "Grid/DB/OJVM 一键安装打补丁 — ✓" [ref=e221]:
+          - cell "Grid/DB/OJVM 一键安装打补丁" [ref=e222]
+          - cell "—" [ref=e223]
+          - cell "✓" [ref=e224]
+        - row "安装介质" [ref=e225]:
+          - cell "安装介质" [ref=e226]
+        - row "提供系统镜像 ISO、Oracle 安装包/补丁等 — ✓" [ref=e227]:
+          - cell "提供系统镜像 ISO、Oracle 安装包/补丁等" [ref=e228]
+          - cell "—" [ref=e229]
+          - cell "✓" [ref=e230]
+        - row "技术支持" [ref=e231]:
+          - cell "技术支持" [ref=e232]
+        - row "安装日志排错、专属付费群、群直播答疑等 — ✓" [ref=e233]:
+          - cell "安装日志排错、专属付费群、群直播答疑等" [ref=e234]
+          - cell "—" [ref=e235]
+          - cell "✓" [ref=e236]
+  - generic [ref=e238]:
+    - generic [ref=e239]:
+      - generic [ref=e240]: 常见问题
+      - generic [ref=e241]: 脚本订阅 FAQ
+    - generic [ref=e242]:
+      - generic [ref=e243]:
+        - button "社区版和专业版的核心区别是什么？ ▼" [ref=e244] [cursor=pointer]:
+          - generic [ref=e245]: 社区版和专业版的核心区别是什么？
+          - generic [ref=e246]: ▼
+        - paragraph [ref=e247]: 社区版支持单机和单机 ASM 模式，适用于 X86 架构和红帽系列系统，满足基础安装需求。专业版在此基础上增加了 RAC 集群（不限节点数）、ARM 架构、20+ 国产化操作系统、非官方认证组合安装、一键安装补丁、安装介质提供以及专属技术支持。
+      - generic [ref=e248]:
+        - button "专业版如何获取和付款？ ▼" [ref=e249] [cursor=pointer]:
+          - generic [ref=e250]: 专业版如何获取和付款？
+          - generic [ref=e251]: ▼
+        - paragraph [ref=e252]: 请添加作者微信 Lucifer-0622、Telegram @LUCIFERLPC、Discord lucifer0622. 或 WhatsApp 咨询订阅详情，包括定价、授权方式和付款流程等。
+      - generic [ref=e253]:
+        - button "专业版包含哪些技术支持？ ▼" [ref=e254] [cursor=pointer]:
+          - generic [ref=e255]: 专业版包含哪些技术支持？
+          - generic [ref=e256]: ▼
+        - paragraph [ref=e257]: 专业版包含专属微信群支持，群直播答疑，安装日志排错指导等。遇到安装问题可以直接在群内获得作者的技术支持。
+      - generic [ref=e258]:
+        - button "安装介质包含哪些内容？ ▼" [ref=e259] [cursor=pointer]:
+          - generic [ref=e260]: 安装介质包含哪些内容？
+          - generic [ref=e261]: ▼
+        - paragraph [ref=e262]: 专业版提供系统镜像 ISO 文件、Oracle 各版本安装包以及 Grid/DB/OJVM 补丁文件等完整安装介质，免去自行下载的麻烦。
+      - generic [ref=e263]:
+        - button "社区版可以免费用于生产环境吗？ ▼" [ref=e264] [cursor=pointer]:
+          - generic [ref=e265]: 社区版可以免费用于生产环境吗？
+          - generic [ref=e266]: ▼
+        - paragraph [ref=e267]: 社区版可免费使用，但仅支持单机/单机 ASM、X86 架构和红帽系列系统。如果生产环境需要 RAC 集群、ARM 架构或国产化系统支持，建议使用专业版。
+      - generic [ref=e268]:
+        - button "为什么 RAC、ARM、国产化系统等功能不在社区版中？ ▼" [ref=e269] [cursor=pointer]:
+          - generic [ref=e270]: 为什么 RAC、ARM、国产化系统等功能不在社区版中？
+          - generic [ref=e271]: ▼
+        - paragraph [ref=e272]: RAC 集群、ARM 架构和 20+ 国产化操作系统的适配涉及大量的开发调试、兼容性测试和持续维护工作。每新增一个系统版本都需要在真实环境中反复验证，确保安装流程稳定可靠。专业版的订阅费用正是用于支撑这些持续投入的研发和测试成本，也是项目能够长期维护和迭代的基础。社区版的功能范围并非人为限制，而是作者在有限精力下优先保障的核心场景。
+  - generic [ref=e274]:
+    - heading "一次付费，省下的远不止 ¥99" [level=2] [ref=e275]
+    - paragraph [ref=e276]: 专业版帮你节省的时间和精力，远超脚本本身的价格
+    - generic [ref=e277]:
+      - generic [ref=e278]:
+        - generic [ref=e279]: 单机安装
+        - generic [ref=e280]:
+          - generic [ref=e281]: 手动 2-4 小时
+          - generic [ref=e282]: →
+          - generic [ref=e283]: 脚本 15 分钟
+      - generic [ref=e284]:
+        - generic [ref=e285]: RAC 集群部署
+        - generic [ref=e286]:
+          - generic [ref=e287]: 手动 1-2 天
+          - generic [ref=e288]: →
+          - generic [ref=e289]: 脚本 30 分钟
+      - generic [ref=e290]:
+        - generic [ref=e291]: 国产化系统适配
+        - generic [ref=e292]:
+          - generic [ref=e293]: 踩坑 3-5 天
+          - generic [ref=e294]: →
+          - generic [ref=e295]: 一条命令搞定
+      - generic [ref=e296]:
+        - generic [ref=e297]: 补丁安装
+        - generic [ref=e298]:
+          - generic [ref=e299]: 手动 2-4 小时
+          - generic [ref=e300]: →
+          - generic [ref=e301]: 一键完成
+  - generic [ref=e304]:
+    - heading "获取专业版完整功能" [level=2] [ref=e305]
+    - paragraph [ref=e306]: 通过微信、Telegram、Discord 或 WhatsApp 咨询订阅详情，解锁 RAC 集群、国产化系统、一键补丁等全部高级功能
+    - generic [ref=e307]:
+      - img "WeChat QR Code - Lucifer-0622" [ref=e308]
+      - generic [ref=e309]: 微信扫码添加作者
+    - generic [ref=e310]:
+      - link "Telegram" [ref=e311] [cursor=pointer]:
+        - /url: https://t.me/LUCIFERLPC
+        - img [ref=e312]
+      - link "Discord" [ref=e314] [cursor=pointer]:
+        - /url: https://discord.gg/jumXJDmW
+        - img [ref=e315]
+      - link "WhatsApp" [ref=e317] [cursor=pointer]:
+        - /url: https://wa.me/8616619904622
+        - img [ref=e318]
+    - generic [ref=e320]:
+      - strong [ref=e321]: 订阅流程：
+      - text: 添加微信 → 确认需求 → 微信/支付宝付款 → 即时开通 GitHub 仓库权限 → 拉入专属技术群
+  - generic [ref=e324]:
+    - heading "已订阅？前往下载" [level=3] [ref=e325]
+    - paragraph [ref=e326]: 订阅后您将获得 GitHub 私有仓库访问权限，可直接下载脚本和安装介质
+    - link "前往下载中心 →" [ref=e327] [cursor=pointer]:
+      - /url: download.html
+  - contentinfo [ref=e329]:
+    - generic [ref=e330]:
+      - generic [ref=e331]:
+        - generic [ref=e332]:
+          - generic [ref=e333]: OracleShellInstall
+          - paragraph [ref=e334]: Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC 三种部署模式，覆盖 20+ Linux 发行版。
+        - generic [ref=e335]:
+          - heading "快速导航" [level=4] [ref=e336]
+          - link "首页" [ref=e337] [cursor=pointer]:
+            - /url: index.html
+          - link "命令生成器" [ref=e338] [cursor=pointer]:
+            - /url: generator.html
+          - link "使用文档" [ref=e339] [cursor=pointer]:
+            - /url: docs.html
+          - link "安装合集" [ref=e340] [cursor=pointer]:
+            - /url: compat.html
+          - link "脚本订阅" [ref=e341] [cursor=pointer]:
+            - /url: pricing.html
+          - link "下载中心" [ref=e342] [cursor=pointer]:
+            - /url: download.html
+        - generic [ref=e343]:
+          - heading "支持版本" [level=4] [ref=e344]
+          - link "Oracle 26ai" [ref=e345] [cursor=pointer]:
+            - /url: docs.html
+          - link "Oracle 21c" [ref=e346] [cursor=pointer]:
+            - /url: docs.html
+          - link "Oracle 19c" [ref=e347] [cursor=pointer]:
+            - /url: docs.html
+          - link "Oracle 12cR2" [ref=e348] [cursor=pointer]:
+            - /url: docs.html
+          - link "Oracle 11gR2" [ref=e349] [cursor=pointer]:
+            - /url: docs.html
+        - generic [ref=e350]:
+          - heading "联系方式" [level=4] [ref=e351]
+          - link "✉ pc1107750981@163.com" [ref=e352] [cursor=pointer]:
+            - /url: mailto:pc1107750981@163.com
+          - generic [ref=e353]: "📱 WeChat: Lucifer-0622"
+          - generic [ref=e354]:
+            - link "Telegram" [ref=e355] [cursor=pointer]:
+              - /url: https://t.me/LUCIFERLPC
+              - img [ref=e356]
+            - link "Discord" [ref=e358] [cursor=pointer]:
+              - /url: https://discord.gg/jumXJDmW
+              - img [ref=e359]
+            - link "WhatsApp" [ref=e361] [cursor=pointer]:
+              - /url: https://wa.me/8616619904622
+              - img [ref=e362]
+            - link "Gitee" [ref=e364] [cursor=pointer]:
+              - /url: https://gitee.com/luciferlpc/OracleShellInstall
+              - img [ref=e365]
+            - link "GitHub" [ref=e367] [cursor=pointer]:
+              - /url: https://github.com/pc-study/OracleShellInstall
+              - img [ref=e368]
+            - link "Email" [ref=e370] [cursor=pointer]:
+              - /url: mailto:pc1107750981@163.com
+              - img [ref=e371]
+      - generic [ref=e374]:
+        - generic [ref=e375]: Copyright © 2022-2099 Pengcheng Liu
+        - generic [ref=e376]: Lucifer & Contributors
+  - button "联系咨询" [ref=e378] [cursor=pointer]:
+    - img [ref=e379]

@@ -1,0 +1,214 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - link "跳转到主内容" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - generic [ref=e4]:
+      - link "OS Oracle Shell Install" [ref=e5] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=e6]: OS
+        - text: Oracle
+        - generic [ref=e7]: Shell
+        - text: Install
+      - generic [ref=e8]:
+        - link "首页" [ref=e9] [cursor=pointer]:
+          - /url: index.html
+        - link "命令生成器" [ref=e10] [cursor=pointer]:
+          - /url: generator.html
+        - link "使用文档" [ref=e11] [cursor=pointer]:
+          - /url: docs.html
+        - link "安装合集" [ref=e12] [cursor=pointer]:
+          - /url: compat.html
+        - link "脚本订阅" [ref=e13] [cursor=pointer]:
+          - /url: pricing.html
+        - link "开始使用" [ref=e14] [cursor=pointer]:
+          - /url: docs.html#quickstart
+      - generic [ref=e15]:
+        - button "搜索" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+          - generic [ref=e20]: ⌘K
+        - button "切换主题" [ref=e21] [cursor=pointer]: ☀
+        - button "切换语言" [ref=e22] [cursor=pointer]: EN
+  - generic [ref=e25]:
+    - generic [ref=e26]:
+      - generic [ref=e29]: 一键安装 · 生产就绪
+      - heading "Oracle 数据库 一键自动化安装" [level=1] [ref=e30]:
+        - generic [ref=e31]:
+          - text: Oracle 数据库
+          - text: 一键自动化安装
+      - paragraph [ref=e32]: 从操作系统配置到数据库创建，全流程自动化。支持单机、ASM、RAC 三种部署架构，覆盖 Oracle 11g 至 26ai 全版本，兼容 20+ 主流 Linux 发行版。
+      - generic [ref=e33]:
+        - link "命令生成器 →" [ref=e34] [cursor=pointer]:
+          - /url: generator.html
+        - link "查看文档" [ref=e35] [cursor=pointer]:
+          - /url: docs.html
+        - link "153 Stars" [ref=e36] [cursor=pointer]:
+          - /url: https://gitee.com/luciferlpc/OracleShellInstall
+          - img [ref=e37]
+          - generic [ref=e39]: 153 Stars
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - generic: root@oracle:/soft
+      - generic [ref=e48]: $ sh OracleShellInstall -install_mode single -lf eth0 -o orcl -dp oracle -opd Y
+  - generic [ref=e52]:
+    - generic [ref=e53]:
+      - generic [ref=e54]: "5"
+      - generic [ref=e55]: Oracle 版本支持
+    - generic [ref=e56]:
+      - generic [ref=e57]: 20+
+      - generic [ref=e58]: Linux 发行版
+    - generic [ref=e59]:
+      - generic [ref=e60]: "3"
+      - generic [ref=e61]: 部署架构模式
+    - generic [ref=e62]:
+      - generic [ref=e63]: 100%
+      - generic [ref=e64]: 全自动化安装
+  - separator [ref=e65]
+  - generic [ref=e67]:
+    - generic [ref=e68]:
+      - generic [ref=e69]: 快速上手
+      - generic [ref=e70]: 三步完成安装
+    - generic [ref=e71]:
+      - generic [ref=e72]:
+        - generic [ref=e73]: "1"
+        - heading "上传软件包" [level=4] [ref=e74]
+        - paragraph [ref=e75]: 将脚本和 Oracle 安装介质上传至服务器 /soft 目录
+      - generic [ref=e76]:
+        - generic [ref=e77]: "2"
+        - heading "配置参数" [level=4] [ref=e78]
+        - paragraph [ref=e79]: 使用在线命令生成器选择模式并配置安装参数
+      - generic [ref=e80]:
+        - generic [ref=e81]: "3"
+        - heading "执行命令" [level=4] [ref=e82]
+        - paragraph [ref=e83]: 复制生成的命令，以 root 用户在服务器上执行即可
+  - separator [ref=e84]
+  - generic [ref=e86]:
+    - generic [ref=e87]: 核心特性
+    - generic [ref=e88]: 为什么选择 OracleShellInstall
+    - paragraph [ref=e89]: 经过上万套生产环境验证，专为 DBA 打造的自动化安装方案
+    - generic [ref=e90]:
+      - generic [ref=e91]:
+        - img [ref=e93]
+        - generic [ref=e95]:
+          - heading "全自动化安装" [level=4] [ref=e96]
+          - paragraph [ref=e97]: 一条命令完成 OS 参数配置、依赖安装、用户创建、软件安装、数据库创建全流程
+      - generic [ref=e98]:
+        - img [ref=e100]
+        - generic [ref=e104]:
+          - heading "多版本全覆盖" [level=4] [ref=e105]
+          - paragraph [ref=e106]: 支持 Oracle 11gR2~26ai 全版本，兼容 CentOS、RHEL、Rocky、麒麟、统信等 20+ 发行版
+      - generic [ref=e107]:
+        - img [ref=e109]
+        - generic [ref=e114]:
+          - heading "RAC 集群支持" [level=4] [ref=e115]
+          - paragraph [ref=e116]: 单机 / ASM / RAC 三种部署模式，自动化 SSH 互信、Grid 安装、ASM 磁盘组配置
+      - generic [ref=e117]:
+        - img [ref=e119]
+        - generic [ref=e121]:
+          - heading "一键补丁升级" [level=4] [ref=e122]
+          - paragraph [ref=e123]: 支持 PSU、RU、OJVM 补丁自动应用，智能参数校验 + 完整安装日志追踪
+    - link "查看完整兼容列表 →" [ref=e125] [cursor=pointer]:
+      - /url: compat.html
+  - generic [ref=e127]:
+    - generic [ref=e128]: 用户信赖
+    - heading "被众多 DBA 选择的自动化工具" [level=2] [ref=e129]
+    - generic [ref=e130]:
+      - generic [ref=e131]:
+        - generic [ref=e132]: 1000+
+        - generic [ref=e133]: 付费用户
+      - generic [ref=e134]:
+        - generic [ref=e135]: 10000+
+        - generic [ref=e136]: 生产环境部署
+      - generic [ref=e137]:
+        - generic [ref=e138]: 20+
+        - generic [ref=e139]: 支持 Linux 发行版
+      - generic [ref=e140]:
+        - generic [ref=e141]: 170+
+        - generic [ref=e142]: 安装实录教程
+    - generic [ref=e143]:
+      - generic [ref=e144]:
+        - text: “
+        - generic [ref=e145]: "\"之前手动装 19c RAC 环境基本要两天，各种踩坑。换了这个脚本，一条命令跑完 40 分钟就好了，我们行里核心库已经用了大半年没出过问题。\""
+        - generic [ref=e146]: — 高级 DBA, 某银行核心系统
+        - link "查看 RAC 安装实录 →" [ref=e147] [cursor=pointer]:
+          - /url: compat.html
+      - generic [ref=e148]:
+        - text: “
+        - generic [ref=e149]: "\"做国产化适配的都知道，麒麟 V10 装 Oracle 基本没有现成的资料。这个脚本居然直接支持，一把过，省了我们项目组至少一周的时间。\""
+        - generic [ref=e150]: — 运维架构师, 某政企单位
+        - link "查看麒麟安装实录 →" [ref=e151] [cursor=pointer]:
+          - /url: compat.html
+      - generic [ref=e152]:
+        - text: “
+        - generic [ref=e153]: "\"给新同事搭测试环境用的，命令生成器选好参数复制粘贴就行，完全不用担心配错，太省心了。\""
+        - generic [ref=e154]: — 初级 DBA, 学习环境搭建
+        - link "试试命令生成器 →" [ref=e155] [cursor=pointer]:
+          - /url: generator.html
+  - generic [ref=e158]:
+    - heading "告别手动安装，从现在开始" [level=2] [ref=e159]
+    - paragraph [ref=e160]: 加入上千位 DBA 的行列，用一条命令完成 Oracle 数据库部署
+    - generic [ref=e161]:
+      - link "查看版本对比 →" [ref=e162] [cursor=pointer]:
+        - /url: pricing.html
+      - link "查看兼容列表" [ref=e163] [cursor=pointer]:
+        - /url: compat.html
+  - contentinfo [ref=e165]:
+    - generic [ref=e166]:
+      - generic [ref=e167]:
+        - generic [ref=e168]:
+          - generic [ref=e169]: OracleShellInstall
+          - paragraph [ref=e170]: Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC 三种部署模式，覆盖 20+ Linux 发行版。
+        - generic [ref=e171]:
+          - heading "快速导航" [level=4] [ref=e172]
+          - link "首页" [ref=e173] [cursor=pointer]:
+            - /url: index.html
+          - link "命令生成器" [ref=e174] [cursor=pointer]:
+            - /url: generator.html
+          - link "使用文档" [ref=e175] [cursor=pointer]:
+            - /url: docs.html
+          - link "安装合集" [ref=e176] [cursor=pointer]:
+            - /url: compat.html
+          - link "脚本订阅" [ref=e177] [cursor=pointer]:
+            - /url: pricing.html
+          - link "下载中心" [ref=e178] [cursor=pointer]:
+            - /url: download.html
+        - generic [ref=e179]:
+          - heading "支持版本" [level=4] [ref=e180]
+          - link "Oracle 26ai" [ref=e181] [cursor=pointer]:
+            - /url: docs.html
+          - link "Oracle 21c" [ref=e182] [cursor=pointer]:
+            - /url: docs.html
+          - link "Oracle 19c" [ref=e183] [cursor=pointer]:
+            - /url: docs.html
+          - link "Oracle 12cR2" [ref=e184] [cursor=pointer]:
+            - /url: docs.html
+          - link "Oracle 11gR2" [ref=e185] [cursor=pointer]:
+            - /url: docs.html
+        - generic [ref=e186]:
+          - heading "联系方式" [level=4] [ref=e187]
+          - link "✉ pc1107750981@163.com" [ref=e188] [cursor=pointer]:
+            - /url: mailto:pc1107750981@163.com
+          - generic [ref=e189]: "📱 WeChat: Lucifer-0622"
+          - generic [ref=e190]:
+            - link "Telegram" [ref=e191] [cursor=pointer]:
+              - /url: https://t.me/LUCIFERLPC
+              - img [ref=e192]
+            - link "Discord" [ref=e194] [cursor=pointer]:
+              - /url: https://discord.gg/jumXJDmW
+              - img [ref=e195]
+            - link "WhatsApp" [ref=e197] [cursor=pointer]:
+              - /url: https://wa.me/8616619904622
+              - img [ref=e198]
+            - link "Gitee" [ref=e200] [cursor=pointer]:
+              - /url: https://gitee.com/luciferlpc/OracleShellInstall
+              - img [ref=e201]
+            - link "GitHub" [ref=e203] [cursor=pointer]:
+              - /url: https://github.com/pc-study/OracleShellInstall
+              - img [ref=e204]
+            - link "Email" [ref=e206] [cursor=pointer]:
+              - /url: mailto:pc1107750981@163.com
+              - img [ref=e207]
+      - generic [ref=e210]:
+        - generic [ref=e211]: Copyright © 2022-2099 Pengcheng Liu
+        - generic [ref=e212]: Lucifer & Contributors
+  - button "联系咨询" [ref=e214] [cursor=pointer]:
+    - img [ref=e215]
