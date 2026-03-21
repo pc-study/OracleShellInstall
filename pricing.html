@@ -29,11 +29,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260321c">
+<link rel="manifest" href="manifest.json?v=20260321d">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260321c">
+<link rel="stylesheet" href="css/style.css?v=20260321d">
 <style>
 /* HERO */
 .pr-hero{padding:80px 0 20px;text-align:center}
@@ -394,6 +394,7 @@ var _hmt = _hmt || [];
       </div>
     </div>
     <div class="pay-flow" data-i18n="payFlow"><strong>订阅流程：</strong>扫码支付 → 添加作者微信/TG/Discord → 提供 GitHub 账号 → 即时开通仓库权限 → 拉入专属技术群</div>
+    <div class="pay-next" data-i18n="payNext">付款完成后，请前往 <a href="download.html">下载中心</a> 查看权限获取步骤和脚本下载方式</div>
   </div>
 </div></section>
 
@@ -401,12 +402,12 @@ var _hmt = _hmt || [];
   <div class="pr-dl-box reveal">
     <h3 data-i18n="prDlTitle">已订阅？前往下载</h3>
     <p data-i18n="prDlDesc">订阅后您将获得 GitHub 私有仓库访问权限，可直接下载脚本和安装介质</p>
-    <a href="download.html" class="btn btn-ghost" data-i18n="prDlBtn">前往下载中心 →</a>
+    <a href="download.html" class="btn-dl-primary" data-i18n="prDlBtn">前往下载中心 →</a>
   </div>
 </div></section>
 
 <div id="footer"></div>
-<script src="js/shared.js?v=20260321c"></script>
+<script src="js/shared.js?v=20260321d"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('pricing');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -470,6 +471,7 @@ Object.assign(i18n.zh, {
   qrLabel2:'微信：Lucifer-0622',
   planAnchor:'相当于一次 RAC 部署外包费的 1/50',
   payFlow:'<strong>订阅流程：</strong>扫码支付 → 添加作者微信/TG/Discord → 提供 GitHub 账号 → 即时开通仓库权限 → 拉入专属技术群',
+  payNext:'付款完成后，请前往 <a href="download.html">下载中心</a> 查看权限获取步骤和脚本下载方式',
   prDlTitle:'已订阅？前往下载',
   prDlDesc:'订阅后您将获得 GitHub 私有仓库访问权限，可直接下载脚本和安装介质',
   prDlBtn:'前往下载中心 →',
@@ -532,6 +534,7 @@ Object.assign(i18n.en, {
   qrLabel2:'WeChat: Lucifer-0622',
   planAnchor:'Less than 1/50 the cost of a single RAC deployment service',
   payFlow:'<strong>How to subscribe:</strong> Scan to pay → Add author on WeChat/TG/Discord → Provide GitHub account → Instant repo access → Join VIP support group',
+  payNext:'After payment, visit the <a href="download.html">Download Center</a> to see how to get access and download the script',
   prDlTitle:'Already subscribed? Go to Downloads',
   prDlDesc:'After subscribing, you will get access to the private GitHub repository to download scripts and installation media',
   prDlBtn:'Go to Download Center →',
@@ -552,6 +555,6 @@ document.querySelectorAll('.faq-q').forEach(q => {
 if (currentLang !== 'zh') setLang(currentLang);
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260321c"></script>
+<script src="js/search.js?v=20260321d"></script>
 </body>
 </html>
