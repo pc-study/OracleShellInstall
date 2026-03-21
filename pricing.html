@@ -47,6 +47,23 @@
   position:relative;overflow:hidden;transition:all .35s cubic-bezier(.4,0,.2,1);
   display:flex;flex-direction:column;box-shadow:var(--shadow-card)}
 .plan:hover{transform:translateY(-4px);box-shadow:var(--shadow-card-hover)}
+
+/* FREE PLAN */
+.plan-free{padding:0;overflow:hidden}
+.plan-header-zone{text-align:center;padding:44px 40px 30px;
+  background:linear-gradient(180deg,rgba(255,255,255,.04) 0%,transparent 100%);
+  position:relative}
+.plan-badge-free{display:inline-block;background:var(--bg3);color:var(--text-dim);
+  font-size:.65rem;font-weight:700;padding:3px 14px;border-radius:20px;margin-bottom:10px;
+  letter-spacing:1px;text-transform:uppercase;border:1px solid var(--border)}
+.plan-free .plan-name{font-size:1.6rem;margin-bottom:12px}
+.plan-big-price-free{font-size:3rem;font-weight:900;color:var(--text);line-height:1;margin-bottom:10px;
+  font-family:var(--display);letter-spacing:-1px}
+.plan-free .plan-divider{margin:0 40px 20px}
+.plan-free .plan-features{padding:0 40px;margin-bottom:24px}
+.plan-free .plan-btn{margin:0 40px 36px}
+
+/* PRO PLAN */
 .plan-pop{border-color:rgba(199,70,52,.45);padding:0;overflow:hidden;
   box-shadow:0 4px 30px rgba(199,70,52,.12),0 1px 3px rgba(0,0,0,.2);
   transform:scale(1.02)}
@@ -156,8 +173,12 @@
   .plans-grid{grid-template-columns:1fr}
   .plan-pop{transform:none}
   .plan-pop:hover{transform:translateY(-4px)}
-  .plan-hero-zone{padding:32px 24px 22px}
+  .plan-header-zone,.plan-hero-zone{padding:32px 24px 22px}
   .plan-big-price{font-size:3.8rem}
+  .plan-big-price-free{font-size:2.4rem}
+  .plan-free .plan-divider{margin:0 24px 16px}
+  .plan-free .plan-features{padding:0 24px}
+  .plan-free .plan-btn{margin:0 24px 28px}
   .plan-pop .plan-divider{margin:0 24px 16px}
   .plan-pop .plan-features{padding:0 24px}
   .plan-pop .plan-btn{margin:0 24px}
@@ -241,11 +262,13 @@ var _hmt = _hmt || [];
 <section class="pr-plans"><div class="container">
   <div class="plans-grid">
     <!-- FREE -->
-    <div class="plan reveal">
-      <div class="plan-name" data-i18n="planFreeName">社区版</div>
-      <div class="plan-desc" data-i18n="planFreeDesc">适用于开发测试环境，覆盖常规 Oracle 安装场景</div>
-      <div class="plan-price" data-i18n="planFreePrice">免费</div>
-      <div class="plan-price-sub" data-i18n="planFreeSub">永久免费 · Gitee 开源</div>
+    <div class="plan plan-free reveal">
+      <div class="plan-header-zone">
+        <div class="plan-badge-free" data-i18n="planFreeBadge">开源免费</div>
+        <div class="plan-name" data-i18n="planFreeName">社区版</div>
+        <div class="plan-big-price-free" data-i18n="planFreePrice">免费</div>
+        <div class="plan-buy-type" data-i18n="planFreeSub">永久免费 · Gitee 开源</div>
+      </div>
       <div class="plan-divider"></div>
       <ul class="plan-features">
         <li><span class="ck">&#10003;</span> <span data-i18n="pf1">单机 / 单机 ASM 安装</span></li>
@@ -446,6 +469,7 @@ Object.assign(i18n.zh, {
   prDesc:'社区版满足基础安装需求，专业版解锁 RAC 集群、ARM 架构、国产化系统、一键补丁等全部高级功能',
   planFreeName:'社区版', planFreeDesc:'适用于开发测试环境，覆盖常规 Oracle 安装场景',
   planFreePrice:'免费', planFreeSub:'永久免费 · Gitee 开源', planFreeBtn:'前往 Gitee 下载',
+  planFreeBadge:'开源免费',
   planPaidBadge:'限时特惠', planPaidName:'专业版', planPaidDesc:'面向生产环境，解锁全部高级功能与专属技术支持',
   planPaidPrice:'\u00a599', planPaidSub:'一次付费 · 微信/TG/Discord/WhatsApp 联系获取', planPaidBtn:'立即订阅 \u2193',
   planOrigPrice:'\u00a5999', planBigNum:'99', planSaveTag:'立省 \u00a5900', planBuyType:'一次性买断 · 永久更新',
@@ -510,6 +534,7 @@ Object.assign(i18n.en, {
   prDesc:'The Community Edition covers basic installation needs. The Pro Edition unlocks RAC clusters, ARM architecture, domestic OS support, one-click patching, and more.',
   planFreeName:'Community', planFreeDesc:'For development and testing environments, covering standard Oracle installation scenarios',
   planFreePrice:'Free', planFreeSub:'Forever free \u00b7 Open source on Gitee', planFreeBtn:'Download on Gitee',
+  planFreeBadge:'OPEN SOURCE',
   planPaidBadge:'LIMITED OFFER', planPaidName:'Pro Edition', planPaidDesc:'For production environments, unlocking all advanced features and dedicated support',
   planPaidPrice:'\u00a599', planPaidSub:'One-time payment \u00b7 Contact via WeChat / TG / Discord / WhatsApp', planPaidBtn:'Subscribe Now \u2193',
   planOrigPrice:'\u00a5999', planBigNum:'99', planSaveTag:'Save \u00a5900', planBuyType:'One-time purchase \u00b7 Lifetime updates',
