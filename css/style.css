@@ -522,7 +522,7 @@ img{max-width:100%;display:block}
 
 /* === PRICING SAVE SECTION === */
 .pr-save{padding:60px 0 40px;text-align:center}
-.save-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:700px;margin:32px auto 0}
+.save-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:32px auto 0}
 .save-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;text-align:left;
   display:flex;flex-direction:column;justify-content:center;min-height:88px;transition:border-color .3s}
 .save-card:hover{border-color:var(--border-light)}
