@@ -16,6 +16,10 @@ const i18n = {
     expandAll: '展开全部', collapse: '收起', lines: '行',
     consultTitle: '扫码咨询适配需求', consultHint: '微信扫码添加，或通过 Telegram / Discord / WhatsApp 联系',
     footerDesc: 'Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC 三种部署模式，覆盖 20+ Linux 发行版。',
+    docQsTitle: '快速入门',
+    docQs1: '上传脚本和 Oracle 安装介质至服务器 /soft 目录',
+    docQs2: '使用<a href="generator.html">命令生成器</a>配置安装参数',
+    docQs3: '以 root 用户执行生成的命令，等待安装完成',
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
   },
   en: {
@@ -94,6 +98,12 @@ const i18n = {
     genOutput: 'Generated Install Command',
     resetBtn: 'Reset',
     copyBtn: 'Copy Command',
+
+    // docs quickstart cards
+    docQsTitle: 'Quick Start',
+    docQs1: 'Upload the script and Oracle installation media to the server /soft directory',
+    docQs2: 'Use the <a href="generator.html">Command Generator</a> to configure install parameters',
+    docQs3: 'Run the generated command as root and wait for installation to complete',
 
     // docs sidebar
     gdTitle: 'Documentation',
@@ -391,13 +401,18 @@ function toggleTheme() {
 
 // ---- Nav HTML ----
 function navHTML(active) {
-  const pages = [
+  const navPages = [
     { href: 'index.html', key: 'home', id: 'home', icon: '&#9750;' },
     { href: 'generator.html', key: 'generator', id: 'generator', icon: '&#9881;' },
     { href: 'docs.html', key: 'docs', id: 'docs', icon: '&#9782;' },
     { href: 'compat.html', key: 'compat', id: 'compat', icon: '&#9776;' },
     { href: 'pricing.html', key: 'pricing', id: 'pricing', icon: '&#9733;' },
-    { href: 'download.html', key: 'download', id: 'download', icon: '&#8615;' },
+  ];
+  const tabPages = [
+    { href: 'index.html', key: 'home', id: 'home', icon: '&#9750;' },
+    { href: 'generator.html', key: 'generator', id: 'generator', icon: '&#9881;' },
+    { href: 'docs.html', key: 'docs', id: 'docs', icon: '&#9782;' },
+    { href: 'pricing.html', key: 'pricing', id: 'pricing', icon: '&#9733;' },
   ];
   const isGuide = location.pathname.includes('/guides/');
   const prefix = isGuide ? '../' : '';
@@ -406,9 +421,9 @@ function navHTML(active) {
   // Desktop nav
   const nav = `<nav class="nav"><a href="#main-content" class="skip-link">跳转到主内容</a><div class="nav-inner">
     <a href="${prefix}index.html" class="nav-logo"><div class="logo-icon">OS</div>Oracle<span>Shell</span>Install</a>
-    <div class="nav-links">${pages.map(p =>
+    <div class="nav-links">${navPages.map(p =>
       `<a href="${prefix}${p.href}" class="${active===p.id?'active':''}" data-i18n="${p.key}"><span class="nav-icon">${p.icon}</span>${t(p.key)}</a>`
-    ).join('')}<a href="${prefix}generator.html" class="nav-cta" data-i18n="start">${t('start')}</a></div>
+    ).join('')}<a href="${prefix}docs.html#quickstart" class="nav-cta" data-i18n="start">${t('start')}</a></div>
     <div class="nav-actions">
       <button class="nav-search-btn" onclick="openSearch()" title="Search" aria-label="搜索"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><kbd>\u2318K</kbd></button>
       <button class="nav-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme" aria-label="切换主题">${themeIcon}</button>
@@ -416,7 +431,7 @@ function navHTML(active) {
     </div>
   </div></nav>`;
   // Mobile bottom tab bar
-  const tabbar = `<div class="mobile-tabbar">${pages.map(p =>
+  const tabbar = `<div class="mobile-tabbar">${tabPages.map(p =>
     `<a href="${prefix}${p.href}" class="${active===p.id?'active':''}" data-i18n="${p.key}"><span class="tab-icon">${p.icon}</span>${t(p.key)}</a>`
   ).join('')}</div>`;
   return nav + tabbar;
