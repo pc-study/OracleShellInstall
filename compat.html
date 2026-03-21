@@ -218,7 +218,7 @@ var _hmt = _hmt || [];
         <tr><td data-i18n="mxAlma">AlmaLinux 8/9 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
         <tr class="mx-cat"><td colspan="5" data-i18n="mxCatSuse">SUSE</td></tr>
         <tr><td data-i18n="mxSuse">SUSE 12/15 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
-        <tr class="mx-cat"><td colspan="5" data-i18n="mxCatCn">国产化操作系统</td></tr>
+        <tr class="mx-cat"><td colspan="5" data-i18n="mxCatCn">国产化操作系统 <span class="mx-pro-badge" data-i18n="mxProBadge">专业版</span></td></tr>
         <tr><td data-i18n="mxEuler">华为欧拉 openEuler 20~24 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
         <tr><td data-i18n="mxEulerOS">华为欧拉 EulerOS V2 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
         <tr><td data-i18n="mxTencent">腾讯 TencentOS 2/3/4 全系</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td><td class="mx-yes">&#10003;</td></tr>
@@ -241,6 +241,7 @@ var _hmt = _hmt || [];
       </tbody>
     </table>
   </div>
+  <div class="mx-pro-hint reveal" data-i18n="mxProHint"><span class="mx-pro-badge">专业版</span> 标记的系统需要专业版支持 · <a href="pricing.html">查看订阅方案 →</a></div>
   <div class="mx-note" data-i18n="mxNote">&#8505; 以上为已验证的兼容组合，&#10003; 表示支持，&#10007; 表示不支持或未验证</div>
 </div></section>
 
@@ -289,7 +290,7 @@ Object.assign(i18n.zh, {
   cpS1:'支持操作系统', cpS2:'Oracle 版本', cpS3:'实操教程', cpS4:'部署模式',
   mxEye:'兼容矩阵', mxTitle:'已知支持的系统与版本组合',
   mxCol0:'操作系统',
-  mxCatRh:'Red Hat 系列', mxCatSuse:'SUSE', mxCatCn:'国产化操作系统', mxCatDeb:'Debian 系列', mxCatOther:'其他',
+  mxCatRh:'Red Hat 系列', mxCatSuse:'SUSE', mxCatCn:'国产化操作系统 <span class="mx-pro-badge" data-i18n="mxProBadge">专业版</span>', mxCatDeb:'Debian 系列', mxCatOther:'其他',
   mxCent6:'CentOS 6 全系', mxCent78:'CentOS 7/8 全系',
   mxRh6:'RedHat 6 全系', mxRh789:'RedHat 7/8/9 全系',
   mxOl6:'OracleLinux 6 全系', mxOl789:'OracleLinux 7/8/9 全系',
@@ -303,6 +304,8 @@ Object.assign(i18n.zh, {
   mxDebian:'Debian 全系', mxDeepin:'Deepin 全系', mxUbuntu:'Ubuntu 全系',
   mxFedora:'Fedora 13~39 全系', mxAsianux:'红旗 Asianux', mxNfs:'中科方德 NFSChina',
   mxNote:'\u2139 以上为已验证的兼容组合，\u2713 表示支持，\u2717 表示不支持或未验证',
+  mxProBadge:'专业版',
+  mxProHint:'<span class="mx-pro-badge">专业版</span> 标记的系统需要专业版支持 · <a href="pricing.html">查看订阅方案 →</a>',
   gdEye:'实操教程', gdTitle:'逐步验证的安装指南',
   gdSubtitle:'以下实操文档均由作者亲自测试验证可行，未列出的并非脚本不支持，只是还未测试兼容性，等待测试后会持续更新',
   gdSearchPh:'搜索教程...',
@@ -315,7 +318,7 @@ Object.assign(i18n.en, {
   cpS1:'Operating Systems', cpS2:'Oracle Versions', cpS3:'Tutorials', cpS4:'Deploy Modes',
   mxEye:'COMPATIBILITY MATRIX', mxTitle:'Verified OS & Version Combinations',
   mxCol0:'Operating System',
-  mxCatRh:'Red Hat Family', mxCatSuse:'SUSE', mxCatCn:'Domestic (China) OS', mxCatDeb:'Debian Family', mxCatOther:'Others',
+  mxCatRh:'Red Hat Family', mxCatSuse:'SUSE', mxCatCn:'Domestic (China) OS <span class="mx-pro-badge" data-i18n="mxProBadge">PRO</span>', mxCatDeb:'Debian Family', mxCatOther:'Others',
   mxCent6:'CentOS 6 All Versions', mxCent78:'CentOS 7/8 All Versions',
   mxRh6:'RedHat 6 All Versions', mxRh789:'RedHat 7/8/9 All Versions',
   mxOl6:'OracleLinux 6 All Versions', mxOl789:'OracleLinux 7/8/9 All Versions',
@@ -329,6 +332,8 @@ Object.assign(i18n.en, {
   mxDebian:'Debian All Versions', mxDeepin:'Deepin All Versions', mxUbuntu:'Ubuntu All Versions',
   mxFedora:'Fedora 13~39 All Versions', mxAsianux:'Red Flag Asianux', mxNfs:'NFSCHINA',
   mxNote:'\u2139 The above are verified compatible combinations. \u2713 = supported, \u2717 = unsupported or not yet verified.',
+  mxProBadge:'PRO',
+  mxProHint:'<span class="mx-pro-badge">PRO</span> marked systems require Pro Edition · <a href="pricing.html">View plans →</a>',
   gdEye:'TUTORIALS', gdTitle:'Step-by-Step Installation Guides',
   gdSubtitle:'All tutorials below have been personally tested by the author. Unlisted combinations are not necessarily unsupported — they simply haven\'t been tested yet. Updates are ongoing.',
   gdSearchPh:'Search guides...',

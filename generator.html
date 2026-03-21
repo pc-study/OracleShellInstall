@@ -82,6 +82,11 @@ var _hmt = _hmt || [];
   </div>
 </section>
 
+<div class="gen-pro-notice" id="genProNotice" style="display:none">
+  <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+  <span data-i18n="genProMsg">RAC 集群模式为专业版功能 · <a href="pricing.html">了解专业版 →</a></span>
+</div>
+
 <!-- FORM -->
 <section class="form-area" id="formArea"></section>
 
@@ -284,6 +289,7 @@ function genCmd(){
 function switchMode(m){
   curMode=m;
   document.querySelectorAll('.mode-card').forEach(c=>c.classList.toggle('active',c.dataset.mode===m));
+  document.getElementById('genProNotice').style.display = (m === 'rac') ? 'flex' : 'none';
   renderForm(m);
 }
 function resetForm(){renderForm(curMode);}
@@ -316,7 +322,8 @@ Object.assign(i18n.zh, {
   modeRacDesc:'Real Application Clusters<br>适用于高可用生产环境',
   genOutput:'生成的安装命令',
   resetBtn:'重置参数',
-  copyBtn:'复制命令'
+  copyBtn:'复制命令',
+  genProMsg:'RAC 集群模式为专业版功能 · <a href="pricing.html">了解专业版 →</a>'
 });
 Object.assign(i18n.en, {
   genTitle:'Install Command Generator',
@@ -330,7 +337,8 @@ Object.assign(i18n.en, {
   modeRacDesc:'Real Application Clusters<br>For high-availability production environments',
   genOutput:'Generated Install Command',
   resetBtn:'Reset',
-  copyBtn:'Copy Command'
+  copyBtn:'Copy Command',
+  genProMsg:'RAC cluster mode is a Pro Edition feature · <a href="pricing.html">Learn about Pro →</a>'
 });
 document.addEventListener('langchange', () => {
   renderForm(curMode);

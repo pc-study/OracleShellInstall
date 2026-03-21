@@ -212,6 +212,11 @@ var _hmt = _hmt || [];
       <div class="plan-desc" data-i18n="planPaidDesc">面向生产环境，解锁全部高级功能与专属技术支持</div>
       <div class="plan-price" data-i18n="planPaidPrice">¥99</div>
       <div class="plan-price-sub" data-i18n="planPaidSub">一次付费 · 微信/TG/Discord/WhatsApp 联系获取</div>
+      <div class="plan-trust">
+        <span data-i18n="prTrust1">✓ 一次付费 · 永久使用</span>
+        <span data-i18n="prTrust2">✓ 不满意可退款</span>
+        <span data-i18n="prTrust3">✓ 专属群 · 作者亲自答疑</span>
+      </div>
       <div class="plan-divider"></div>
       <ul class="plan-features">
         <li><span class="ck">&#10003;</span> <span data-i18n="pp1">包含社区版全部功能</span></li>
@@ -336,6 +341,30 @@ var _hmt = _hmt || [];
   </div>
 </div></section>
 
+<!-- TIME SAVED -->
+<section class="pr-save"><div class="container">
+  <h2 class="section-title" data-i18n="prSaveTitle">一次付费，省下的远不止 ¥99</h2>
+  <p class="section-desc" data-i18n="prSaveDesc">专业版帮你节省的时间和精力，远超脚本本身的价格</p>
+  <div class="save-grid">
+    <div class="save-card reveal">
+      <div class="save-label" data-i18n="prSaveL1">单机安装</div>
+      <div class="save-row"><span class="save-manual" data-i18n="prSaveM1">手动 2-4 小时</span><span class="save-arrow">→</span><span class="save-auto" data-i18n="prSaveA1">脚本 15 分钟</span></div>
+    </div>
+    <div class="save-card reveal">
+      <div class="save-label" data-i18n="prSaveL2">RAC 集群部署</div>
+      <div class="save-row"><span class="save-manual" data-i18n="prSaveM2">手动 1-2 天</span><span class="save-arrow">→</span><span class="save-auto" data-i18n="prSaveA2">脚本 30 分钟</span></div>
+    </div>
+    <div class="save-card reveal">
+      <div class="save-label" data-i18n="prSaveL3">国产化系统适配</div>
+      <div class="save-row"><span class="save-manual" data-i18n="prSaveM3">踩坑 3-5 天</span><span class="save-arrow">→</span><span class="save-auto" data-i18n="prSaveA3">一条命令搞定</span></div>
+    </div>
+    <div class="save-card reveal">
+      <div class="save-label" data-i18n="prSaveL4">补丁安装</div>
+      <div class="save-row"><span class="save-manual" data-i18n="prSaveM4">手动 2-4 小时</span><span class="save-arrow">→</span><span class="save-auto" data-i18n="prSaveA4">一键完成</span></div>
+    </div>
+  </div>
+</div></section>
+
 <!-- CTA -->
 <section class="pr-cta" id="contact"><div class="container">
   <div class="pr-cta-box reveal">
@@ -399,6 +428,15 @@ Object.assign(i18n.zh, {
   fa5:'社区版可免费使用，但仅支持单机/单机 ASM、X86 架构和红帽系列系统。如果生产环境需要 RAC 集群、ARM 架构或国产化系统支持，建议使用专业版。',
   fq6:'为什么 RAC、ARM、国产化系统等功能不在社区版中？',
   fa6:'RAC 集群、ARM 架构和 20+ 国产化操作系统的适配涉及大量的开发调试、兼容性测试和持续维护工作。每新增一个系统版本都需要在真实环境中反复验证，确保安装流程稳定可靠。专业版的订阅费用正是用于支撑这些持续投入的研发和测试成本，也是项目能够长期维护和迭代的基础。社区版的功能范围并非人为限制，而是作者在有限精力下优先保障的核心场景。',
+  prSaveTitle:'一次付费，省下的远不止 ¥99',
+  prSaveDesc:'专业版帮你节省的时间和精力，远超脚本本身的价格',
+  prSaveL1:'单机安装', prSaveM1:'手动 2-4 小时', prSaveA1:'脚本 15 分钟',
+  prSaveL2:'RAC 集群部署', prSaveM2:'手动 1-2 天', prSaveA2:'脚本 30 分钟',
+  prSaveL3:'国产化系统适配', prSaveM3:'踩坑 3-5 天', prSaveA3:'一条命令搞定',
+  prSaveL4:'补丁安装', prSaveM4:'手动 2-4 小时', prSaveA4:'一键完成',
+  prTrust1:'✓ 一次付费 · 永久使用',
+  prTrust2:'✓ 不满意可退款',
+  prTrust3:'✓ 专属群 · 作者亲自答疑',
   prCtaTitle:'获取专业版完整功能',
   prCtaDesc:'通过微信、Telegram、Discord 或 WhatsApp 咨询订阅详情，解锁 RAC 集群、国产化系统、一键补丁等全部高级功能',
   qrLabel:'微信扫码添加作者',
@@ -442,6 +480,15 @@ Object.assign(i18n.en, {
   fa5:'Yes, but it only supports Single/Standalone ASM on X86 with RHEL-family systems. For production environments requiring RAC, ARM, or domestic OS support, the Pro Edition is recommended.',
   fq6:'Why aren\'t RAC, ARM, and domestic OS features in the Community Edition?',
   fa6:'Adapting to RAC clusters, ARM architecture, and 20+ domestic operating systems requires extensive development, compatibility testing, and ongoing maintenance. Each new OS version must be repeatedly validated in real environments to ensure a stable installation process. The Pro subscription directly funds these ongoing R&D and testing costs, which is what enables the project to be maintained and improved long-term. The Community Edition\'s scope is not an artificial limitation\u2014it reflects the core scenarios the author prioritizes with limited capacity.',
+  prSaveTitle:'One Payment, Savings Far Beyond ¥99',
+  prSaveDesc:'The time and effort saved by the Pro Edition far exceeds the cost of the script itself',
+  prSaveL1:'Single Instance', prSaveM1:'Manual: 2-4 hours', prSaveA1:'Script: 15 min',
+  prSaveL2:'RAC Cluster', prSaveM2:'Manual: 1-2 days', prSaveA2:'Script: 30 min',
+  prSaveL3:'Domestic OS', prSaveM3:'Trial & error: 3-5 days', prSaveA3:'One command',
+  prSaveL4:'Patching', prSaveM4:'Manual: 2-4 hours', prSaveA4:'One click',
+  prTrust1:'✓ One-time payment · Lifetime use',
+  prTrust2:'✓ Money-back guarantee',
+  prTrust3:'✓ VIP group · Direct author support',
   prCtaTitle:'Get Full Pro Edition Features',
   prCtaDesc:'Contact via WeChat, Telegram, Discord, or WhatsApp for subscription details. Unlock RAC clusters, domestic OS support, one-click patching, and all advanced features.',
   qrLabel:'Scan to add author on WeChat',

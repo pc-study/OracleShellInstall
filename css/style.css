@@ -499,6 +499,30 @@ img{max-width:100%;display:block}
 .social-contact-btn.wa{background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.25);color:#25d366}
 .social-contact-btn.wa:hover{background:#25d366;color:#fff;border-color:#25d366;box-shadow:0 4px 16px rgba(37,211,102,.3)}
 
+/* === GENERATOR PRO NOTICE === */
+.gen-pro-notice{display:flex;align-items:center;gap:10px;padding:12px 18px;margin:16px 0;background:rgba(199,70,52,.08);border:1px solid rgba(199,70,52,.25);border-radius:var(--r);color:var(--red-glow);font-size:.9rem}
+.gen-pro-notice svg{flex-shrink:0;opacity:.8}
+.gen-pro-notice a{color:var(--red-glow);font-weight:600;text-decoration:none}
+.gen-pro-notice a:hover{text-decoration:underline}
+
+/* === PRICING SAVE SECTION === */
+.pr-save{padding:60px 0 40px;text-align:center}
+.save-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:700px;margin:32px auto 0}
+.save-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;text-align:left}
+.save-label{font-size:.85rem;color:var(--text-dim);margin-bottom:10px;font-weight:600}
+.save-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.save-manual{color:#e05a48;font-weight:600;font-size:.95rem;text-decoration:line-through;opacity:.7}
+.save-arrow{color:var(--text-muted);font-size:1.1rem}
+.save-auto{color:var(--green);font-weight:700;font-size:1rem}
+.plan-trust{display:flex;flex-direction:column;gap:4px;margin-top:10px;font-size:.8rem;color:var(--green);text-align:left;padding-left:8px}
+@media(max-width:768px){.save-grid{grid-template-columns:1fr}}
+
+/* === COMPAT PRO BADGE === */
+.mx-pro-badge{display:inline-block;background:linear-gradient(135deg,var(--red),var(--red-glow));color:#fff;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle;letter-spacing:.5px;text-transform:uppercase}
+.mx-pro-hint{text-align:center;margin-top:20px;padding:14px 20px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);font-size:.88rem;color:var(--text-dim)}
+.mx-pro-hint a{color:var(--red-glow);text-decoration:none;font-weight:600}
+.mx-pro-hint a:hover{text-decoration:underline}
+
 /* === SEARCH OVERLAY === */
 .search-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding-top:min(20vh,120px);opacity:0;pointer-events:none;transition:opacity .2s}
 .search-overlay.show{opacity:1;pointer-events:auto}
