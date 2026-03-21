@@ -73,10 +73,10 @@ const i18n = {
     // index - trust
     trustTag: 'Trusted by Users',
     trustTitle: 'The Automation Tool Chosen by DBAs',
-    trustStars: 'GitHub Stars',
+    trustUsers: 'Paid Users',
+    trustDeploys: 'Production Deployments',
     trustGuides: 'Installation Tutorials',
     trustDistros: 'Linux Distros Supported',
-    trustVersions: 'Oracle Versions Covered',
     quote1: '\u201cRAC installation used to take two days. With this script, one command gets it done, saving tremendous time.\u201d',
     quote2: '\u201cGreat system coverage \u2014 our Kylin V10 and openEuler work out of the box. Excellent domestic OS support.\u201d',
     quote3: '\u201cThe command generator is incredibly convenient. Visual parameter configuration makes it easy even for beginners.\u201d',

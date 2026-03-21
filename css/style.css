@@ -506,6 +506,16 @@ img{max-width:100%;display:block}
 .gen-pro-notice a:hover{text-decoration:underline}
 
 /* === PRICING SAVE SECTION === */
+/* === PRICING TRUST STATS === */
+.pr-stats{padding:24px 0 0}
+.stats-row{display:flex;justify-content:center;align-items:center;gap:32px;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-num{display:block;font-size:1.6rem;font-weight:800;font-family:var(--mono);color:var(--red-glow);line-height:1.2}
+.stat-label{font-size:.8rem;color:var(--text-muted);margin-top:2px}
+.stat-sep{width:1px;height:36px;background:var(--border)}
+@media(max-width:768px){.stats-row{gap:20px}.stat-sep{display:none}.stat-num{font-size:1.3rem}}
+
+/* === PRICING SAVE SECTION === */
 .pr-save{padding:60px 0 40px;text-align:center}
 .save-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:700px;margin:32px auto 0}
 .save-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;text-align:left}
