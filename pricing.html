@@ -42,22 +42,27 @@
 
 /* PLAN CARDS */
 .pr-plans{padding:48px 0 36px}
-.plans-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:0 auto;align-items:stretch}
+.plans-grid{display:grid;grid-template-columns:1fr 1.08fr;gap:28px;margin:0 auto;align-items:stretch}
 .plan{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r-xl);padding:44px 40px;
   position:relative;overflow:hidden;transition:all .35s cubic-bezier(.4,0,.2,1);
   display:flex;flex-direction:column;box-shadow:var(--shadow-card)}
 .plan:hover{transform:translateY(-4px);box-shadow:var(--shadow-card-hover)}
-.plan-pop{border-color:rgba(199,70,52,.35);padding:0;overflow:hidden}
-.plan-pop::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),var(--accent2))}
-.plan-hero-zone{text-align:center;padding:40px 40px 28px;
-  background:linear-gradient(180deg,rgba(199,70,52,.12) 0%,rgba(199,70,52,.03) 60%,transparent 100%);
+.plan-pop{border-color:rgba(199,70,52,.45);padding:0;overflow:hidden;
+  box-shadow:0 4px 30px rgba(199,70,52,.12),0 1px 3px rgba(0,0,0,.2);
+  transform:scale(1.02)}
+.plan-pop:hover{transform:scale(1.02) translateY(-4px);box-shadow:0 12px 48px rgba(199,70,52,.18),0 0 20px rgba(199,70,52,.08)}
+.plan-pop::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--accent2))}
+.plan-hero-zone{text-align:center;padding:44px 40px 30px;
+  background:linear-gradient(180deg,rgba(199,70,52,.18) 0%,rgba(199,70,52,.06) 50%,transparent 100%);
   position:relative}
-.plan-pop .plan-badge{margin-bottom:14px}
-.plan-orig-price{font-size:.95rem;color:var(--text-muted);text-decoration:line-through;margin-bottom:4px}
-.plan-big-price{font-size:4.5rem;font-weight:900;color:var(--text);line-height:1;margin-bottom:8px;font-family:var(--display);letter-spacing:-2px}
-.plan-yen{font-size:1.6rem;font-weight:700;color:var(--red-glow);vertical-align:super;margin-right:2px}
-.plan-save-tag{display:inline-block;background:rgba(199,70,52,.15);color:var(--red-glow);
-  font-size:.75rem;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:10px;letter-spacing:.5px}
+.plan-pop .plan-badge{margin-bottom:10px}
+.plan-pop .plan-name{font-size:1.6rem;margin-bottom:12px}
+.plan-orig-price{font-size:.95rem;color:var(--text-muted);text-decoration:line-through;margin-bottom:6px}
+.plan-big-price{font-size:5rem;font-weight:900;color:var(--text);line-height:1;margin-bottom:10px;font-family:var(--display);letter-spacing:-2px}
+.plan-yen{font-size:1.8rem;font-weight:700;color:var(--red-glow);vertical-align:super;margin-right:2px}
+.plan-save-tag{display:inline-block;background:rgba(199,70,52,.2);color:var(--red-glow);
+  font-size:.78rem;font-weight:700;padding:5px 16px;border-radius:20px;margin-bottom:12px;letter-spacing:.5px;
+  border:1px solid rgba(199,70,52,.2)}
 .plan-buy-type{font-size:.82rem;color:var(--text-dim);letter-spacing:1px}
 .plan-pop .plan-divider{margin:0 40px 20px}
 .plan-pop .plan-features{padding:0 40px;margin-bottom:24px}
@@ -149,8 +154,10 @@
 
 @media(max-width:768px){
   .plans-grid{grid-template-columns:1fr}
+  .plan-pop{transform:none}
+  .plan-pop:hover{transform:translateY(-4px)}
   .plan-hero-zone{padding:32px 24px 22px}
-  .plan-big-price{font-size:3.5rem}
+  .plan-big-price{font-size:3.8rem}
   .plan-pop .plan-divider{margin:0 24px 16px}
   .plan-pop .plan-features{padding:0 24px}
   .plan-pop .plan-btn{margin:0 24px}
@@ -257,6 +264,7 @@ var _hmt = _hmt || [];
     <div class="plan plan-pop reveal">
       <div class="plan-hero-zone">
         <div class="plan-badge" data-i18n="planPaidBadge">限时特惠</div>
+        <div class="plan-name" data-i18n="planPaidName">专业版</div>
         <div class="plan-orig-price" data-i18n="planOrigPrice">¥999</div>
         <div class="plan-big-price"><span class="plan-yen">¥</span><span data-i18n="planBigNum">99</span></div>
         <div class="plan-save-tag" data-i18n="planSaveTag">立省 ¥900</div>
