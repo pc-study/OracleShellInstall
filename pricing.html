@@ -120,6 +120,7 @@
 /* Mobile responsive table hint */
 .cmp-wrap{position:relative}
 .cmp-hint{display:none;text-align:right;font-size:.7rem;color:var(--text-muted);margin-bottom:6px}
+.cmp-shared{text-align:center;font-size:.85rem;color:var(--text-dim);max-width:700px;margin:8px auto 0;line-height:1.7;padding:12px 20px;background:var(--card);border:1px solid var(--border);border-radius:var(--r)}
 
 @media(max-width:768px){
   .plans-grid{grid-template-columns:1fr}
@@ -253,10 +254,11 @@ var _hmt = _hmt || [];
 <section class="pr-compare"><div class="container">
   <div class="section-center">
     <div class="section-eyebrow reveal" data-i18n="cmpEye">详细对比</div>
-    <div class="section-title reveal" data-i18n="cmpTitle">功能点完整对比</div>
+    <div class="section-title reveal" data-i18n="cmpTitle">专业版额外功能</div>
   </div>
+  <p class="cmp-shared" data-i18n="cmpShared">两版本均包含：全自动化安装、脚本帮助、安装日志、参数配置与校验、多实例创建、ASM 绑盘、可重复执行、安装后数据库优化、Oracle 11gR2~26ai 全版本支持</p>
   <div class="cmp-hint">← 左右滑动查看 →</div>
-  <div class="cmp-wrap" style="margin-top:32px">
+  <div class="cmp-wrap" style="margin-top:24px">
     <table class="cmp-table">
       <thead>
         <tr>
@@ -266,44 +268,23 @@ var _hmt = _hmt || [];
         </tr>
       </thead>
       <tbody>
-        <!-- 功能 -->
-        <tr class="cmp-cat"><td colspan="3" data-i18n="catFunc">功能</td></tr>
-        <tr><td data-i18n="r1">脚本帮助 help</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r2">脚本安装日志</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r3">脚本参数配置</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r4">脚本参数检查</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r5">创建多个实例</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r6">配置多路径、UDEV、ASM 绑盘</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r7">可重复执行</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r8">全程无需人工干预</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
-        <tr><td data-i18n="r9">安装后优化数据库</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
-        <!-- 架构 -->
         <tr class="cmp-cat"><td colspan="3" data-i18n="catArch">架构</td></tr>
         <tr><td data-i18n="r10">单机 / 单机 ASM</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
         <tr><td data-i18n="r11">NON-CDB / CDB (PDB)</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
         <tr><td data-i18n="r12">RAC（不限节点数）</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
-        <!-- CPU -->
         <tr class="cmp-cat"><td colspan="3">CPU</td></tr>
         <tr><td>X86</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
         <tr><td>ARM</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
-        <!-- 系统 -->
         <tr class="cmp-cat"><td colspan="3" data-i18n="catOs">操作系统</td></tr>
         <tr><td data-i18n="r16">红帽 RHEL / Oracle Linux / CentOS</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
         <tr><td data-i18n="r17">国产化系统（麒麟、欧拉、统信、龙蜥等 20+）</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
-        <!-- Oracle 版本 -->
-        <tr class="cmp-cat"><td colspan="3" data-i18n="catVer">Oracle 版本</td></tr>
-        <tr><td>11gR2 / 12cR2 / 19c / 21c / 26ai</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
-        <!-- 兼容性 -->
         <tr class="cmp-cat"><td colspan="3" data-i18n="catCompat">兼容性</td></tr>
         <tr><td data-i18n="r19">Oracle 官方认证组合安装</td><td class="cmp-yes">&#10003;</td><td class="cmp-yes">&#10003;</td></tr>
         <tr><td data-i18n="r20">非 Oracle 官方认证组合安装</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
-        <!-- 补丁 -->
         <tr class="cmp-cat"><td colspan="3" data-i18n="catPatch">安装补丁</td></tr>
         <tr><td data-i18n="r21">Grid/DB/OJVM 一键安装打补丁</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
-        <!-- 介质 -->
         <tr class="cmp-cat"><td colspan="3" data-i18n="catMedia">安装介质</td></tr>
         <tr><td data-i18n="r22">提供系统镜像 ISO、Oracle 安装包/补丁等</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
-        <!-- 答疑 -->
         <tr class="cmp-cat"><td colspan="3" data-i18n="catSupport">技术支持</td></tr>
         <tr><td data-i18n="r23">安装日志排错、专属付费群、群直播答疑等</td><td class="cmp-no">&mdash;</td><td class="cmp-yes">&#10003;</td></tr>
       </tbody>
@@ -434,7 +415,8 @@ Object.assign(i18n.zh, {
   pp4:'国产化系统（麒麟、欧拉、统信等 20+）', pp5:'非官方认证组合安装',
   pp6:'Grid/DB/OJVM 一键安装补丁', pp7:'安装介质提供（ISO、安装包、补丁）',
   pp8:'专属付费群 · 直播答疑 · 日志排错',
-  cmpEye:'详细对比', cmpTitle:'功能点完整对比',
+  cmpEye:'详细对比', cmpTitle:'专业版额外功能',
+  cmpShared:'两版本均包含：全自动化安装、脚本帮助、安装日志、参数配置与校验、多实例创建、ASM 绑盘、可重复执行、安装后数据库优化、Oracle 11gR2~26ai 全版本支持',
   cmpCol1:'功能描述', cmpCol2:'社区版', cmpCol3:'专业版',
   catFunc:'功能', catArch:'架构', catOs:'操作系统', catVer:'Oracle 版本',
   catCompat:'兼容性', catPatch:'安装补丁', catMedia:'安装介质', catSupport:'技术支持',
@@ -495,7 +477,8 @@ Object.assign(i18n.en, {
   pp4:'Domestic OS (Kylin, openEuler, UOS, etc. 20+)', pp5:'Non-certified combination installs',
   pp6:'Grid/DB/OJVM one-click patching', pp7:'Installation media provided (ISO, packages, patches)',
   pp8:'Dedicated support group \u00b7 Live Q&A \u00b7 Log troubleshooting',
-  cmpEye:'DETAILED COMPARISON', cmpTitle:'Full Feature Comparison',
+  cmpEye:'DETAILED COMPARISON', cmpTitle:'Pro Edition Extras',
+  cmpShared:'Both editions include: fully automated install, script help, install logs, parameter config & validation, multi-instance creation, ASM disk binding, re-runnable execution, post-install DB optimization, Oracle 11gR2–26ai support',
   cmpCol1:'Feature', cmpCol2:'Community', cmpCol3:'Pro',
   catFunc:'FEATURES', catArch:'ARCHITECTURE', catOs:'OPERATING SYSTEM', catVer:'ORACLE VERSION',
   catCompat:'COMPATIBILITY', catPatch:'PATCHING', catMedia:'INSTALL MEDIA', catSupport:'SUPPORT',
