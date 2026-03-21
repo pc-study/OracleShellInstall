@@ -29,23 +29,48 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260321e">
+<link rel="manifest" href="manifest.json?v=20260321f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260321e">
+<link rel="stylesheet" href="css/style.css?v=20260321f">
 <style>
 /* HERO */
 .dl-hero{padding:80px 0 30px;text-align:center}
+.dl-hero-eye{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;color:var(--red);
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+.dl-hero-eye::before,.dl-hero-eye::after{content:'';width:28px;height:1.5px;background:linear-gradient(90deg,transparent,var(--red))}
+.dl-hero-eye::after{background:linear-gradient(90deg,var(--red),transparent)}
 .dl-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:12px}
 .dl-hero p{color:var(--text-dim);font-size:1rem;max-width:600px;margin:0 auto;line-height:1.7;font-weight:300}
+.dl-hero p a{color:var(--red);text-decoration:none;font-weight:500}
+.dl-hero p a:hover{text-decoration:underline}
+.dl-hero-ver{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:8px 18px;
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r);font-size:.82rem;color:var(--text-dim)}
+.dl-hero-ver strong{color:var(--text);font-family:var(--mono);font-weight:700}
+.dl-hero-ver .dl-ver-tag{font-size:.6rem;padding:2px 8px;background:linear-gradient(135deg,var(--red),var(--red-glow));
+  color:#fff;border-radius:10px;font-weight:700;letter-spacing:.3px}
 
 /* NOTICE BANNER */
-.dl-notice{margin:0 auto 40px;background:rgba(199,70,52,.06);border:1px solid var(--border-red);
-  border-radius:var(--r-lg);padding:20px 28px;display:flex;gap:14px;align-items:flex-start}
-.dl-notice-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px}
+.dl-notice{margin:0 auto 40px;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:22px 28px;display:flex;gap:14px;align-items:flex-start;
+  position:relative;overflow:hidden;transition:border-color .3s}
+.dl-notice::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--red),var(--accent2))}
+.dl-notice:hover{border-color:var(--border-light)}
+.dl-notice-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px;width:32px;height:32px;
+  background:rgba(199,70,52,.08);border-radius:8px;display:flex;align-items:center;justify-content:center}
 .dl-notice-text{font-size:.88rem;color:var(--text-dim);line-height:1.8}
 .dl-notice-text strong{color:var(--red-glow)}
+.dl-notice-text a{color:var(--red);text-decoration:none;font-weight:500}
+.dl-notice-text a:hover{text-decoration:underline}
+
+/* DOWNLOAD CARD */
+.dl-download-card{background:linear-gradient(135deg,rgba(199,70,52,.06),rgba(232,147,74,.03));
+  border:1.5px solid rgba(199,70,52,.2);border-radius:var(--r-xl);padding:40px 36px;text-align:center;
+  position:relative;overflow:hidden;transition:all .35s;margin-bottom:10px}
+.dl-download-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--red),var(--accent2))}
+.dl-download-card:hover{border-color:rgba(199,70,52,.35);box-shadow:0 8px 40px rgba(199,70,52,.08)}
 
 /* SECTION */
 .dl-section{padding:30px 0}
@@ -113,6 +138,7 @@
 @media(max-width:768px){
   .dl-hero{padding:70px 0 20px}
   .dl-notice{flex-direction:column;gap:8px;padding:16px 20px}
+  .dl-download-card{padding:28px 20px}
   .dl-cards{grid-template-columns:1fr}
   .dl-btns{flex-direction:column}
   .dl-btn{justify-content:center}
@@ -210,25 +236,28 @@ var _hmt = _hmt || [];
 
 <!-- Hero -->
 <section class="dl-hero"><div class="container">
+  <div class="dl-hero-eye" data-i18n="dlEye">专业版专属</div>
   <h1 data-i18n="dlTitle">下载中心</h1>
   <p data-i18n="dlDesc">本页面面向已订阅专业版的用户。如尚未订阅，请先前往<a href="pricing.html">脚本订阅页面</a>了解详情。以下是脚本的使用须知、下载方式及常见问题，请在使用前仔细阅读。</p>
+  <div class="dl-hero-ver" data-i18n="dlVer"><span class="dl-ver-tag">Latest</span> 当前版本 <strong>v5.0.0</strong></div>
 </div></section>
 
 <div class="container">
 
 <!-- Important Notice -->
 <div class="dl-notice">
-  <div class="dl-notice-icon">&#x1F4E2;</div>
+  <div class="dl-notice-icon">&#x1F4A1;</div>
   <div class="dl-notice-text" data-i18n="dlNotice"><strong>温馨提示：</strong>为了帮助您更好地使用脚本，作者投入了大量时间编写了详细的使用说明和手把手教程。建议在使用前先阅读 <a href="docs.html">使用文档</a> 和 <a href="compat.html">安装合集</a>，大部分常见问题都已涵盖其中。</div>
 </div>
 
 <!-- Download Section -->
-<section class="dl-section" style="text-align:center">
+<div class="dl-download-card">
+<section class="dl-section" style="text-align:center;padding:0">
   <div class="dl-section-title" style="justify-content:center">
     <span class="icon" style="background:rgba(199,70,52,.1);color:var(--red)">&#x2B07;</span>
     <span data-i18n="dlSecDownload">脚本下载</span>
   </div>
-  <div class="dl-section-sub" data-i18n="dlSecDownloadSub">脚本托管在 GitHub 私有仓库，订阅后可获得访问权限</div>
+  <div class="dl-section-sub" data-i18n="dlSecDownloadSub" style="margin-bottom:20px">脚本托管在 GitHub 私有仓库，订阅后可获得访问权限</div>
 
   <div class="dl-btns" style="justify-content:center">
     <a href="https://github.com/DBAutoTask/OracleShellInstall" target="_blank" rel="noopener noreferrer" class="dl-btn dl-btn-primary">
@@ -242,6 +271,7 @@ var _hmt = _hmt || [];
   </div>
   <p style="font-size:.8rem;color:var(--text-muted);margin-top:4px" data-i18n="dlBaiduNote">百度网盘提取码：6666 &nbsp;|&nbsp; Oracle 安装包为友情提供，非义务资源</p>
 </section>
+</div>
 
 <hr class="dl-divider">
 
@@ -475,7 +505,7 @@ var _hmt = _hmt || [];
 
 </div><!-- /container -->
 <div id="footer"></div>
-<script src="js/shared.js?v=20260321e"></script>
+<script src="js/shared.js?v=20260321f"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('download');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -497,8 +527,10 @@ document.querySelectorAll('.dl-faq-q').forEach(q => {
 // Page i18n
 const pageI18n = {
   zh: {
+    dlEye:'专业版专属',
     dlTitle:'下载中心',
     dlDesc:'本页面面向已订阅专业版的用户。如尚未订阅，请先前往<a href="pricing.html">脚本订阅页面</a>了解详情。以下是脚本的使用须知、下载方式及常见问题，请在使用前仔细阅读。',
+    dlVer:'<span class="dl-ver-tag">Latest</span> 当前版本 <strong>v5.0.0</strong>',
     dlNotice:'<strong>温馨提示：</strong>为了帮助您更好地使用脚本，作者投入了大量时间编写了详细的使用说明和手把手教程。建议在使用前先阅读 <a href="docs.html">使用文档</a> 和 <a href="compat.html">安装合集</a>，大部分常见问题都已涵盖其中。',
     dlSecDownload:'脚本下载',
     dlSecDownloadSub:'脚本托管在 GitHub 私有仓库，订阅后可获得访问权限',
@@ -553,8 +585,10 @@ const pageI18n = {
     dlReqNet:'网络', dlReqNetVal:'可配置本地 YUM/APT 源离线安装'
   },
   en: {
+    dlEye:'PRO EXCLUSIVE',
     dlTitle:'Download Center',
     dlDesc:'This page is for Pro Edition subscribers. If you haven\'t subscribed yet, please visit the <a href="pricing.html">Subscription Page</a> for details. Please read the usage guidelines, download instructions, and FAQ below before getting started.',
+    dlVer:'<span class="dl-ver-tag">Latest</span> Current version <strong>v5.0.0</strong>',
     dlNotice:'<strong>Tip:</strong> To help you get the most out of the script, the author has spent considerable time writing detailed documentation and step-by-step tutorials. We recommend reading the <a href="docs.html">Docs</a> and <a href="compat.html">Guides</a> before use — most common issues are already covered.',
     dlSecDownload:'Script Download',
     dlSecDownloadSub:'The script is hosted in a private GitHub repository. You will get access after subscribing.',
@@ -614,6 +648,6 @@ Object.assign(i18n.en, pageI18n.en);
 if (currentLang !== 'zh') setLang(currentLang);
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260321e"></script>
+<script src="js/search.js?v=20260321f"></script>
 </body>
 </html>
