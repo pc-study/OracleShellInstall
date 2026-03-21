@@ -482,19 +482,8 @@ function footerHTML() {
 
 // ---- Init ----
 document.addEventListener('DOMContentLoaded', () => {
-  // Apply saved theme
+  // Theme already applied by inline <head> script; sync JS state
   setTheme(currentTheme);
-
-  // --- Page load progress bar ---
-  const progressBar = document.createElement('div');
-  progressBar.className = 'page-progress';
-  progressBar.style.width = '0%';
-  document.body.appendChild(progressBar);
-  progressBar.style.width = '70%';
-  window.addEventListener('load', () => {
-    progressBar.style.width = '100%';
-    setTimeout(() => { progressBar.style.opacity = '0'; setTimeout(() => progressBar.remove(), 300); }, 400);
-  });
 
   // Scroll shadow + back to top with progress ring
   const nav = document.querySelector('.nav');

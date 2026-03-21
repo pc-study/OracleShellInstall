@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<script>try{var l=localStorage.getItem("lang");if(l)document.documentElement.lang=l==="en"?"en":"zh-CN"}catch(e){}</script>
+<script>try{var l=localStorage.getItem("lang");if(l)document.documentElement.lang=l==="en"?"en":"zh-CN"}catch(e){}try{var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="baidu-site-verification" content="codeva-5szOVhdF6k" />
 <meta name="google-site-verification" content="FiO8gdu01Lz27qUPg4W2BfgG4VhD8ZWMXeiOa_ILa44" />
@@ -29,24 +29,24 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260321i">
+<link rel="manifest" href="manifest.json?v=20260321l">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260321i">
+<link rel="stylesheet" href="css/style.css?v=20260321l">
 <style>
-.doc-layout{display:grid;grid-template-columns:220px 1fr;gap:40px;padding:50px 0 80px;align-items:start}
+.doc-layout{display:grid;grid-template-columns:220px 1fr;gap:44px;padding:56px 0 80px;align-items:start}
 .doc-sidebar{position:sticky;top:calc(var(--nav-h) + 24px)}
-.doc-sidebar a{display:block;padding:8px 14px;font-size:.82rem;color:var(--text-dim);border-left:2px solid var(--border);
+.doc-sidebar a{display:block;padding:8px 14px;font-size:.82rem;color:var(--text-dim);border-left:2px solid transparent;
   transition:all .2s;text-decoration:none}
 .doc-sidebar a:hover{color:var(--text);border-color:var(--border-light)}
 .doc-sidebar a:focus-visible{color:var(--red-glow);border-color:var(--red);outline:none}
-.doc-sidebar a.active{color:var(--red-glow);border-color:var(--red);background:rgba(199,70,52,.04)}
-.doc-sidebar .sb-title{font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-muted);
-  font-weight:600;padding:0 14px;margin-bottom:8px;margin-top:16px}
+.doc-sidebar a.active{color:var(--red);border-color:var(--red);background:rgba(199,70,52,.04);font-weight:600}
+.doc-sidebar .sb-title{font-size:.68rem;text-transform:uppercase;letter-spacing:2.5px;color:var(--text-muted);
+  font-weight:600;padding:0 14px;margin-bottom:10px;margin-top:20px}
 .doc-sidebar .sb-title:first-child{margin-top:0}
 
-.doc-content h2{font-size:1.4rem;font-weight:900;color:var(--text);margin:48px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.doc-content h2{font-size:1.5rem;font-weight:900;color:var(--text);margin:52px 0 18px;padding-bottom:12px;border-bottom:1px solid var(--border)}
 .doc-content h2:first-child{margin-top:0}
 .doc-content h3{font-size:1.05rem;font-weight:700;color:var(--text);margin:28px 0 12px}
 .doc-content p{font-size:.92rem;color:var(--text-dim);line-height:1.8;margin-bottom:14px}
@@ -134,8 +134,8 @@
   border-radius:var(--r);position:relative}
 .doc-table-wrap table{margin:0}
 
-.doc-quick-dl{margin-top:20px;padding:12px 20px;background:linear-gradient(135deg,rgba(199,70,52,.06),rgba(232,147,74,.03));
-  border:1px solid rgba(199,70,52,.18);border-radius:var(--r);font-size:.88rem;color:var(--text-dim);text-align:center}
+.doc-quick-dl{margin-top:20px;padding:12px 20px;background:var(--card);
+  border:1px solid var(--border);border-radius:var(--r);font-size:.86rem;color:var(--text-dim);text-align:center;box-shadow:var(--shadow-card)}
 .doc-quick-dl a{color:var(--red);font-weight:600;text-decoration:none}
 .doc-quick-dl a:hover{text-decoration:underline}
 
@@ -1249,7 +1249,7 @@ var _hmt = _hmt || [];
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
 <div id="footer"></div>
-<script src="js/shared.js?v=20260321i"></script>
+<script src="js/shared.js?v=20260321l"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('docs');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -1450,6 +1450,6 @@ document.querySelectorAll('.param-table').forEach(table => {
 });
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260321i"></script>
+<script src="js/search.js?v=20260321l"></script>
 </body>
 </html>

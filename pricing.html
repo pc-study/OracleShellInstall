@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<script>try{var l=localStorage.getItem("lang");if(l)document.documentElement.lang=l==="en"?"en":"zh-CN"}catch(e){}</script>
+<script>try{var l=localStorage.getItem("lang");if(l)document.documentElement.lang=l==="en"?"en":"zh-CN"}catch(e){}try{var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="baidu-site-verification" content="codeva-5szOVhdF6k" />
 <meta name="google-site-verification" content="FiO8gdu01Lz27qUPg4W2BfgG4VhD8ZWMXeiOa_ILa44" />
@@ -29,28 +29,42 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260321i">
+<link rel="manifest" href="manifest.json?v=20260321l">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260321i">
+<link rel="stylesheet" href="css/style.css?v=20260321l">
 <style>
 /* HERO */
-.pr-hero{padding:80px 0 20px;text-align:center}
-.pr-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:12px}
-.pr-hero p{color:var(--text-dim);font-size:1rem;max-width:560px;margin:0 auto;line-height:1.7;font-weight:300}
+.pr-hero{padding:100px 0 24px;text-align:center}
+.pr-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:14px}
+.pr-hero p{color:var(--text-dim);font-size:.95rem;max-width:560px;margin:0 auto;line-height:1.75;font-weight:300}
 
 /* PLAN CARDS */
-.pr-plans{padding:40px 0 30px}
+.pr-plans{padding:48px 0 36px}
 .plans-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:0 auto;align-items:stretch}
-.plan{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r-xl);padding:40px 40px;
+.plan{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r-xl);padding:44px 40px;
   position:relative;overflow:hidden;transition:all .35s cubic-bezier(.4,0,.2,1);
-  display:flex;flex-direction:column}
-.plan:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.15)}
-.plan-pop{border-color:var(--red);box-shadow:var(--glow-md)}
-.plan-pop::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--accent2))}
-.plan-badge{display:inline-block;background:linear-gradient(135deg,var(--red),var(--accent2));color:#fff;
-  font-size:.68rem;font-weight:700;padding:3px 12px;border-radius:20px;margin-bottom:16px;letter-spacing:.5px}
+  display:flex;flex-direction:column;box-shadow:var(--shadow-card)}
+.plan:hover{transform:translateY(-4px);box-shadow:var(--shadow-card-hover)}
+.plan-pop{border-color:rgba(199,70,52,.35);padding:0;overflow:hidden}
+.plan-pop::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),var(--accent2))}
+.plan-hero-zone{text-align:center;padding:40px 40px 28px;
+  background:linear-gradient(180deg,rgba(199,70,52,.12) 0%,rgba(199,70,52,.03) 60%,transparent 100%);
+  position:relative}
+.plan-pop .plan-badge{margin-bottom:14px}
+.plan-orig-price{font-size:.95rem;color:var(--text-muted);text-decoration:line-through;margin-bottom:4px}
+.plan-big-price{font-size:4.5rem;font-weight:900;color:var(--text);line-height:1;margin-bottom:8px;font-family:var(--display);letter-spacing:-2px}
+.plan-yen{font-size:1.6rem;font-weight:700;color:var(--red-glow);vertical-align:super;margin-right:2px}
+.plan-save-tag{display:inline-block;background:rgba(199,70,52,.15);color:var(--red-glow);
+  font-size:.75rem;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:10px;letter-spacing:.5px}
+.plan-buy-type{font-size:.82rem;color:var(--text-dim);letter-spacing:1px}
+.plan-pop .plan-divider{margin:0 40px 20px}
+.plan-pop .plan-features{padding:0 40px;margin-bottom:24px}
+.plan-pop .plan-btn{margin:0 40px}
+.plan-pop .plan-trust{margin:20px 40px 36px;display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:center}
+.plan-badge{display:inline-block;background:var(--red);color:#fff;
+  font-size:.65rem;font-weight:700;padding:3px 14px;border-radius:20px;margin-bottom:16px;letter-spacing:1px;text-transform:uppercase}
 .plan-name{font-size:1.4rem;font-weight:900;color:var(--text);margin-bottom:6px}
 .plan-desc{font-size:.85rem;color:var(--text-dim);margin-bottom:20px;line-height:1.6}
 .plan-price{font-size:2.4rem;font-weight:900;color:var(--text);margin-bottom:4px;font-family:var(--display)}
@@ -68,10 +82,10 @@
 .plan-btn-fill:hover{background:var(--red-glow);color:#fff;transform:translateY(-1px);box-shadow:0 8px 30px rgba(199,70,52,.35)}
 
 /* COMPARISON TABLE */
-.pr-compare{padding:50px 0 40px}
+.pr-compare{padding:56px 0 44px}
 .cmp-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .cmp-table{width:100%;border-collapse:separate;border-spacing:0}
-.cmp-table th,.cmp-table td{padding:14px 18px;text-align:left;font-size:.85rem;border-bottom:1px solid var(--border)}
+.cmp-table th,.cmp-table td{padding:16px 18px;text-align:left;font-size:.85rem;border-bottom:1px solid var(--border)}
 .cmp-table thead th{background:var(--bg3);color:var(--text);font-weight:700;position:sticky;top:0;z-index:1}
 .cmp-table thead th:first-child{border-radius:var(--r) 0 0 0}
 .cmp-table thead th:nth-child(2){text-align:center}
@@ -85,9 +99,9 @@
 .cmp-yes{color:var(--green)}.cmp-no{color:var(--text-muted);opacity:.35}
 
 /* FAQ */
-.pr-faq{padding:50px 0 40px}
-.faq-list{margin:36px auto 0}
-.faq-item{border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden;
+.pr-faq{padding:56px 0 44px}
+.faq-list{margin:40px auto 0}
+.faq-item{border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;
   transition:border-color .2s}
 .faq-item:hover{border-color:var(--border-light)}
 .faq-q{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;
@@ -101,10 +115,9 @@
 .faq-a p{font-size:.85rem;color:var(--text-dim);line-height:1.7;margin:0}
 
 /* CTA */
-.pr-cta{padding:40px 0 80px}
-.pr-cta-box{text-align:center;background:linear-gradient(135deg,rgba(199,70,52,.08),rgba(199,70,52,.02));
-  border:1px solid var(--border-red);border-radius:var(--r-xl);padding:50px 40px;position:relative;overflow:hidden;
-  box-shadow:var(--glow-md)}
+.pr-cta{padding:44px 0 80px}
+.pr-cta-box{text-align:center;background:linear-gradient(135deg,rgba(199,70,52,.05),rgba(199,70,52,.01));
+  border:1px solid var(--border);border-radius:var(--r-xl);padding:56px 44px;position:relative;overflow:hidden}
 .pr-cta-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
   background:radial-gradient(ellipse at center,rgba(199,70,52,.04),transparent 50%);pointer-events:none}
 .pr-cta-box h2{font-size:1.6rem;font-weight:900;color:var(--text);margin-bottom:10px;position:relative}
@@ -136,6 +149,12 @@
 
 @media(max-width:768px){
   .plans-grid{grid-template-columns:1fr}
+  .plan-hero-zone{padding:32px 24px 22px}
+  .plan-big-price{font-size:3.5rem}
+  .plan-pop .plan-divider{margin:0 24px 16px}
+  .plan-pop .plan-features{padding:0 24px}
+  .plan-pop .plan-btn{margin:0 24px}
+  .plan-pop .plan-trust{margin:16px 24px 28px}
   .cmp-wrap{overflow:visible}
   .cmp-table.resp-cards{border-spacing:0}
   .cmp-table.resp-cards thead{display:none}
@@ -236,16 +255,12 @@ var _hmt = _hmt || [];
     </div>
     <!-- PAID -->
     <div class="plan plan-pop reveal">
-      <div class="plan-badge" data-i18n="planPaidBadge">推荐</div>
-      <div class="plan-name" data-i18n="planPaidName">专业版</div>
-      <div class="plan-desc" data-i18n="planPaidDesc">面向生产环境，解锁全部高级功能与专属技术支持</div>
-      <div class="plan-price" data-i18n="planPaidPrice">¥99</div>
-      <div class="plan-price-sub" data-i18n="planPaidSub">一次付费 · 微信/TG/Discord/WhatsApp 联系获取</div>
-      <div class="plan-anchor" data-i18n="planAnchor">相当于一次 RAC 部署外包费的 1/50</div>
-      <div class="plan-trust">
-        <span data-i18n="prTrust1">✓ 一次付费 · 永久使用</span>
-        <span data-i18n="prTrust2">✓ 1000+ 用户已订阅</span>
-        <span data-i18n="prTrust3">✓ 专属群 · 作者亲自答疑</span>
+      <div class="plan-hero-zone">
+        <div class="plan-badge" data-i18n="planPaidBadge">限时特惠</div>
+        <div class="plan-orig-price" data-i18n="planOrigPrice">¥999</div>
+        <div class="plan-big-price"><span class="plan-yen">¥</span><span data-i18n="planBigNum">99</span></div>
+        <div class="plan-save-tag" data-i18n="planSaveTag">立省 ¥900</div>
+        <div class="plan-buy-type" data-i18n="planBuyType">一次性买断 · 永久更新</div>
       </div>
       <div class="plan-divider"></div>
       <ul class="plan-features">
@@ -259,6 +274,11 @@ var _hmt = _hmt || [];
         <li><span class="ck">&#10003;</span> <span data-i18n="pp8">专属付费群 · 直播答疑 · 日志排错</span></li>
       </ul>
       <a href="#contact" class="plan-btn plan-btn-fill" data-i18n="planPaidBtn">立即订阅 &#8595;</a>
+      <div class="plan-trust">
+        <span data-i18n="prTrust1">✓ 一次付费 · 永久使用</span>
+        <span data-i18n="prTrust2">✓ 1000+ 用户已订阅</span>
+        <span data-i18n="prTrust3">✓ 专属群 · 作者亲自答疑</span>
+      </div>
     </div>
   </div>
 </div></section>
@@ -407,7 +427,7 @@ var _hmt = _hmt || [];
 </div></section>
 
 <div id="footer"></div>
-<script src="js/shared.js?v=20260321i"></script>
+<script src="js/shared.js?v=20260321l"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('pricing');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -418,8 +438,9 @@ Object.assign(i18n.zh, {
   prDesc:'社区版满足基础安装需求，专业版解锁 RAC 集群、ARM 架构、国产化系统、一键补丁等全部高级功能',
   planFreeName:'社区版', planFreeDesc:'适用于开发测试环境，覆盖常规 Oracle 安装场景',
   planFreePrice:'免费', planFreeSub:'永久免费 · Gitee 开源', planFreeBtn:'前往 Gitee 下载',
-  planPaidBadge:'推荐', planPaidName:'专业版', planPaidDesc:'面向生产环境，解锁全部高级功能与专属技术支持',
+  planPaidBadge:'限时特惠', planPaidName:'专业版', planPaidDesc:'面向生产环境，解锁全部高级功能与专属技术支持',
   planPaidPrice:'\u00a599', planPaidSub:'一次付费 · 微信/TG/Discord/WhatsApp 联系获取', planPaidBtn:'立即订阅 \u2193',
+  planOrigPrice:'\u00a5999', planBigNum:'99', planSaveTag:'立省 \u00a5900', planBuyType:'一次性买断 · 永久更新',
   pf1:'单机 / 单机 ASM 安装', pf2:'NON-CDB / CDB (PDB) 架构', pf3:'X86 架构支持',
   pf4:'RHEL / OracleLinux / CentOS', pf5:'Oracle 官方认证组合', pf6:'全自动化安装 · 无需人工干预',
   pf7:'RAC 集群部署', pf8:'ARM 架构 · 国产化系统', pf9:'一键安装补丁',
@@ -481,8 +502,9 @@ Object.assign(i18n.en, {
   prDesc:'The Community Edition covers basic installation needs. The Pro Edition unlocks RAC clusters, ARM architecture, domestic OS support, one-click patching, and more.',
   planFreeName:'Community', planFreeDesc:'For development and testing environments, covering standard Oracle installation scenarios',
   planFreePrice:'Free', planFreeSub:'Forever free \u00b7 Open source on Gitee', planFreeBtn:'Download on Gitee',
-  planPaidBadge:'Recommended', planPaidName:'Pro Edition', planPaidDesc:'For production environments, unlocking all advanced features and dedicated support',
+  planPaidBadge:'LIMITED OFFER', planPaidName:'Pro Edition', planPaidDesc:'For production environments, unlocking all advanced features and dedicated support',
   planPaidPrice:'\u00a599', planPaidSub:'One-time payment \u00b7 Contact via WeChat / TG / Discord / WhatsApp', planPaidBtn:'Subscribe Now \u2193',
+  planOrigPrice:'\u00a5999', planBigNum:'99', planSaveTag:'Save \u00a5900', planBuyType:'One-time purchase \u00b7 Lifetime updates',
   pf1:'Single Instance / Standalone ASM', pf2:'NON-CDB / CDB (PDB) architecture', pf3:'X86 architecture support',
   pf4:'RHEL / OracleLinux / CentOS', pf5:'Oracle certified combinations', pf6:'Fully automated \u00b7 No manual intervention',
   pf7:'RAC cluster deployment', pf8:'ARM architecture \u00b7 Domestic OS', pf9:'One-click patching',
@@ -555,6 +577,6 @@ document.querySelectorAll('.faq-q').forEach(q => {
 if (currentLang !== 'zh') setLang(currentLang);
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260321i"></script>
+<script src="js/search.js?v=20260321l"></script>
 </body>
 </html>

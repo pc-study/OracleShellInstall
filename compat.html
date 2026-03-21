@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<script>try{var l=localStorage.getItem("lang");if(l)document.documentElement.lang=l==="en"?"en":"zh-CN"}catch(e){}</script>
+<script>try{var l=localStorage.getItem("lang");if(l)document.documentElement.lang=l==="en"?"en":"zh-CN"}catch(e){}try{var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="baidu-site-verification" content="codeva-5szOVhdF6k" />
 <meta name="google-site-verification" content="FiO8gdu01Lz27qUPg4W2BfgG4VhD8ZWMXeiOa_ILa44" />
@@ -29,26 +29,26 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260321i">
+<link rel="manifest" href="manifest.json?v=20260321l">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260321i">
+<link rel="stylesheet" href="css/style.css?v=20260321l">
 <style>
 /* HERO */
-.cp-hero{padding:80px 0 20px;text-align:center}
-.cp-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:12px}
-.cp-hero p{color:var(--text-dim);font-size:1rem;max-width:620px;margin:0 auto;line-height:1.7;font-weight:300}
+.cp-hero{padding:100px 0 24px;text-align:center}
+.cp-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:14px}
+.cp-hero p{color:var(--text-dim);font-size:.95rem;max-width:580px;margin:0 auto;line-height:1.75;font-weight:300}
 
 /* STATS BAR */
-.cp-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:32px}
+.cp-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:36px}
 .cp-stat{text-align:center}
 .cp-stat-num{font-size:2rem;font-weight:900;font-family:var(--display);background:linear-gradient(135deg,var(--red),var(--accent2));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent}
-.cp-stat-label{font-size:.78rem;color:var(--text-muted);margin-top:4px}
+.cp-stat-label{font-size:.78rem;color:var(--text-muted);margin-top:6px}
 
 /* COMPAT MATRIX */
-.cp-matrix{padding:50px 0 40px}
+.cp-matrix{padding:56px 0 44px}
 .mx-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .mx-table{width:100%;border-collapse:separate;border-spacing:0;min-width:680px}
 .mx-table th,.mx-table td{padding:12px 16px;text-align:center;font-size:.84rem;border-bottom:1px solid var(--border)}
@@ -63,7 +63,7 @@
 .mx-note{margin-top:16px;font-size:.82rem;color:var(--text-muted);line-height:1.7;text-align:center;font-style:italic}
 
 /* GUIDES SECTION */
-.cp-guides{padding:50px 0 40px}
+.cp-guides{padding:56px 0 44px}
 .gd-filter{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:28px 0 32px}
 .gd-filter-btn{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:6px 16px;
   font-size:.78rem;color:var(--text-dim);cursor:pointer;transition:all .25s;font-family:var(--font)}
@@ -278,7 +278,7 @@ var _hmt = _hmt || [];
 </div></section>
 
 <div id="footer"></div>
-<script src="js/shared.js?v=20260321i"></script>
+<script src="js/shared.js?v=20260321l"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('compat');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -670,6 +670,6 @@ document.getElementById('gdList').addEventListener('keydown', e => {
 });
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260321i"></script>
+<script src="js/search.js?v=20260321l"></script>
 </body>
 </html>
