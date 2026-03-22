@@ -238,6 +238,13 @@ sh OracleShellInstall.sh \
 
 网站支持中英文切换、明暗主题、PWA 离线访问。
 
+### 网站开发
+
+网站为纯静态站点（HTML/CSS/JS），推送 `main` 分支自动部署到 GitHub Pages。
+
+- 本地开发指南：[docs/SETUP-GUIDE.md](docs/SETUP-GUIDE.md)
+- 完整技术文档：[DEVELOPMENT.md](DEVELOPMENT.md)
+
 ---
 
 ## 注意事项

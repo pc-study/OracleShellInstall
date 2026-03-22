@@ -192,6 +192,13 @@ This repo also hosts the official website: **[www.oracleshellinstall.com](https:
 
 Supports English/Chinese toggle, dark/light theme, and PWA offline access.
 
+### Website Development
+
+The website is a pure static site (HTML/CSS/JS), auto-deployed to GitHub Pages on push to `main`.
+
+- Local setup guide: [docs/SETUP-GUIDE.md](docs/SETUP-GUIDE.md)
+- Full technical docs: [DEVELOPMENT.md](DEVELOPMENT.md)
+
 ---
 
 ## Notes

@@ -121,6 +121,7 @@
 
   /* 圆角 */
   --r: 10px; --r-sm: 6px; --r-lg: 14px;
+  --r-xl: 18px;            /* 大圆角 (卡片) */
 }
 ```
 
@@ -561,7 +562,7 @@ Object.keys(pageI18n).forEach(lang => {
 
 ### 6.3 Service Worker 缓存策略 (sw.js)
 
-**缓存版本**: `os-v9` — 每次大版本更新递增版本号
+**缓存版本**: `os-v33` — 每次大版本更新递增版本号
 
 **策略分类**:
 
@@ -800,13 +801,13 @@ grep -rl "G-旧ID" . | xargs sed -i 's/G-旧ID/G-新ID/g'
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>教程标题 - OracleShellInstall</title>
-  <link rel="stylesheet" href="../css/style.css?v=20260320b">
-  <link rel="stylesheet" href="guide.css?v=20260320b">
+  <link rel="stylesheet" href="../css/style.css?v=20260321l">
+  <link rel="stylesheet" href="guide.css?v=20260321l">
   <!-- 其他 meta 标签参考现有教程 -->
 </head>
 <body>
   <!-- 使用现有教程作为模板 -->
-  <script src="../js/shared.js?v=20260320b"></script>
+  <script src="../js/shared.js?v=20260321l"></script>
 </body>
 </html>
 ```
@@ -877,14 +878,14 @@ grep -rl "v5.0.0" --include="*.html" --include="*.md" --include="*.txt" . | head
 
 1. **更新查询参数**: 全局替换版本号
 ```bash
-# 将 v=20260320b 替换为新版本号 v=20260321
-grep -rl "v=20260320b" --include="*.html" . | xargs sed -i 's/v=20260320b/v=20260321/g'
+# 将 v=20260321l 替换为新版本号 v=20260322
+grep -rl "v=20260321l" --include="*.html" . | xargs sed -i 's/v=20260321l/v=20260322/g'
 ```
 
 2. **更新 Service Worker 缓存名**:
 编辑 `sw.js` 第 1 行:
 ```javascript
-const CACHE_NAME = 'os-v10';  // 递增版本号
+const CACHE_NAME = 'os-v34';  // 递增版本号
 ```
 用户下次访问时，新 SW 会激活并清理旧缓存。
 
@@ -942,7 +943,7 @@ gh api repos/pc-study/OracleShellInstall/pages/builds --jq '.[0]'
 
 **Service Worker 调试**:
 - Chrome DevTools → Application → Service Workers
-- 查看缓存内容: Application → Cache Storage → os-v9
+- 查看缓存内容: Application → Cache Storage → os-v33
 - 强制更新: 勾选 "Update on reload"
 
 **搜索功能调试**:
@@ -1048,6 +1049,9 @@ grep -rl "旧邮箱" --include="*.html" . | xargs sed -i 's/旧邮箱/新邮箱/
 | `a05784c` | 2026-03-20 | 终端动画修正为真实脚本输出 |
 | `57e2f99` | 2026-03-20 | 全面代码审计修复 (P0/P1/P2, 12 项) |
 | `af767f1` | 2026-03-20 | i18n 语言切换往返修复 |
+| `942ab79` | 2026-03-21 | Apple 设计风格调整 + 页面切换闪烁修复 |
+| `44da984` ~ `54ac7c6` | 2026-03-21 | 定价页 Pro 卡片重设计 + 社区版对齐 |
+| `f807b97` ~ `0ea76e1` | 2026-03-21 | 定价卡片尺寸缩小 + CSS subgrid 对齐 |
 
 ### 4.7 第七阶段：首页重设计与终端动画 (2026-03-20 上午)
 
@@ -1098,10 +1102,30 @@ document.querySelectorAll('[data-i18n]').forEach(el => {
 - `pricing.html`: `fa2` HTML 默认内容与 `pageI18n.zh` 对齐 (补充 TG/Discord/WhatsApp 联系方式)
 - `compat.html`: `mxNote` Unicode 字符修正 (`&#9432;` → `&#8505;`, `&#10005;` → `&#10007;`)
 - `download.html`: 6 个 FAQ HTML 默认内容从多行格式改为单行，与 `pageI18n.zh` 完全一致
-- 全站 190 个 HTML 文件缓存版本号统一升级到 `v=20260320b`
+- 全站 190 个 HTML 文件缓存版本号统一升级到 `v=20260321l`
 
 **验证方法**: Playwright 自动化测试，对 6 个主页面执行 EN→ZH 往返切换，比较所有 `[data-i18n]` 元素的 innerHTML，确认零差异。
 
+### 4.9 第九阶段：Apple 设计风格与页面优化 (2026-03-21)
+
+**Apple 设计调整 `942ab79`**:
+- 整体视觉向 Apple 设计语言靠拢：更柔和的间距、更克制的动效
+- 导航 CTA 按钮从实色改为半透明风格，降低视觉侵略性
+- 修复页面切换闪烁问题：移除 `@view-transition`，改用 `<head>` 内联脚本即时初始化主题
+- 移除页面顶部进度条，减少快速导航时的视觉噪音
+- 全站 189 个 HTML 文件添加 `<head>` 内联主题初始化脚本
+
+**定价页 Pro 卡片重设计 `44da984` ~ `54ac7c6`**:
+- 专业版卡片改为"限时特惠"风格：原价划线 + 大号价格 + 立省标签
+- 社区版卡片结构对齐专业版：统一 header zone 模式
+- 添加信任标签（一次付费/1000+ 用户/专属群）
+
+**定价卡片尺寸与对齐 `f807b97` ~ `0ea76e1`**:
+- 缩小卡片整体尺寸：内边距、字号、间距全面收紧
+- 使用 CSS subgrid 实现两张卡片内部行对齐（header zone、分割线、功能列表、CTA 按钮）
+- 修复按钮对齐偏差：移除不一致的 margin-bottom 和 align-self
+- Service Worker 缓存更新至 os-v33
+
 ---
 
-*文档版本: 2026-03-20 | 维护者: Lucifer (pc1107750981@163.com)*
+*文档版本: 2026-03-22 | 维护者: Lucifer (pc1107750981@163.com)*
