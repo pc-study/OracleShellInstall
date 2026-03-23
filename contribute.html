@@ -29,11 +29,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260323h">
+<link rel="manifest" href="manifest.json?v=20260323i">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260323h">
+<link rel="stylesheet" href="css/style.css?v=20260323i">
 <style>
 .ct-hero{padding:100px 0 40px;text-align:center}
 .ct-hero-eye{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;color:var(--text-muted);
@@ -298,7 +298,7 @@ sh OracleShellInstall.sh [您的参数]
   </div>
 </section>
 <div id="footer"></div>
-<script src="js/shared.js?v=20260323h"></script>
+<script src="js/shared.js?v=20260323i"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML();
 document.getElementById('footer').innerHTML = footerHTML();
@@ -323,18 +323,20 @@ function submitCase(){
   var exp=document.getElementById('cf_exp').value.trim();
   if(!os||!oracle||!mode||!config||!time||!author||!cmd||!verify||!exp)return false;
   var title='[安装实录] '+os+' Oracle '+oracle+' '+mode;
-  var body='### 操作系统 / Operating System\n\n'+os+
-    '\n\n### Oracle 版本 / Oracle Version\n\n'+oracle+
-    '\n\n### 安装模式 / Install Mode\n\n'+mode+
-    '\n\n### 服务器配置 / Server Config\n\n'+config+
-    '\n\n### 安装命令 / Install Command\n\n```bash\n'+cmd+'\n```'+
-    '\n\n### 安装耗时 / Install Duration\n\n'+time+
-    '\n\n### 安装过程日志 / Install Log (可选)\n\n'+(log?'```\n'+log+'\n```':'_No response_')+
-    '\n\n### 验证结果 / Verification\n\n```bash\n'+verify+'\n```'+
-    '\n\n### 使用感受 / Experience\n\n'+exp+
-    '\n\n### 署名 / Author Name\n\n'+author;
-  var url='https://github.com/pc-study/OracleShellInstall/issues/new?'+
-    'labels=install-report&title='+encodeURIComponent(title)+'&body='+encodeURIComponent(body);
+  var params=new URLSearchParams();
+  params.set('template','install-report.yml');
+  params.set('title',title);
+  params.set('os',os);
+  params.set('oracle_version',oracle);
+  params.set('install_mode',mode);
+  params.set('server_config',config);
+  params.set('install_command',cmd);
+  params.set('install_time',time);
+  if(log)params.set('install_log',log);
+  params.set('verification',verify);
+  params.set('experience',exp);
+  params.set('author',author);
+  var url='https://github.com/pc-study/OracleShellInstall/issues/new?'+params.toString();
   window.open(url,'_blank');
   return false;
 }
@@ -410,6 +412,6 @@ window.addEventListener('load',function(){var s=document.createElement('script')
   gtag('config', 'G-GNDHG1PZLG');
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script defer src="js/search.js?v=20260323h"></script>
+<script defer src="js/search.js?v=20260323i"></script>
 </body>
 </html>

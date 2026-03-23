@@ -1,4 +1,4 @@
-const CACHE_NAME = 'os-v41';
+const CACHE_NAME = 'os-v42';
 const STATIC_EXTS = /\.(css|js|json|woff2?|ttf|eot|svg|png|jpg|jpeg|webp|ico)$/i;
 const MAX_CACHE_ITEMS = 80;
 const NETWORK_TIMEOUT = 3000;
