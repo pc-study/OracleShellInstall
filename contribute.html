@@ -29,11 +29,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260323f">
+<link rel="manifest" href="manifest.json?v=20260323g">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260323f">
+<link rel="stylesheet" href="css/style.css?v=20260323g">
 <style>
 .ct-hero{padding:100px 0 40px;text-align:center}
 .ct-hero-eye{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;color:var(--text-muted);
@@ -55,7 +55,7 @@
 .ct-step p{color:var(--text-dim);font-size:.85rem;line-height:1.7}
 
 .ct-template{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px 32px;
-  max-width:760px;margin:0 auto 40px;box-shadow:var(--shadow-card)}
+  margin:0 auto 40px;box-shadow:var(--shadow-card)}
 .ct-template h3{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:16px}
 .ct-template pre{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;
   font-family:var(--mono);font-size:.78rem;line-height:1.8;color:var(--text-dim);overflow-x:auto;white-space:pre-wrap;word-break:break-word}
@@ -63,7 +63,7 @@
   background:var(--red);color:#fff;border:none;border-radius:var(--r);cursor:pointer;font-size:.82rem;font-weight:600;transition:all .2s}
 .ct-template .ct-copy-btn:hover{opacity:.85}
 
-.ct-channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:760px;margin:0 auto 40px}
+.ct-channels{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin:0 auto 40px}
 .ct-channel{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;text-align:center;transition:all .3s;box-shadow:var(--shadow-card)}
 .ct-channel:hover{border-color:var(--border-light);transform:translateY(-2px)}
 .ct-channel-icon{font-size:1.8rem;margin-bottom:10px}
@@ -72,7 +72,7 @@
 .ct-channel a{color:var(--red);text-decoration:none;font-weight:500;font-size:.82rem}
 .ct-channel a:hover{text-decoration:underline}
 
-.ct-tips{max-width:760px;margin:0 auto 40px}
+.ct-tips{margin:0 auto 40px}
 .ct-tips ul{list-style:none;padding:0}
 .ct-tips li{position:relative;padding:10px 0 10px 28px;color:var(--text-dim);font-size:.88rem;line-height:1.7;border-bottom:1px solid var(--border)}
 .ct-tips li:last-child{border-bottom:none}
@@ -80,6 +80,8 @@
 
 .ct-cta{text-align:center;padding:40px 0 80px}
 .ct-cta p{color:var(--text-dim);font-size:.95rem;margin-bottom:20px}
+@media(max-width:900px){.ct-channels{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.ct-channels{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -175,6 +177,12 @@ sh OracleShellInstall.sh [您的参数]
         <a href="https://github.com/pc-study/OracleShellInstall/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a>
       </div>
       <div class="ct-channel">
+        <div class="ct-channel-icon">&#128172;</div>
+        <h3 data-i18n="ctCh4T">微信投稿</h3>
+        <p data-i18n="ctCh4D">添加作者微信 Lucifer-0622，直接发送安装报告或截图，最快捷的投稿方式。</p>
+        <a href="javascript:void(0)" onclick="var f=document.querySelector('.wechat-fab');if(f)f.click();" data-i18n="ctCh4L">打开微信咨询</a>
+      </div>
+      <div class="ct-channel">
         <div class="ct-channel-icon">&#128218;</div>
         <h3 data-i18n="ctCh3T">技术社区发布</h3>
         <p data-i18n="ctCh3D">直接发布到 CSDN、掘金、知乎、博客园等技术社区，文中附上官网链接，然后告知我们即可。</p>
@@ -209,7 +217,7 @@ sh OracleShellInstall.sh [您的参数]
   </div>
 </section>
 <div id="footer"></div>
-<script src="js/shared.js?v=20260323f"></script>
+<script src="js/shared.js?v=20260323g"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML();
 document.getElementById('footer').innerHTML = footerHTML();
@@ -234,6 +242,7 @@ var pageI18n = {
     ctChTitle:'投稿渠道',ctChSub:'选择最方便的方式提交您的分享',
     ctCh1T:'邮件投稿',ctCh1D:'将安装报告或文章发送到作者邮箱，我们会整理发布到官网实录页面。',
     ctCh2T:'GitHub Issue',ctCh2D:'在 GitHub 仓库创建 Issue，标题以 [安装实录] 开头，粘贴您的安装报告内容。',
+    ctCh4T:'微信投稿',ctCh4D:'添加作者微信 Lucifer-0622，直接发送安装报告或截图，最快捷的投稿方式。',ctCh4L:'打开微信咨询',
     ctCh3T:'技术社区发布',ctCh3D:'直接发布到 CSDN、掘金、知乎、博客园等技术社区，文中附上官网链接，然后告知我们即可。',ctCh3L:'官网首页',
     ctTipsTitle:'投稿小贴士',ctTipsSub:'让您的分享更有价值',
     ctTip1:'截图比文字更有说服力 —— 数据库状态、监听状态的截图能让读者直观看到安装结果',
@@ -255,6 +264,7 @@ var pageI18n = {
     ctChTitle:'Submission Channels',ctChSub:'Choose the most convenient way to submit',
     ctCh1T:'Email',ctCh1D:'Send your install report or article to the author\'s email. We\'ll organize and publish it on the official site.',
     ctCh2T:'GitHub Issue',ctCh2D:'Create an Issue on the GitHub repo with the title prefixed [Install Report], paste your report content.',
+    ctCh4T:'WeChat',ctCh4D:'Add the author on WeChat (Lucifer-0622), send your install report or screenshots directly — the quickest way to contribute.',ctCh4L:'Open WeChat',
     ctCh3T:'Tech Community',ctCh3D:'Publish directly on CSDN, Juejin, Zhihu, Dev.to, Medium etc. with a link to the official site, then let us know.',ctCh3L:'Official Site',
     ctTipsTitle:'Writing Tips',ctTipsSub:'Make your contribution more valuable',
     ctTip1:'Screenshots speak louder than words — database status and listener screenshots let readers see results directly',
@@ -280,6 +290,6 @@ window.addEventListener('load',function(){var s=document.createElement('script')
   gtag('config', 'G-GNDHG1PZLG');
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script defer src="js/search.js?v=20260323f"></script>
+<script defer src="js/search.js?v=20260323g"></script>
 </body>
 </html>
