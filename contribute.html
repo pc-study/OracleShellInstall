@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<script>try{var l=localStorage.getItem("lang");if(l)document.documentElement.lang=l==="en"?"en":"zh-CN"}catch(e){}try{var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="baidu-site-verification" content="codeva-5szOVhdF6k" />
+<meta name="google-site-verification" content="FiO8gdu01Lz27qUPg4W2BfgG4VhD8ZWMXeiOa_ILa44" />
+<meta name="msvalidate.01" content="F8A2AE4F6F5F9ED7F109EDFAA8DF12BA" />
+<title>投稿分享 - OracleShellInstall</title>
+<meta name="description" content="分享您的 Oracle 安装体验，帮助更多 DBA 了解自动化安装。投稿指南、模板下载与提交方式。">
+<meta property="og:title" content="投稿分享 - OracleShellInstall">
+<meta property="og:description" content="分享您的 Oracle 安装体验，投稿到社区帮助更多人。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.oracleshellinstall.com/contribute.html">
+<meta property="og:image" content="https://www.oracleshellinstall.com/img/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OracleShellInstall">
+<meta name="twitter:description" content="分享您的 Oracle 安装体验">
+<meta name="twitter:image" content="https://www.oracleshellinstall.com/img/og-cover.jpg">
+<link rel="author" href="https://www.oracleshellinstall.com/llms.txt" type="text/plain" title="LLM Context">
+<link rel="canonical" href="https://www.oracleshellinstall.com/contribute.html">
+<link rel="alternate" hreflang="zh-CN" href="https://www.oracleshellinstall.com/contribute.html">
+<link rel="alternate" hreflang="en" href="https://www.oracleshellinstall.com/contribute.html">
+<link rel="alternate" hreflang="x-default" href="https://www.oracleshellinstall.com/contribute.html">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json?v=20260323a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=20260323a">
+<style>
+.ct-hero{padding:100px 0 40px;text-align:center}
+.ct-hero-eye{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;color:var(--text-muted);
+  letter-spacing:3px;text-transform:uppercase;margin-bottom:18px}
+.ct-hero-eye::before,.ct-hero-eye::after{content:'';width:28px;height:1px;background:var(--border-light)}
+.ct-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:14px}
+.ct-hero p{color:var(--text-dim);font-size:.95rem;max-width:600px;margin:0 auto;line-height:1.75;font-weight:400}
+
+.ct-section{padding:50px 0}
+.ct-section-title{font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:8px;text-align:center}
+.ct-section-sub{color:var(--text-muted);font-size:.88rem;text-align:center;margin-bottom:36px}
+
+.ct-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-bottom:40px}
+.ct-step{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;transition:all .3s;box-shadow:var(--shadow-card)}
+.ct-step:hover{border-color:var(--border-light);transform:translateY(-2px);box-shadow:var(--shadow-card-hover)}
+.ct-step-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;
+  background:rgba(199,70,52,.12);color:var(--red);font-weight:700;font-size:.9rem;margin-bottom:14px;font-family:var(--mono)}
+.ct-step h3{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.ct-step p{color:var(--text-dim);font-size:.85rem;line-height:1.7}
+
+.ct-template{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px 32px;
+  max-width:760px;margin:0 auto 40px;box-shadow:var(--shadow-card)}
+.ct-template h3{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:16px}
+.ct-template pre{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;
+  font-family:var(--mono);font-size:.78rem;line-height:1.8;color:var(--text-dim);overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+.ct-template .ct-copy-btn{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:8px 18px;
+  background:var(--red);color:#fff;border:none;border-radius:var(--r);cursor:pointer;font-size:.82rem;font-weight:600;transition:all .2s}
+.ct-template .ct-copy-btn:hover{opacity:.85}
+
+.ct-channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:760px;margin:0 auto 40px}
+.ct-channel{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;text-align:center;transition:all .3s;box-shadow:var(--shadow-card)}
+.ct-channel:hover{border-color:var(--border-light);transform:translateY(-2px)}
+.ct-channel-icon{font-size:1.8rem;margin-bottom:10px}
+.ct-channel h3{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.ct-channel p{color:var(--text-dim);font-size:.82rem;line-height:1.6}
+.ct-channel a{color:var(--red);text-decoration:none;font-weight:500;font-size:.82rem}
+.ct-channel a:hover{text-decoration:underline}
+
+.ct-tips{max-width:760px;margin:0 auto 40px}
+.ct-tips ul{list-style:none;padding:0}
+.ct-tips li{position:relative;padding:10px 0 10px 28px;color:var(--text-dim);font-size:.88rem;line-height:1.7;border-bottom:1px solid var(--border)}
+.ct-tips li:last-child{border-bottom:none}
+.ct-tips li::before{content:'';position:absolute;left:0;top:16px;width:10px;height:10px;border-radius:50%;background:var(--green)}
+
+.ct-cta{text-align:center;padding:40px 0 80px}
+.ct-cta p{color:var(--text-dim);font-size:.95rem;margin-bottom:20px}
+</style>
+</head>
+<body>
+<div id="nav"></div>
+<!-- HERO -->
+<section class="ct-hero bg-grid">
+  <div class="container">
+    <div class="ct-hero-eye" data-i18n="ctEye">CONTRIBUTE</div>
+    <h1 data-i18n="ctTitle">分享您的安装体验</h1>
+    <p data-i18n="ctDesc">每一位用户的真实反馈，都是对 OracleShellInstall 最有力的推荐。无论是一篇完整的安装实录，还是一段简短的使用感受，都非常有价值。</p>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="ct-section">
+  <div class="container">
+    <h2 class="ct-section-title" data-i18n="ctStepsTitle">三步完成投稿</h2>
+    <p class="ct-section-sub" data-i18n="ctStepsSub">安装完成后，脚本会自动生成报告模板，稍加编辑即可投稿</p>
+    <div class="ct-steps">
+      <div class="ct-step">
+        <div class="ct-step-num">1</div>
+        <h3 data-i18n="ctS1T">找到安装报告</h3>
+        <p data-i18n="ctS1D">安装完成后，脚本会在 /soft 目录下自动生成 install_report_*.md 文件，包含完整的环境信息和安装参数。</p>
+      </div>
+      <div class="ct-step">
+        <div class="ct-step-num">2</div>
+        <h3 data-i18n="ctS2T">补充内容</h3>
+        <p data-i18n="ctS2D">编辑报告文件，补充数据库状态截图、监听状态截图，以及您的使用感受。也可以直接复制报告内容到博客平台发布。</p>
+      </div>
+      <div class="ct-step">
+        <div class="ct-step-num">3</div>
+        <h3 data-i18n="ctS3T">提交分享</h3>
+        <p data-i18n="ctS3D">通过邮件、GitHub Issue 或直接发布到技术社区（CSDN、掘金、知乎等），并在文中附上官网链接即可。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEMPLATE -->
+<section class="ct-section" style="padding-top:0">
+  <div class="container">
+    <h2 class="ct-section-title" data-i18n="ctTplTitle">文章模板</h2>
+    <p class="ct-section-sub" data-i18n="ctTplSub">不知道写什么？直接复制模板，填空即可</p>
+    <div class="ct-template">
+      <h3 data-i18n="ctTplHead">安装实录模板（Markdown 格式）</h3>
+      <pre id="ctTemplateContent"># Oracle [版本] 在 [操作系统] 上的一键安装实录
+
+## 环境信息
+- 操作系统：[如 CentOS 7.9 / Rocky Linux 9.3 / 麒麟 V10]
+- Oracle 版本：[如 19c / 26ai]
+- 安装模式：[单机 / ASM / RAC]
+- 服务器配置：[CPU / 内存 / 磁盘]
+
+## 安装过程
+1. 上传安装包和脚本到 /soft 目录
+2. 执行安装命令：
+```
+sh OracleShellInstall.sh [您的参数]
+```
+3. 安装耗时：[X] 分钟
+
+## 验证结果
+[粘贴数据库状态截图]
+[粘贴监听状态截图]
+
+## 使用感受
+[您的真实体验，比如相比手动安装的效率提升等]
+
+## 相关链接
+- 官网：https://www.oracleshellinstall.com
+- 命令生成器：https://www.oracleshellinstall.com/generator.html</pre>
+      <button class="ct-copy-btn" onclick="copyTemplate()" data-i18n="ctCopyBtn">复制模板</button>
+    </div>
+  </div>
+</section>
+
+<!-- CHANNELS -->
+<section class="ct-section" style="padding-top:0">
+  <div class="container">
+    <h2 class="ct-section-title" data-i18n="ctChTitle">投稿渠道</h2>
+    <p class="ct-section-sub" data-i18n="ctChSub">选择最方便的方式提交您的分享</p>
+    <div class="ct-channels">
+      <div class="ct-channel">
+        <div class="ct-channel-icon">&#9993;</div>
+        <h3 data-i18n="ctCh1T">邮件投稿</h3>
+        <p data-i18n="ctCh1D">将安装报告或文章发送到作者邮箱，我们会整理发布到官网实录页面。</p>
+        <a href="mailto:luciferlpc@163.com">luciferlpc@163.com</a>
+      </div>
+      <div class="ct-channel">
+        <div class="ct-channel-icon">&#128736;</div>
+        <h3 data-i18n="ctCh2T">GitHub Issue</h3>
+        <p data-i18n="ctCh2D">在 GitHub 仓库创建 Issue，标题以 [安装实录] 开头，粘贴您的安装报告内容。</p>
+        <a href="https://github.com/pc-study/OracleShellInstall/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a>
+      </div>
+      <div class="ct-channel">
+        <div class="ct-channel-icon">&#128218;</div>
+        <h3 data-i18n="ctCh3T">技术社区发布</h3>
+        <p data-i18n="ctCh3D">直接发布到 CSDN、掘金、知乎、博客园等技术社区，文中附上官网链接，然后告知我们即可。</p>
+        <a href="https://www.oracleshellinstall.com" data-i18n="ctCh3L">官网首页</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section class="ct-section" style="padding-top:0">
+  <div class="container">
+    <h2 class="ct-section-title" data-i18n="ctTipsTitle">投稿小贴士</h2>
+    <p class="ct-section-sub" data-i18n="ctTipsSub">让您的分享更有价值</p>
+    <div class="ct-tips">
+      <ul>
+        <li data-i18n="ctTip1">截图比文字更有说服力 —— 数据库状态、监听状态的截图能让读者直观看到安装结果</li>
+        <li data-i18n="ctTip2">写清楚环境信息 —— 操作系统版本、Oracle 版本、安装模式，方便其他用户参考</li>
+        <li data-i18n="ctTip3">对比手动安装的体验 —— 如果您之前手动装过 Oracle，对比描述会非常有价值</li>
+        <li data-i18n="ctTip4">记录遇到的问题和解决方案 —— 即使安装过程中有小插曲，记录下来也能帮助其他人</li>
+        <li data-i18n="ctTip5">不需要长篇大论 —— 一段简短的使用感受加几张截图就已经很棒了</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="ct-cta">
+  <div class="container">
+    <p data-i18n="ctCtaText">您的每一次分享，都会帮助更多 DBA 发现自动化安装的价值。</p>
+    <a href="generator.html" class="btn btn-primary" data-i18n="ctCtaBtn">开始使用命令生成器 &rarr;</a>
+  </div>
+</section>
+<div id="footer"></div>
+<script src="js/shared.js?v=20260323a"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML();
+document.getElementById('footer').innerHTML = footerHTML();
+function copyTemplate(){
+  var el=document.getElementById('ctTemplateContent');
+  if(navigator.clipboard){navigator.clipboard.writeText(el.textContent).then(function(){showCopyToast()}).catch(function(){fallbackCopy(el)})}
+  else{fallbackCopy(el)}
+}
+function fallbackCopy(el){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);document.execCommand('copy');s.removeAllRanges();showCopyToast()}
+function showCopyToast(){var btn=document.querySelector('.ct-copy-btn');var orig=btn.textContent;btn.textContent=currentLang==='en'?'Copied!':'已复制！';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background=''},1500)}
+
+var pageI18n = {
+  zh: {
+    ctEye:'CONTRIBUTE',ctTitle:'分享您的安装体验',
+    ctDesc:'每一位用户的真实反馈，都是对 OracleShellInstall 最有力的推荐。无论是一篇完整的安装实录，还是一段简短的使用感受，都非常有价值。',
+    ctStepsTitle:'三步完成投稿',ctStepsSub:'安装完成后，脚本会自动生成报告模板，稍加编辑即可投稿',
+    ctS1T:'找到安装报告',ctS1D:'安装完成后，脚本会在 /soft 目录下自动生成 install_report_*.md 文件，包含完整的环境信息和安装参数。',
+    ctS2T:'补充内容',ctS2D:'编辑报告文件，补充数据库状态截图、监听状态截图，以及您的使用感受。也可以直接复制报告内容到博客平台发布。',
+    ctS3T:'提交分享',ctS3D:'通过邮件、GitHub Issue 或直接发布到技术社区（CSDN、掘金、知乎等），并在文中附上官网链接即可。',
+    ctTplTitle:'文章模板',ctTplSub:'不知道写什么？直接复制模板，填空即可',
+    ctTplHead:'安装实录模板（Markdown 格式）',ctCopyBtn:'复制模板',
+    ctChTitle:'投稿渠道',ctChSub:'选择最方便的方式提交您的分享',
+    ctCh1T:'邮件投稿',ctCh1D:'将安装报告或文章发送到作者邮箱，我们会整理发布到官网实录页面。',
+    ctCh2T:'GitHub Issue',ctCh2D:'在 GitHub 仓库创建 Issue，标题以 [安装实录] 开头，粘贴您的安装报告内容。',
+    ctCh3T:'技术社区发布',ctCh3D:'直接发布到 CSDN、掘金、知乎、博客园等技术社区，文中附上官网链接，然后告知我们即可。',ctCh3L:'官网首页',
+    ctTipsTitle:'投稿小贴士',ctTipsSub:'让您的分享更有价值',
+    ctTip1:'截图比文字更有说服力 —— 数据库状态、监听状态的截图能让读者直观看到安装结果',
+    ctTip2:'写清楚环境信息 —— 操作系统版本、Oracle 版本、安装模式，方便其他用户参考',
+    ctTip3:'对比手动安装的体验 —— 如果您之前手动装过 Oracle，对比描述会非常有价值',
+    ctTip4:'记录遇到的问题和解决方案 —— 即使安装过程中有小插曲，记录下来也能帮助其他人',
+    ctTip5:'不需要长篇大论 —— 一段简短的使用感受加几张截图就已经很棒了',
+    ctCtaText:'您的每一次分享，都会帮助更多 DBA 发现自动化安装的价值。',ctCtaBtn:'开始使用命令生成器 →'
+  },
+  en: {
+    ctEye:'CONTRIBUTE',ctTitle:'Share Your Install Experience',
+    ctDesc:'Every piece of real user feedback is the most powerful endorsement for OracleShellInstall. Whether it\'s a full install walkthrough or a brief review, it\'s all valuable.',
+    ctStepsTitle:'Three Steps to Contribute',ctStepsSub:'The script auto-generates a report template after installation — just edit and submit',
+    ctS1T:'Find the Install Report',ctS1D:'After installation, the script auto-generates an install_report_*.md file in the /soft directory with complete environment info and parameters.',
+    ctS2T:'Add Your Content',ctS2D:'Edit the report file to add database status screenshots, listener status screenshots, and your experience. You can also copy the content directly to a blog platform.',
+    ctS3T:'Submit & Share',ctS3D:'Send via email, GitHub Issue, or publish directly on tech communities (Dev.to, Medium, etc.) with a link to the official site.',
+    ctTplTitle:'Article Template',ctTplSub:'Not sure what to write? Copy the template and fill in the blanks',
+    ctTplHead:'Install Walkthrough Template (Markdown)',ctCopyBtn:'Copy Template',
+    ctChTitle:'Submission Channels',ctChSub:'Choose the most convenient way to submit',
+    ctCh1T:'Email',ctCh1D:'Send your install report or article to the author\'s email. We\'ll organize and publish it on the official site.',
+    ctCh2T:'GitHub Issue',ctCh2D:'Create an Issue on the GitHub repo with the title prefixed [Install Report], paste your report content.',
+    ctCh3T:'Tech Community',ctCh3D:'Publish directly on CSDN, Juejin, Zhihu, Dev.to, Medium etc. with a link to the official site, then let us know.',ctCh3L:'Official Site',
+    ctTipsTitle:'Writing Tips',ctTipsSub:'Make your contribution more valuable',
+    ctTip1:'Screenshots speak louder than words — database status and listener screenshots let readers see results directly',
+    ctTip2:'Be clear about the environment — OS version, Oracle version, install mode help other users reference your setup',
+    ctTip3:'Compare with manual installation — if you\'ve manually installed Oracle before, the comparison is very valuable',
+    ctTip4:'Document issues and solutions — even small hiccups during installation can help others',
+    ctTip5:'Keep it short — a brief review plus a few screenshots is already great',
+    ctCtaText:'Every share you make helps more DBAs discover the value of automated installation.',ctCtaBtn:'Start Using Command Generator →'
+  }
+};
+Object.assign(i18n.zh, pageI18n.zh);
+Object.assign(i18n.en, pageI18n.en);
+if (currentLang !== 'zh') setLang(currentLang);
+</script>
+<script>
+window.addEventListener('load',function(){var s=document.createElement('script');s.src='https://hm.baidu.com/hm.js?a85f4658fbb0e498e498adac508e5027';document.head.appendChild(s)});
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GNDHG1PZLG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GNDHG1PZLG');
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
+<script defer src="js/search.js?v=20260323a"></script>
+</body>
+</html>
