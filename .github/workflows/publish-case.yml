@@ -1,0 +1,211 @@
+name: Publish Install Report as Case Study
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  publish:
+    if: github.event.label.name == 'install-report'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parse Issue and Generate Page
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const issue = context.payload.issue;
+            const body = issue.body || '';
+
+            // Parse structured Issue form fields
+            function parseField(label) {
+              // GitHub Issue forms use "### Label\n\nValue" format
+              const regex = new RegExp('###\\s*' + label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*\\n\\n([\\s\\S]*?)(?=\\n###|$)');
+              const match = body.match(regex);
+              return match ? match[1].trim() : '';
+            }
+
+            const os = parseField('操作系统 / Operating System');
+            const oracleVersion = parseField('Oracle 版本 / Oracle Version');
+            const installMode = parseField('安装模式 / Install Mode');
+            const serverConfig = parseField('服务器配置 / Server Config');
+            const installCommand = parseField('安装命令 / Install Command');
+            const installTime = parseField('安装耗时 / Install Duration');
+            const installLog = parseField('安装过程日志 / Install Log (可选)');
+            const verification = parseField('验证结果 / Verification');
+            const experience = parseField('使用感受 / Experience');
+            const author = parseField('署名 / Author Name') || issue.user.login;
+
+            if (!os || !oracleVersion) {
+              console.log('Missing required fields, skipping.');
+              return;
+            }
+
+            // Generate file ID from issue number
+            const caseId = `case-${issue.number}`;
+            const modeText = installMode.replace(/ \/ .*/, '');
+            const title = `${os} 一键安装 Oracle ${oracleVersion} ${modeText}`;
+            const today = new Date().toISOString().split('T')[0];
+
+            // Escape HTML
+            function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+            // Clean code block markers from form fields
+            function cleanCode(s) {
+              return s.replace(/^```[\w]*\n?/gm, '').replace(/```$/gm, '').trim();
+            }
+
+            // Get current cache version from index.html
+            const indexHtml = fs.readFileSync('index.html', 'utf8');
+            const vMatch = indexHtml.match(/v=(\d{8}\w*)/);
+            const cacheVer = vMatch ? vMatch[1] : '20260323g';
+
+            // Build install log section
+            let logSection = '';
+            if (installLog && installLog !== '_No response_') {
+              logSection = `<h2>安装过程</h2>
+            <pre><code class="lang-bash">${esc(cleanCode(installLog))}</code></pre>`;
+            }
+
+            // Build HTML page
+            const html = `<!DOCTYPE html>
+            <html lang="zh-CN">
+            <head>
+            <meta charset="UTF-8">
+            <script>try{var l=localStorage.getItem("lang");if(l)document.documentElement.lang=l==="en"?"en":"zh-CN"}catch(e){}try{var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>${esc(title)} - 用户实战案例 - OracleShellInstall</title>
+            <meta name="description" content="${esc(title)} - OracleShellInstall 用户投稿实战案例，真实安装体验分享。">
+            <meta property="og:title" content="${esc(title)} - OracleShellInstall">
+            <meta property="og:description" content="${esc(title)} - 用户投稿实战案例">
+            <meta property="og:type" content="article">
+            <meta property="og:url" content="https://www.oracleshellinstall.com/cases/${caseId}.html">
+            <meta property="og:image" content="https://www.oracleshellinstall.com/img/og-cover.jpg">
+            <link rel="canonical" href="https://www.oracleshellinstall.com/cases/${caseId}.html">
+            <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+            <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png">
+            <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+            <link rel="manifest" href="../manifest.json?v=${cacheVer}">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="../css/style.css?v=${cacheVer}">
+            <link rel="stylesheet" href="../guides/guide.css?v=${cacheVer}">
+            <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"${esc(title)}","description":"用户投稿实战案例","url":"https://www.oracleshellinstall.com/cases/${caseId}.html","author":{"@type":"Person","name":"${esc(author)}"},"publisher":{"@type":"Organization","name":"OracleShellInstall","url":"https://www.oracleshellinstall.com/"},"datePublished":"${today}"}</script>
+            </head>
+            <body>
+            <div class="noise-overlay"></div>
+            <div id="nav"></div>
+            <article class="guide-article"><div class="container">
+              <div class="guide-header">
+                <a href="../cases.html" class="guide-back">&larr; 返回实战案例</a>
+                <h1>${esc(title)}</h1>
+                <div class="guide-meta">
+                  <span>作者：${esc(author)}</span>
+                  <span style="margin-left:16px;color:var(--text-muted)">来源：<a href="https://github.com/pc-study/OracleShellInstall/issues/${issue.number}" target="_blank" rel="noopener noreferrer" style="color:var(--red)">用户投稿 #${issue.number}</a></span>
+                </div>
+              </div>
+              <div class="guide-body markdown-body">
+            <div class="guide-cta">
+              <div class="guide-cta-title">🚀 获取 OracleShellInstall 一键安装脚本</div>
+              <div class="guide-cta-desc">支持 Oracle 11gR2 ~ 26ai 全版本，覆盖 20+ 操作系统，单机 / ASM / RAC 三种模式一键部署。</div>
+              <div class="guide-cta-btns">
+                <a href="../pricing.html" class="guide-cta-btn guide-cta-btn-primary">立即订阅</a>
+                <a href="../generator.html" class="guide-cta-btn guide-cta-btn-ghost">命令生成器</a>
+              </div>
+            </div>
+            <hr class="guide-cta-hr">
+
+            <h2>环境信息</h2>
+            <table style="width:100%;border-collapse:collapse;margin:16px 0">
+            <tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);width:140px">操作系统</td><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">${esc(os)}</td></tr>
+            <tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text-muted)">Oracle 版本</td><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">${esc(oracleVersion)}</td></tr>
+            <tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text-muted)">安装模式</td><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">${esc(modeText)}</td></tr>
+            <tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text-muted)">服务器配置</td><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">${esc(serverConfig)}</td></tr>
+            <tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text-muted)">安装耗时</td><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">${esc(installTime)}</td></tr>
+            </table>
+
+            <h2>安装命令</h2>
+            <pre><code class="lang-bash">${esc(cleanCode(installCommand))}</code></pre>
+
+            ${logSection}
+
+            <h2>验证结果</h2>
+            <pre><code class="lang-bash">${esc(cleanCode(verification))}</code></pre>
+
+            <h2>使用感受</h2>
+            <p>${esc(experience).replace(/\n/g, '<br>')}</p>
+            </div>
+            </div></article>
+            <div id="footer"></div>
+            <script src="../js/shared.js?v=${cacheVer}"></script>
+            <script>
+            document.getElementById('nav').innerHTML = navHTML('compat');
+            document.getElementById('footer').innerHTML = footerHTML();
+            </script>
+            <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+            <script defer src="../js/search.js?v=${cacheVer}"></script>
+            </body>
+            </html>`;
+
+            // Write the case HTML file
+            fs.mkdirSync('cases', { recursive: true });
+            fs.writeFileSync(`cases/${caseId}.html`, html);
+
+            // Update cases.json index
+            let casesIndex = [];
+            try { casesIndex = JSON.parse(fs.readFileSync('cases/cases.json', 'utf8')); } catch(e) {}
+            casesIndex.unshift({
+              id: caseId,
+              title: title,
+              os: os,
+              oracle: oracleVersion,
+              mode: modeText,
+              author: author,
+              date: today,
+              issue: issue.number
+            });
+            fs.writeFileSync('cases/cases.json', JSON.stringify(casesIndex, null, 2));
+
+            // Set outputs for commit message and comment
+            core.exportVariable('CASE_ID', caseId);
+            core.exportVariable('CASE_TITLE', title);
+            core.exportVariable('ISSUE_NUMBER', issue.number.toString());
+
+      - name: Commit and Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add cases/
+          git commit -m "Auto-publish case study: ${CASE_TITLE} (#${ISSUE_NUMBER})"
+          git push
+
+      - name: Comment on Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const caseId = process.env.CASE_ID;
+            const issueNumber = parseInt(process.env.ISSUE_NUMBER);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: `🎉 感谢您的投稿！您的安装实录已自动发布为实战案例页面：\n\n` +
+                    `📄 **页面地址：** https://www.oracleshellinstall.com/cases/${caseId}.html\n` +
+                    `📋 **案例列表：** https://www.oracleshellinstall.com/cases.html\n\n` +
+                    `页面将在 GitHub Pages 部署完成后（约 1-2 分钟）可访问。感谢您的分享！`
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              state: 'closed',
+              labels: ['install-report', 'published']
+            });
