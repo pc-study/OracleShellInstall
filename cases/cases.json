@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": "case-3",
+    "title": "统信 UOS Server 20 一键安装 Oracle 11gR2 单机",
+    "os": "统信 UOS Server 20",
+    "oracle": "11gR2",
+    "mode": "单机",
+    "author": "三笠丶",
+    "date": "2026-03-23",
+    "issue": 3
+  }
+]

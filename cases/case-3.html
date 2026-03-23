@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<script>try{var l=localStorage.getItem("lang");if(l)document.documentElement.lang=l==="en"?"en":"zh-CN"}catch(e){}try{var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>统信 UOS Server 20 一键安装 Oracle 11gR2 单机 - 用户实战案例 - OracleShellInstall</title>
+<meta name="description" content="统信 UOS Server 20 一键安装 Oracle 11gR2 单机 - OracleShellInstall 用户投稿实战案例，真实安装体验分享。">
+<meta property="og:title" content="统信 UOS Server 20 一键安装 Oracle 11gR2 单机 - OracleShellInstall">
+<meta property="og:description" content="统信 UOS Server 20 一键安装 Oracle 11gR2 单机 - 用户投稿实战案例">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.oracleshellinstall.com/cases/case-3.html">
+<meta property="og:image" content="https://www.oracleshellinstall.com/img/og-cover.jpg">
+<link rel="canonical" href="https://www.oracleshellinstall.com/cases/case-3.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="manifest" href="../manifest.json?v=20260323k">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=20260323k">
+<link rel="stylesheet" href="../guides/guide.css?v=20260323k">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"统信 UOS Server 20 一键安装 Oracle 11gR2 单机","description":"用户投稿实战案例","url":"https://www.oracleshellinstall.com/cases/case-3.html","author":{"@type":"Person","name":"三笠丶"},"publisher":{"@type":"Organization","name":"OracleShellInstall","url":"https://www.oracleshellinstall.com/"},"datePublished":"2026-03-23"}</script>
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="nav"></div>
+<article class="guide-article"><div class="container">
+  <div class="guide-header">
+    <a href="../cases.html" class="guide-back">&larr; 返回实战案例</a>
+    <h1>统信 UOS Server 20 一键安装 Oracle 11gR2 单机</h1>
+    <div class="guide-meta">
+      <span>作者：三笠丶</span>
+      <span style="margin-left:16px;color:var(--text-muted)">来源：<a href="https://github.com/pc-study/OracleShellInstall/issues/3" target="_blank" rel="noopener noreferrer" style="color:var(--red)">用户投稿 #3</a></span>
+    </div>
+  </div>
+  <div class="guide-body markdown-body">
+<div class="guide-cta">
+  <div class="guide-cta-title">🚀 获取 OracleShellInstall 一键安装脚本</div>
+  <div class="guide-cta-desc">支持 Oracle 11gR2 ~ 26ai 全版本，覆盖 20+ 操作系统，单机 / ASM / RAC 三种模式一键部署。</div>
+  <div class="guide-cta-btns">
+    <a href="../pricing.html" class="guide-cta-btn guide-cta-btn-primary">立即订阅</a>
+    <a href="../generator.html" class="guide-cta-btn guide-cta-btn-ghost">命令生成器</a>
+  </div>
+</div>
+<hr class="guide-cta-hr">
+
+<h2>环境信息</h2>
+<table style="width:100%;border-collapse:collapse;margin:16px 0">
+<tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);width:140px">操作系统</td><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">统信 UOS Server 20</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text-muted)">Oracle 版本</td><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">11gR2</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text-muted)">安装模式</td><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">单机</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text-muted)">服务器配置</td><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">4C 8G 100G</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text-muted)">安装耗时</td><td style="padding:8px 12px;border:1px solid var(--border);color:var(--text)">20分钟</td></tr>
+</table>
+
+<h2>安装命令</h2>
+<pre><code class="lang-bash"># 根据脚本 README 或者 -h 命令提示，编辑好一键安装命令，进入 /soft 目录执行安装：./OracleShellInstall -lf ens33 `# local ip ifname`\-n uosv20 `# hostname`\-op oracle `# oracle password`\-d /u01 `# software base dir`\-ord /oradata `# data dir`\-o lucifer `# dbname`\-dp oracle `# sys/system password`\-ds AL32UTF8 `# database character`\-ns AL16UTF16 `# national character`\-redo 100 `# redo size`\-opa 35574075 `# oracle PSU/RU`\-jpa 35685663 `# OJVM PSU/RU`\-opd Y `# optimize db`</code></pre>
+
+<h2>安装过程</h2>
+<pre><code class="lang-bash"></code></pre>
+
+<h2>验证结果</h2>
+<pre><code class="lang-bash">数据库参数：                                                                                    
+NAME                                               SID        SPVALUE                                                                          VALUE
+-------------------------------------------------- ---------- -------------------------------------------------------------------------------- --------------------------------------------------------------------------------
+_b_tree_bitmap_plans                               *          FALSE                                                                            FALSE
+_datafile_write_errors_crash_instance              *          FALSE                                                                            FALSE
+audit_file_dest                                    *          /u01/app/oracle/admin/lucifer/adump                                              /u01/app/oracle/admin/lucifer/adump
+audit_trail                                        *          NONE                                                                             DB
+compatible                                         *          11.2.0.4.0                                                                       11.2.0.4.0
+control_file_record_keep_time                      *          31                                                                               31
+db_block_size                                      *          8192                                                                             8192
+db_create_file_dest                                *          /oradata                                                                         /oradata
+db_file_multiblock_read_count                      *                                                                                           128
+db_files                                           *          5000                                                                             200
+db_name                                            *          lucifer                                                                          lucifer
+db_recovery_file_dest                              *          /u01/app/oracle/fast_recovery_area                                               /u01/app/oracle/fast_recovery_area
+db_recovery_file_dest_size                         *          4857004032                                                                       4857004032
+db_writer_processes                                *                                                                                           1
+deferred_segment_creation                          *          FALSE                                                                            FALSE
+diagnostic_dest                                    *          /u01/app/oracle                                                                  /u01/app/oracle
+dispatchers                                        *          (PROTOCOL=TCP) (SERVICE=luciferXDB)                                              (PROTOCOL=TCP) (SERVICE=luciferXDB)
+enable_ddl_logging                                 *          TRUE                                                                             FALSE
+event                                              *          10949 trace name context forever,level 1
+event                                              *          28401 trace name context forever,level 1
+fast_start_parallel_rollback                       *                                                                                           LOW
+log_archive_dest_1                                 *          location=/oradata/archivelog                                                     location=/oradata/archivelog
+log_archive_format                                 *          %t_%s_%r.dbf                                                                     %t_%s_%r.dbf
+max_dump_file_size                                 *                                                                                           unlimited
+open_cursors                                       *          1000                                                                             300
+optimizer_index_caching                            *                                                                                           0
+optimizer_mode                                     *                                                                                           ALL_ROWS
+parallel_force_local                               *                                                                                           FALSE
+parallel_max_servers                               *          64                                                                               64
+pga_aggregate_target                               *          1335885824                                                                       834666496
+processes                                          *          2000                                                                             150
+remote_login_passwordfile                          *          EXCLUSIVE                                                                        EXCLUSIVE
+resource_limit                                     *          TRUE                                                                             FALSE
+resource_manager_plan                              *          force:
+sec_case_sensitive_logon                           *          FALSE                                                                            TRUE
+session_cached_cursors                             *          300                                                                              50
+sessions                                           *                                                                                           248
+sga_max_size                                       *          5344591872                                                                       3355443200
+sga_target                                         *          5344591872                                                                       3355443200
+spfile                                             *                                                                                           /u01/app/oracle/product/11.2.0/db/dbs/spfilelucifer.ora
+statistics_level                                   *                                                                                           TYPICAL
+undo_retention                                     *          10800</code></pre>
+
+<h2>使用感受</h2>
+<p>牛而逼之，真正的一键安装，全自动解放双手！</p>
+</div>
+</div></article>
+<div id="footer"></div>
+<script src="../js/shared.js?v=20260323k"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML('compat');
+document.getElementById('footer').innerHTML = footerHTML();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+<script defer src="../js/search.js?v=20260323k"></script>
+</body>
+</html>
