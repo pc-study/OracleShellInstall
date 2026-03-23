@@ -20,11 +20,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260321l">
+<link rel="manifest" href="manifest.json?v=20260323a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260321l">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=20260323a">
 <style>
 .err-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;min-height:calc(100vh - 200px);padding:100px 20px 80px}
@@ -37,7 +37,7 @@
 @keyframes err-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes err-shadow{0%,100%{width:120px;opacity:1}50%{width:80px;opacity:.5}}
 .err-title{font-size:clamp(1.4rem,3vw,1.8rem);font-weight:900;color:var(--text);margin-bottom:12px}
-.err-desc{font-size:1rem;color:var(--text-dim);max-width:440px;line-height:1.7;font-weight:300;margin-bottom:28px}
+.err-desc{font-size:1rem;color:var(--text-dim);max-width:440px;line-height:1.7;font-weight:400;margin-bottom:28px}
 .err-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:var(--r);
   font-size:.9rem;font-weight:600;text-decoration:none;transition:all .3s;font-family:var(--font);
   background:var(--red);color:#fff;border:1.5px solid var(--red);box-shadow:0 4px 20px rgba(199,70,52,.25)}
@@ -68,15 +68,7 @@
   .err-code::after{animation:none}
 }
 </style>
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b873527e8685653a23ed88324ba56f4d";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
+<script>var _hmt=_hmt||[];window.addEventListener('load',function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?b873527e8685653a23ed88324ba56f4d";document.head.appendChild(hm)});</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GNDHG1PZLG"></script>
 <script>
@@ -111,7 +103,7 @@ var _hmt = _hmt || [];
 </section>
 
 <div id="footer"></div>
-<script src="js/shared.js?v=20260321l"></script>
+<script src="js/shared.js?v=20260323a"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -143,6 +135,6 @@ Object.assign(i18n.en, pageI18n.en);
 if (currentLang !== 'zh') setLang(currentLang);
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260321l"></script>
+<script defer src="js/search.js?v=20260323a"></script>
 </body>
 </html>

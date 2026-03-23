@@ -29,11 +29,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260321l">
+<link rel="manifest" href="manifest.json?v=20260323a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260321l">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=20260323a">
 <style>
 /* HERO */
 .dl-hero{padding:100px 0 36px;text-align:center}
@@ -42,7 +42,7 @@
 .dl-hero-eye::before,.dl-hero-eye::after{content:'';width:28px;height:1px;background:var(--border-light)}
 .dl-hero-eye::after{background:var(--border-light)}
 .dl-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:14px}
-.dl-hero p{color:var(--text-dim);font-size:.95rem;max-width:560px;margin:0 auto;line-height:1.75;font-weight:300}
+.dl-hero p{color:var(--text-dim);font-size:.95rem;max-width:560px;margin:0 auto;line-height:1.75;font-weight:400}
 .dl-hero p a{color:var(--red);text-decoration:none;font-weight:500}
 .dl-hero p a:hover{text-decoration:underline}
 .dl-hero-ver{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:8px 18px;
@@ -185,15 +185,7 @@
 @media(max-width:700px){.dl-req-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.dl-req-grid{grid-template-columns:1fr}}
 </style>
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b873527e8685653a23ed88324ba56f4d";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
+<script>var _hmt=_hmt||[];window.addEventListener('load',function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?b873527e8685653a23ed88324ba56f4d";document.head.appendChild(hm)});</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GNDHG1PZLG"></script>
 <script>
@@ -504,7 +496,7 @@ var _hmt = _hmt || [];
 
 </div><!-- /container -->
 <div id="footer"></div>
-<script src="js/shared.js?v=20260321l"></script>
+<script src="js/shared.js?v=20260323a"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('download');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -645,6 +637,6 @@ Object.assign(i18n.en, pageI18n.en);
 if (currentLang !== 'zh') setLang(currentLang);
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260321l"></script>
+<script defer src="js/search.js?v=20260323a"></script>
 </body>
 </html>

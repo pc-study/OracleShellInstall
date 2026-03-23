@@ -29,13 +29,13 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260321l">
+<link rel="manifest" href="manifest.json?v=20260323a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="css/style.css?v=20260321l" as="style">
-<link rel="preload" href="js/shared.js?v=20260321l" as="script">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260321l">
+<link rel="preload" href="css/style.css?v=20260323a" as="style">
+<link rel="preload" href="js/shared.js?v=20260323a" as="script">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=20260323a">
 <style>
 .hero{position:relative;padding:120px 0 100px;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
@@ -48,7 +48,7 @@
 .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 .hero h1{font-size:clamp(2.4rem,5vw,3.8rem);font-weight:900;color:var(--text);line-height:1.1;margin-bottom:20px}
 .hero h1 span{color:var(--red)}
-.hero-desc{font-size:1rem;color:var(--text-dim);line-height:1.75;margin-bottom:36px;max-width:500px;font-weight:300}
+.hero-desc{font-size:1rem;color:var(--text-dim);line-height:1.75;margin-bottom:36px;max-width:500px;font-weight:400}
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .github-stars:hover{border-color:var(--red);color:var(--text);box-shadow:var(--glow-sm)}
 .hero-right{position:relative;z-index:1}
@@ -170,15 +170,7 @@
   }
 }
 </script>
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?b873527e8685653a23ed88324ba56f4d";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
+<script>var _hmt=_hmt||[];window.addEventListener('load',function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?b873527e8685653a23ed88324ba56f4d";document.head.appendChild(hm)});</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GNDHG1PZLG"></script>
 <script>
@@ -338,7 +330,7 @@ var _hmt = _hmt || [];
 <!-- FOOTER -->
 <div id="footer"></div>
 
-<script src="js/shared.js?v=20260321l"></script>
+<script src="js/shared.js?v=20260323a"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML('home');
 document.getElementById('footer').innerHTML = footerHTML();
@@ -511,6 +503,6 @@ runTermAnimation();
 })();
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script src="js/search.js?v=20260321l"></script>
+<script defer src="js/search.js?v=20260323a"></script>
 </body>
 </html>

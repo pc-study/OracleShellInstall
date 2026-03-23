@@ -136,7 +136,7 @@ img{max-width:100%;display:block}
 .section-center .section-eyebrow{justify-content:center}
 .section-center .section-eyebrow::before{display:none}
 .section-title{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;color:var(--text);line-height:1.25;margin-bottom:14px}
-.section-desc{font-size:.95rem;color:var(--text-dim);max-width:560px;line-height:1.75;font-weight:300}
+.section-desc{font-size:.95rem;color:var(--text-dim);max-width:560px;line-height:1.75;font-weight:400}
 .section-center{text-align:center}
 .section-center .section-desc{margin:0 auto}
 .section-tag{font-size:.72rem;text-transform:uppercase;letter-spacing:4px;color:var(--text-muted);font-weight:600;margin-bottom:8px}
@@ -671,7 +671,7 @@ img{max-width:100%;display:block}
 /* === GENERATOR PAGE === */
 .gen-hero{padding:60px 0 24px;text-align:center}
 .gen-hero h1{font-size:1.8rem;font-weight:900;color:var(--text);margin-bottom:8px}
-.gen-hero p{color:var(--text-dim);font-size:.95rem;font-weight:300}
+.gen-hero p{color:var(--text-dim);font-size:.95rem;font-weight:400}
 
 .mode-section{padding:20px 0 30px}
 .mode-label{font-size:.78rem;text-transform:uppercase;letter-spacing:2.5px;color:var(--text-muted);font-weight:600;margin-bottom:14px}
