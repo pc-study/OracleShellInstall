@@ -233,6 +233,36 @@ img{max-width:100%;display:block}
 .btt-progress circle{fill:none;stroke:var(--red);stroke-width:2;stroke-linecap:round;
   transition:stroke-dashoffset .15s}
 
+/* === CONTRIBUTE FLOATING WIDGET === */
+.contribute-fab{position:fixed;bottom:140px;right:32px;width:42px;height:42px;border-radius:50%;
+  background:var(--card);color:var(--red);border:1px solid var(--border);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+  box-shadow:0 4px 20px rgba(0,0,0,.2);transition:all .3s;z-index:900;text-decoration:none}
+.contribute-fab:hover{border-color:var(--red);box-shadow:0 4px 24px rgba(199,70,52,.25);transform:translateY(-2px)}
+.contribute-fab.active{border-color:var(--red);background:var(--bg3)}
+.contribute-fab svg{width:22px;height:22px;fill:currentColor}
+
+.contribute-popup{position:fixed;bottom:194px;right:32px;width:260px;background:var(--card);
+  border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;z-index:901;
+  box-shadow:0 12px 48px rgba(0,0,0,.35);opacity:0;visibility:hidden;
+  transform:translateY(12px) scale(.95);transition:all .3s ease}
+.contribute-popup.show{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+.contribute-popup::after{content:'';position:absolute;bottom:-7px;right:20px;width:14px;height:14px;
+  background:var(--card);border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+  transform:rotate(45deg)}
+.contribute-popup-close{position:absolute;top:8px;right:10px;background:none;border:none;
+  color:var(--text-muted);cursor:pointer;font-size:.9rem;padding:4px;line-height:1;transition:color .2s}
+.contribute-popup-close:hover{color:var(--text)}
+.contribute-popup-icon{text-align:center;font-size:1.6rem;margin-bottom:6px}
+.contribute-popup-title{text-align:center;font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.contribute-popup-desc{text-align:center;font-size:.78rem;color:var(--text-dim);line-height:1.6;margin-bottom:12px}
+.contribute-popup-steps{display:flex;justify-content:center;gap:8px;margin-bottom:14px}
+.contribute-popup-steps span{font-size:.7rem;color:var(--text-muted);background:var(--bg2);
+  padding:4px 8px;border-radius:var(--r);border:1px solid var(--border);white-space:nowrap}
+.contribute-popup-btn{display:block;text-align:center;padding:8px 16px;background:var(--red);
+  color:#fff;border-radius:var(--r);font-size:.82rem;font-weight:600;text-decoration:none;transition:opacity .2s}
+.contribute-popup-btn:hover{opacity:.85}
+
 /* === WECHAT CONSULT WIDGET === */
 .wechat-fab{position:fixed;bottom:86px;right:32px;width:42px;height:42px;border-radius:50%;
   background:var(--card);color:var(--green);border:1px solid var(--border);cursor:pointer;
@@ -337,6 +367,8 @@ img{max-width:100%;display:block}
   .back-to-top{bottom:80px;right:16px;width:44px;height:44px}
   .wechat-fab{bottom:136px;right:16px;width:44px;height:44px}
   .wechat-popup{bottom:186px;right:16px;width:240px;padding:14px}
+  .contribute-fab{bottom:192px;right:16px;width:44px;height:44px}
+  .contribute-popup{bottom:246px;right:16px;width:240px;padding:16px}
 
   .footer-inner{grid-template-columns:1fr}
   .section{padding:56px 0}
@@ -390,6 +422,7 @@ img{max-width:100%;display:block}
   .trust-quote{padding:20px 16px}
   .trust-quote-text{font-size:.85rem}
   .wechat-popup{width:calc(100vw - 32px);right:16px}
+  .contribute-popup{width:calc(100vw - 32px);right:16px}
   .search-footer{font-size:.7rem}
   .mode-card{padding:16px 14px}
   .cmd-btns{gap:6px}
@@ -407,6 +440,8 @@ img{max-width:100%;display:block}
   .back-to-top{bottom:64px}
   .wechat-fab{bottom:120px}
   .wechat-popup{bottom:170px}
+  .contribute-fab{bottom:176px}
+  .contribute-popup{bottom:230px}
 }
 
 /* === macOS Terminal Code Blocks === */
@@ -450,7 +485,7 @@ img{max-width:100%;display:block}
 
 /* === PERFORMANCE HINTS === */
 .card:hover{will-change:transform}
-.back-to-top:hover,.wechat-fab:hover,.wechat-popup.show{will-change:transform}
+.back-to-top:hover,.wechat-fab:hover,.wechat-popup.show,.contribute-fab:hover,.contribute-popup.show{will-change:transform}
 
 /* === HERO FLOATING ORBS === */
 @keyframes floatOrb1{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(30px,-20px) scale(1.1)}50%{transform:translate(-15px,-40px) scale(.95)}75%{transform:translate(-30px,-10px) scale(1.05)}}
@@ -640,7 +675,7 @@ img{max-width:100%;display:block}
 
 /* === PRINT STYLES === */
 @media print{
-  .nav,.mobile-tabbar,.back-to-top,.wechat-fab,.wechat-popup,.search-overlay,.nav-actions,.noise-overlay,.btt-progress,.hero-orb,.page-progress{display:none!important}
+  .nav,.mobile-tabbar,.back-to-top,.wechat-fab,.wechat-popup,.contribute-fab,.contribute-popup,.search-overlay,.nav-actions,.noise-overlay,.btt-progress,.hero-orb,.page-progress{display:none!important}
   body{background:#fff;color:#000;font-size:12pt;line-height:1.5;padding-top:0}
   a{color:#000;text-decoration:underline}
   .footer{background:#f5f5f5;color:#333;border-top:1px solid #ccc}

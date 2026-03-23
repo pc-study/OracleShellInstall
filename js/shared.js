@@ -504,8 +504,57 @@ document.addEventListener('DOMContentLoaded', () => {
   document.body.appendChild(bttRing);
   const ringCircle = bttRing.querySelector('circle');
 
-  // WeChat consult floating widget
+  // Contribute floating button + popup
   const isGuide = location.pathname.includes('/guides/');
+  const isContributePage = location.pathname.includes('contribute');
+  if (!isContributePage) {
+    const ctPath = isGuide ? '../contribute.html' : 'contribute.html';
+    const ctFab = document.createElement('button');
+    ctFab.className = 'contribute-fab';
+    ctFab.title = t('contribute');
+    ctFab.setAttribute('aria-label', t('contribute'));
+    ctFab.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>';
+    document.body.appendChild(ctFab);
+
+    const ctPopup = document.createElement('div');
+    ctPopup.className = 'contribute-popup';
+    const ctZh = currentLang === 'zh';
+    ctPopup.innerHTML = `<button class="contribute-popup-close" aria-label="关闭">&times;</button>
+      <div class="contribute-popup-icon">&#9997;</div>
+      <div class="contribute-popup-title">${ctZh ? '分享您的安装体验' : 'Share Your Install Experience'}</div>
+      <div class="contribute-popup-desc">${ctZh ? '安装完成后，脚本会自动生成报告模板。分享您的安装实录，帮助更多 DBA。' : 'The script auto-generates a report after installation. Share your experience to help more DBAs.'}</div>
+      <div class="contribute-popup-steps">
+        <span>1. ${ctZh ? '找到报告' : 'Find Report'}</span>
+        <span>2. ${ctZh ? '补充内容' : 'Add Content'}</span>
+        <span>3. ${ctZh ? '提交分享' : 'Submit'}</span>
+      </div>
+      <a href="${ctPath}" class="contribute-popup-btn">${ctZh ? '查看投稿指南 →' : 'View Contribute Guide →'}</a>`;
+    document.body.appendChild(ctPopup);
+
+    ctFab.addEventListener('click', (e) => {
+      e.stopPropagation();
+      ctPopup.classList.toggle('show');
+      ctFab.classList.toggle('active');
+      // Close WeChat popup if open
+      var wp = document.querySelector('.wechat-popup');
+      if (wp) wp.classList.remove('show');
+      var wf = document.querySelector('.wechat-fab');
+      if (wf) wf.classList.remove('active');
+    });
+    const ctClose = ctPopup.querySelector('.contribute-popup-close');
+    if (ctClose) ctClose.addEventListener('click', () => {
+      ctPopup.classList.remove('show');
+      ctFab.classList.remove('active');
+    });
+    document.addEventListener('click', (e) => {
+      if (!ctPopup.contains(e.target) && !ctFab.contains(e.target)) {
+        ctPopup.classList.remove('show');
+        ctFab.classList.remove('active');
+      }
+    });
+  }
+
+  // WeChat consult floating widget
   const qrPath = isGuide ? '../img/wechat-qr.webp' : 'img/wechat-qr.webp';
   const fab = document.createElement('button');
   fab.className = 'wechat-fab';
