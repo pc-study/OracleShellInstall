@@ -242,25 +242,25 @@ img{max-width:100%;display:block}
 .wechat-fab.active{border-color:var(--green);background:var(--bg3)}
 .wechat-fab svg{width:22px;height:22px;fill:currentColor}
 
-.wechat-popup{position:fixed;bottom:140px;right:32px;width:280px;background:var(--card);
-  border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;z-index:901;
+.wechat-popup{position:fixed;bottom:140px;right:32px;width:260px;background:var(--card);
+  border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;z-index:901;
   box-shadow:0 12px 48px rgba(0,0,0,.35);opacity:0;visibility:hidden;
-  transform:translateY(12px) scale(.95);transition:all .3s ease}
+  transform:translateY(12px) scale(.95);transition:all .3s ease;max-height:calc(100vh - 180px);overflow-y:auto}
 .wechat-popup.show{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
 .wechat-popup::after{content:'';position:absolute;bottom:-7px;right:20px;width:14px;height:14px;
   background:var(--card);border-right:1px solid var(--border);border-bottom:1px solid var(--border);
   transform:rotate(45deg)}
-.wechat-popup-title{font-size:.82rem;color:var(--text-muted);margin-bottom:12px;text-align:center;letter-spacing:.5px}
-.wechat-popup-qr{display:block;width:160px;height:auto;margin:0 auto 12px;border-radius:var(--r);
+.wechat-popup-title{font-size:.78rem;color:var(--text-muted);margin-bottom:8px;text-align:center;letter-spacing:.5px}
+.wechat-popup-qr{display:block;width:130px;height:auto;margin:0 auto 8px;border-radius:var(--r);
   border:1px solid var(--border)}
-.wechat-popup-id{text-align:center;font-size:.8rem;color:var(--text-dim);font-family:var(--mono)}
-.wechat-popup-hint{text-align:center;font-size:.75rem;color:var(--text-muted);margin-top:10px;
-  padding-top:10px;border-top:1px solid var(--border);line-height:1.5}
-.popup-social{display:flex;justify-content:center;gap:10px;margin-top:12px}
-.popup-social-icon{display:flex;align-items:center;justify-content:center;width:44px;height:44px;
+.wechat-popup-id{text-align:center;font-size:.76rem;color:var(--text-dim);font-family:var(--mono)}
+.wechat-popup-hint{text-align:center;font-size:.72rem;color:var(--text-muted);margin-top:8px;
+  padding-top:8px;border-top:1px solid var(--border);line-height:1.4}
+.popup-social{display:flex;justify-content:center;gap:8px;margin-top:10px}
+.popup-social-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;
   border-radius:50%;border:1px solid var(--border);background:var(--bg2);color:var(--text-dim);
   text-decoration:none;transition:all .2s}
-.popup-social-icon svg{width:18px;height:18px;fill:currentColor}
+.popup-social-icon svg{width:16px;height:16px;fill:currentColor}
 .popup-social-icon:hover{transform:translateY(-2px);border-color:var(--text-muted)}
 .popup-social-icon.tg-icon:hover{color:#2aabee;border-color:#2aabee;background:rgba(42,171,238,.1)}
 .popup-social-icon.dc-icon:hover{color:#5865f2;border-color:#5865f2;background:rgba(88,101,242,.1)}
@@ -336,7 +336,7 @@ img{max-width:100%;display:block}
   .footer{padding-bottom:80px}
   .back-to-top{bottom:80px;right:16px;width:44px;height:44px}
   .wechat-fab{bottom:136px;right:16px;width:44px;height:44px}
-  .wechat-popup{bottom:186px;right:16px;width:260px;padding:16px}
+  .wechat-popup{bottom:186px;right:16px;width:240px;padding:14px}
 
   .footer-inner{grid-template-columns:1fr}
   .section{padding:56px 0}
