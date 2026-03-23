@@ -5840,7 +5840,7 @@ function print_share_guide() {
 	printf "${cyan}  ║${yellow}  3. 投稿到官网或发布到技术社区                                ${cyan}║${res}\n"
 	printf "${cyan}  ║${res}                                                              ${cyan}║${res}\n"
 	printf "${cyan}  ║${white}  投稿通道：https://www.oracleshellinstall.com/contribute.html ${cyan}║${res}\n"
-	printf "${cyan}  ║${white}  官方邮箱：luciferlpc@163.com                                ${cyan}║${res}\n"
+	printf "${cyan}  ║${white}  官方邮箱：pc1107750981@163.com                              ${cyan}║${res}\n"
 	printf "${cyan}  ║${res}                                                              ${cyan}║${res}\n"
 	printf "${cyan}  ║${green}  您的每一次分享，都是对开源项目最大的支持！                   ${cyan}║${res}\n"
 	printf "${cyan}  ╚${line}╝${res}\n"
