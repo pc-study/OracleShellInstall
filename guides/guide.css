@@ -41,8 +41,8 @@
 .guide-cta-desc{font-size:.85rem;color:var(--text-dim);line-height:1.7;margin-bottom:18px;max-width:520px;margin-left:auto;margin-right:auto}
 .guide-cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .guide-cta-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;border-radius:8px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s}
-.guide-cta-btn-primary{background:var(--red,#C74634);color:#fff}
-.guide-cta-btn-primary:hover{background:var(--red-glow,#e05040);color:#fff;transform:translateY(-1px)}
+.guide-cta-btn-primary{background:var(--red,#C74634);color:#fff!important}
+.guide-cta-btn-primary:hover{background:var(--red-glow,#e05040);color:#fff!important;transform:translateY(-1px)}
 .guide-cta-btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border-light,#444)}
 .guide-cta-btn-ghost:hover{border-color:var(--red,#C74634);color:var(--red,#C74634)}
 .guide-cta-hr{margin:20px 0 30px;border:none;border-top:1px solid var(--border)}

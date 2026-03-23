@@ -29,11 +29,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260323k">
+<link rel="manifest" href="manifest.json?v=20260323m">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260323k">
+<link rel="stylesheet" href="css/style.css?v=20260323m">
 <style>
 .ct-hero{padding:100px 0 40px;text-align:center}
 .ct-hero-eye{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;color:var(--text-muted);
@@ -250,7 +250,7 @@ sh OracleShellInstall.sh [您的参数]
         </div>
         <div class="ct-form-group ct-form-full">
           <label data-i18n="ctFormCmd">安装命令 *</label>
-          <textarea id="cf_cmd" rows="3" required placeholder="sh OracleShellInstall.sh -install_mode single -lf eth0 -o orcl ..."></textarea>
+          <textarea id="cf_cmd" rows="6" required placeholder="sh OracleShellInstall.sh &#10;  -install_mode single &#10;  -lf eth0 &#10;  -o orcl &#10;  -dp oracle &#10;  -opd Y"></textarea>
         </div>
         <div class="ct-form-group ct-form-full">
           <label data-i18n="ctFormLog">安装日志（可选）</label>
@@ -298,7 +298,7 @@ sh OracleShellInstall.sh [您的参数]
   </div>
 </section>
 <div id="footer"></div>
-<script src="js/shared.js?v=20260323k"></script>
+<script src="js/shared.js?v=20260323m"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML();
 document.getElementById('footer').innerHTML = footerHTML();
@@ -417,6 +417,6 @@ window.addEventListener('load',function(){var s=document.createElement('script')
   gtag('config', 'G-GNDHG1PZLG');
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script defer src="js/search.js?v=20260323k"></script>
+<script defer src="js/search.js?v=20260323m"></script>
 </body>
 </html>
