@@ -34,6 +34,43 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css?v=20260323a">
+<style>
+.presets-section{margin:0 0 28px}
+.presets-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.presets-title{font-size:.82rem;color:var(--text-dim);font-weight:600;display:flex;align-items:center;gap:8px}
+.presets-title .presets-count{background:var(--bg3);color:var(--text-muted);font-size:.7rem;padding:2px 8px;border-radius:10px;font-weight:500}
+.presets-empty{text-align:center;padding:28px 16px;color:var(--text-muted);font-size:.82rem;background:var(--card);border:1px dashed var(--border);border-radius:var(--r)}
+.presets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.preset-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:8px;transition:all .2s;cursor:pointer;position:relative}
+.preset-card:hover{border-color:var(--border-light);box-shadow:var(--shadow-card-hover);transform:translateY(-1px)}
+.preset-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.preset-name{font-size:.88rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.preset-mode{font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.5px;flex-shrink:0}
+.preset-mode-single{background:rgba(58,186,106,.12);color:var(--green)}
+.preset-mode-standalone{background:rgba(74,143,232,.12);color:var(--blue)}
+.preset-mode-rac{background:rgba(199,70,52,.12);color:var(--red)}
+.preset-meta{font-size:.72rem;color:var(--text-muted);display:flex;align-items:center;gap:12px}
+.preset-actions{display:flex;gap:6px;margin-top:4px}
+.preset-actions button{flex:1;padding:6px 0;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--text-dim);font-size:.75rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:var(--font)}
+.preset-actions .preset-load{border-color:rgba(199,70,52,.3);color:var(--red)}
+.preset-actions .preset-load:hover{background:rgba(199,70,52,.1);border-color:var(--red)}
+.preset-actions .preset-del:hover{background:rgba(255,80,80,.08);border-color:rgba(255,80,80,.4);color:#f66}
+/* save modal */
+.save-modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.save-modal-overlay.show{opacity:1;pointer-events:auto}
+.save-modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;width:90%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.save-modal h3{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:16px}
+.save-modal input{width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.88rem;font-family:var(--font);outline:none;transition:border-color .2s}
+.save-modal input:focus{border-color:var(--red)}
+.save-modal-btns{display:flex;gap:10px;margin-top:16px;justify-content:flex-end}
+.save-modal-btns button{padding:8px 20px;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;border:none;font-family:var(--font);transition:all .2s}
+.save-modal-btns .sm-cancel{background:var(--bg3);color:var(--text-dim)}
+.save-modal-btns .sm-cancel:hover{background:var(--border)}
+.save-modal-btns .sm-save{background:var(--red);color:#fff}
+.save-modal-btns .sm-save:hover{background:var(--red-glow)}
+.save-modal-btns .sm-save:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:768px){.presets-grid{grid-template-columns:1fr}}
+</style>
 <script>var _hmt=_hmt||[];window.addEventListener('load',function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?b873527e8685653a23ed88324ba56f4d";document.head.appendChild(hm)});</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GNDHG1PZLG"></script>
@@ -74,6 +111,21 @@
   </div>
 </section>
 
+<!-- SAVED PRESETS -->
+<section class="presets-section" id="presetsSection"></section>
+
+<!-- SAVE MODAL -->
+<div class="save-modal-overlay" id="saveModalOverlay">
+  <div class="save-modal">
+    <h3 data-i18n="saveModalTitle">保存当前配置</h3>
+    <input type="text" id="presetNameInput" maxlength="40" autocomplete="off">
+    <div class="save-modal-btns">
+      <button class="sm-cancel" onclick="closeSaveModal()" data-i18n="saveCancel">取消</button>
+      <button class="sm-save" id="saveConfirmBtn" onclick="confirmSave()" data-i18n="saveConfirm">保存</button>
+    </div>
+  </div>
+</div>
+
 <div class="gen-pro-notice" id="genProNotice" style="display:none">
   <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
   <span data-i18n="genProMsg">RAC 集群模式为专业版功能 · <a href="pricing.html">了解专业版 →</a></span>
@@ -91,6 +143,7 @@
       <span class="cmd-title">Terminal</span>
       <div class="cmd-btns">
         <button class="cmd-btn" onclick="resetForm()" data-i18n="resetBtn">重置参数</button>
+        <button class="cmd-btn" onclick="openSaveModal()" data-i18n="saveBtn">保存配置</button>
         <button class="cmd-btn copy-btn" id="copyBtn" onclick="copyCmd()" data-i18n="copyBtn">复制命令</button>
       </div>
     </div>
@@ -314,8 +367,21 @@ Object.assign(i18n.zh, {
   modeRacDesc:'Real Application Clusters<br>适用于高可用生产环境',
   genOutput:'生成的安装命令',
   resetBtn:'重置参数',
+  saveBtn:'保存配置',
   copyBtn:'复制命令',
-  genProMsg:'RAC 集群模式为专业版功能 · <a href="pricing.html">了解专业版 →</a>'
+  genProMsg:'RAC 集群模式为专业版功能 · <a href="pricing.html">了解专业版 →</a>',
+  presetsTitle:'已保存的配置',
+  presetsEmpty:'暂无保存的配置，填写参数后点击"保存配置"可快速复用',
+  saveModalTitle:'保存当前配置',
+  saveCancel:'取消',
+  saveConfirm:'保存',
+  saveNamePh:'输入配置名称，如：CentOS7 + 19c 生产环境',
+  presetLoad:'加载',
+  presetDel:'删除',
+  presetParamCount:'个参数',
+  presetSaved:'配置已保存',
+  presetLoaded:'配置已加载',
+  presetDeleted:'配置已删除',
 });
 Object.assign(i18n.en, {
   genTitle:'Install Command Generator',
@@ -329,11 +395,184 @@ Object.assign(i18n.en, {
   modeRacDesc:'Real Application Clusters<br>For high-availability production environments',
   genOutput:'Generated Install Command',
   resetBtn:'Reset',
+  saveBtn:'Save Config',
   copyBtn:'Copy Command',
-  genProMsg:'RAC cluster mode is a Pro Edition feature · <a href="pricing.html">Learn about Pro →</a>'
+  genProMsg:'RAC cluster mode is a Pro Edition feature · <a href="pricing.html">Learn about Pro →</a>',
+  presetsTitle:'Saved Configurations',
+  presetsEmpty:'No saved configurations yet. Fill in parameters and click "Save Config" to reuse later',
+  saveModalTitle:'Save Current Configuration',
+  saveCancel:'Cancel',
+  saveConfirm:'Save',
+  saveNamePh:'Enter a name, e.g.: CentOS7 + 19c Production',
+  presetLoad:'Load',
+  presetDel:'Delete',
+  presetParamCount:'params',
+  presetSaved:'Configuration saved',
+  presetLoaded:'Configuration loaded',
+  presetDeleted:'Configuration deleted',
 });
+
+// ---- Presets: Save / Load / Delete ----
+const PRESETS_KEY = 'gen_presets';
+
+function getPresets() {
+  try { return JSON.parse(localStorage.getItem(PRESETS_KEY)) || []; }
+  catch(e) { return []; }
+}
+function savePresets(list) {
+  try { localStorage.setItem(PRESETS_KEY, JSON.stringify(list)); } catch(e) {}
+}
+
+function collectFormState() {
+  const gs = [...P.common, ...(P[curMode] || [])];
+  const fields = {};
+  let paramCount = 0;
+  gs.forEach(g => g.f.forEach(f => {
+    const el = document.getElementById('f' + f.fl.replace(/-/g, '_'));
+    if (!el) return;
+    const v = el.value.trim();
+    if (v) { fields[f.fl] = v; paramCount++; }
+  }));
+  return { mode: curMode, fields, paramCount };
+}
+
+function applyFormState(preset) {
+  // Switch mode first
+  switchMode(preset.mode);
+  // Then fill in fields
+  const gs = [...P.common, ...(P[preset.mode] || [])];
+  gs.forEach(g => g.f.forEach(f => {
+    const el = document.getElementById('f' + f.fl.replace(/-/g, '_'));
+    if (!el) return;
+    if (preset.fields[f.fl] !== undefined) {
+      el.value = preset.fields[f.fl];
+    }
+  }));
+  genCmd();
+}
+
+function openSaveModal() {
+  const overlay = document.getElementById('saveModalOverlay');
+  const input = document.getElementById('presetNameInput');
+  const isEn = currentLang === 'en';
+  input.placeholder = isEn ? (i18n.en.saveNamePh || '') : (i18n.zh.saveNamePh || '');
+  // Auto-suggest name based on mode
+  const modeNames = { single: isEn ? 'Single' : '单机', standalone: isEn ? 'Standalone ASM' : '单机ASM', rac: isEn ? 'RAC' : 'RAC集群' };
+  const now = new Date();
+  const dateStr = (now.getMonth()+1) + '/' + now.getDate();
+  input.value = modeNames[curMode] + ' - ' + dateStr;
+  overlay.classList.add('show');
+  setTimeout(() => { input.focus(); input.select(); }, 50);
+  // Enter key to save
+  input.onkeydown = function(e) { if (e.key === 'Enter') confirmSave(); if (e.key === 'Escape') closeSaveModal(); };
+}
+
+function closeSaveModal() {
+  document.getElementById('saveModalOverlay').classList.remove('show');
+}
+
+function confirmSave() {
+  const input = document.getElementById('presetNameInput');
+  const name = input.value.trim();
+  if (!name) return;
+  const state = collectFormState();
+  const preset = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    name: name,
+    mode: state.mode,
+    fields: state.fields,
+    paramCount: state.paramCount,
+    time: Date.now()
+  };
+  const list = getPresets();
+  list.unshift(preset);
+  // Max 20 presets
+  if (list.length > 20) list.length = 20;
+  savePresets(list);
+  closeSaveModal();
+  renderPresets();
+  showToast(currentLang === 'en' ? i18n.en.presetSaved : i18n.zh.presetSaved);
+}
+
+function loadPreset(id) {
+  const list = getPresets();
+  const preset = list.find(p => p.id === id);
+  if (!preset) return;
+  applyFormState(preset);
+  renderPresets();
+  showToast(currentLang === 'en' ? i18n.en.presetLoaded : i18n.zh.presetLoaded);
+  // Scroll to form area
+  document.getElementById('formArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function deletePreset(id, e) {
+  if (e) e.stopPropagation();
+  const list = getPresets().filter(p => p.id !== id);
+  savePresets(list);
+  renderPresets();
+  showToast(currentLang === 'en' ? i18n.en.presetDeleted : i18n.zh.presetDeleted);
+}
+
+function renderPresets() {
+  const section = document.getElementById('presetsSection');
+  const list = getPresets();
+  const isEn = currentLang === 'en';
+  const title = isEn ? i18n.en.presetsTitle : i18n.zh.presetsTitle;
+  const emptyMsg = isEn ? i18n.en.presetsEmpty : i18n.zh.presetsEmpty;
+  const loadTxt = isEn ? i18n.en.presetLoad : i18n.zh.presetLoad;
+  const delTxt = isEn ? i18n.en.presetDel : i18n.zh.presetDel;
+  const paramTxt = isEn ? i18n.en.presetParamCount : i18n.zh.presetParamCount;
+  const modeLabels = { single: isEn ? 'Single' : '单机', standalone: isEn ? 'ASM' : 'ASM', rac: 'RAC' };
+
+  if (list.length === 0) {
+    section.innerHTML = `<div class="presets-header"><div class="presets-title">${title}</div></div><div class="presets-empty">${emptyMsg}</div>`;
+    return;
+  }
+
+  let html = `<div class="presets-header"><div class="presets-title">${title} <span class="presets-count">${list.length}</span></div></div><div class="presets-grid">`;
+  list.forEach(p => {
+    const d = new Date(p.time);
+    const timeStr = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0') + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+    const modeClass = 'preset-mode-' + (p.mode || 'single');
+    const modeName = modeLabels[p.mode] || p.mode;
+    const pc = p.paramCount || Object.keys(p.fields || {}).length;
+    const eName = (p.name||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    html += `<div class="preset-card" onclick="loadPreset('${p.id}')">
+      <div class="preset-card-top"><span class="preset-name">${eName}</span><span class="preset-mode ${modeClass}">${modeName}</span></div>
+      <div class="preset-meta"><span>${pc} ${paramTxt}</span><span>${timeStr}</span></div>
+      <div class="preset-actions">
+        <button class="preset-load" onclick="loadPreset('${p.id}')">${loadTxt}</button>
+        <button class="preset-del" onclick="deletePreset('${p.id}',event)">${delTxt}</button>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  section.innerHTML = html;
+}
+
+function showToast(msg) {
+  let t = document.getElementById('genToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'genToast';
+    t.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 24px;border-radius:8px;font-size:.85rem;font-weight:600;z-index:10001;opacity:0;transition:opacity .3s;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.3)';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  setTimeout(() => { t.style.opacity = '0'; }, 2000);
+}
+
+// Close save modal on overlay click
+document.getElementById('saveModalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeSaveModal();
+});
+
+// Render presets on load
+renderPresets();
 document.addEventListener('langchange', () => {
   renderForm(curMode);
+  renderPresets();
 });
 renderForm('single');
 // Apply saved language on page load (after page-specific keys are registered)
