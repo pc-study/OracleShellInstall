@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<script>try{var l=localStorage.getItem("lang");if(l)document.documentElement.lang=l==="en"?"en":"zh-CN"}catch(e){}try{var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="baidu-site-verification" content="codeva-5szOVhdF6k" />
+<meta name="google-site-verification" content="FiO8gdu01Lz27qUPg4W2BfgG4VhD8ZWMXeiOa_ILa44" />
+<title>实战案例 - OracleShellInstall</title>
+<meta name="description" content="OracleShellInstall 用户投稿的真实安装体验。来自社区的实战案例，覆盖多种操作系统和 Oracle 版本。">
+<meta property="og:title" content="实战案例 - OracleShellInstall">
+<meta property="og:description" content="用户投稿的真实安装体验，来自社区的实战案例。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.oracleshellinstall.com/cases.html">
+<meta property="og:image" content="https://www.oracleshellinstall.com/img/og-cover.jpg">
+<link rel="canonical" href="https://www.oracleshellinstall.com/cases.html">
+<link rel="alternate" hreflang="zh-CN" href="https://www.oracleshellinstall.com/cases.html">
+<link rel="alternate" hreflang="en" href="https://www.oracleshellinstall.com/cases.html">
+<link rel="alternate" hreflang="x-default" href="https://www.oracleshellinstall.com/cases.html">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json?v=20260323h">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=20260323h">
+<style>
+.cases-hero{padding:100px 0 40px;text-align:center}
+.cases-hero-eye{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;color:var(--text-muted);
+  letter-spacing:3px;text-transform:uppercase;margin-bottom:18px}
+.cases-hero-eye::before,.cases-hero-eye::after{content:'';width:28px;height:1px;background:var(--border-light)}
+.cases-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:14px}
+.cases-hero p{color:var(--text-dim);font-size:.95rem;max-width:600px;margin:0 auto;line-height:1.75}
+
+.cases-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;padding:40px 0 80px}
+.case-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;
+  transition:all .3s;box-shadow:var(--shadow-card);text-decoration:none;display:block}
+.case-card:hover{border-color:var(--border-light);transform:translateY(-2px);box-shadow:var(--shadow-card-hover)}
+.case-card-title{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.5}
+.case-card-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.case-card-tag{font-size:.72rem;padding:3px 8px;border-radius:var(--r);background:var(--bg2);
+  border:1px solid var(--border);color:var(--text-muted);font-family:var(--mono)}
+.case-card-author{font-size:.78rem;color:var(--text-dim)}
+.case-card-date{font-size:.72rem;color:var(--text-muted);margin-left:auto}
+
+.cases-empty{text-align:center;padding:80px 0;color:var(--text-muted)}
+.cases-empty-icon{font-size:3rem;margin-bottom:16px;opacity:.4}
+.cases-empty p{font-size:.95rem;margin-bottom:20px}
+
+.cases-cta{text-align:center;padding:0 0 80px}
+.cases-cta p{color:var(--text-dim);font-size:.92rem;margin-bottom:16px}
+</style>
+</head>
+<body>
+<div id="nav"></div>
+
+<section class="cases-hero bg-grid">
+  <div class="container">
+    <div class="cases-hero-eye" data-i18n="casesEye">CASE STUDIES</div>
+    <h1 data-i18n="casesTitle">用户实战案例</h1>
+    <p data-i18n="casesDesc">来自社区用户的真实安装体验。每一篇投稿都是对 OracleShellInstall 最有力的证明。</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div id="casesGrid" class="cases-grid"></div>
+    <div id="casesEmpty" class="cases-empty" style="display:none">
+      <div class="cases-empty-icon">&#128221;</div>
+      <p data-i18n="casesEmptyText">还没有用户投稿的案例，成为第一个分享者吧！</p>
+      <a href="contribute.html" class="btn btn-primary" data-i18n="casesEmptyBtn">前往投稿 &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<section class="cases-cta">
+  <div class="container">
+    <p data-i18n="casesCtaText">分享您的安装体验，帮助更多 DBA 了解自动化安装的价值。</p>
+    <a href="contribute.html" class="btn btn-primary" data-i18n="casesCtaBtn">投稿分享 &rarr;</a>
+  </div>
+</section>
+
+<div id="footer"></div>
+<script src="js/shared.js?v=20260323h"></script>
+<script>
+document.getElementById('nav').innerHTML = navHTML();
+document.getElementById('footer').innerHTML = footerHTML();
+
+// Load and render cases
+fetch('cases/cases.json')
+  .then(function(r){ return r.json() })
+  .then(function(cases){
+    var grid = document.getElementById('casesGrid');
+    var empty = document.getElementById('casesEmpty');
+    if (!cases || cases.length === 0) {
+      grid.style.display = 'none';
+      empty.style.display = 'block';
+      return;
+    }
+    grid.innerHTML = cases.map(function(c){
+      return '<a href="cases/' + c.id + '.html" class="case-card">' +
+        '<div class="case-card-title">' + c.title + '</div>' +
+        '<div class="case-card-meta">' +
+          '<span class="case-card-tag">' + c.oracle + '</span>' +
+          '<span class="case-card-tag">' + c.mode + '</span>' +
+          '<span class="case-card-tag">' + c.os + '</span>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center">' +
+          '<span class="case-card-author">by ' + c.author + '</span>' +
+          '<span class="case-card-date">' + c.date + '</span>' +
+        '</div>' +
+      '</a>';
+    }).join('');
+  })
+  .catch(function(){
+    document.getElementById('casesGrid').style.display = 'none';
+    document.getElementById('casesEmpty').style.display = 'block';
+  });
+
+var pageI18n = {
+  zh: {
+    casesEye:'CASE STUDIES',casesTitle:'用户实战案例',
+    casesDesc:'来自社区用户的真实安装体验。每一篇投稿都是对 OracleShellInstall 最有力的证明。',
+    casesEmptyText:'还没有用户投稿的案例，成为第一个分享者吧！',casesEmptyBtn:'前往投稿 →',
+    casesCtaText:'分享您的安装体验，帮助更多 DBA 了解自动化安装的价值。',casesCtaBtn:'投稿分享 →'
+  },
+  en: {
+    casesEye:'CASE STUDIES',casesTitle:'User Case Studies',
+    casesDesc:'Real install experiences from community users. Every submission is the most powerful proof of OracleShellInstall.',
+    casesEmptyText:'No user-submitted cases yet. Be the first to share!',casesEmptyBtn:'Contribute →',
+    casesCtaText:'Share your install experience to help more DBAs discover automated installation.',casesCtaBtn:'Contribute →'
+  }
+};
+Object.assign(i18n.zh, pageI18n.zh);
+Object.assign(i18n.en, pageI18n.en);
+if (currentLang !== 'zh') setLang(currentLang);
+</script>
+<script>
+window.addEventListener('load',function(){var s=document.createElement('script');s.src='https://hm.baidu.com/hm.js?a85f4658fbb0e498e498adac508e5027';document.head.appendChild(s)});
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GNDHG1PZLG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GNDHG1PZLG');
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
+<script defer src="js/search.js?v=20260323h"></script>
+</body>
+</html>

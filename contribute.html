@@ -29,11 +29,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260323g">
+<link rel="manifest" href="manifest.json?v=20260323h">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260323g">
+<link rel="stylesheet" href="css/style.css?v=20260323h">
 <style>
 .ct-hero{padding:100px 0 40px;text-align:center}
 .ct-hero-eye{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;color:var(--text-muted);
@@ -82,6 +82,21 @@
 .ct-cta p{color:var(--text-dim);font-size:.95rem;margin-bottom:20px}
 @media(max-width:900px){.ct-channels{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.ct-channels{grid-template-columns:1fr}}
+
+.ct-form-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:28px 32px;box-shadow:var(--shadow-card)}
+.ct-form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ct-form-group{margin-bottom:12px}
+.ct-form-group label{display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.ct-form-group input,.ct-form-group select,.ct-form-group textarea{width:100%;padding:10px 12px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text);
+  font-size:.85rem;font-family:inherit;transition:border-color .2s;box-sizing:border-box}
+.ct-form-group textarea{font-family:var(--mono);font-size:.78rem;resize:vertical}
+.ct-form-group input:focus,.ct-form-group select:focus,.ct-form-group textarea:focus{
+  outline:none;border-color:var(--red)}
+.ct-form-group input::placeholder,.ct-form-group textarea::placeholder{color:var(--text-muted);opacity:.6}
+.ct-form-full{grid-column:1/-1}
+@media(max-width:768px){.ct-form-grid{grid-template-columns:1fr}.ct-form-wrap{padding:20px 16px}}
 </style>
 </head>
 <body>
@@ -192,6 +207,72 @@ sh OracleShellInstall.sh [您的参数]
   </div>
 </section>
 
+<!-- ONLINE FORM -->
+<section class="ct-section" style="padding-top:0">
+  <div class="container">
+    <h2 class="ct-section-title" data-i18n="ctFormTitle">在线投稿</h2>
+    <p class="ct-section-sub" data-i18n="ctFormSub">填写表单，一键提交，自动生成实战案例页面</p>
+    <div class="ct-form-wrap">
+      <form id="ctForm" onsubmit="return submitCase()">
+        <div class="ct-form-grid">
+          <div class="ct-form-group">
+            <label data-i18n="ctFormOS">操作系统 *</label>
+            <input type="text" id="cf_os" required placeholder="CentOS 7.9 / Rocky Linux 9.3 / 麒麟 V10">
+          </div>
+          <div class="ct-form-group">
+            <label data-i18n="ctFormOracle">Oracle 版本 *</label>
+            <select id="cf_oracle" required>
+              <option value="">--</option>
+              <option>11gR2</option><option>12cR2</option><option>19c</option><option>21c</option><option>23ai</option><option>26ai</option>
+            </select>
+          </div>
+          <div class="ct-form-group">
+            <label data-i18n="ctFormMode">安装模式 *</label>
+            <select id="cf_mode" required>
+              <option value="">--</option>
+              <option value="单机">单机 / Single</option>
+              <option value="单机ASM">单机ASM / Single ASM</option>
+              <option value="RAC">RAC</option>
+            </select>
+          </div>
+          <div class="ct-form-group">
+            <label data-i18n="ctFormConfig">服务器配置 *</label>
+            <input type="text" id="cf_config" required placeholder="4C 8G 100G">
+          </div>
+          <div class="ct-form-group">
+            <label data-i18n="ctFormTime">安装耗时 *</label>
+            <input type="text" id="cf_time" required placeholder="约 20 分钟">
+          </div>
+          <div class="ct-form-group">
+            <label data-i18n="ctFormAuthor">署名 *</label>
+            <input type="text" id="cf_author" required placeholder="您的名字或昵称">
+          </div>
+        </div>
+        <div class="ct-form-group ct-form-full">
+          <label data-i18n="ctFormCmd">安装命令 *</label>
+          <textarea id="cf_cmd" rows="3" required placeholder="sh OracleShellInstall.sh -install_mode single -lf eth0 -o orcl ..."></textarea>
+        </div>
+        <div class="ct-form-group ct-form-full">
+          <label data-i18n="ctFormLog">安装日志（可选）</label>
+          <textarea id="cf_log" rows="4" placeholder="粘贴安装过程的关键输出日志"></textarea>
+        </div>
+        <div class="ct-form-group ct-form-full">
+          <label data-i18n="ctFormVerify">验证结果 *</label>
+          <textarea id="cf_verify" rows="4" required placeholder="sqlplus / as sysdba&#10;show parameter db_name&#10;lsnrctl status"></textarea>
+        </div>
+        <div class="ct-form-group ct-form-full">
+          <label data-i18n="ctFormExp">使用感受 *</label>
+          <textarea id="cf_exp" rows="3" required placeholder="相比手动安装，节省了大量时间..."></textarea>
+        </div>
+        <div style="text-align:center;margin-top:20px">
+          <button type="submit" class="btn btn-primary" data-i18n="ctFormSubmit">提交投稿（跳转 GitHub）&rarr;</button>
+          <p style="font-size:.75rem;color:var(--text-muted);margin-top:10px" data-i18n="ctFormNote">提交后将跳转到 GitHub 创建 Issue，系统会自动生成实战案例页面。需要 GitHub 账号。</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
 <!-- TIPS -->
 <section class="ct-section" style="padding-top:0">
   <div class="container">
@@ -217,7 +298,7 @@ sh OracleShellInstall.sh [您的参数]
   </div>
 </section>
 <div id="footer"></div>
-<script src="js/shared.js?v=20260323g"></script>
+<script src="js/shared.js?v=20260323h"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML();
 document.getElementById('footer').innerHTML = footerHTML();
@@ -228,6 +309,35 @@ function copyTemplate(){
 }
 function fallbackCopy(el){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);document.execCommand('copy');s.removeAllRanges();showCopyToast()}
 function showCopyToast(){var btn=document.querySelector('.ct-copy-btn');var orig=btn.textContent;btn.textContent=currentLang==='en'?'Copied!':'已复制！';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background=''},1500)}
+
+function submitCase(){
+  var os=document.getElementById('cf_os').value.trim();
+  var oracle=document.getElementById('cf_oracle').value;
+  var mode=document.getElementById('cf_mode').value;
+  var config=document.getElementById('cf_config').value.trim();
+  var time=document.getElementById('cf_time').value.trim();
+  var author=document.getElementById('cf_author').value.trim();
+  var cmd=document.getElementById('cf_cmd').value.trim();
+  var log=document.getElementById('cf_log').value.trim();
+  var verify=document.getElementById('cf_verify').value.trim();
+  var exp=document.getElementById('cf_exp').value.trim();
+  if(!os||!oracle||!mode||!config||!time||!author||!cmd||!verify||!exp)return false;
+  var title='[安装实录] '+os+' Oracle '+oracle+' '+mode;
+  var body='### 操作系统 / Operating System\n\n'+os+
+    '\n\n### Oracle 版本 / Oracle Version\n\n'+oracle+
+    '\n\n### 安装模式 / Install Mode\n\n'+mode+
+    '\n\n### 服务器配置 / Server Config\n\n'+config+
+    '\n\n### 安装命令 / Install Command\n\n```bash\n'+cmd+'\n```'+
+    '\n\n### 安装耗时 / Install Duration\n\n'+time+
+    '\n\n### 安装过程日志 / Install Log (可选)\n\n'+(log?'```\n'+log+'\n```':'_No response_')+
+    '\n\n### 验证结果 / Verification\n\n```bash\n'+verify+'\n```'+
+    '\n\n### 使用感受 / Experience\n\n'+exp+
+    '\n\n### 署名 / Author Name\n\n'+author;
+  var url='https://github.com/pc-study/OracleShellInstall/issues/new?'+
+    'labels=install-report&title='+encodeURIComponent(title)+'&body='+encodeURIComponent(body);
+  window.open(url,'_blank');
+  return false;
+}
 
 var pageI18n = {
   zh: {
@@ -250,7 +360,12 @@ var pageI18n = {
     ctTip3:'对比手动安装的体验 —— 如果您之前手动装过 Oracle，对比描述会非常有价值',
     ctTip4:'记录遇到的问题和解决方案 —— 即使安装过程中有小插曲，记录下来也能帮助其他人',
     ctTip5:'不需要长篇大论 —— 一段简短的使用感受加几张截图就已经很棒了',
-    ctCtaText:'您的每一次分享，都会帮助更多 DBA 发现自动化安装的价值。',ctCtaBtn:'开始使用命令生成器 →'
+    ctCtaText:'您的每一次分享，都会帮助更多 DBA 发现自动化安装的价值。',ctCtaBtn:'开始使用命令生成器 →',
+    ctFormTitle:'在线投稿',ctFormSub:'填写表单，一键提交，自动生成实战案例页面',
+    ctFormOS:'操作系统 *',ctFormOracle:'Oracle 版本 *',ctFormMode:'安装模式 *',
+    ctFormConfig:'服务器配置 *',ctFormTime:'安装耗时 *',ctFormAuthor:'署名 *',
+    ctFormCmd:'安装命令 *',ctFormLog:'安装日志（可选）',ctFormVerify:'验证结果 *',ctFormExp:'使用感受 *',
+    ctFormSubmit:'提交投稿（跳转 GitHub）→',ctFormNote:'提交后将跳转到 GitHub 创建 Issue，系统会自动生成实战案例页面。需要 GitHub 账号。'
   },
   en: {
     ctEye:'CONTRIBUTE',ctTitle:'Share Your Install Experience',
@@ -272,7 +387,12 @@ var pageI18n = {
     ctTip3:'Compare with manual installation — if you\'ve manually installed Oracle before, the comparison is very valuable',
     ctTip4:'Document issues and solutions — even small hiccups during installation can help others',
     ctTip5:'Keep it short — a brief review plus a few screenshots is already great',
-    ctCtaText:'Every share you make helps more DBAs discover the value of automated installation.',ctCtaBtn:'Start Using Command Generator →'
+    ctCtaText:'Every share you make helps more DBAs discover the value of automated installation.',ctCtaBtn:'Start Using Command Generator →',
+    ctFormTitle:'Submit Online',ctFormSub:'Fill in the form, one-click submit, auto-generate a case study page',
+    ctFormOS:'Operating System *',ctFormOracle:'Oracle Version *',ctFormMode:'Install Mode *',
+    ctFormConfig:'Server Config *',ctFormTime:'Install Duration *',ctFormAuthor:'Author Name *',
+    ctFormCmd:'Install Command *',ctFormLog:'Install Log (Optional)',ctFormVerify:'Verification *',ctFormExp:'Experience *',
+    ctFormSubmit:'Submit (Redirect to GitHub) →',ctFormNote:'You will be redirected to GitHub to create an Issue. A case study page will be auto-generated. Requires a GitHub account.'
   }
 };
 Object.assign(i18n.zh, pageI18n.zh);
@@ -290,6 +410,6 @@ window.addEventListener('load',function(){var s=document.createElement('script')
   gtag('config', 'G-GNDHG1PZLG');
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script defer src="js/search.js?v=20260323g"></script>
+<script defer src="js/search.js?v=20260323h"></script>
 </body>
 </html>
