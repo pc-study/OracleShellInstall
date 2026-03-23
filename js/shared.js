@@ -614,7 +614,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // macOS terminal wrapper for pre blocks (skip hero terminal and already-wrapped)
   document.querySelectorAll('pre').forEach(pre => {
-    if (pre.closest('.hero-terminal, .mac-term, .hero-term-body')) return;
+    if (pre.closest('.hero-terminal, .mac-term, .hero-term-body, .ct-template')) return;
     const wrapper = document.createElement('div');
     wrapper.className = 'mac-term';
     const bar = document.createElement('div');
