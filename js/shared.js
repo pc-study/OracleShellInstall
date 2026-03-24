@@ -62,7 +62,7 @@ const i18n = {
     stepsEye: 'Quick Start',
     stepsTitle: 'Get Started in 3 Steps',
     step1t: 'Upload Files',
-    step1d: 'Upload OracleShellInstall.sh and Oracle installation media to /soft directory',
+    step1d: 'Upload OracleShellInstall and Oracle installation media to /soft directory',
     step2t: 'Configure Parameters',
     step2d: 'Use the online command generator to visually configure all parameters',
     step3t: 'Execute Installation',

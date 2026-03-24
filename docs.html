@@ -279,7 +279,7 @@
 
 <h3>三步安装</h3>
 <ol>
-  <li><strong>上传软件包</strong> - 将 <code>OracleShellInstall.sh</code> 脚本和 Oracle 安装介质上传至服务器 <code>/soft</code> 目录</li>
+  <li><strong>上传软件包</strong> - 将 <code>OracleShellInstall</code> 脚本和 Oracle 安装介质上传至服务器 <code>/soft</code> 目录</li>
   <li><strong>配置参数</strong> - 使用 <a href="generator.html">命令生成器</a> 或手动拼接安装参数</li>
   <li><strong>执行安装</strong> - 在 <code>/soft</code> 目录下以 <code>root</code> 用户执行生成的命令</li>
 </ol>
@@ -290,7 +290,7 @@
 <h3>目录结构</h3>
 <p>将以下文件放置在 <code>/soft</code> 目录下：</p>
 <pre>/soft/
-  OracleShellInstall.sh          <span class="pc"># 安装脚本</span>
+  OracleShellInstall          <span class="pc"># 安装脚本</span>
   LINUX.X64_193000_db_home.zip   <span class="pc"># Oracle 安装介质 (以19c为例)</span>
   p35940989_190000.zip           <span class="pc"># PSU/RU 补丁 (可选)</span>
   p35926646_190000.zip           <span class="pc"># OJVM 补丁 (可选)</span>
@@ -357,13 +357,13 @@
 <p>单机模式基于文件系统存储，适用于开发测试及中小型业务场景。</p>
 
 <h3>最简安装</h3>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">single</span> <span class="pc">`# 单机模式`</span>\
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# 公网网卡名称`</span></pre>
 <p>以上命令使用全部默认值安装：数据库名 orcl，字符集 AL32UTF8，安装目录 /u01，数据目录 /oradata。</p>
 
 <h3>自定义安装</h3>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">single</span> <span class="pc">`# 单机模式`</span>\
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# 公网网卡名称`</span>\
 <span class="pf">-n</span> <span class="pv">oracledb</span> <span class="pc">`# 主机名`</span>\
@@ -376,7 +376,7 @@
 <h2 id="standalone">单机 ASM 安装</h2>
 <p>单机 ASM 模式需要 Grid Infrastructure 和 ASM 磁盘。脚本会自动配置 UDEV 绑盘或 multipath。</p>
 
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">standalone</span> <span class="pc">`# 单机 ASM 模式`</span>\
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# 公网网卡名称`</span>\
 <span class="pf">-dd</span> <span class="pv">/dev/sdb,/dev/sdc</span> <span class="pc">`# DATA 磁盘`</span></pre>
@@ -384,7 +384,7 @@
 <div class="note"><strong>提示：</strong>如果不使用 multipath，可设置 <code>-mp N</code>，脚本将使用 UDEV 直接绑盘。如果已自行配置好 ASM 磁盘，可设置 <code>-adc N</code> 并传入已配置好的磁盘路径。</div>
 
 <h3>自定义 ASM 安装</h3>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">standalone</span> <span class="pc">`# 单机 ASM 模式`</span>\
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# 公网网卡名称`</span>\
 <span class="pf">-o</span> <span class="pv">prod</span> <span class="pc">`# 数据库名称`</span>\
@@ -410,7 +410,7 @@
 </ul></div>
 
 <h3>基础 2 节点 RAC</h3>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">rac</span> <span class="pc">`# RAC 集群模式`</span>\
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# 公网网卡`</span>\
 <span class="pf">-pf</span> <span class="pv">eth1,eth2</span> <span class="pc">`# 心跳网卡`</span>\
@@ -424,7 +424,7 @@
 <span class="pf">-dd</span> <span class="pv">/dev/sdc</span> <span class="pc">`# DATA 磁盘`</span></pre>
 
 <h3>生产环境 RAC（含 ARCH 磁盘组和补丁）</h3>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">rac</span> <span class="pc">`# RAC 集群模式`</span>\
 <span class="pf">-lf</span> <span class="pv">ens192</span> <span class="pc">`# 公网网卡`</span>\
 <span class="pf">-pf</span> <span class="pv">ens224,ens256</span> <span class="pc">`# 双心跳网卡`</span>\
@@ -457,21 +457,21 @@
 <p>在某些场景下，可能需要将安装过程拆分为多个步骤独立执行：</p>
 
 <h4>仅配置操作系统</h4>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">single</span> \
 <span class="pf">-lf</span> <span class="pv">eth0</span> \
 <span class="pf">-m</span> <span class="pv">Y</span> <span class="pc">`# 仅完成 OS 配置，不安装 Oracle`</span></pre>
 <p>适用于需要先检查 OS 配置是否正确，或需要在 OS 配置后做额外手动调整的场景。</p>
 
 <h4>安装到 DB 软件结束</h4>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">single</span> \
 <span class="pf">-lf</span> <span class="pv">eth0</span> \
 <span class="pf">-ud</span> <span class="pv">Y</span> <span class="pc">`# 安装到 DB 软件结束，不创建数据库`</span></pre>
 <p>适用于需要手动创建数据库（如使用自定义模板或特殊配置）的场景。</p>
 
 <h4>RAC 安装到 Grid 结束</h4>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">rac</span> \
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pf">-pf</span> <span class="pv">eth1</span> \
 <span class="pf">-hn</span> <span class="pv">orcl01,orcl02</span> <span class="pf">-ri</span> <span class="pv">10.0.0.101,10.0.0.102</span> \
@@ -482,7 +482,7 @@
 <h3>一键打补丁</h3>
 <p>将补丁文件和 OPatch 工具放入 <code>/soft</code> 目录，通过参数指定补丁编号即可自动应用：</p>
 <pre>/soft/
-  OracleShellInstall.sh
+  OracleShellInstall
   LINUX.X64_193000_db_home.zip     <span class="pc"># Oracle 安装介质</span>
   p35940989_190000_Linux-x86-64.zip <span class="pc"># PSU/RU 补丁</span>
   p35926646_190000_Linux-x86-64.zip <span class="pc"># OJVM 补丁</span>
@@ -491,14 +491,14 @@
 
 <h3>多实例安装</h3>
 <p>通过 <code>-o</code> 参数传入多个数据库名（逗号分隔），可在同一主机上创建多个数据库实例：</p>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">single</span> \
 <span class="pf">-lf</span> <span class="pv">eth0</span> \
 <span class="pf">-o</span> <span class="pv">proddb,testdb</span> <span class="pc">`# 创建两个数据库实例`</span></pre>
 
 <h3>VirtualBox 环境</h3>
 <p>在 VirtualBox 虚拟机中安装 ASM/RAC 时，需要添加 <code>-vbox Y</code> 参数来修复 VirtualBox 的 SCSI 磁盘识别问题：</p>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">standalone</span> \
 <span class="pf">-lf</span> <span class="pv">eth0</span> \
 <span class="pf">-dd</span> <span class="pv">/dev/sdb</span> \
@@ -762,7 +762,7 @@
 
 <h3>3-Step Install</h3>
 <ol>
-  <li><strong>Upload packages</strong> - Upload <code>OracleShellInstall.sh</code> and Oracle installation media to the <code>/soft</code> directory on your server</li>
+  <li><strong>Upload packages</strong> - Upload <code>OracleShellInstall</code> and Oracle installation media to the <code>/soft</code> directory on your server</li>
   <li><strong>Configure parameters</strong> - Use the <a href="generator.html">Command Generator</a> or manually compose install parameters</li>
   <li><strong>Execute</strong> - Run the generated command as <code>root</code> in the <code>/soft</code> directory</li>
 </ol>
@@ -773,7 +773,7 @@
 <h3>Directory Structure</h3>
 <p>Place the following files in the <code>/soft</code> directory:</p>
 <pre>/soft/
-  OracleShellInstall.sh          <span class="pc"># Install script</span>
+  OracleShellInstall          <span class="pc"># Install script</span>
   LINUX.X64_193000_db_home.zip   <span class="pc"># Oracle media (19c example)</span>
   p35940989_190000.zip           <span class="pc"># PSU/RU patch (optional)</span>
   p35926646_190000.zip           <span class="pc"># OJVM patch (optional)</span>
@@ -840,13 +840,13 @@
 <p>Single instance mode uses file system storage, suitable for development, testing, and small-medium business scenarios.</p>
 
 <h3>Minimal Install</h3>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">single</span> <span class="pc">`# Single instance`</span>\
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# Public NIC name`</span></pre>
 <p>This command uses all defaults: database name orcl, character set AL32UTF8, install directory /u01, data directory /oradata.</p>
 
 <h3>Custom Install</h3>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">single</span> <span class="pc">`# Single instance`</span>\
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# Public NIC name`</span>\
 <span class="pf">-n</span> <span class="pv">oracledb</span> <span class="pc">`# Hostname`</span>\
@@ -859,7 +859,7 @@
 <h2 id="en-standalone">Standalone ASM Install</h2>
 <p>Standalone ASM mode requires Grid Infrastructure and ASM disks. The script automatically configures UDEV disk binding or multipath.</p>
 
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">standalone</span> <span class="pc">`# Standalone ASM`</span>\
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# Public NIC name`</span>\
 <span class="pf">-dd</span> <span class="pv">/dev/sdb,/dev/sdc</span> <span class="pc">`# DATA disks`</span></pre>
@@ -867,7 +867,7 @@
 <div class="note"><strong>Tip:</strong> To skip multipath, set <code>-mp N</code> and the script will use UDEV binding directly. If you've already configured ASM disks, set <code>-adc N</code> and provide the configured disk paths.</div>
 
 <h3>Custom ASM Install</h3>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">standalone</span> <span class="pc">`# Standalone ASM`</span>\
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# Public NIC`</span>\
 <span class="pf">-o</span> <span class="pv">prod</span> <span class="pc">`# Database name`</span>\
@@ -893,7 +893,7 @@
 </ul></div>
 
 <h3>Basic 2-Node RAC</h3>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">rac</span> <span class="pc">`# RAC cluster`</span>\
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pc">`# Public NIC`</span>\
 <span class="pf">-pf</span> <span class="pv">eth1,eth2</span> <span class="pc">`# Heartbeat NICs`</span>\
@@ -907,7 +907,7 @@
 <span class="pf">-dd</span> <span class="pv">/dev/sdc</span> <span class="pc">`# DATA disks`</span></pre>
 
 <h3>Production RAC (with ARCH Diskgroup and Patches)</h3>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">rac</span> <span class="pc">`# RAC cluster`</span>\
 <span class="pf">-lf</span> <span class="pv">ens192</span> <span class="pc">`# Public NIC`</span>\
 <span class="pf">-pf</span> <span class="pv">ens224,ens256</span> <span class="pc">`# Dual heartbeat NICs`</span>\
@@ -1011,21 +1011,21 @@
 <p>In some scenarios, you may need to split the installation into separate stages:</p>
 
 <h4>OS Configuration Only</h4>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">single</span> \
 <span class="pf">-lf</span> <span class="pv">eth0</span> \
 <span class="pf">-m</span> <span class="pv">Y</span> <span class="pc">`# Only configure OS, do not install Oracle`</span></pre>
 <p>Useful when you need to verify OS configuration first or make additional manual adjustments.</p>
 
 <h4>Install to DB Software Only</h4>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">single</span> \
 <span class="pf">-lf</span> <span class="pv">eth0</span> \
 <span class="pf">-ud</span> <span class="pv">Y</span> <span class="pc">`# Install to DB software only, no database creation`</span></pre>
 <p>Useful when you need to create the database manually (custom templates or special configuration).</p>
 
 <h4>RAC Install to Grid Only</h4>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">rac</span> \
 <span class="pf">-lf</span> <span class="pv">eth0</span> <span class="pf">-pf</span> <span class="pv">eth1</span> \
 <span class="pf">-hn</span> <span class="pv">orcl01,orcl02</span> <span class="pf">-ri</span> <span class="pv">10.0.0.101,10.0.0.102</span> \
@@ -1036,7 +1036,7 @@
 <h3>One-Click Patching</h3>
 <p>Place patch files and OPatch tool in the <code>/soft</code> directory and specify patch IDs via parameters:</p>
 <pre>/soft/
-  OracleShellInstall.sh
+  OracleShellInstall
   LINUX.X64_193000_db_home.zip     <span class="pc"># Oracle media</span>
   p35940989_190000_Linux-x86-64.zip <span class="pc"># PSU/RU patch</span>
   p35926646_190000_Linux-x86-64.zip <span class="pc"># OJVM patch</span>
@@ -1045,14 +1045,14 @@
 
 <h3>Multi-Instance Installation</h3>
 <p>Pass multiple database names (comma-separated) via the <code>-o</code> parameter to create multiple instances on the same host:</p>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">single</span> \
 <span class="pf">-lf</span> <span class="pv">eth0</span> \
 <span class="pf">-o</span> <span class="pv">proddb,testdb</span> <span class="pc">`# Create two database instances`</span></pre>
 
 <h3>VirtualBox Environment</h3>
 <p>When installing ASM/RAC in VirtualBox VMs, add the <code>-vbox Y</code> parameter to fix VirtualBox SCSI disk detection issues:</p>
-<pre><span class="pw">sh OracleShellInstall.sh</span> \
+<pre><span class="pw">sh OracleShellInstall</span> \
 <span class="pf">-install_mode</span> <span class="pv">standalone</span> \
 <span class="pf">-lf</span> <span class="pv">eth0</span> \
 <span class="pf">-dd</span> <span class="pv">/dev/sdb</span> \

@@ -397,7 +397,7 @@ OracleShellInstall/
 - 切换模式时自动显示/隐藏对应表单组
 - 只输出与默认值不同的参数
 - 必填项验证 + 红色错误提示
-- 命令格式: `sh OracleShellInstall.sh -install_mode [single|standalone|rac] [参数...]`
+- 命令格式: `sh OracleShellInstall -install_mode [single|standalone|rac] [参数...]`
 
 ### 5.3 使用文档 (docs.html)
 

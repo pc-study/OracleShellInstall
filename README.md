@@ -69,7 +69,7 @@
 
 ```
 /soft/
-  OracleShellInstall.sh          # 安装脚本
+  OracleShellInstall          # 安装脚本
   LINUX.X64_193000_db_home.zip   # Oracle 安装介质（以 19c 为例）
 ```
 
@@ -78,13 +78,13 @@
 **单机模式（最简）：**
 
 ```bash
-sh OracleShellInstall.sh -install_mode single -lf eth0
+sh OracleShellInstall -install_mode single -lf eth0
 ```
 
 **单机 + 自定义参数：**
 
 ```bash
-sh OracleShellInstall.sh \
+sh OracleShellInstall \
   -install_mode single \
   -lf eth0 \
   -n orcl \
@@ -97,7 +97,7 @@ sh OracleShellInstall.sh \
 **单机 ASM 模式：**
 
 ```bash
-sh OracleShellInstall.sh \
+sh OracleShellInstall \
   -install_mode standalone \
   -lf eth0 \
   -dd /dev/sdb,/dev/sdc \
@@ -108,7 +108,7 @@ sh OracleShellInstall.sh \
 **RAC 双节点集群：**
 
 ```bash
-sh OracleShellInstall.sh \
+sh OracleShellInstall \
   -install_mode rac \
   -lf eth0 \
   -pf eth1,eth2 \
@@ -292,7 +292,7 @@ OracleShellInstall 是一款开源的 Oracle 数据库一键自动化安装 Shel
 2. 访问 [在线命令生成器](https://www.oracleshellinstall.com/generator.html) 配置参数
 3. 复制生成的命令到服务器执行，全程无人值守
 
-最简命令：`sh OracleShellInstall.sh -install_mode single -lf eth0`
+最简命令：`sh OracleShellInstall -install_mode single -lf eth0`
 </details>
 
 <details>

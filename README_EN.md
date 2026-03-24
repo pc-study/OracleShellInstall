@@ -68,7 +68,7 @@ Upload the script and Oracle installation media to the `/soft` directory on your
 
 ```
 /soft/
-  OracleShellInstall.sh          # Installation script
+  OracleShellInstall          # Installation script
   LINUX.X64_193000_db_home.zip   # Oracle media (19c example)
 ```
 
@@ -77,13 +77,13 @@ Upload the script and Oracle installation media to the `/soft` directory on your
 **Single Instance (minimal):**
 
 ```bash
-sh OracleShellInstall.sh -install_mode single -lf eth0
+sh OracleShellInstall -install_mode single -lf eth0
 ```
 
 **Single Instance with custom parameters:**
 
 ```bash
-sh OracleShellInstall.sh \
+sh OracleShellInstall \
   -install_mode single \
   -lf eth0 \
   -n orcl \
@@ -96,7 +96,7 @@ sh OracleShellInstall.sh \
 **Standalone ASM:**
 
 ```bash
-sh OracleShellInstall.sh \
+sh OracleShellInstall \
   -install_mode standalone \
   -lf eth0 \
   -dd /dev/sdb,/dev/sdc \
@@ -107,7 +107,7 @@ sh OracleShellInstall.sh \
 **RAC Cluster (2 nodes):**
 
 ```bash
-sh OracleShellInstall.sh \
+sh OracleShellInstall \
   -install_mode rac \
   -lf eth0 \
   -pf eth1,eth2 \
@@ -246,7 +246,7 @@ Yes. Three deployment modes are available: Single Instance, Standalone ASM, and 
 2. Visit the [Command Generator](https://www.oracleshellinstall.com/generator.html) to configure parameters
 3. Copy the generated command and execute on your server — fully unattended
 
-Simplest command: `sh OracleShellInstall.sh -install_mode single -lf eth0`
+Simplest command: `sh OracleShellInstall -install_mode single -lf eth0`
 </details>
 
 ---

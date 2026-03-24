@@ -163,6 +163,7 @@ document.getElementById('footer').innerHTML = footerHTML();
 const P={
   common:[
     {g:'基础配置',ge:'Basic Config',ico:'&#9670;',f:[
+      {fl:'-dbv',lb:'Oracle 数据库版本',lbe:'Oracle DB Version',t:'select',opts:['11','12','19','21','26'],def:'19'},
       {fl:'-lf',lb:'公网网卡名称',lbe:'Public NIC Name',t:'text',ph:'eth0',req:1},
       {fl:'-n',lb:'主机名',lbe:'Hostname',t:'text',def:'orcl'},
       {fl:'-o',lb:'数据库名称',lbe:'Database Name',t:'text',def:'orcl'},
@@ -201,6 +202,7 @@ const P={
   ],
   standalone:[
     {g:'Grid 用户',ge:'Grid User',ico:'&#128100;',f:[
+      {fl:'-giv',lb:'Grid Infrastructure 版本',lbe:'Grid Infrastructure Version',t:'select',opts:['11','12','19','21','26'],def:'19'},
       {fl:'-gu',lb:'Grid 用户名',lbe:'Grid Username',t:'text',def:'grid'},
       {fl:'-gp',lb:'Grid 用户密码',lbe:'Grid User Password',t:'password',def:'oracle'},
     ]},
@@ -232,6 +234,7 @@ const P={
       {fl:'-sn',lb:'Scan 名称',lbe:'Scan Name',t:'text',ph:'orcl-scan'},
     ]},
     {g:'Grid 用户',ge:'Grid User',ico:'&#128100;',f:[
+      {fl:'-giv',lb:'Grid Infrastructure 版本',lbe:'Grid Infrastructure Version',t:'select',opts:['11','12','19','21','26'],def:'19'},
       {fl:'-gu',lb:'Grid 用户名',lbe:'Grid Username',t:'text',def:'grid'},
       {fl:'-gp',lb:'Grid 用户密码',lbe:'Grid User Password',t:'password',def:'oracle'},
     ]},
@@ -319,7 +322,7 @@ function genCmd(){
   }));
   const ml={single:currentLang==='en'?'Single Instance':'单机模式',standalone:currentLang==='en'?'Standalone ASM':'单机 ASM 模式',rac:currentLang==='en'?'RAC Cluster':'RAC 集群模式'};
   let lines=[];
-  lines.push(`<span class="cm-w">sh OracleShellInstall.sh</span> <span class="cm-sl">\\</span>`);
+  lines.push(`<span class="cm-w">sh OracleShellInstall</span> <span class="cm-sl">\\</span>`);
   lines.push(`<span class="cm-flag">-install_mode</span> <span class="cm-val">${curMode}</span> <span class="cm-cmt">\`# ${ml[curMode]}\`</span><span class="cm-sl">\\</span>`);
   parts.forEach((p,i)=>{
     const ev=p.v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
