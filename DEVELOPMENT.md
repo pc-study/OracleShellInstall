@@ -1128,4 +1128,39 @@ document.querySelectorAll('[data-i18n]').forEach(el => {
 
 ---
 
-*文档版本: 2026-03-22 | 维护者: Lucifer (pc1107750981@163.com)*
+### 4.10 第十阶段：全站审计与质量优化 (2026-03-24)
+
+**P0 — 文档与 SEO 修复**:
+- `AI-GUIDE.md`: 移除已删除的 Issue 自动发布流水线引用（§8 重写为手动投稿流程）
+- `sitemap.xml`: 补充 `contribute.html` 和 `cases.html` 两个缺失页面
+- `search-index.json`: 补充 `contribute.html` 和 `cases.html` 索引条目（总数 188→190）
+
+**P1 — 安全与无障碍修复**:
+- `cases.html`: 修复 XSS 漏洞 — JSON 数据渲染前使用 `escapeHtml()` 转义，URL 使用 `encodeURIComponent()`
+- `shared.js`: 所有硬编码中文 `aria-label` 改为 `currentLang` 三元表达式（搜索、主题切换、语言切换、关闭按钮、返回顶部、微信 FAB）
+- `shared.js`: 添加 `trapFocus()` 工具函数，对投稿和微信弹窗添加焦点陷阱与 Escape 关闭
+- `shared.js`: 弹窗打开时自动聚焦第一个可交互元素
+- `search.js`: 搜索结果容器添加 `role="listbox"` 和 `aria-live="polite"`
+- `search.js`: 搜索索引加载失败时显示双语错误提示
+- `generator.html`: 移除模式按钮上的硬编码中文 `aria-label`（按钮已有双语可见文本）
+- `style.css`: 移动端 FAB 触摸目标从 44px 增至 48px（符合 WCAG 最低标准）
+
+**P2 — 性能与代码质量**:
+- `index.html`: 移除冗余的 `<link rel="preload">`（style.css 和 shared.js 已同步/就近加载）
+- `style.css`: 移除冗余 CSS 变量 `--accent`（与 `--red` 完全重复，全站无引用）
+- `style.css`: 添加 Firefox 滚动条样式 `scrollbar-width:thin`
+- `shared.js`: 代码块复制按钮文案国际化（`codeCopy`/`codeCopied` 添加至 i18n 词条）
+- `shared.js`: 提取 `showCopied` 辅助函数，消除剪贴板 API 与 execCommand 路径的重复代码
+
+**P3 — 美化与兼容性**:
+- 9 个主页面添加 `<meta name="theme-color">` 双色方案（深色 `#0a0a0e` / 浅色 `#f5f5f7`）
+- `404.html` 补充缺失的 `<meta name="color-scheme">`
+
+**基础设施**:
+- 全站 192 个 HTML 文件缓存版本号升级到 `v=20260324b`
+- Service Worker 缓存更新至 `os-v47`
+- `AI-GUIDE.md` Known Pitfalls 新增 4 条：XSS 防护、aria-label 双语、焦点陷阱、theme-color meta
+
+---
+
+*文档版本: 2026-03-24 | 维护者: Lucifer (pc1107750981@163.com)*

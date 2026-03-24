@@ -9,7 +9,7 @@
   --card:#14141d;
   --border:#232334;--border-light:#33334a;--border-red:rgba(199,70,52,.25);
   --text:#e8e6e3;--text-dim:#8e8e9e;--text-muted:#6e6e82;
-  --accent:#C74634;--accent2:#e8934a;--green:#3aba6a;--blue:#4a8fe8;
+  --accent2:#e8934a;--green:#3aba6a;--blue:#4a8fe8;
   --font:'Noto Sans SC',system-ui,sans-serif;
   --mono:'JetBrains Mono','Fira Code',monospace;
   --display:'Orbitron',sans-serif;
@@ -74,6 +74,7 @@ img{max-width:100%;display:block}
   background-repeat:repeat;background-size:256px 256px}
 
 /* === SCROLLBAR === */
+html{scrollbar-width:thin;scrollbar-color:var(--border-light) var(--bg2)}
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:3px}
@@ -364,11 +365,11 @@ img{max-width:100%;display:block}
   /* Adjust page bottom padding for tab bar */
   body{padding-bottom:60px}
   .footer{padding-bottom:80px}
-  .back-to-top{bottom:80px;right:16px;width:44px;height:44px}
-  .wechat-fab{bottom:136px;right:16px;width:44px;height:44px}
-  .wechat-popup{bottom:186px;right:16px;width:240px;padding:14px}
-  .contribute-fab{bottom:192px;right:16px;width:44px;height:44px}
-  .contribute-popup{bottom:246px;right:16px;width:240px;padding:16px}
+  .back-to-top{bottom:80px;right:16px;width:48px;height:48px}
+  .wechat-fab{bottom:140px;right:16px;width:48px;height:48px}
+  .wechat-popup{bottom:194px;right:16px;width:240px;padding:14px}
+  .contribute-fab{bottom:200px;right:16px;width:48px;height:48px}
+  .contribute-popup{bottom:258px;right:16px;width:240px;padding:16px}
 
   .footer-inner{grid-template-columns:1fr}
   .section{padding:56px 0}

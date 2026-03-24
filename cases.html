@@ -18,14 +18,16 @@
 <link rel="alternate" hreflang="en" href="https://www.oracleshellinstall.com/cases.html">
 <link rel="alternate" hreflang="x-default" href="https://www.oracleshellinstall.com/cases.html">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0a0a0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json?v=20260324a">
+<link rel="manifest" href="manifest.json?v=20260324b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20260324a">
+<link rel="stylesheet" href="css/style.css?v=20260324b">
 <style>
 .cases-hero{padding:100px 0 40px;text-align:center}
 .cases-hero-eye{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;color:var(--text-muted);
@@ -83,7 +85,7 @@
 </section>
 
 <div id="footer"></div>
-<script src="js/shared.js?v=20260324a"></script>
+<script src="js/shared.js?v=20260324b"></script>
 <script>
 document.getElementById('nav').innerHTML = navHTML();
 document.getElementById('footer').innerHTML = footerHTML();
@@ -99,17 +101,18 @@ fetch('cases/cases.json')
       empty.style.display = 'block';
       return;
     }
+    function escapeHtml(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
     grid.innerHTML = cases.map(function(c){
-      return '<a href="cases/' + c.id + '.html" class="case-card">' +
-        '<div class="case-card-title">' + c.title + '</div>' +
+      return '<a href="cases/' + encodeURIComponent(c.id) + '.html" class="case-card">' +
+        '<div class="case-card-title">' + escapeHtml(c.title) + '</div>' +
         '<div class="case-card-meta">' +
-          '<span class="case-card-tag">' + c.oracle + '</span>' +
-          '<span class="case-card-tag">' + c.mode + '</span>' +
-          '<span class="case-card-tag">' + c.os + '</span>' +
+          '<span class="case-card-tag">' + escapeHtml(c.oracle) + '</span>' +
+          '<span class="case-card-tag">' + escapeHtml(c.mode) + '</span>' +
+          '<span class="case-card-tag">' + escapeHtml(c.os) + '</span>' +
         '</div>' +
         '<div style="display:flex;align-items:center">' +
-          '<span class="case-card-author">by ' + c.author + '</span>' +
-          '<span class="case-card-date">' + c.date + '</span>' +
+          '<span class="case-card-author">by ' + escapeHtml(c.author) + '</span>' +
+          '<span class="case-card-date">' + escapeHtml(c.date) + '</span>' +
         '</div>' +
       '</a>';
     }).join('');
@@ -148,6 +151,6 @@ window.addEventListener('load',function(){var s=document.createElement('script')
   gtag('config', 'G-GNDHG1PZLG');
 </script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
-<script defer src="js/search.js?v=20260324a"></script>
+<script defer src="js/search.js?v=20260324b"></script>
 </body>
 </html>

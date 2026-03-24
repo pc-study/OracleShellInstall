@@ -13,7 +13,7 @@ const i18n = {
     home: '首页', generator: '命令生成器', docs: '使用文档', compat: '安装合集', pricing: '脚本订阅', download: '下载中心', contribute: '投稿分享', cases: '实战案例', start: '开始使用',
     nav: '快速导航', versions: '支持版本', contact: '联系方式',
     wechat: '微信', email: '邮箱',
-    expandAll: '展开全部', collapse: '收起', lines: '行',
+    expandAll: '展开全部', collapse: '收起', lines: '行', codeCopy: '复制', codeCopied: '已复制!',
     consultTitle: '扫码咨询适配需求', consultHint: '微信扫码添加，或通过 Telegram / Discord / WhatsApp 联系',
     footerDesc: 'Oracle 数据库一键自动化安装脚本，支持单机/ASM/RAC 三种部署模式，覆盖 20+ Linux 发行版。',
     docQsTitle: '快速入门',
@@ -27,7 +27,7 @@ const i18n = {
     home: 'Home', generator: 'Generator', docs: 'Docs', compat: 'Guides', pricing: 'Subscribe', download: 'Download', contribute: 'Contribute', cases: 'Case Studies', start: 'Get Started',
     nav: 'Navigation', versions: 'Versions', contact: 'Contact',
     wechat: 'WeChat', email: 'Email',
-    expandAll: 'Expand All', collapse: 'Collapse', lines: 'lines',
+    expandAll: 'Expand All', collapse: 'Collapse', lines: 'lines', codeCopy: 'Copy', codeCopied: 'Copied!',
     consultTitle: 'Scan to Consult', consultHint: 'Add via WeChat, Telegram, Discord, or WhatsApp',
     footerDesc: 'One-click automated Oracle Database installation script. Supports Single/ASM/RAC modes across 20+ Linux distributions.',
     copyright: 'Copyright \u00a9 2022-2099 Pengcheng Liu',
@@ -425,9 +425,9 @@ function navHTML(active) {
       `<a href="${prefix}${p.href}" class="${active===p.id?'active':''}" data-i18n="${p.key}"><span class="nav-icon">${p.icon}</span>${t(p.key)}</a>`
     ).join('')}<a href="${prefix}docs.html#quickstart" class="nav-cta" data-i18n="start">${t('start')}</a></div>
     <div class="nav-actions">
-      <button class="nav-search-btn" onclick="openSearch()" title="Search" aria-label="搜索"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><kbd>\u2318K</kbd></button>
-      <button class="nav-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme" aria-label="切换主题">${themeIcon}</button>
-      <button class="nav-toggle" id="langToggle" onclick="toggleLang()" title="Language" aria-label="切换语言">${langLabel}</button>
+      <button class="nav-search-btn" onclick="openSearch()" title="Search" aria-label="${currentLang==='en'?'Search':'搜索'}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><kbd>\u2318K</kbd></button>
+      <button class="nav-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme" aria-label="${currentLang==='en'?'Toggle theme':'切换主题'}">${themeIcon}</button>
+      <button class="nav-toggle" id="langToggle" onclick="toggleLang()" title="Language" aria-label="${currentLang==='en'?'Toggle language':'切换语言'}">${langLabel}</button>
     </div>
   </div></nav>`;
   // Mobile bottom tab bar
@@ -484,6 +484,19 @@ function footerHTML() {
 
 // ---- Init ----
 document.addEventListener('DOMContentLoaded', () => {
+  // Focus trap utility for popup modals
+  function trapFocus(popup, closeBtn) {
+    popup.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeBtn.click(); return; }
+      if (e.key !== 'Tab') return;
+      const focusable = popup.querySelectorAll('a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"])');
+      if (!focusable.length) return;
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } }
+      else { if (document.activeElement === last) { e.preventDefault(); first.focus(); } }
+    });
+  }
+
   // Theme already applied by inline <head> script; sync JS state
   setTheme(currentTheme);
 
@@ -493,7 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btt.className = 'back-to-top';
   btt.innerHTML = '\u2191';
   btt.title = 'Back to top';
-  btt.setAttribute('aria-label', '返回顶部');
+  btt.setAttribute('aria-label', currentLang==='en'?'Back to top':'返回顶部');
   btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   document.body.appendChild(btt);
 
@@ -520,7 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctPopup = document.createElement('div');
     ctPopup.className = 'contribute-popup';
     const ctZh = currentLang === 'zh';
-    ctPopup.innerHTML = `<button class="contribute-popup-close" aria-label="关闭">&times;</button>
+    ctPopup.innerHTML = `<button class="contribute-popup-close" aria-label="${ctZh?'关闭':'Close'}">&times;</button>
       <div class="contribute-popup-icon">&#9997;</div>
       <div class="contribute-popup-title">${ctZh ? '分享您的安装体验' : 'Share Your Install Experience'}</div>
       <div class="contribute-popup-desc">${ctZh ? '安装完成后，脚本会自动生成报告模板。分享您的安装实录，帮助更多 DBA。' : 'The script auto-generates a report after installation. Share your experience to help more DBAs.'}</div>
@@ -536,6 +549,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.stopPropagation();
       ctPopup.classList.toggle('show');
       ctFab.classList.toggle('active');
+      if(ctPopup.classList.contains('show')){var ff=ctPopup.querySelector('a[href],button');if(ff)ff.focus();}
       // Close WeChat popup if open
       var wp = document.querySelector('.wechat-popup');
       if (wp) wp.classList.remove('show');
@@ -553,6 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctFab.classList.remove('active');
       }
     });
+    trapFocus(ctPopup, ctClose);
   }
 
   // WeChat consult floating widget
@@ -560,13 +575,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const fab = document.createElement('button');
   fab.className = 'wechat-fab';
   fab.title = t('consultTitle');
-  fab.setAttribute('aria-label', '联系咨询');
+  fab.setAttribute('aria-label', currentLang==='en'?'Contact us':'联系咨询');
   fab.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 4C5.36 4 2 6.69 2 10c0 1.89 1.08 3.56 2.78 4.66L4 17l2.5-1.5c.89.31 1.87.5 2.89.5h.27A6.48 6.48 0 0 1 9.5 15c0-3.59 3.36-6.5 7.5-6.5.17 0 .33.01.5.02C16.46 5.88 13.27 4 9.5 4zm-2 3.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm5 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM17 10c-3.31 0-6 2.24-6 5s2.69 5 6 5c.67 0 1.31-.1 1.92-.28L21 21l-.62-2.12C21.94 17.79 23 16.47 23 15c0-2.76-2.69-5-6-5zm-2 3.5a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5zm4 0a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5z"/></svg>';
   document.body.appendChild(fab);
 
   const popup = document.createElement('div');
   popup.className = 'wechat-popup';
-  popup.innerHTML = `<button class="wechat-popup-close" aria-label="关闭">&times;</button>
+  popup.innerHTML = `<button class="wechat-popup-close" aria-label="${currentLang==='en'?'Close':'关闭'}">&times;</button>
     <div class="wechat-popup-title" data-i18n="consultTitle">${t('consultTitle')}</div>
     <img class="wechat-popup-qr" src="${qrPath}" alt="WeChat QR" width="200" height="262" loading="lazy">
     <div class="wechat-popup-id">WeChat: Lucifer-0622</div>
@@ -585,6 +600,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.stopPropagation();
     popup.classList.toggle('show');
     fab.classList.toggle('active');
+    if(popup.classList.contains('show')){var ff2=popup.querySelector('a[href],button');if(ff2)ff2.focus();}
   });
   const popupCloseBtn = popup.querySelector('.wechat-popup-close');
   if (popupCloseBtn) popupCloseBtn.addEventListener('click', () => {
@@ -597,6 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fab.classList.remove('active');
     }
   });
+  trapFocus(popup, popupCloseBtn);
 
   let scrollTick = false;
   window.addEventListener('scroll', () => {
@@ -676,24 +693,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add copy button
     const copyBtn = document.createElement('button');
     copyBtn.className = 'code-copy-btn';
-    copyBtn.innerHTML = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Copy';
     const copySvg = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>';
     const doneSvg = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+    copyBtn.innerHTML = copySvg + t('codeCopy');
     copyBtn.addEventListener('click', () => {
       const text = (pre.querySelector('code') || pre).textContent;
-      navigator.clipboard.writeText(text).then(() => {
+      const showCopied = () => {
         copyBtn.classList.add('copied');
-        copyBtn.innerHTML = doneSvg + 'Copied!';
-        setTimeout(() => { copyBtn.classList.remove('copied'); copyBtn.innerHTML = copySvg + 'Copy'; }, 2000);
-      }).catch(() => {
+        copyBtn.innerHTML = doneSvg + t('codeCopied');
+        setTimeout(() => { copyBtn.classList.remove('copied'); copyBtn.innerHTML = copySvg + t('codeCopy'); }, 2000);
+      };
+      navigator.clipboard.writeText(text).then(showCopied).catch(() => {
         // Fallback for browsers without clipboard API permission
         const ta = document.createElement('textarea');
         ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
         document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy'); copyBtn.classList.add('copied');
-          copyBtn.innerHTML = doneSvg + 'Copied!';
-          setTimeout(() => { copyBtn.classList.remove('copied'); copyBtn.innerHTML = copySvg + 'Copy'; }, 2000);
-        } catch(e) { /* silently fail */ }
+        try { document.execCommand('copy'); showCopied(); } catch(e) { /* silently fail */ }
         ta.remove();
       });
     });
