@@ -297,6 +297,18 @@ function renderForm(m){
     h+='</div>';
   });
   a.innerHTML=h;
+  // Sync -giv to follow -dbv by default
+  var dbvEl=document.getElementById('f_dbv');
+  var givEl=document.getElementById('f_giv');
+  if(dbvEl&&givEl){
+    givEl.value=dbvEl.value; // init sync
+    givEl._userChanged=false;
+    givEl.addEventListener('change',function(){givEl._userChanged=true;});
+    dbvEl.addEventListener('change',function(){
+      if(!givEl._userChanged){givEl.value=dbvEl.value;}
+      genCmd();
+    });
+  }
   genCmd();
 }
 
@@ -318,6 +330,8 @@ function genCmd(){
     if(field) field.classList.remove('field-error');
     if(!v)return;
     if(f.def!==undefined&&v===String(f.def))return;
+    // Skip -giv if same as -dbv (follows DB version by default)
+    if(f.fl==='-giv'){var dbvEl=document.getElementById('f_dbv');if(dbvEl&&v===dbvEl.value)return;}
     parts.push({fl:f.fl,v,lb:f.lb,lbe:f.lbe||f.lb});
   }));
   const ml={single:currentLang==='en'?'Single Instance':'单机模式',standalone:currentLang==='en'?'Standalone ASM':'单机 ASM 模式',rac:currentLang==='en'?'RAC Cluster':'RAC 集群模式'};
