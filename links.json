@@ -1,0 +1,18 @@
+[
+  {
+    "name": "DMShellInstall",
+    "url": "https://gitee.com/hnyuanzj/DMShellInstall",
+    "icon": "",
+    "desc": "达梦数据库一键自动化安装脚本，支持单机、数据守护、DSC 集群部署，覆盖 RedHat/CentOS/麒麟等发行版",
+    "descEn": "One-click automated DamengDB installation script supporting single instance, Data Guard, and DSC cluster deployment across multiple Linux distros",
+    "tags": ["达梦", "Shell", "数据库"]
+  },
+  {
+    "name": "KingbaseShellInstall",
+    "url": "https://gitee.com/luciferlpc/KingbaseShellInstall",
+    "icon": "",
+    "desc": "人大金仓 KingbaseES V9 一键自动化安装脚本，支持 Oracle/MySQL/SQL Server 兼容模式，全参数化配置，自动回滚与详细日志",
+    "descEn": "One-click automated KingbaseES V9 installation script with Oracle/MySQL/SQL Server compatibility modes, full parameterized config, auto-rollback and detailed logging",
+    "tags": ["金仓", "Shell", "数据库"]
+  }
+]

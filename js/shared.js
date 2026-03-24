@@ -10,7 +10,7 @@ let currentLang; try { currentLang = localStorage.getItem('lang'); } catch(e) {}
 
 const i18n = {
   zh: {
-    home: '首页', generator: '命令生成器', docs: '使用文档', compat: '安装合集', pricing: '脚本订阅', download: '下载中心', contribute: '投稿分享', cases: '实战案例', start: '开始使用',
+    home: '首页', generator: '命令生成器', docs: '使用文档', compat: '安装合集', pricing: '脚本订阅', download: '下载中心', contribute: '投稿分享', cases: '实战案例', links: '友情链接', start: '开始使用',
     nav: '快速导航', versions: '支持版本', contact: '联系方式',
     wechat: '微信', email: '邮箱',
     expandAll: '展开全部', collapse: '收起', lines: '行', codeCopy: '复制', codeCopied: '已复制!',
@@ -24,7 +24,7 @@ const i18n = {
   },
   en: {
     // nav & shared
-    home: 'Home', generator: 'Generator', docs: 'Docs', compat: 'Guides', pricing: 'Subscribe', download: 'Download', contribute: 'Contribute', cases: 'Case Studies', start: 'Get Started',
+    home: 'Home', generator: 'Generator', docs: 'Docs', compat: 'Guides', pricing: 'Subscribe', download: 'Download', contribute: 'Contribute', cases: 'Case Studies', links: 'Links', start: 'Get Started',
     nav: 'Navigation', versions: 'Versions', contact: 'Contact',
     wechat: 'WeChat', email: 'Email',
     expandAll: 'Expand All', collapse: 'Collapse', lines: 'lines', codeCopy: 'Copy', codeCopied: 'Copied!',
@@ -455,6 +455,7 @@ function footerHTML() {
       <a href="${p}download.html" data-i18n="download">${t('download')}</a>
       <a href="${p}contribute.html" data-i18n="contribute">${t('contribute')}</a>
       <a href="${p}cases.html" data-i18n="cases">${t('cases')}</a>
+      <a href="${p}links.html" data-i18n="links">${t('links')}</a>
     </div>
     <div class="footer-col"><h4 data-i18n="versions">${t('versions')}</h4>
       <a href="${p}docs.html">Oracle 26ai</a>
