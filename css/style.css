@@ -580,6 +580,7 @@ img{max-width:100%;display:block}
 
 /* === COMPAT PRO BADGE === */
 .mx-pro-badge{display:inline-block;background:linear-gradient(135deg,var(--red),var(--red-glow));color:#fff;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle;letter-spacing:.5px;text-transform:uppercase}
+.mx-free-badge{display:inline-block;background:linear-gradient(135deg,var(--green),#5cd882);color:#fff;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle;letter-spacing:.5px;text-transform:uppercase}
 .mx-pro-hint{text-align:center;margin-top:20px;padding:14px 20px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);font-size:.88rem;color:var(--text-dim)}
 .mx-pro-hint a{color:var(--red-glow);text-decoration:none;font-weight:600}
 .mx-pro-hint a:hover{text-decoration:underline}
