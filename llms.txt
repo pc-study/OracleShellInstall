@@ -1,6 +1,6 @@
 # OracleShellInstall
 
-> OracleShellInstall 是一款开源的 Oracle 数据库一键自动化安装脚本工具，由 Lucifer（刘鹏程）和 bak724 开发维护。脚本名称为 OracleShellInstall，当前版本 v5.0.0。官方网站：https://www.oracleshellinstall.com
+> OracleShellInstall 是一款开源的 Oracle 数据库一键自动化安装脚本工具，由 Lucifer（刘鹏程）和 bak724 开发维护。脚本名称为 OracleShellInstall，当前版本 v5.2.0。官方网站：https://www.oracleshellinstall.com
 
 ## 核心功能
 

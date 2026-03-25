@@ -5,7 +5,7 @@
 
 ## What This Project Is
 
-Static website for **OracleShellInstall** — a shell script that automates Oracle Database installation (11gR2–26ai) on 20+ Linux distros. The site has a command generator, docs, compatibility matrix, user case studies, contribution system, and 255 installation guide pages.
+Static website for **OracleShellInstall** — a shell script that automates Oracle Database installation (11gR2–26ai) on 20+ Linux distros. The site has a command generator, docs, compatibility matrix, user case studies, contribution system, and 182 installation guide pages.
 
 - **Hosting**: GitHub Pages, `main` branch auto-deploys
 - **Domain**: www.oracleshellinstall.com
@@ -30,12 +30,12 @@ Static website for **OracleShellInstall** — a shell script that automates Orac
 ├── css/style.css           # Global stylesheet (CSS variables, components, responsive)
 ├── js/shared.js            # Core module (nav, footer, i18n, theme, code blocks, floating widgets)
 ├── js/search.js            # Client-side full-text search
-├── sw.js                   # Service Worker (cache: os-v47)
+├── sw.js                   # Service Worker (cache: os-v48)
 ├── manifest.json           # PWA manifest
-├── search-index.json       # Search index (190 entries)
+├── search-index.json       # Search index (191 entries)
 ├── sitemap.xml             # SEO sitemap
 ├── DEVELOPMENT.md          # Full development history (38KB, Chinese)
-├── guides/                 # 255 installation tutorial pages (author-written)
+├── guides/                 # 182 installation tutorial pages (author-written)
 │   ├── guide.css           # Guide-specific styles
 │   ├── *.html              # Individual guides
 │   └── img/                # Guide screenshots
@@ -85,22 +85,22 @@ Switch to English → switch back to Chinese → verify Chinese matches original
 
 All CSS/JS/manifest references across every HTML file use a query parameter:
 ```html
-<link rel="stylesheet" href="css/style.css?v=20260324b">
-<script src="js/shared.js?v=20260324b"></script>
+<link rel="stylesheet" href="css/style.css?v=20260325a">
+<script src="js/shared.js?v=20260325a"></script>
 ```
 
 When you modify CSS or JS, you MUST update the version string globally:
 ```bash
 # Find current version
-grep -r "v=20260324b" --include="*.html" -l | head -5
+grep -r "v=20260325a" --include="*.html" -l | head -5
 
 # Replace everywhere (190+ files including guides/)
-find . -name "*.html" -exec sed -i 's/v=20260324b/v=NEW_VERSION/g' {} +
+find . -name "*.html" -exec sed -i 's/v=20260325a/v=NEW_VERSION/g' {} +
 ```
 
 Also bump the Service Worker cache name in `sw.js` line 1:
 ```javascript
-const CACHE_NAME = 'os-v47';  // increment from current os-v47
+const CACHE_NAME = 'os-v48';  // increment from current os-v48
 ```
 
 ### 3. Navigation & Footer

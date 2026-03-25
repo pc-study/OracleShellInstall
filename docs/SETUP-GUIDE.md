@@ -58,12 +58,12 @@ OracleShellInstall/
 
 1. **HTML 文件的查询参数** — 全局替换 `?v=` 后的版本号：
    ```bash
-   grep -rl "v=20260321l" --include="*.html" . | xargs sed -i 's/v=20260321l/v=新版本号/g'
+   grep -rl "v=20260325a" --include="*.html" . | xargs sed -i 's/v=20260325a/v=新版本号/g'
    ```
 
 2. **Service Worker 缓存名** — 编辑 `sw.js` 第 1 行：
    ```javascript
-   const CACHE_NAME = 'os-v34';  // 递增版本号
+   const CACHE_NAME = 'os-v48';  // 递增版本号
    ```
 
 ### 国际化 (i18n)

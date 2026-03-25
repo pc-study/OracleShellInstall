@@ -12,7 +12,7 @@
   <a href="https://www.oracleshellinstall.com"><img src="https://img.shields.io/badge/官网-oracleshellinstall.com-C74634?style=flat-square" alt="Website"></a>
   <a href="https://www.oracleshellinstall.com/generator.html"><img src="https://img.shields.io/badge/命令生成器-Online-blue?style=flat-square" alt="Generator"></a>
   <a href="https://gitee.com/luciferlpc/OracleShellInstall"><img src="https://img.shields.io/badge/Gitee-Mirror-red?style=flat-square&logo=gitee" alt="Gitee"></a>
-  <img src="https://img.shields.io/badge/version-v5.0.0-green?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/version-v5.2.0-green?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/Oracle-11g~21c%2F26ai-orange?style=flat-square&logo=oracle" alt="Oracle">
   <img src="https://img.shields.io/badge/Linux-20%2B%20distros-blue?style=flat-square&logo=linux" alt="Linux">
 </p>

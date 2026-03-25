@@ -27,7 +27,7 @@
 | **名称** | OracleShellInstall 官方网站 |
 | **域名** | www.oracleshellinstall.com |
 | **托管** | GitHub Pages (仓库: pc-study/OracleShellInstall, main 分支) |
-| **脚本版本** | v5.0.0 |
+| **脚本版本** | v5.2.0 |
 | **脚本作者** | Lucifer (刘鹏程) & bak724 |
 | **联系邮箱** | pc1107750981@163.com |
 | **源码仓库** | GitHub: pc-study/OracleShellInstall / Gitee: luciferlpc/OracleShellInstall |
@@ -46,7 +46,7 @@
 ### 1.3 脚本能力概要
 
 - **安装模式**: 单机 (Single)、单机 ASM (Standalone)、RAC 集群 (RAC)
-- **Oracle 版本**: 11gR2、12cR1、12cR2、18c、19c、21c、23ai
+- **Oracle 版本**: 11gR2、12cR2、19c、21c、26ai
 - **Linux 发行版**: CentOS、RHEL、OracleLinux、Rocky、Alma、Anolis、openEuler、Kylin、UOS、Ubuntu、Debian 等 20+ 种
 - **自动化范围**: OS 配置 → 软件安装 → 建库 → 打补丁，全流程一条命令
 
@@ -171,7 +171,7 @@ OracleShellInstall/
 ├── icon-192x192.png            # PWA 图标 192px
 ├── icon-512x512.png            # PWA 图标 512px
 │
-├── search-index.json           # 全站搜索索引 (188 条目, 112KB)
+├── search-index.json           # 全站搜索索引 (191 条目, 112KB)
 ├── sitemap.xml                 # 站点地图 (188 个 URL)
 ├── robots.txt                  # 爬虫规则 (允许 AI 爬虫)
 ├── CNAME                       # GitHub Pages 自定义域名
@@ -541,7 +541,7 @@ Object.keys(pageI18n).forEach(lang => {
     "desc": "Oracle 数据库一键自动化安装脚本...",
     "text": "完整页面文本内容..."
   },
-  // ... 188 条目
+  // ... 191 条目
 ]
 ```
 
@@ -562,7 +562,7 @@ Object.keys(pageI18n).forEach(lang => {
 
 ### 6.3 Service Worker 缓存策略 (sw.js)
 
-**缓存版本**: `os-v33` — 每次大版本更新递增版本号
+**缓存版本**: `os-v48` — 每次大版本更新递增版本号
 
 **策略分类**:
 
@@ -801,13 +801,13 @@ grep -rl "G-旧ID" . | xargs sed -i 's/G-旧ID/G-新ID/g'
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>教程标题 - OracleShellInstall</title>
-  <link rel="stylesheet" href="../css/style.css?v=20260321l">
-  <link rel="stylesheet" href="guide.css?v=20260321l">
+  <link rel="stylesheet" href="../css/style.css?v=20260325a">
+  <link rel="stylesheet" href="guide.css?v=20260325a">
   <!-- 其他 meta 标签参考现有教程 -->
 </head>
 <body>
   <!-- 使用现有教程作为模板 -->
-  <script src="../js/shared.js?v=20260321l"></script>
+  <script src="../js/shared.js?v=20260325a"></script>
 </body>
 </html>
 ```
@@ -878,14 +878,14 @@ grep -rl "v5.0.0" --include="*.html" --include="*.md" --include="*.txt" . | head
 
 1. **更新查询参数**: 全局替换版本号
 ```bash
-# 将 v=20260321l 替换为新版本号 v=20260322
-grep -rl "v=20260321l" --include="*.html" . | xargs sed -i 's/v=20260321l/v=20260322/g'
+# 将 v=20260325a 替换为新版本号 v=20260322
+grep -rl "v=20260325a" --include="*.html" . | xargs sed -i 's/v=20260325a/v=20260322/g'
 ```
 
 2. **更新 Service Worker 缓存名**:
 编辑 `sw.js` 第 1 行:
 ```javascript
-const CACHE_NAME = 'os-v34';  // 递增版本号
+const CACHE_NAME = 'os-v48';  // 递增版本号
 ```
 用户下次访问时，新 SW 会激活并清理旧缓存。
 
@@ -943,7 +943,7 @@ gh api repos/pc-study/OracleShellInstall/pages/builds --jq '.[0]'
 
 **Service Worker 调试**:
 - Chrome DevTools → Application → Service Workers
-- 查看缓存内容: Application → Cache Storage → os-v33
+- 查看缓存内容: Application → Cache Storage → os-v48
 - 强制更新: 勾选 "Update on reload"
 
 **搜索功能调试**:
@@ -1102,7 +1102,7 @@ document.querySelectorAll('[data-i18n]').forEach(el => {
 - `pricing.html`: `fa2` HTML 默认内容与 `pageI18n.zh` 对齐 (补充 TG/Discord/WhatsApp 联系方式)
 - `compat.html`: `mxNote` Unicode 字符修正 (`&#9432;` → `&#8505;`, `&#10005;` → `&#10007;`)
 - `download.html`: 6 个 FAQ HTML 默认内容从多行格式改为单行，与 `pageI18n.zh` 完全一致
-- 全站 190 个 HTML 文件缓存版本号统一升级到 `v=20260321l`
+- 全站 190 个 HTML 文件缓存版本号统一升级到 `v=20260325a`
 
 **验证方法**: Playwright 自动化测试，对 6 个主页面执行 EN→ZH 往返切换，比较所有 `[data-i18n]` 元素的 innerHTML，确认零差异。
 
