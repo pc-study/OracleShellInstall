@@ -357,38 +357,106 @@
   <div class="dl-changelog">
     <div class="dl-cl-item">
       <div class="dl-cl-header">
-        <div class="dl-cl-ver">v5.0.0</div>
+        <div class="dl-cl-ver">v5.2.0</div>
         <span class="dl-cl-tag">Latest</span>
-        <div class="dl-cl-date">2025</div>
+        <div class="dl-cl-date">2026-02-28</div>
       </div>
       <ul class="dl-cl-list">
-        <li data-i18n="cl50a">新增 Oracle 26ai 版本支持</li>
-        <li data-i18n="cl50b">新增 Ubuntu 24.04 / Debian 12 支持</li>
-        <li data-i18n="cl50c">优化 RAC 集群安装流程</li>
-        <li data-i18n="cl50d">新增在线命令生成器</li>
+        <li data-i18n="cl52a">完美适配 Oracle 26ai 版本安装</li>
+        <li data-i18n="cl52b">适配 Debian 12.10 安装，修复 ARM 版本 BUG</li>
+        <li data-i18n="cl52c">适配龙蜥 Anolis 23.2、openEuler 24.09</li>
+        <li data-i18n="cl52d">适配天翼云 CTyunOS</li>
+        <li data-i18n="cl52e">适配 CentOS / RHEL 10 安装 Oracle 11G ~ 23ai 全版本</li>
+      </ul>
+    </div>
+    <div class="dl-cl-item">
+      <div class="dl-cl-header">
+        <div class="dl-cl-ver">v5.1.0</div>
+        <div class="dl-cl-date">2024-08-22</div>
+      </div>
+      <ul class="dl-cl-list">
+        <li data-i18n="cl51a">适配 openSUSE / SUSE 15.6</li>
+        <li data-i18n="cl51b">修复数据库字符集支持，扩展至 247 种全部字符集</li>
+        <li data-i18n="cl51c">适配 Ubuntu (Deb) 系列安装 Oracle RAC</li>
+        <li data-i18n="cl51d">新增 <code>-hf</code> 参数支持大页内存 (HugePages) 自动配置</li>
+        <li data-i18n="cl51e">新增 <code>-debug</code> 脚本调试参数</li>
+        <li data-i18n="cl51f">适配 Oracle 23ai 先行版安装</li>
+        <li data-i18n="cl51g">完全适配 Linux ARM (aarch64) 19C 安装</li>
+        <li data-i18n="cl51h">新增自定义用户名参数 <code>-ou</code> / <code>-gu</code></li>
+        <li data-i18n="cl51i">适配 nvme 盘多路径配置</li>
+        <li data-i18n="cl51j">适配华为云欧拉 HCE aarch、腾讯 TencentOS 2/3/4、浪潮云峦 KeyarchOS 5</li>
+      </ul>
+    </div>
+    <div class="dl-cl-item">
+      <div class="dl-cl-header">
+        <div class="dl-cl-ver">v5.0.0</div>
+        <div class="dl-cl-date">2024-06-18</div>
+      </div>
+      <ul class="dl-cl-list">
+        <li data-i18n="cl50a">第五代版本正式上线，适配 99% 主流 Linux 操作系统</li>
+        <li data-i18n="cl50b">去除 <code>-iso</code> 参数，新增 <code>-lrp</code> / <code>-lnp</code> 软件源配置参数</li>
+        <li data-i18n="cl50c">新增 <code>-dbs</code> 参数指定数据库块大小，支持 2048 ~ 32768</li>
+        <li data-i18n="cl50d">重写软件源配置、软件安装和操作系统适配逻辑</li>
+        <li data-i18n="cl50e">重写 DBCA 建库逻辑，使用静默文件方式建库</li>
+        <li data-i18n="cl50f">支持复杂密码（去除密码复杂度限制）</li>
+        <li data-i18n="cl50g">重写在线重做日志逻辑，更加智能化</li>
+        <li data-i18n="cl50h">增加 <code>-o</code> 参数名称校验（长度、字符规则）</li>
+        <li data-i18n="cl50i">优化互信逻辑，提高 RAC SSH 互信成功概率</li>
       </ul>
     </div>
     <div class="dl-cl-item">
       <div class="dl-cl-header">
         <div class="dl-cl-ver">v4.0.0</div>
-        <div class="dl-cl-date">2024</div>
+        <div class="dl-cl-date">2024-05-14</div>
       </div>
       <ul class="dl-cl-list">
-        <li data-i18n="cl40a">新增 Oracle 21c 版本支持</li>
-        <li data-i18n="cl40b">新增 openEuler / Kylin V10 / UOS 等国产系统支持</li>
-        <li data-i18n="cl40c">新增 Rocky Linux / AlmaLinux 支持</li>
-        <li data-i18n="cl40d">优化 ASM 磁盘自动配置逻辑</li>
+        <li data-i18n="cl40a">第四代版本正式上线，完美适配主流国产操作系统</li>
+        <li data-i18n="cl40b">支持华为欧拉 openEuler 20~23、龙蜥 Anolis 7/8、统信 UOS V20、麒麟 Kylin V10、中标麒麟 NeoKylin V7</li>
+        <li data-i18n="cl40c">新增 <code>-giv</code> 参数，支持 GI 和 DB 不同版本安装</li>
+        <li data-i18n="cl40d">新增 <code>-o</code> 参数支持一键创建多个数据库实例</li>
+        <li data-i18n="cl40e">美化安装过程输出，增加脚本单步计时和完整安装计时</li>
+        <li data-i18n="cl40f">适配 SUSE 15 SP5、Fedora 39</li>
+        <li data-i18n="cl40g">增加 RHEL 9 安装 Oracle 19C 支持（需 RU 补丁 ≥ 19.19）</li>
+        <li data-i18n="cl40h">增加国产数据库安装前置检查</li>
       </ul>
     </div>
     <div class="dl-cl-item">
       <div class="dl-cl-header">
         <div class="dl-cl-ver">v3.0.0</div>
-        <div class="dl-cl-date">2023</div>
+        <div class="dl-cl-date">2023-04-28</div>
       </div>
       <ul class="dl-cl-list">
-        <li data-i18n="cl30a">新增 RHEL 9 / Oracle Linux 9 支持</li>
-        <li data-i18n="cl30b">新增 ARM 架构支持</li>
-        <li data-i18n="cl30c">优化补丁自动应用机制</li>
+        <li data-i18n="cl30a">RAC 模式不限节点数</li>
+        <li data-i18n="cl30b">新增单机 ASM 模式</li>
+        <li data-i18n="cl30c">新增 <code>-fd</code> 参数筛选多路径磁盘</li>
+        <li data-i18n="cl30d">支持不配置多路径直接 udev 绑盘</li>
+        <li data-i18n="cl30e">适配麒麟 V10 国产系统安装 Oracle 11gR2 / 12cR2 / 19c</li>
+        <li data-i18n="cl30f">适配 Linux 8 安装 Oracle 11gR2 单机版</li>
+        <li data-i18n="cl30g">安装过程输出全部汉化</li>
+      </ul>
+    </div>
+    <div class="dl-cl-item">
+      <div class="dl-cl-header">
+        <div class="dl-cl-ver">v2.0.0</div>
+        <div class="dl-cl-date">2022-07-03</div>
+      </div>
+      <ul class="dl-cl-list">
+        <li data-i18n="cl20a">重写 OracleShellInstall 脚本第二版</li>
+        <li data-i18n="cl20b">新增参数：<code>-redo</code> / <code>-pdb</code> / <code>-er</code> / <code>-opd</code> / <code>-lf</code> / <code>-dp</code></li>
+        <li data-i18n="cl20c">新增 <code>-jpa</code> 参数安装 OJVM 补丁</li>
+        <li data-i18n="cl20d">新增 <code>-adc</code> 参数支持无需脚本配置 ASM 磁盘（多路径 + udev）</li>
+        <li data-i18n="cl20e">支持 RAC 3+ 节点安装（删除固定 2 节点参数限制）</li>
+        <li data-i18n="cl20f">新增 swap 自动配置、多路控制文件复用</li>
+      </ul>
+    </div>
+    <div class="dl-cl-item">
+      <div class="dl-cl-header">
+        <div class="dl-cl-ver">v1.0.0</div>
+        <div class="dl-cl-date">2022-04-01</div>
+      </div>
+      <ul class="dl-cl-list">
+        <li data-i18n="cl10a">创建 OracleShellInstall 脚本</li>
+        <li data-i18n="cl10b">支持 Oracle 单机安装基础功能</li>
       </ul>
     </div>
   </div>
@@ -566,9 +634,26 @@ const pageI18n = {
     dlFaq5Q:'有新系统/版本的适配需求怎么办？',
     dlFaq5A:'如果您需要脚本支持新的操作系统或 Oracle 版本，欢迎通过以下方式联系作者：<ol><li>点击页面右下角的微信图标，扫码添加作者微信咨询。</li><li>在用户群内提出需求，作者会评估并纳入后续更新计划。</li><li>较复杂的定制需求可能需要额外付费，具体请沟通确认。</li></ol>',
     dlSecChangelog:'版本更新日志', dlSecChangelogSub:'OracleShellInstall 主要版本更新记录',
-    cl50a:'新增 Oracle 26ai 版本支持', cl50b:'新增 Ubuntu 24.04 / Debian 12 支持', cl50c:'优化 RAC 集群安装流程', cl50d:'新增在线命令生成器',
-    cl40a:'新增 Oracle 21c 版本支持', cl40b:'新增 openEuler / Kylin V10 / UOS 等国产系统支持', cl40c:'新增 Rocky Linux / AlmaLinux 支持', cl40d:'优化 ASM 磁盘自动配置逻辑',
-    cl30a:'新增 RHEL 9 / Oracle Linux 9 支持', cl30b:'新增 ARM 架构支持', cl30c:'优化补丁自动应用机制',
+    cl52a:'完美适配 Oracle 26ai 版本安装', cl52b:'适配 Debian 12.10 安装，修复 ARM 版本 BUG', cl52c:'适配龙蜥 Anolis 23.2、openEuler 24.09', cl52d:'适配天翼云 CTyunOS', cl52e:'适配 CentOS / RHEL 10 安装 Oracle 11G ~ 23ai 全版本',
+    cl51a:'适配 openSUSE / SUSE 15.6', cl51b:'修复数据库字符集支持，扩展至 247 种全部字符集', cl51c:'适配 Ubuntu (Deb) 系列安装 Oracle RAC',
+    cl51d:'新增 <code>-hf</code> 参数支持大页内存 (HugePages) 自动配置', cl51e:'新增 <code>-debug</code> 脚本调试参数', cl51f:'适配 Oracle 23ai 先行版安装',
+    cl51g:'完全适配 Linux ARM (aarch64) 19C 安装', cl51h:'新增自定义用户名参数 <code>-ou</code> / <code>-gu</code>', cl51i:'适配 nvme 盘多路径配置',
+    cl51j:'适配华为云欧拉 HCE aarch、腾讯 TencentOS 2/3/4、浪潮云峦 KeyarchOS 5',
+    cl50a:'第五代版本正式上线，适配 99% 主流 Linux 操作系统', cl50b:'去除 <code>-iso</code> 参数，新增 <code>-lrp</code> / <code>-lnp</code> 软件源配置参数',
+    cl50c:'新增 <code>-dbs</code> 参数指定数据库块大小，支持 2048 ~ 32768', cl50d:'重写软件源配置、软件安装和操作系统适配逻辑',
+    cl50e:'重写 DBCA 建库逻辑，使用静默文件方式建库', cl50f:'支持复杂密码（去除密码复杂度限制）',
+    cl50g:'重写在线重做日志逻辑，更加智能化', cl50h:'增加 <code>-o</code> 参数名称校验（长度、字符规则）', cl50i:'优化互信逻辑，提高 RAC SSH 互信成功概率',
+    cl40a:'第四代版本正式上线，完美适配主流国产操作系统', cl40b:'支持华为欧拉 openEuler 20~23、龙蜥 Anolis 7/8、统信 UOS V20、麒麟 Kylin V10、中标麒麟 NeoKylin V7',
+    cl40c:'新增 <code>-giv</code> 参数，支持 GI 和 DB 不同版本安装', cl40d:'新增 <code>-o</code> 参数支持一键创建多个数据库实例',
+    cl40e:'美化安装过程输出，增加脚本单步计时和完整安装计时', cl40f:'适配 SUSE 15 SP5、Fedora 39',
+    cl40g:'增加 RHEL 9 安装 Oracle 19C 支持（需 RU 补丁 ≥ 19.19）', cl40h:'增加国产数据库安装前置检查',
+    cl30a:'RAC 模式不限节点数', cl30b:'新增单机 ASM 模式', cl30c:'新增 <code>-fd</code> 参数筛选多路径磁盘',
+    cl30d:'支持不配置多路径直接 udev 绑盘', cl30e:'适配麒麟 V10 国产系统安装 Oracle 11gR2 / 12cR2 / 19c',
+    cl30f:'适配 Linux 8 安装 Oracle 11gR2 单机版', cl30g:'安装过程输出全部汉化',
+    cl20a:'重写 OracleShellInstall 脚本第二版', cl20b:'新增参数：<code>-redo</code> / <code>-pdb</code> / <code>-er</code> / <code>-opd</code> / <code>-lf</code> / <code>-dp</code>',
+    cl20c:'新增 <code>-jpa</code> 参数安装 OJVM 补丁', cl20d:'新增 <code>-adc</code> 参数支持无需脚本配置 ASM 磁盘（多路径 + udev）',
+    cl20e:'支持 RAC 3+ 节点安装（删除固定 2 节点参数限制）', cl20f:'新增 swap 自动配置、多路控制文件复用',
+    cl10a:'创建 OracleShellInstall 脚本', cl10b:'支持 Oracle 单机安装基础功能',
     dlSecReq:'系统要求', dlSecReqSub:'运行脚本前请确认服务器满足以下最低要求',
     dlReqOs:'操作系统', dlReqOsVal:'Linux x86_64 / ARM64（最小化安装即可）',
     dlReqMem:'内存', dlReqMemVal:'最低 2GB（生产环境建议 8GB+）',
@@ -623,9 +708,26 @@ const pageI18n = {
     dlFaq5Q:'What if I need support for a new OS/version?',
     dlFaq5A:'If you need the script to support a new operating system or Oracle version, feel free to contact the author:<ol><li>Click the WeChat icon at the bottom-right of the page to scan and add the author on WeChat.</li><li>Post your request in the user group — the author will evaluate and include it in future update plans.</li><li>More complex custom requests may require additional fees — please discuss for details.</li></ol>',
     dlSecChangelog:'Version History', dlSecChangelogSub:'Major version updates of OracleShellInstall',
-    cl50a:'Added Oracle 26ai support', cl50b:'Added Ubuntu 24.04 / Debian 12 support', cl50c:'Optimized RAC cluster installation workflow', cl50d:'Added online command generator',
-    cl40a:'Added Oracle 21c support', cl40b:'Added openEuler / Kylin V10 / UOS domestic OS support', cl40c:'Added Rocky Linux / AlmaLinux support', cl40d:'Optimized ASM disk auto-configuration logic',
-    cl30a:'Added RHEL 9 / Oracle Linux 9 support', cl30b:'Added ARM architecture support', cl30c:'Optimized automatic patch application',
+    cl52a:'Full Oracle 26ai installation support', cl52b:'Added Debian 12.10 support, fixed ARM bugs', cl52c:'Added Anolis 23.2, openEuler 24.09 support', cl52d:'Added CTyunOS (China Telecom Cloud) support', cl52e:'Added CentOS / RHEL 10 support for Oracle 11G ~ 23ai',
+    cl51a:'Added openSUSE / SUSE 15.6 support', cl51b:'Fixed charset support, expanded to all 247 database character sets', cl51c:'Added Ubuntu (Deb) series Oracle RAC support',
+    cl51d:'Added <code>-hf</code> parameter for automatic HugePages configuration', cl51e:'Added <code>-debug</code> script debugging parameter', cl51f:'Added Oracle 23ai preview edition support',
+    cl51g:'Full Linux ARM (aarch64) 19C installation support', cl51h:'Added custom username parameters <code>-ou</code> / <code>-gu</code>', cl51i:'Added nvme disk multipath configuration',
+    cl51j:'Added Huawei Cloud HCE aarch, TencentOS 2/3/4, Inspur KeyarchOS 5 support',
+    cl50a:'Gen-5 release — compatible with 99% of mainstream Linux distributions', cl50b:'Removed <code>-iso</code> parameter, added <code>-lrp</code> / <code>-lnp</code> repo configuration parameters',
+    cl50c:'Added <code>-dbs</code> parameter for database block size (2048 ~ 32768)', cl50d:'Rewrote software repo configuration, package installation, and OS adaptation logic',
+    cl50e:'Rewrote DBCA database creation using response file method', cl50f:'Support complex passwords (removed password complexity restrictions)',
+    cl50g:'Rewrote online redo log logic for smarter configuration', cl50h:'Added <code>-o</code> parameter name validation (length, character rules)', cl50i:'Improved SSH trust logic for higher RAC success rate',
+    cl40a:'Gen-4 release — full support for mainstream domestic operating systems', cl40b:'Supports Huawei openEuler 20~23, Anolis 7/8, UOS V20, Kylin V10, NeoKylin V7',
+    cl40c:'Added <code>-giv</code> parameter for separate GI and DB version installation', cl40d:'Added <code>-o</code> parameter for one-click multi-instance creation',
+    cl40e:'Improved installation output with step-by-step and total timing', cl40f:'Added SUSE 15 SP5, Fedora 39 support',
+    cl40g:'Added RHEL 9 Oracle 19C support (requires RU patch ≥ 19.19)', cl40h:'Added pre-installation checks for domestic OS deployments',
+    cl30a:'RAC mode supports unlimited nodes', cl30b:'Added Standalone ASM mode', cl30c:'Added <code>-fd</code> parameter for multipath disk filtering',
+    cl30d:'Support direct udev disk binding without multipath', cl30e:'Added Kylin V10 support for Oracle 11gR2 / 12cR2 / 19c',
+    cl30f:'Added Linux 8 support for Oracle 11gR2 single instance', cl30g:'Fully localized installation output to Chinese',
+    cl20a:'Rewrote OracleShellInstall script (Gen-2)', cl20b:'Added parameters: <code>-redo</code> / <code>-pdb</code> / <code>-er</code> / <code>-opd</code> / <code>-lf</code> / <code>-dp</code>',
+    cl20c:'Added <code>-jpa</code> parameter for OJVM patch installation', cl20d:'Added <code>-adc</code> parameter for script-free ASM disk configuration (multipath + udev)',
+    cl20e:'Support RAC 3+ node installation (removed 2-node limit)', cl20f:'Added automatic swap configuration, multiplexed control files',
+    cl10a:'Created OracleShellInstall script', cl10b:'Basic Oracle single-instance installation support',
     dlSecReq:'System Requirements', dlSecReqSub:'Ensure your server meets the following minimum requirements before running the script',
     dlReqOs:'Operating System', dlReqOsVal:'Linux x86_64 / ARM64 (minimal install is sufficient)',
     dlReqMem:'Memory', dlReqMemVal:'Minimum 2GB (8GB+ recommended for production)',
